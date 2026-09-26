@@ -38,6 +38,8 @@ SPEC = ScoreFunction(
     translation_unit="th04/score_d.cpp",
     translation_unit_sha256="0ce8302bd44c4cd4bb4198e15fd77c8ec67b480d34f4d9d2aa276143d1ba8f36",
     replace_end_anchor=True,
+    group_signature=b'unsigned char pascal near scoredat_decode(void)\n',
+    group_prelude=b'#include <stddef.h>\n#include "th04/formats/scoredat/scoredat.hpp"\n\n',
 )
 
 

@@ -15,7 +15,10 @@
             i >= offsetof(scoredat_section_t, score); i--) {
         ((unsigned char near *)&hi)[i] -= (unsigned char)hi.key1 + feedback;
         feedback = ((unsigned char near *)&hi)[i];
-        feedback = (unsigned char)((feedback >> 3) | (feedback << 5));
-        feedback ^= (unsigned char)hi.key2;
+        _AL = (unsigned char)hi.key2;
+        // TC4J has no 8-bit rotate intrinsic; TH03 OP/MAINL independently
+        // corroborate this single-byte primitive.
+        asm { ror feedback, 3; }
+        feedback ^= _AL;
     }
 }

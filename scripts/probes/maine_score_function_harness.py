@@ -51,6 +51,8 @@ class ScoreFunction:
     translation_unit: str = "th04/score86.cpp"
     translation_unit_sha256: str | None = None
     replace_end_anchor: bool = False
+    group_signature: bytes | None = None
+    group_prelude: bytes | None = None
 
 
 def target_boundary(spec: ScoreFunction, body: bytes) -> dict[str, object]:
@@ -118,7 +120,8 @@ def overlay_source(spec: ScoreFunction, work: Path) -> None:
     if spec.replace_end_anchor:
         end += len(spec.end_anchor)
     include = f'#include "{spec.body}"\n\n'.encode("ascii")
-    path.write_bytes(data[:start] + include + data[end:])
+    prefix = (spec.group_prelude or b"") + (spec.group_signature or b"")
+    path.write_bytes(data[:start] + prefix + include + data[end:])
 
 
 def run(spec: ScoreFunction, output: Path) -> Path:

@@ -40,6 +40,8 @@ SPEC = ScoreFunction(
     translation_unit="th04/score_e.cpp",
     translation_unit_sha256="fdb7badbb32ea7ab0184660de65f27403befe7d8f008d80d25adedbc13349c33",
     replace_end_anchor=True,
+    group_signature=b'void pascal near scoredat_encode(void)\n',
+    group_prelude=b'#include <stddef.h>\n#include "th04/formats/scoredat/scoredat.hpp"\n#include "libs/master.lib/master.hpp"\n\n',
 )
 
 
