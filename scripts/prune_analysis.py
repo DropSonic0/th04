@@ -122,12 +122,21 @@ def compact_directory(path: Path, keep: set[str]) -> None:
                 pass
 
 
-def direct_child_delete_plan(root: Path, keep: set[str]) -> list[tuple[Path, int]]:
+def direct_child_delete_plan(
+    root: Path,
+    keep: set[str],
+    keep_prefixes: tuple[str, ...] = (),
+) -> list[tuple[Path, int]]:
     result: list[tuple[Path, int]] = []
     if not root.is_dir():
         return result
     for path in sorted(root.iterdir(), key=lambda p: p.name):
-        if not path.is_dir() or path.is_symlink() or path.name in keep:
+        if (
+            not path.is_dir()
+            or path.is_symlink()
+            or path.name in keep
+            or path.name.startswith(keep_prefixes)
+        ):
             continue
         resolved = path.resolve()
         if resolved.parent != root:
@@ -280,7 +289,9 @@ def main() -> int:
         if not probe_root.is_relative_to(analysis) or probe_root == analysis:
             raise SystemExit(f"unsafe configured probe root: {probe_root}")
         probe_delete = direct_child_delete_plan(
-            probe_root, set(cfg.get("probe_keep_dirs", []))
+            probe_root,
+            set(cfg.get("probe_keep_dirs", [])),
+            tuple(cfg.get("probe_keep_prefixes", [])),
         )
 
     exact_replay_delete: list[tuple[Path, int]] = []
