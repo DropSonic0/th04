@@ -1,6 +1,6 @@
 # TH04 reconstruction roadmap
 
-Updated 2026-09-26 after the v833 MAINE cutscene EGC artifact-local closure. This is the
+Updated 2026-09-26 after the v835 MAINE regist_menu ordinary-C++ closure. This is the
 current next-work map. Use
 `python3 scripts/status.py` and the live ledgers for counts; versioned
 experiments and rejected approaches remain in `docs/reconstruction/` and
@@ -12,7 +12,7 @@ experiments and rejected approaches remain in `docs/reconstruction/` and
 | --- | ---: | ---: | ---: |
 | OP.EXE | 93 / 93 | 0 | 93 / 93 |
 | MAIN.EXE | 492 / 495 | 3 blocked | 495 / 495 |
-| MAINE.EXE | 70 / 72 | 2 | 72 / 72 |
+| MAINE.EXE | 72 / 72 | 0 | 72 / 72 |
 | ZUN.COM | 3 / 3 | 0 | 3 / 3 |
 
 OP has 14,692 accepted decoded source-owner bytes out of 14,692 tracked; ZUN
@@ -45,22 +45,25 @@ compile/link evidence and all 559 ordered relocations. v830 then independently
 closes MAINE SND_SE_PLAY and _snd_se_update by replaying the complete 0x86
 shared-sound producer inside MAINE. v832 closes scoredat_decode and
 scoredat_encode with maintained C++ plus the TH03 release-backed single-byte
-ROR primitive. v833 then closes cutscene egc_start_copy plus the 134-byte
-box_1_to_0_masked using a six-register EGC word-write primitive independently
-preserved in TH02/TH03/TH04/TH05 release targets. Canonical v833 checks 70/70
-accepted MAINE slices raw-zero. MAINE is therefore 70/72 exact with two blockers.
+ROR primitive. v833 closes cutscene egc_start_copy plus the 134-byte
+box_1_to_0_masked using a release-backed EGC word-write primitive. v834 removes
+the SCORE EGC helper's decomp-only `_outportb_` / `keep_0` mechanisms while
+preserving exact SCORE code, final EXE bytes, and 559 relocations. v835 then
+removes `optimization_barrier()` from the 924-byte `regist_menu`: materially
+new pinned-TC4.02 evidence shows an ordinary semantic conditional expression
+naturally emits the target direct-CMP/JZ/JMP frontier. Canonical v835 checks
+**72/72** MAINE accepted slices raw-zero. MAINE's authored-function queue is closed.
 
-The next function-reconstruction focus stays on MAINE. v831 revalidates the
-924-byte `regist_menu` boss on the current v489 producer: natural switch
-preserves target JZ+JMP/size but uses MOV/OR, while natural if/goto produces
-direct-memory CMP but removes the redundant JMP and shrinks SCORE_TEXT by two
-bytes. Do not repeat that matrix without a new source/compiler mechanism.
-v833 closes the cutscene EGC path and masked-box producer. The remaining MAINE
-queue is now only the 924-byte `regist_menu` boss and the 67-byte SCORE
-`_egc_start_copy_inlined` helper. Continue the boss only with a materially new
-source/compiler mechanism; attack the SCORE helper next using the newly
-cross-game-corroborated EGC word-write primitive. MAIN remains a side lane
-unless shared-source changes require artifact-local replay.
+v831 remains a useful historical negative: switch source preserved target
+JZ+JMP but used MOV/OR, while direct if/goto emitted direct CMP but merged the
+JMP. v835 supersedes that frontier with materially new pinned-compiler evidence;
+do not reintroduce the old barrier or repeat the closed matrix.
+
+ZUN, OP, and MAINE authored-function queues are now closed. The immediate
+function-level prerequisite for artifact closure is MAIN's remaining 27 exact
+authored bytes across three reviewed blockers. Work MAIN as one artifact, then
+return to complete product/container ownership, DIET, standalone build, and
+runtime closure.
 
 ## ZUN.COM: authored-function source authority closed
 
@@ -127,11 +130,10 @@ Its ReC98 source origin remains candidate provenance; the local v805 replay
 establishes artifact-specific bytes and layout. It does not change the C++
 BGIMAGE producer or its accepted function count.
 
-All authored candidate boundaries in both artifacts are reviewed. OP is now
-93/93 decoded-exact as of v828. v829 closes MAINE `SND_LOAD`, v830 closes
-MAINE `SND_SE_PLAY` plus `_snd_se_update`, and v832 closes both SCORE codecs.
-MAINE now has four blockers: `regist_menu`, `box_1_to_0_masked`, the SCORE
-EGC-start helper, and cutscene `egc_start_copy`.
+All authored candidate boundaries in both artifacts are reviewed. OP is
+93/93 decoded-exact as of v828. MAINE is **72/72 decoded-exact** as of v835:
+v829 closes `SND_LOAD`, v830 closes shared sound, v832 both SCORE codecs, v833
+the cutscene EGC pair, v834 the SCORE EGC helper, and v835 `regist_menu`.
 
 For OP, v820 remains a useful negative control for ordinary TC4J / `-B`
 lowering. v821 and v824-v828 record the bounded hybrid exceptions backed by
@@ -151,7 +153,9 @@ See
 `docs/reconstruction/op-maine/TH04_OP_SND_LOAD_PROVENANCE_V823.md`,
 `docs/reconstruction/op-maine/TH04_OP_SND_LOAD_HYBRID_V828.md`,
 `docs/reconstruction/op-maine/TH04_OP_STRICT_FRONTIER_V766.md`,
-`docs/reconstruction/op-maine/TH04_MAINE_SCORE_CODECS_HYBRID_V832.md`, and
+`docs/reconstruction/op-maine/TH04_MAINE_SCORE_CODECS_HYBRID_V832.md`,
+`docs/reconstruction/op-maine/TH04_MAINE_SCORE_EGC_HYBRID_V834.md`,
+`docs/reconstruction/op-maine/TH04_MAINE_REGIST_TERNARY_V835.md`, and
 `docs/reconstruction/op-maine/TH04_MAINE_STRICT_FRONTIER_V732.md`.
 
 For a new exact function, review the complete physical owner, build its
