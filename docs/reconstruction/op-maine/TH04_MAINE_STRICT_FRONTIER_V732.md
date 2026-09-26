@@ -1,7 +1,13 @@
 # MAINE strict-source frontier after v730-v732
 
-The live MAINE ledger is 63/72 exact with all 72 authored-function physical
-boundaries reviewed. Nine functions remain source/codegen/provenance blockers.
+**Current-state addendum (v830):** v829 independently closes the 234-byte
+`SND_LOAD`, and v830 independently closes `SND_SE_PLAY` plus `_snd_se_update`.
+The v830 canonical replay checks 66/66 accepted MAINE slices raw-zero. MAINE is
+now **66/72 exact with six blockers**. The historical v730-v732 negatives below
+remain valid for the source/codegen forms they tested.
+
+At v732, the MAINE ledger was 63/72 exact with all 72 authored-function physical
+boundaries reviewed. Nine functions remained source/codegen/provenance blockers.
 
 After the original-ASM source and boundary campaign, all 15 separate MAINE
 original-ASM observations have reviewed target bounds and raw-matching
@@ -110,9 +116,9 @@ e80a367d760da8dffd0a7118490ddcaf7da31d371c2a2fee4e8510e52b2bb9ec
 This does not change MAINE's 63/72 count; it strengthens the codec codegen
 frontier.
 
-## Current MAINE frontier
+## Historical v732 MAINE frontier
 
-The remaining nine reviewed/nonexact functions are:
+At v732, the remaining nine reviewed/nonexact functions were:
 
 - egc_start_copy, 52 bytes;
 - box_1_to_0_masked, 134 bytes;

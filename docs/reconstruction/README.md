@@ -73,6 +73,8 @@ counts, file paths, and proposals do not supersede the current ledgers.
 - [MAINE verdict owner exact replay and BB81 boundary correction](op-maine/TH04_MAINE_VERDICT_OWNER_EXACT_V717.md)
 - [MAINE SCORE tail boundary/source-admissibility review](op-maine/TH04_MAINE_SCORE_TAIL_SOURCE_REVIEW_V720.md)
 - [MAINE strict-source frontier after v730-v732](op-maine/TH04_MAINE_STRICT_FRONTIER_V732.md)
+- [MAINE SND_LOAD artifact-local hybrid closure](op-maine/TH04_MAINE_SND_LOAD_HYBRID_V829.md)
+- [MAINE shared-sound artifact-local closure](op-maine/TH04_MAINE_SND_SE_CROSSGAME_V830.md)
 - [TC4.02 SCORE rotate-intrinsic negative surface](op-maine/TH04_SCORE_ROTATE_INTRINSICS_V760.md)
 - [BGIMAGE hybrid producer / relocation closure](op-maine/TH04_BGIMAGE_HYBRID_V489.md)
 - [OP big menu/title exact replay](op-maine/TH04_OP_BIG_MENU_TITLE_EXACT_V735.md)

@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-26 after the v828 OP SND_LOAD maintained-hybrid closure. This is the
+Updated 2026-09-26 after the v830 MAINE shared-sound artifact-local closure. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -29,17 +29,17 @@ use; this host's focused replays use `taskset -c 0,1 nice -n 10`.
 | --- | ---: | ---: | ---: | ---: |
 | OP.EXE | 93 / 93 | 93 | 0 | 16 reviewed |
 | MAIN.EXE | 495 / 495 | 492 | 3 | 73 attestation entries; 6 provisional |
-| MAINE.EXE | 72 / 72 | 63 | 9 | 15 reviewed |
+| MAINE.EXE | 72 / 72 | 66 | 6 | 15 reviewed |
 | ZUN.COM | 3 / 3 | 3 | 0 | 12 reviewed |
 
 MAIN's reviewed file-backed authored extent has 83,442 / 83,469 exact bytes.
 Its 27-byte remainder belongs to `carpet_lighting_put_new` (23), checkerboard
 (2), and `snd_load` (2). OP has 14,692 accepted decoded source-owner bytes of
-14,692 tracked; MAINE has 11,187 / 12,553; ZUN has 442 / 442. These decoded
+14,692 tracked; MAINE has 11,554 / 12,553; ZUN has 442 / 442. These decoded
 counts do not give a packed-file byte denominator or whole-artifact exactness.
 Original-ASM observations are outside the authored C/C++ counts.
 
-OP's authored-function queue is closed; MAINE's nine blocked functions have reviewed
+OP's authored-function queue is closed; MAINE's six blocked functions have reviewed
 physical boundaries. v821 closes OP `scoredat_decode` and `scoredat_encode`
 with maintained hybrid source: all control/data flow stays C++, while the
 single 8-bit ROR primitive is independently corroborated by pre-decompilation
@@ -101,14 +101,26 @@ Canonical v828 checks **93/93 OP authored function slices raw-zero**.
 
 OP has no remaining authored-function blockers. v820's ordinary TC4J / `-B`
 negatives remain useful historical controls, while v821 and v824-v828 record
-the independently corroborated bounded hybrid exceptions. The next
-function-reconstruction focus is MAINE's nine blockers.
+the independently corroborated bounded hybrid exceptions.
+
+v829 closes MAINE `SND_LOAD` artifact-locally: two cold MAINE links reproduce
+the full 234-byte body and all 559 ordered relocations; canonical v829 checks
+64/64 accepted MAINE slices raw-zero.
+
+v830 then closes MAINE `SND_SE_PLAY` and `_snd_se_update` artifact-locally.
+Two cold links reproduce the complete 0x86 `th04/snd_se.cpp` producer, the
+retained MAINE EXE/MAP, and all 559 relocations; canonical v830 checks 66/66
+accepted MAINE slices raw-zero.
+
+The next function-reconstruction focus is MAINE's six remaining blockers.
 
 See the [v821 SCORE codec closure](reconstruction/op-maine/TH04_OP_SCORE_CODECS_HYBRID_V821.md),
 [v822 shared-sound provenance bound](reconstruction/op-maine/TH04_OP_SND_SE_SHARED_V822.md),
 [v827 shared-sound cross-game hybrid closure](reconstruction/op-maine/TH04_OP_SND_SE_CROSSGAME_V827.md),
 [v823 SND_LOAD provenance bound](reconstruction/op-maine/TH04_OP_SND_LOAD_PROVENANCE_V823.md),
 [v828 SND_LOAD maintained-hybrid closure](reconstruction/op-maine/TH04_OP_SND_LOAD_HYBRID_V828.md),
+[v829 MAINE SND_LOAD artifact-local closure](reconstruction/op-maine/TH04_MAINE_SND_LOAD_HYBRID_V829.md),
+[v830 MAINE shared-sound artifact-local closure](reconstruction/op-maine/TH04_MAINE_SND_SE_CROSSGAME_V830.md),
 [v824 EGC-start hybrid closure](reconstruction/op-maine/TH04_OP_EGC_START_HYBRID_V824.md),
 [v825 EGC rectangle-copy hybrid closure](reconstruction/op-maine/TH04_OP_EGC_COPY_HYBRID_V825.md),
 [v826 nopoly_B_put hybrid closure](reconstruction/op-maine/TH04_OP_NOPOLY_HYBRID_V826.md),
@@ -173,7 +185,7 @@ The canonical cold aggregate receipts in
 | Artifact | Receipt | SHA-256 |
 | --- | --- | --- |
 | OP | `v828-op-snd-load-canonical-receipt.json` | `50928bc1bcef1ea614574e94ccb9538f1e7167e7eb7ec92cafc6cbe806f22cc5` |
-| MAINE | `v727-maine-staff-dissolves-canonical-receipt.json` | `d86732f3c46baf5c8b9fe79d65abf4476cdd870353c1de96483bc48b5a632287` |
+| MAINE | `v830-maine-snd-se-canonical-receipt.json` | `e570bcf46c3e4c1f6d9f5856bfb8536ffb7d3c49abf49eb85cf17fdb31c6d5d8` |
 | ZUN | v819-zun-resident-canonical-receipt.json | fe59d4624229bdc111a427d41144b6b6ca93973d729f570831c28805bba03508 |
 
 Preserve `.analysis/targets/`, `.analysis/toolchain/`, `.analysis/ghidra/`,

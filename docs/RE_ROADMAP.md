@@ -1,6 +1,6 @@
 # TH04 reconstruction roadmap
 
-Updated 2026-09-26 after the v828 OP SND_LOAD maintained-hybrid closure. This is the
+Updated 2026-09-26 after the v830 MAINE shared-sound artifact-local closure. This is the
 current next-work map. Use
 `python3 scripts/status.py` and the live ledgers for counts; versioned
 experiments and rejected approaches remain in `docs/reconstruction/` and
@@ -12,11 +12,11 @@ experiments and rejected approaches remain in `docs/reconstruction/` and
 | --- | ---: | ---: | ---: |
 | OP.EXE | 93 / 93 | 0 | 93 / 93 |
 | MAIN.EXE | 492 / 495 | 3 blocked | 495 / 495 |
-| MAINE.EXE | 63 / 72 | 9 | 72 / 72 |
+| MAINE.EXE | 66 / 72 | 6 | 72 / 72 |
 | ZUN.COM | 3 / 3 | 0 | 3 / 3 |
 
 OP has 14,692 accepted decoded source-owner bytes out of 14,692 tracked;
-MAINE has 11,187 out of 12,553; ZUN has 442 out of 442. These are not
+MAINE has 11,554 out of 12,553; ZUN has 442 out of 442. These are not
 packed-file coverage denominators. MAIN's 83,442 / 83,469 exact authored C/C++
 bytes cover only its reviewed file-backed owner extents.
 
@@ -37,10 +37,18 @@ links reproduce the full function and all 804 relocations; canonical v828
 passes **93/93** accepted OP slices raw-zero. OP's authored-function queue is
 therefore closed.
 
-Do not reopen the SCORE codecs, accepted EGC functions, nopoly producer,
-shared-sound producer, or SND_LOAD without evidence that changes these accepted
-boundaries. The next function-reconstruction focus moves to MAINE's nine
-blockers; MAIN remains a side lane unless shared-source changes require
+Do not reopen the accepted OP producers without evidence that changes their
+boundaries or source-policy basis.
+
+v829 independently closes MAINE's 234-byte SND_LOAD using MAINE-local cold
+compile/link evidence and all 559 ordered relocations. v830 then independently
+closes MAINE SND_SE_PLAY and _snd_se_update by replaying the complete 0x86
+shared-sound producer inside MAINE; canonical v830 checks 66/66 accepted MAINE
+slices raw-zero. MAINE is therefore 66/72 exact with six blockers.
+
+The next function-reconstruction focus stays on MAINE. Prioritize the 924-byte
+regist_menu boss and the SCORE/EGC producer groups rather than harvesting only
+small leaves. MAIN remains a side lane unless shared-source changes require
 artifact-local replay.
 
 ## ZUN.COM: authored-function source authority closed
@@ -109,9 +117,10 @@ establishes artifact-specific bytes and layout. It does not change the C++
 BGIMAGE producer or its accepted function count.
 
 All authored candidate boundaries in both artifacts are reviewed. OP is now
-93/93 decoded-exact as of v828. MAINE has nine blockers: `regist_menu`,
-`SND_LOAD`, `box_1_to_0_masked`, both SCORE codecs, `_snd_se_update`, the SCORE
-EGC-start helper, `SND_SE_PLAY`, and `egc_start_copy`.
+93/93 decoded-exact as of v828. v829 closes MAINE `SND_LOAD`, and v830 closes
+MAINE `SND_SE_PLAY` plus `_snd_se_update`. MAINE now has six blockers:
+`regist_menu`, `box_1_to_0_masked`, both SCORE codecs, the SCORE EGC-start
+helper, and `egc_start_copy`.
 
 For OP, v820 remains a useful negative control for ordinary TC4J / `-B`
 lowering. v821 and v824-v828 record the bounded hybrid exceptions backed by
