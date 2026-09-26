@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-26 after the v832 MAINE SCORE codec artifact-local closure. This is the
+Updated 2026-09-26 after the v833 MAINE cutscene EGC artifact-local closure. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -29,7 +29,7 @@ use; this host's focused replays use `taskset -c 0,1 nice -n 10`.
 | --- | ---: | ---: | ---: | ---: |
 | OP.EXE | 93 / 93 | 93 | 0 | 16 reviewed |
 | MAIN.EXE | 495 / 495 | 492 | 3 | 73 attestation entries; 6 provisional |
-| MAINE.EXE | 72 / 72 | 68 | 4 | 15 reviewed |
+| MAINE.EXE | 72 / 72 | 70 | 2 | 15 reviewed |
 | ZUN.COM | 3 / 3 | 3 | 0 | 12 reviewed |
 
 MAIN's reviewed file-backed authored extent has 83,442 / 83,469 exact bytes.
@@ -40,7 +40,7 @@ decoded-acceptance ledgers. None of these gives a packed-file byte denominator
 or whole-artifact exactness.
 Original-ASM observations are outside the authored C/C++ counts.
 
-OP's authored-function queue is closed; MAINE's four blocked functions have reviewed
+OP's authored-function queue is closed; MAINE's two blocked functions have reviewed
 physical boundaries. v821 closes OP `scoredat_decode` and `scoredat_encode`
 with maintained hybrid source: all control/data flow stays C++, while the
 single 8-bit ROR primitive is independently corroborated by pre-decompilation
@@ -119,13 +119,20 @@ primitive. Two cold links reproduce complete 0xB30 SCORE_TEXT, all 203 ordered
 OMF fixups, retained EXE/MAP identity, and all 559 MZ relocations. Canonical
 v832 checks 68/68 accepted MAINE slices raw-zero.
 
-The next function-reconstruction focus is MAINE's four remaining blockers.
-v831 revalidates the 924-byte `regist_menu` frontier on the retained v489
-producer: switch preserves target JZ+JMP topology but uses MOV/OR, while direct
-if/goto emits the target CMP form but drops the redundant JMP and shortens
+v833 closes cutscene `egc_start_copy` and `box_1_to_0_masked` artifact-locally.
+The complete 42-byte AX=value -> DX=port -> OUT DX,AX EGC setup core is
+independently preserved in TH02/TH03/TH04/TH05 release targets. Two cold MAINE
+links reproduce the complete 0xC3E CUTSCENE_TEXT producer, all 214 OMF fixups,
+retained EXE/MAP, and all 559 relocations; canonical v833 checks 70/70 accepted
+MAINE slices raw-zero.
+
+The next function-reconstruction focus is MAINE's two remaining blockers:
+`regist_menu` and SCORE `_egc_start_copy_inlined`. v831 still bounds the
+924-byte boss: switch preserves target JZ+JMP topology but uses MOV/OR, while
+direct if/goto emits target CMP but drops the redundant JMP and shortens
 SCORE_TEXT by two bytes. Resume that boss only with a materially new
-source/compiler mechanism; work the two EGC-start paths and
-`box_1_to_0_masked` in parallel.
+source/compiler mechanism; attack the SCORE EGC helper using the v833
+cross-game word-write primitive.
 
 See the [v821 SCORE codec closure](reconstruction/op-maine/TH04_OP_SCORE_CODECS_HYBRID_V821.md),
 [v822 shared-sound provenance bound](reconstruction/op-maine/TH04_OP_SND_SE_SHARED_V822.md),
@@ -136,6 +143,7 @@ See the [v821 SCORE codec closure](reconstruction/op-maine/TH04_OP_SCORE_CODECS_
 [v830 MAINE shared-sound artifact-local closure](reconstruction/op-maine/TH04_MAINE_SND_SE_CROSSGAME_V830.md),
 [v831 MAINE regist_menu current-v489 compiler frontier](reconstruction/op-maine/TH04_MAINE_REGIST_FRONTIER_V831.md),
 [v832 MAINE SCORE codec artifact-local closure](reconstruction/op-maine/TH04_MAINE_SCORE_CODECS_HYBRID_V832.md),
+[v833 MAINE cutscene EGC artifact-local closure](reconstruction/op-maine/TH04_MAINE_CUTSCENE_EGC_HYBRID_V833.md),
 [v824 EGC-start hybrid closure](reconstruction/op-maine/TH04_OP_EGC_START_HYBRID_V824.md),
 [v825 EGC rectangle-copy hybrid closure](reconstruction/op-maine/TH04_OP_EGC_COPY_HYBRID_V825.md),
 [v826 nopoly_B_put hybrid closure](reconstruction/op-maine/TH04_OP_NOPOLY_HYBRID_V826.md),
@@ -200,7 +208,7 @@ The canonical cold aggregate receipts in
 | Artifact | Receipt | SHA-256 |
 | --- | --- | --- |
 | OP | `v828-op-snd-load-canonical-receipt.json` | `50928bc1bcef1ea614574e94ccb9538f1e7167e7eb7ec92cafc6cbe806f22cc5` |
-| MAINE | `v832-maine-score-codecs-canonical-receipt.json` | `b468c5305eebbd2378d86a876cabfc999b0eb12e1133f41f51cf6ba21bbdbcf5` |
+| MAINE | `v833-maine-cutscene-egc-canonical-receipt.json` | `f182faddf025dfee948ffde86c9c742715182127de4ae06401c1e37c6458e6b9` |
 | ZUN | v819-zun-resident-canonical-receipt.json | fe59d4624229bdc111a427d41144b6b6ca93973d729f570831c28805bba03508 |
 
 Preserve `.analysis/targets/`, `.analysis/toolchain/`, `.analysis/ghidra/`,

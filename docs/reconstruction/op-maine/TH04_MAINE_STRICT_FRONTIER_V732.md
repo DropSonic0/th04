@@ -1,12 +1,11 @@
 # MAINE strict-source frontier after v730-v732
 
-**Current-state addendum (v832):** v829 independently closes the 234-byte
-`SND_LOAD`, v830 independently closes `SND_SE_PLAY` plus `_snd_se_update`, and
-v832 independently closes both SCORE codecs with maintained C++ plus the TH03
-release-backed byte-ROR primitive. Canonical v832 checks 68/68 accepted MAINE
-slices raw-zero. MAINE is now **68/72 exact with four blockers**. The historical
+**Current-state addendum (v833):** v829 closes `SND_LOAD`, v830 closes
+`SND_SE_PLAY` plus `_snd_se_update`, v832 closes both SCORE codecs, and v833
+closes cutscene `egc_start_copy` plus `box_1_to_0_masked`. Canonical v833
+checks 70/70 accepted MAINE slices raw-zero. MAINE is now **70/72 exact with
+two blockers**: `regist_menu` and SCORE `_egc_start_copy_inlined`. Historical
 v730-v732 negatives below remain valid for the source/codegen forms they tested.
-
 At v732, the MAINE ledger was 63/72 exact with all 72 authored-function physical
 boundaries reviewed. Nine functions remained source/codegen/provenance blockers.
 

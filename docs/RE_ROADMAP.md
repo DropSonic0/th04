@@ -1,6 +1,6 @@
 # TH04 reconstruction roadmap
 
-Updated 2026-09-26 after the v832 MAINE SCORE codec artifact-local closure. This is the
+Updated 2026-09-26 after the v833 MAINE cutscene EGC artifact-local closure. This is the
 current next-work map. Use
 `python3 scripts/status.py` and the live ledgers for counts; versioned
 experiments and rejected approaches remain in `docs/reconstruction/` and
@@ -12,7 +12,7 @@ experiments and rejected approaches remain in `docs/reconstruction/` and
 | --- | ---: | ---: | ---: |
 | OP.EXE | 93 / 93 | 0 | 93 / 93 |
 | MAIN.EXE | 492 / 495 | 3 blocked | 495 / 495 |
-| MAINE.EXE | 68 / 72 | 4 | 72 / 72 |
+| MAINE.EXE | 70 / 72 | 2 | 72 / 72 |
 | ZUN.COM | 3 / 3 | 0 | 3 / 3 |
 
 OP has 14,692 accepted decoded source-owner bytes out of 14,692 tracked; ZUN
@@ -45,20 +45,22 @@ compile/link evidence and all 559 ordered relocations. v830 then independently
 closes MAINE SND_SE_PLAY and _snd_se_update by replaying the complete 0x86
 shared-sound producer inside MAINE. v832 closes scoredat_decode and
 scoredat_encode with maintained C++ plus the TH03 release-backed single-byte
-ROR primitive; two cold MAINE links reproduce the complete 0xB30 SCORE_TEXT
-producer, all 203 OMF fixups, EXE/MAP identity, and all 559 relocations.
-Canonical v832 checks 68/68 accepted MAINE slices raw-zero. MAINE is therefore
-68/72 exact with four blockers.
+ROR primitive. v833 then closes cutscene egc_start_copy plus the 134-byte
+box_1_to_0_masked using a six-register EGC word-write primitive independently
+preserved in TH02/TH03/TH04/TH05 release targets. Canonical v833 checks 70/70
+accepted MAINE slices raw-zero. MAINE is therefore 70/72 exact with two blockers.
 
 The next function-reconstruction focus stays on MAINE. v831 revalidates the
 924-byte `regist_menu` boss on the current v489 producer: natural switch
 preserves target JZ+JMP/size but uses MOV/OR, while natural if/goto produces
 direct-memory CMP but removes the redundant JMP and shrinks SCORE_TEXT by two
 bytes. Do not repeat that matrix without a new source/compiler mechanism.
-With the codecs closed, work the boss in parallel with the two EGC-start paths
-and the 134-byte `box_1_to_0_masked` producer rather than harvesting only small
-leaves. MAIN remains a side lane unless shared-source changes require
-artifact-local replay.
+v833 closes the cutscene EGC path and masked-box producer. The remaining MAINE
+queue is now only the 924-byte `regist_menu` boss and the 67-byte SCORE
+`_egc_start_copy_inlined` helper. Continue the boss only with a materially new
+source/compiler mechanism; attack the SCORE helper next using the newly
+cross-game-corroborated EGC word-write primitive. MAIN remains a side lane
+unless shared-source changes require artifact-local replay.
 
 ## ZUN.COM: authored-function source authority closed
 
