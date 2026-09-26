@@ -157,11 +157,10 @@ name_updated:
 					input_locked = 0;
 				}
 			} else {
-				if(key_det != INPUT_NONE) {
-					optimization_barrier();
-				} else {
-					input_locked = 0;
-				}
+				// Semantically preserve the lock for a new nonzero input, or clear it
+				// once all input is released. TC4.02 lowers this ordinary conditional
+				// expression to the target direct-CMP / JZ / JMP topology.
+				(key_det != INPUT_NONE) ? input_locked : (input_locked = INPUT_NONE);
 				input_delay = 0;
 			}
 		}
