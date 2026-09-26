@@ -21,10 +21,10 @@
   <rect x="154" y="183" width="282" height="12" rx="4" fill="#353b52"/>
   <rect x="154.00" y="183" width="282.00" height="12" fill="#9b6de3"/>
   <rect x="476" y="183" width="282" height="12" rx="4" fill="#353b52"/>
-  <rect x="476.00" y="183" width="280.29" height="12" fill="#55c7a6"/>
-  <rect x="756.29" y="183" width="1.71" height="12" fill="#f0a95c"/>
+  <rect x="476.00" y="183" width="280.86" height="12" fill="#55c7a6"/>
+  <rect x="756.86" y="183" width="1.14" height="12" fill="#f0a95c"/>
   <text x="154" y="212" fill="#c8cad2" font-family="monospace" font-size="11">R 495 · C 0 · P 0</text>
-  <text x="476" y="212" fill="#c8cad2" font-family="monospace" font-size="11">Exact 492 · Blocked 3 · Pending 0</text>
+  <text x="476" y="212" fill="#c8cad2" font-family="monospace" font-size="11">Exact 493 · Blocked 2 · Pending 0</text>
   <text x="24" y="252" fill="#f4f4f5" font-family="sans-serif" font-size="14" font-weight="600">MAINE.EXE</text>
   <text x="24" y="272" fill="#c8cad2" font-family="monospace" font-size="11">72 candidates</text>
   <rect x="154" y="245" width="282" height="12" rx="4" fill="#353b52"/>
@@ -43,8 +43,8 @@
   <text x="476" y="336" fill="#c8cad2" font-family="monospace" font-size="11">Exact 3 · Blocked 0 · Pending 0</text>
   <path d="M24 366 H764" stroke="#4b526d"/>
   <text x="24" y="392" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">MAIN file-backed authored bytes only</text>
-  <text x="764" y="392" fill="#c8cad2" text-anchor="end" font-family="monospace" font-size="12">83,442 / 83,469 · 99.97%</text>
+  <text x="764" y="392" fill="#c8cad2" text-anchor="end" font-family="monospace" font-size="12">83,444 / 83,469 · 99.97%</text>
   <rect x="24" y="402" width="282" height="12" rx="4" fill="#353b52"/>
-  <rect x="24" y="402" width="281.91" height="12" fill="#9b6de3"/>
+  <rect x="24" y="402" width="281.92" height="12" fill="#9b6de3"/>
   <text x="330" y="413" fill="#c8cad2" font-family="sans-serif" font-size="11">OP / MAINE / ZUN packed-file byte denominator: n/a</text>
 </svg>

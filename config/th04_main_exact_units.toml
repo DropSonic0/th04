@@ -12797,3 +12797,21 @@ replace_sha256 = "38eeca85c565a3a5b43f445c58f59cf1e669978db40cccce4e72cbb12593dc
 map_module = "th04/stages.cpp"
 map_mode = "contains"
 object_path = "obj/th04/stages.obj"
+
+# v836: complete MAIN snd_load owner. This supersedes the historical partial
+# ownership rows while retaining their evidence. The maintained full loader
+# includes the same v394-backed register-direction primitive already accepted
+# artifact-locally in OP v828 and MAINE v829.
+[[units]]
+id = "th04-main-snd-load-hybrid-v836"
+default_enabled = false
+repo_source = "src/shared/sound/load.cpp"
+source_mode = "overlay"
+overlay_path = "th04/snd_load.cpp"
+map_module = "th04/snd_load.cpp"
+map_mode = "exact"
+object_path = "obj/th04/snd_load.obj"
+map_start = "0x03B6"
+map_size = "0xEA"
+target_file_offset = "0x14C96"
+size = "0xEA"
