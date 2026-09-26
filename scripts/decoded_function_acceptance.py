@@ -124,6 +124,8 @@ MAINE_SND_SE_PRODUCER = 0xD5A0
 MAINE_SND_SE_SIZE = 0x86
 MAINE_SCORE_CODECS_PRODUCER = 0xC149
 MAINE_SCORE_CODECS_SIZE = 0xB30
+MAINE_CUTSCENE_EGC_PRODUCER = 0xA292
+MAINE_CUTSCENE_EGC_SIZE = 0xC3E
 OP_MAIN_CDG_FREE_PRODUCER = 0xCC97
 OP_MAIN_CDG_LOAD_PRODUCER = 0xCC97
 OP_NOPOLY_FREE_PRODUCER = 0xBED5
@@ -277,7 +279,7 @@ def validate(
                                  "op-maine-mmd-v513", "op-maine-kaja-v514", "op-maine-mode-v515", "op-maine-delay-v516",
                                  "op-maine-input-wait-v565", "op-maine-se-reset-v581", "op-maine-vector-math-v570",
                                  "op-score-load-both-v558", "op-scores-put-v559", "op-scoredat-recreate-v561",
-                                 "op-score-codecs-hybrid-v821", "op-egc-start-hybrid-v824", "op-egc-copy-hybrid-v825", "op-nopoly-b-put-hybrid-v826", "op-snd-se-crossgame-v827", "op-snd-load-hybrid-v828", "maine-snd-load-hybrid-v829", "maine-snd-se-crossgame-v830", "maine-score-codecs-hybrid-v832",
+                                 "op-score-codecs-hybrid-v821", "op-egc-start-hybrid-v824", "op-egc-copy-hybrid-v825", "op-nopoly-b-put-hybrid-v826", "op-snd-se-crossgame-v827", "op-snd-load-hybrid-v828", "maine-snd-load-hybrid-v829", "maine-snd-se-crossgame-v830", "maine-score-codecs-hybrid-v832", "maine-cutscene-egc-hybrid-v833",
                                  "op-main-cdg-free-v583", "op-main-cdg-load-v602", "op-nopoly-free-v584",
                                  "op-nopoly-snap-v606",
                                  "op-frame-delay-2-v587", "op-raise-bg-free-v588", "op-big-menu-title-v735", "op-mchar-remaining-v738", "op-main-remaining-v742", "op-music-remaining-v748", "op-zunsoft-natural-v753", "op-playchar-title-box-v638", "op-playchar-titles-v684", "op-pic-darken-v640", "op-shottype-menu-initial-v660", "op-playchar-menu-initial-v658",
@@ -1007,6 +1009,12 @@ def validate(
                     or producer_start != MAINE_SCORE_CODECS_PRODUCER
                     or producer_size != MAINE_SCORE_CODECS_SIZE):
                 raise ValueError(f"{ident}: MAINE SCORE codec hybrid backend does not compile this producer")
+        elif backend == "maine-cutscene-egc-hybrid-v833":
+            if (artifact != "th04-maine"
+                    or source_name not in {"src/maine/cutscene/egc_start_copy.cpp", "src/maine/cutscene/box_1_to_0_masked.cpp"}
+                    or producer_start != MAINE_CUTSCENE_EGC_PRODUCER
+                    or producer_size != MAINE_CUTSCENE_EGC_SIZE):
+                raise ValueError(f"{ident}: MAINE cutscene EGC hybrid backend does not compile this producer")
         elif backend == "op-maine-input-wait-v565":
             if (source_name != "src/shared/hardware/input_wait.cpp"
                     or producer_start != INPUT_WAIT_PRODUCERS[artifact]
@@ -1233,6 +1241,9 @@ def backend_command(backend_id: str, saved: Path, *, artifact: str | None = None
                 "--output-dir", str(saved)]
     if backend_id == "maine-score-codecs-hybrid-v832":
         return [sys.executable, "scripts/probes/replay_th04_maine_score_codecs_hybrid_v832.py",
+                "--output-dir", str(saved)]
+    if backend_id == "maine-cutscene-egc-hybrid-v833":
+        return [sys.executable, "scripts/probes/replay_th04_maine_cutscene_egc_hybrid_v833.py",
                 "--output-dir", str(saved)]
     if backend_id == "op-nopoly-free-v584":
         return [sys.executable, "scripts/probes/replay_th04_op_nopoly_free.py",

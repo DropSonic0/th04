@@ -1,12 +1,14 @@
 void pascal near box_1_to_0_masked(box_mask_t mask)
 {
 	for(screen_y_t y = BOX_TOP; y < BOX_BOTTOM; y++) {
-		outport(EGC_READPLANEREG, 0x00FF);
-		outport(
-			EGC_MODE_ROP_REG,
-			(EGC_COMPAREREAD | EGC_WS_PATREG | EGC_RL_MEMREAD)
-		);
-		outport(EGC_BITLENGTHREG, (EGC_REGISTER_DOTS - 1));
+		// Same cross-game EGC word-register primitive as egc_start_copy().
+		_AX = 0x00FF; _DX = EGC_READPLANEREG; outport(_DX, _AX);
+		_AX = (EGC_COMPAREREAD | EGC_WS_PATREG | EGC_RL_MEMREAD);
+		_DX = EGC_MODE_ROP_REG; outport(_DX, _AX);
+		_AX = (EGC_REGISTER_DOTS - 1);
+		_DX = EGC_BITLENGTHREG; outport(_DX, _AX);
+
+		// Dynamic mask loading already gives the target AX-before-DX order.
 		outport(EGC_MASKREG, BOX_MASKS[mask][y & 3]);
 
 		vram_offset_t vo = ((y << 6) + (y << 4) + (BOX_LEFT / BYTE_DOTS));
