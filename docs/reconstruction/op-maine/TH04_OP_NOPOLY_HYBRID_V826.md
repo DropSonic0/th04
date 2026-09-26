@@ -1,5 +1,10 @@
 # TH04 OP nopoly_B_put cross-game hybrid closure (v826)
 
+> **Status:** Historical checkpoint. The 90/93 count below is the state at
+> v826. v827 later closes the two shared-sound functions and v828 closes
+> SND_LOAD, completing OP at 93/93; current counts live in
+> `docs/RE_HANDOFF.md` / `docs/RE_ROADMAP.md`.
+
 ## Result
 
 OP nopoly_B_put at decoded payload 0xBFA7 is decoded-exact. The reviewed body

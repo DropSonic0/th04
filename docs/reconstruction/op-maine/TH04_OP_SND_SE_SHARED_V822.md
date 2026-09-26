@@ -1,5 +1,10 @@
 # TH04 OP shared sound producer provenance bound (v822)
 
+> **Status:** Historical / superseded for acceptance. v827 adds independent
+> TH05 release-target producer evidence and promotes both functions to
+> decoded-exact. Keep this note for the v822 negative/provenance history; use
+> `TH04_OP_SND_SE_CROSSGAME_V827.md` for the accepted result.
+
 ## Result
 
 OP `SND_SE_PLAY` at payload `0xE2F2` (57 bytes) and `_snd_se_update` at

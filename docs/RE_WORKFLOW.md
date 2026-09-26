@@ -189,8 +189,11 @@ real archaeology; the live handoff names the small set of replay trees that
 should remain expanded. Before applying `scripts/prune_analysis.py` to focused
 probes or exact-unit replay trees, archive their top-level results and receipts
 and update `prune_archive` and `prune_archive_manifest` in
-`config/analysis_retention.toml`. Apply mode verifies the archive bytes and
-each result it would delete. These private archives are ignored local state;
+`config/analysis_retention.toml`. Active investigation families can be
+protected with `probe_keep_prefixes` while they are active (for example a
+current `vNNN-*` investigation family) so cleanup never races the live frontier. Apply mode
+verifies the archive bytes and each result it would delete. These private
+archives are ignored local state;
 a fresh clone must rerun checked-in commands to recreate them.
 
 Finish with:

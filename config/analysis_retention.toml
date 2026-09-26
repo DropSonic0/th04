@@ -30,11 +30,6 @@ probe_root = ".analysis/reconstruction/probes"
 probe_keep_dirs = [
   "v546-zun-runtime-inventory-001",
 ]
-probe_keep_prefixes = [
-  "v828-",
-  "op-snd-load-v828-",
-]
-
 # Expanded exact-unit builds are disposable once their top-level receipts are
 # archived. Current replay commands regenerate these worktrees from retained
 # snapshots and checked-in source.
@@ -44,8 +39,8 @@ exact_replay_keep_dirs = []
 # Pruning expanded replay trees requires a verified local archive of their
 # top-level results and any receipt.json files. Update both paths after making
 # the next private archive; unarchived new results make --apply refuse deletion.
-prune_archive = ".analysis/reconstruction/receipt-archive/focused-probe-heads-v827-20260926.tar.zst"
-prune_archive_manifest = ".analysis/reconstruction/receipt-archive/focused-probe-heads-v827-20260926.files.sha256"
+prune_archive = ".analysis/reconstruction/receipt-archive/focused-probe-heads-v828-20260926.tar.zst"
+prune_archive_manifest = ".analysis/reconstruction/receipt-archive/focused-probe-heads-v828-20260926.files.sha256"
 
 # Explicit repository-local interpreter/build caches safe to remove. Keep this
 # list narrow; never replace it with a generic recursive ignored-file delete.

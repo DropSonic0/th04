@@ -1,6 +1,6 @@
 # TH04 reconstruction roadmap
 
-Updated 2026-09-26 after the v827 OP shared-sound cross-game hybrid closure. This is the
+Updated 2026-09-26 after the v828 OP SND_LOAD maintained-hybrid closure. This is the
 current next-work map. Use
 `python3 scripts/status.py` and the live ledgers for counts; versioned
 experiments and rejected approaches remain in `docs/reconstruction/` and
@@ -10,59 +10,38 @@ experiments and rejected approaches remain in `docs/reconstruction/` and
 
 | Artifact | Exact authored functions | Remaining | Reviewed boundaries |
 | --- | ---: | ---: | ---: |
-| OP.EXE | 92 / 93 | 1 | 93 / 93 |
+| OP.EXE | 93 / 93 | 0 | 93 / 93 |
 | MAIN.EXE | 492 / 495 | 3 blocked | 495 / 495 |
 | MAINE.EXE | 63 / 72 | 9 | 72 / 72 |
 | ZUN.COM | 3 / 3 | 0 | 3 / 3 |
 
-OP has 14,458 accepted decoded source-owner bytes out of 14,458 tracked;
+OP has 14,692 accepted decoded source-owner bytes out of 14,692 tracked;
 MAINE has 11,187 out of 12,553; ZUN has 442 out of 442. These are not
 packed-file coverage denominators. MAIN's 83,442 / 83,469 exact authored C/C++
 bytes cover only its reviewed file-backed owner extents.
 
 ZUN now has all three reviewed authored functions decoded-exact. OP and MAINE
 have completed their current original-ASM boundary reviews. v820 remains a valid
-negative for the ordinary TC4J / `-B` compiler paths, but v821 adds independent
-TH03 OP/MAINL machine-code provenance for the SCORE byte-rotate primitive.
-Keeping only that irreducible 8-bit ROR symbolic closes OP `scoredat_decode`
-and `scoredat_encode`; focused replay and the canonical current-ledger replay
-are raw-zero. v824 closes the internal 63-byte `egc_start_copy` helper,
-and v825 closes the adjacent 111-byte `egc_copy_rect_1_to_0_16` outer body.
-Both use narrow hybrid boundaries backed by independently restored release
-targets rather than wholesale decompilation spelling. Two cold v825 OP links
-preserve the complete `0xB0` `egcrect.cpp` producer and all 804 relocations,
-and canonical replay passes 89/89 accepted OP slices. v826 then closes
-`nopoly_b_put`: TH03/TH04/TH05 OP release targets share the complete normalized
-30-byte GAME>=3 body, while maintained source restricts symbolic code to the
-cross-game DS-save/XOR/REP-MOVSW primitive. Canonical v826 passes 90/90
-accepted OP slices. v827 then supersedes v822's sound-source acceptance
-decision: restored TH05 OP and MAINE each contain exactly one complete fixed
-0x86 th04/snd_se.cpp producer after masking the same 20 legal OMF link operands.
-This independently corroborates the frame-free parameter and BL/XOR-BH
-current-index compiler primitives while the surrounding selection and frame
-logic remains maintained C++. Two cold TH04 links reproduce both sound
-functions, the complete producer, accepted EXE/MAP, and all 804 relocations;
-canonical v827 passes 92/92 accepted OP slices. OP is therefore 92/93 with only
-SND_LOAD blocked. Do not reopen the SCORE codecs, accepted EGC functions,
-nopoly producer, or accepted sound producer without materially new evidence.
+negative for the ordinary TC4J / `-B` compiler paths, while v821 and v824-v827
+establish bounded hybrid exceptions using independent release-target evidence.
 
-v823 similarly closes the machine-code mechanism for the much larger 234-byte
-SND_LOAD blocker without promoting it. Two cold wrapper builds that change only
-the decompilation candidate _BX=_AX to TC4J integrated inline assembly reproduce
-the complete target function raw-zero; relative to the natural OP baseline,
-exactly the two bytes at 0xDE8B..0xDE8C change and all 804 ordered relocations
-plus MAP ownership remain unchanged. A scan of 345 unique TC86 objects in the
-pinned v401 snapshot finds only one other 89 C3, also from explicit asm in a
-ReC98 [Decompilation] commit. Thus SND_LOAD is now a source-provenance-only
-blocker: the exact compiler mechanism is known, but no independent ZUN source
-witness justifies adopting that spelling.
+v828 closes the last OP blocker, the 234-byte `SND_LOAD`. v823 had already
+shown that the complete function becomes raw-zero when its sole `8B D8` natural
+residual is expressed as the target-equivalent `89 C3` register direction.
+v828 supplies the missing independent precedent: the already accepted v394
+`dialog_face_unput_8` hybrid uses the same `MOV BX,AX` primitive, and TH04/TH05
+release targets independently preserve the common `8B 46 04 89 C3` sequence.
+The maintained complete loader reuses the accepted natural/v391 fragments and
+keeps only that two-byte register-direction primitive symbolic. Two cold OP
+links reproduce the full function and all 804 relocations; canonical v828
+passes **93/93** accepted OP slices raw-zero. OP's authored-function queue is
+therefore closed.
 
-The next bounded OP work is singular: pursue materially new historical source
-or producer provenance for the 234-byte SND_LOAD blocker. Its machine code is
-already bounded to the 89 C3 versus 8B D8 encoding choice, so do not repeat
-closed casts, aliases, register-pressure, or -B experiments without a new
-source-origin fact. If no such OP hypothesis exists, move to MAINE. MAIN remains
-a side lane unless shared source changes require replay.
+Do not reopen the SCORE codecs, accepted EGC functions, nopoly producer,
+shared-sound producer, or SND_LOAD without evidence that changes these accepted
+boundaries. The next function-reconstruction focus moves to MAINE's nine
+blockers; MAIN remains a side lane unless shared-source changes require
+artifact-local replay.
 
 ## ZUN.COM: authored-function source authority closed
 
@@ -129,41 +108,28 @@ Its ReC98 source origin remains candidate provenance; the local v805 replay
 establishes artifact-specific bytes and layout. It does not change the C++
 BGIMAGE producer or its accepted function count.
 
-All authored candidate boundaries in both artifacts are reviewed. OP has one
-nonexact function: SND_LOAD. SND_SE_PLAY and _snd_se_update are decoded-exact
-as of v827; the internal egc_start_copy is decoded-exact as of v824, and
-egc_copy_rect_1_to_0_16 is decoded-exact as of v825. MAINE has nine: `regist_menu`,
+All authored candidate boundaries in both artifacts are reviewed. OP is now
+93/93 decoded-exact as of v828. MAINE has nine blockers: `regist_menu`,
 `SND_LOAD`, `box_1_to_0_masked`, both SCORE codecs, `_snd_se_update`, the SCORE
 EGC-start helper, `SND_SE_PLAY`, and `egc_start_copy`.
 
-For OP, v820 still proves that the ZUN-successful TC4J `-B`/TASM32 path by
-itself does not alter `nopoly_b_put`, the SCORE natural bodies, `SND_SE_PLAY`,
-or `_snd_se_update`. v821 supersedes only the OP SCORE acceptance decision by
-adding independent TH03 codec-machine-code corroboration and restricting
-symbolic low-level source to the irreducible byte ROR. v824 applies the same strict hybrid rule to OP's internal EGC-start helper
-using complete 63-byte identity in independently restored TH05 OP and MAINE
-targets. v825 then narrows and accepts the adjacent 111-byte rectangle-copy
-function using TH05 descendant outer-body evidence plus bounded release-target
-lineage for the retained x86/PC-98 primitives. v826 supersedes the old nopoly
-compiler negative only at the acceptance decision: TH03/TH04/TH05 release
-targets independently bind the complete normalized 30-byte GAME>=3 producer,
-so the remaining DS-save/XOR/REP-MOVSW symbolic primitive is narrowly
-cross-game-corroborated. v827 supersedes v822's conservative sound acceptance
-decision with independent TH05 release-target evidence for the complete fixed
-producer and the two bounded compiler/register primitives. Both sound functions
-are now decoded-exact without claiming literal original-source spelling. The
-remaining OP blocker is SND_LOAD and still needs independent source provenance.
-Do not promote byte-forcing inline assembly, pseudo-registers, copied
-instructions, or inert optimizer barriers without independent provenance.
-Resume SND_LOAD only with a materially new compiler mechanism or source-origin
-observation. See
+For OP, v820 remains a useful negative control for ordinary TC4J / `-B`
+lowering. v821 and v824-v828 record the bounded hybrid exceptions backed by
+independent release-target evidence. v828 closes SND_LOAD by reusing the
+already accepted v394 TH04/TH05 `dialog_face_unput_8` register-direction
+precedent for its sole two-byte `MOV BX,AX` residual. OP has no remaining
+authored-function blockers; literal original-source spelling and packed-file
+exactness remain separate claims.
+
+See
 `docs/reconstruction/op-maine/TH04_OP_SCORE_CODECS_HYBRID_V821.md`,
 `docs/reconstruction/op-maine/TH04_OP_SND_SE_SHARED_V822.md`,
-docs/reconstruction/op-maine/TH04_OP_SND_SE_CROSSGAME_V827.md`,
+`docs/reconstruction/op-maine/TH04_OP_SND_SE_CROSSGAME_V827.md`,
 `docs/reconstruction/op-maine/TH04_OP_EGC_START_HYBRID_V824.md`,
 `docs/reconstruction/op-maine/TH04_OP_EGC_COPY_HYBRID_V825.md`,
 `docs/reconstruction/op-maine/TH04_OP_NOPOLY_HYBRID_V826.md`,
-docs/reconstruction/op-maine/TH04_OP_SND_LOAD_PROVENANCE_V823.md,
+`docs/reconstruction/op-maine/TH04_OP_SND_LOAD_PROVENANCE_V823.md`,
+`docs/reconstruction/op-maine/TH04_OP_SND_LOAD_HYBRID_V828.md`,
 `docs/reconstruction/op-maine/TH04_OP_STRICT_FRONTIER_V766.md`, and
 `docs/reconstruction/op-maine/TH04_MAINE_STRICT_FRONTIER_V732.md`.
 

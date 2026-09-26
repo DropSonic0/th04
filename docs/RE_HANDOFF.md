@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-26 after the v827 OP shared-sound cross-game hybrid closure. This is the
+Updated 2026-09-26 after the v828 OP SND_LOAD maintained-hybrid closure. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -27,19 +27,19 @@ use; this host's focused replays use `taskset -c 0,1 nice -n 10`.
 
 | Artifact | Reviewed authored boundaries | Exact authored functions | Blocked | Original-ASM observations |
 | --- | ---: | ---: | ---: | ---: |
-| OP.EXE | 93 / 93 | 92 | 1 | 16 reviewed |
+| OP.EXE | 93 / 93 | 93 | 0 | 16 reviewed |
 | MAIN.EXE | 495 / 495 | 492 | 3 | 73 attestation entries; 6 provisional |
 | MAINE.EXE | 72 / 72 | 63 | 9 | 15 reviewed |
 | ZUN.COM | 3 / 3 | 3 | 0 | 12 reviewed |
 
 MAIN's reviewed file-backed authored extent has 83,442 / 83,469 exact bytes.
 Its 27-byte remainder belongs to `carpet_lighting_put_new` (23), checkerboard
-(2), and `snd_load` (2). OP has 14,458 accepted decoded source-owner bytes of
-14,458 tracked; MAINE has 11,187 / 12,553; ZUN has 442 / 442. These decoded
+(2), and `snd_load` (2). OP has 14,692 accepted decoded source-owner bytes of
+14,692 tracked; MAINE has 11,187 / 12,553; ZUN has 442 / 442. These decoded
 counts do not give a packed-file byte denominator or whole-artifact exactness.
 Original-ASM observations are outside the authored C/C++ counts.
 
-OP's one blocked function and MAINE's nine blocked functions have reviewed
+OP's authored-function queue is closed; MAINE's nine blocked functions have reviewed
 physical boundaries. v821 closes OP `scoredat_decode` and `scoredat_encode`
 with maintained hybrid source: all control/data flow stays C++, while the
 single 8-bit ROR primitive is independently corroborated by pre-decompilation
@@ -86,27 +86,29 @@ Focused receipt SHA-256
 canonical receipt SHA-256
 `cab1b089612158f70a983e9f277e3c9146b9b937c6d5c515785257fcd70adcde`.
 
-v823 then closes the code-generation mechanism for 234-byte SND_LOAD without
-granting source credit. Two cold wrapper builds replacing only _BX=_AX with
-TC4J integrated inline asm reproduce the complete reviewed function raw-zero;
-natural versus diagnostic OP program images differ only at 0xDE8B..0xDE8C,
-while the MAP owner and all 804 ordered relocations stay identical. The pinned
-v401 snapshot contains 345 unique TC86 4.02 objects and exactly one other
-89 C3; its source explicitly uses asm { mov bx, ax; } and comes from a ReC98
-[Decompilation] commit. The TH04 candidate line itself also comes from
-[Decompilation] [th04] snd_load(). SND_LOAD therefore remains blocked solely
-on independent authored-source provenance. Diagnostic receipt
-v823-op-snd-load-provenance-receipt.json, SHA-256
-b958943a35c7916ab4a8bc80a9f2dd97bcc25a968ff4a315547f71d6dc37f161.
+v823 first closes the code-generation mechanism for the 234-byte SND_LOAD:
+natural and target differ only at `0xDE8B..0xDE8C`, and TC4J integrated inline
+`mov bx,ax` makes the complete function raw-zero without moving the MAP owner or
+804 relocations. v828 supplies the missing acceptance precedent. The already
+accepted v394 `dialog_face_unput_8` hybrid uses the same register-direction
+primitive, and TH04/TH05 release targets independently preserve the common
+`8B 46 04 89 C3` sequence. The maintained complete SND_LOAD source keeps only
+this two-byte primitive symbolic. Focused v828 SHA-256
+`0346f3f2d2e89121b1b89aaf7cab25f87cc3bc64540ff4de0e24d62bfe2c5dad`;
+canonical v828 SHA-256
+`50928bc1bcef1ea614574e94ccb9538f1e7167e7eb7ec92cafc6cbe806f22cc5`.
+Canonical v828 checks **93/93 OP authored function slices raw-zero**.
 
-The only remaining OP blocker is `SND_LOAD`.
-v820's ordinary TC4J / `-B` negatives remain useful historical controls, but
-v821 and v824-v827 supersede older acceptance decisions where independent
-release-target provenance now supports narrowly bounded hybrid primitives.
+OP has no remaining authored-function blockers. v820's ordinary TC4J / `-B`
+negatives remain useful historical controls, while v821 and v824-v828 record
+the independently corroborated bounded hybrid exceptions. The next
+function-reconstruction focus is MAINE's nine blockers.
+
 See the [v821 SCORE codec closure](reconstruction/op-maine/TH04_OP_SCORE_CODECS_HYBRID_V821.md),
 [v822 shared-sound provenance bound](reconstruction/op-maine/TH04_OP_SND_SE_SHARED_V822.md),
 [v827 shared-sound cross-game hybrid closure](reconstruction/op-maine/TH04_OP_SND_SE_CROSSGAME_V827.md),
 [v823 SND_LOAD provenance bound](reconstruction/op-maine/TH04_OP_SND_LOAD_PROVENANCE_V823.md),
+[v828 SND_LOAD maintained-hybrid closure](reconstruction/op-maine/TH04_OP_SND_LOAD_HYBRID_V828.md),
 [v824 EGC-start hybrid closure](reconstruction/op-maine/TH04_OP_EGC_START_HYBRID_V824.md),
 [v825 EGC rectangle-copy hybrid closure](reconstruction/op-maine/TH04_OP_EGC_COPY_HYBRID_V825.md),
 [v826 nopoly_B_put hybrid closure](reconstruction/op-maine/TH04_OP_NOPOLY_HYBRID_V826.md),
@@ -170,18 +172,19 @@ The canonical cold aggregate receipts in
 
 | Artifact | Receipt | SHA-256 |
 | --- | --- | --- |
-| OP | `v825-op-egc-copy-canonical-receipt.json` | `5df5f441a94e5ce3aadfdd102b84abdba1ffcb4730e92bcdd329b91429b65eca` |
+| OP | `v828-op-snd-load-canonical-receipt.json` | `50928bc1bcef1ea614574e94ccb9538f1e7167e7eb7ec92cafc6cbe806f22cc5` |
 | MAINE | `v727-maine-staff-dissolves-canonical-receipt.json` | `d86732f3c46baf5c8b9fe79d65abf4476cdd870353c1de96483bc48b5a632287` |
 | ZUN | v819-zun-resident-canonical-receipt.json | fe59d4624229bdc111a427d41144b6b6ca93973d729f570831c28805bba03508 |
 
 Preserve `.analysis/targets/`, `.analysis/toolchain/`, `.analysis/ghidra/`,
 `.analysis/runtime/images/zun.hdi`, the v401/v402/v489 source snapshots,
-DIET replay inputs, and the configured v546 ZUN runtime inventory. Expanded focused probe worktrees have been pruned again after v821. Before
-deletion, 1,860 top-level result/receipt files were checksum-verified into
-`focused-probe-heads-v821-20260926.tar.zst` with an adjacent manifest and
-archive checksum. Probe scratch now retains only the configured
-`v546-zun-runtime-inventory-001` input. The stable v824 EGC-start focused/canonical receipts and earlier accepted
-receipts live directly under `.analysis/reconstruction/receipt-archive/`.
+DIET replay inputs, and the configured v546 ZUN runtime inventory. Expanded
+focused probe worktrees through v828 have been pruned after their small
+results/receipts were checksum-verified into
+`focused-probe-heads-v828-20260926.tar.zst` with an adjacent manifest and
+archive checksum. Probe scratch again retains only the configured
+`v546-zun-runtime-inventory-001` input. Stable focused/canonical receipts remain
+directly under `.analysis/reconstruction/receipt-archive/`.
 These private archives are ignored and exist only on this workspace; a fresh
 clone must regenerate evidence from checked-in commands. Historical paths into
 pruned worktrees are provenance, not live input promises. Use

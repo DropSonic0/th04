@@ -1,9 +1,9 @@
-# OP strict natural-source frontier (v766, current-state addenda v821-v827)
+# OP strict natural-source frontier (v766, current-state addenda v821-v828)
 
 All 93 authored OP function candidates have reviewed physical boundaries. At
 v766, 85/93 had accepted decoded exactness and eight entries were blocked.
 
-**Current-state addendum (v827):** `scoredat_decode` and `scoredat_encode`
+**Current-state addendum (v828):** `scoredat_decode` and `scoredat_encode`
 remain decoded-exact through the narrowly scoped v821 cross-game-corroborated
 hybrid producer. v824 additionally promotes the internal 63-byte
 `egc_start_copy`: independently restored TH05 OP and MAINE release targets
@@ -19,12 +19,16 @@ OP and MAINE each contain exactly one complete fixed 0x86 `th04/snd_se.cpp`
 producer after masking the same 20 legal OMF link operands. Canonical v827
 passes 92/92 accepted OP slices raw-zero.
 
-Current OP state is **92/93 exact with one blocker**. The historical v766/v820
+v828 then closes the final 234-byte `SND_LOAD` blocker. Its maintained complete
+hybrid source keeps only the two-byte `MOV BX,AX` register-direction primitive,
+reusing the already accepted v394 TH04/TH05 `dialog_face_unput_8` cross-game
+precedent. Canonical v828 passes all 93/93 OP authored-function slices raw-zero.
+
+Current OP state is **93/93 exact with zero authored blockers**. The historical v766/v820
 negative compiler results remain valid for the source forms they tested.
 
 The 16 original-ASM observations still have reviewed target bounds and
-raw-matching decoded source modules. The current authored blocker is
-`SND_LOAD`, pending materially new source-provenance evidence.
+raw-matching decoded source modules. The OP authored-function queue is closed.
 
 ## Historical v766 blocker list
 
@@ -136,9 +140,9 @@ compiler behavior, independently sourced historical code, or stronger
 provenance for a low-level source mechanism. Repeating equivalent C++ spellings
 is not useful.
 
-The current OP exactness queue now contains only the provenance-only 234-byte
-`SND_LOAD` blocker. `SND_SE_PLAY` and `_snd_se_update` are decoded-exact as of
-v827.
+The current OP authored-function exactness queue is closed at 93/93.
+`SND_SE_PLAY` and `_snd_se_update` are decoded-exact as of v827; SND_LOAD is
+decoded-exact as of v828.
 
 ### v827 shared-sound cross-game hybrid closure
 
@@ -185,6 +189,30 @@ witness or other provenance-bearing TH04 producer.
 
 Focused diagnostic receipt SHA-256:
 b958943a35c7916ab4a8bc80a9f2dd97bcc25a968ff4a315547f71d6dc37f161.
+
+### v828 SND_LOAD maintained-hybrid closure
+
+v828 supersedes only the v823 acceptance verdict, not its negative compiler
+findings. The missing provenance-bearing precedent already existed elsewhere in
+the accepted TH04 reconstruction: v394's `dialog_face_unput_8` hybrid retains
+`asm { mov bx, ax; }`, and independent TH04/TH05 release targets preserve the
+same `8B 46 04 89 C3` argument-load/register-direction sequence.
+
+The maintained complete SND_LOAD source reuses the existing natural/v391
+fragments and keeps only this one two-byte register-direction primitive
+symbolic. Two cold TC4.02/TLINK rounds reproduce the complete 234-byte function
+raw-zero; relative to the natural baseline only `0xDE8B..0xDE8C` changes, MAP
+ownership remains `th04/snd_load.cpp`, and all 804 ordered relocations remain
+identical.
+
+Canonical v828 passes all 93 accepted OP slices raw-zero.
+
+Focused receipt SHA-256:
+`0346f3f2d2e89121b1b89aaf7cab25f87cc3bc64540ff4de0e24d62bfe2c5dad`.
+
+Canonical receipt SHA-256:
+`50928bc1bcef1ea614574e94ccb9538f1e7167e7eb7ec92cafc6cbe806f22cc5`.
+
 
 
 ### v824 EGC-start hybrid closure

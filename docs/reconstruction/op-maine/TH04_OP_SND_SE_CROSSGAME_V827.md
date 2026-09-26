@@ -1,5 +1,7 @@
 # TH04 OP shared sound cross-game hybrid closure (v827)
 
+> **Status:** Historical checkpoint. v827 closes the two shared-sound functions and raises OP to 92/93; v828 later closes `SND_LOAD` and the complete OP authored-function queue at 93/93.
+
 ## Result
 
 v827 promotes both remaining OP sound-effect functions:

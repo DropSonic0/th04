@@ -1,5 +1,7 @@
 # TH04 OP SND_LOAD complete-producer provenance bound (v823)
 
+> **Status:** Historical / superseded for acceptance. v828 reuses the bounded `89 C3` mechanism with the already accepted TH04/TH05 v394 register-direction precedent and promotes OP `SND_LOAD` to decoded-exact. Keep this note for the v823 negative/provenance history.
+
 ## Result
 
 OP SND_LOAD is a reviewed 234-byte FAR function at decoded payload
