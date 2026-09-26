@@ -1,6 +1,6 @@
 # TH04 reconstruction roadmap
 
-Updated 2026-09-26 after the v830 MAINE shared-sound artifact-local closure. This is the
+Updated 2026-09-26 after the v832 MAINE SCORE codec artifact-local closure. This is the
 current next-work map. Use
 `python3 scripts/status.py` and the live ledgers for counts; versioned
 experiments and rejected approaches remain in `docs/reconstruction/` and
@@ -12,12 +12,12 @@ experiments and rejected approaches remain in `docs/reconstruction/` and
 | --- | ---: | ---: | ---: |
 | OP.EXE | 93 / 93 | 0 | 93 / 93 |
 | MAIN.EXE | 492 / 495 | 3 blocked | 495 / 495 |
-| MAINE.EXE | 66 / 72 | 6 | 72 / 72 |
+| MAINE.EXE | 68 / 72 | 4 | 72 / 72 |
 | ZUN.COM | 3 / 3 | 0 | 3 / 3 |
 
-OP has 14,692 accepted decoded source-owner bytes out of 14,692 tracked;
-MAINE has 11,554 out of 12,553; ZUN has 442 out of 442. These are not
-packed-file coverage denominators. MAIN's 83,442 / 83,469 exact authored C/C++
+OP has 14,692 accepted decoded source-owner bytes out of 14,692 tracked; ZUN
+has 442 out of 442. MAINE decoded owner coverage is reported by the live status
+and acceptance ledgers rather than a hand-maintained packed-file denominator. MAIN's 83,442 / 83,469 exact authored C/C++
 bytes cover only its reviewed file-backed owner extents.
 
 ZUN now has all three reviewed authored functions decoded-exact. OP and MAINE
@@ -43,17 +43,22 @@ boundaries or source-policy basis.
 v829 independently closes MAINE's 234-byte SND_LOAD using MAINE-local cold
 compile/link evidence and all 559 ordered relocations. v830 then independently
 closes MAINE SND_SE_PLAY and _snd_se_update by replaying the complete 0x86
-shared-sound producer inside MAINE; canonical v830 checks 66/66 accepted MAINE
-slices raw-zero. MAINE is therefore 66/72 exact with six blockers.
+shared-sound producer inside MAINE. v832 closes scoredat_decode and
+scoredat_encode with maintained C++ plus the TH03 release-backed single-byte
+ROR primitive; two cold MAINE links reproduce the complete 0xB30 SCORE_TEXT
+producer, all 203 OMF fixups, EXE/MAP identity, and all 559 relocations.
+Canonical v832 checks 68/68 accepted MAINE slices raw-zero. MAINE is therefore
+68/72 exact with four blockers.
 
 The next function-reconstruction focus stays on MAINE. v831 revalidates the
 924-byte `regist_menu` boss on the current v489 producer: natural switch
-source preserves target JZ+JMP/size but uses MOV/OR, while natural if/goto
-produces direct-memory CMP but removes the redundant JMP and shrinks
-SCORE_TEXT by two bytes. Do not repeat that matrix without a new
-source/compiler mechanism. Continue the boss in parallel with the SCORE/EGC
-producer groups rather than harvesting only small leaves. MAIN remains a side
-lane unless shared-source changes require artifact-local replay.
+preserves target JZ+JMP/size but uses MOV/OR, while natural if/goto produces
+direct-memory CMP but removes the redundant JMP and shrinks SCORE_TEXT by two
+bytes. Do not repeat that matrix without a new source/compiler mechanism.
+With the codecs closed, work the boss in parallel with the two EGC-start paths
+and the 134-byte `box_1_to_0_masked` producer rather than harvesting only small
+leaves. MAIN remains a side lane unless shared-source changes require
+artifact-local replay.
 
 ## ZUN.COM: authored-function source authority closed
 
@@ -121,10 +126,10 @@ establishes artifact-specific bytes and layout. It does not change the C++
 BGIMAGE producer or its accepted function count.
 
 All authored candidate boundaries in both artifacts are reviewed. OP is now
-93/93 decoded-exact as of v828. v829 closes MAINE `SND_LOAD`, and v830 closes
-MAINE `SND_SE_PLAY` plus `_snd_se_update`. MAINE now has six blockers:
-`regist_menu`, `box_1_to_0_masked`, both SCORE codecs, the SCORE EGC-start
-helper, and `egc_start_copy`.
+93/93 decoded-exact as of v828. v829 closes MAINE `SND_LOAD`, v830 closes
+MAINE `SND_SE_PLAY` plus `_snd_se_update`, and v832 closes both SCORE codecs.
+MAINE now has four blockers: `regist_menu`, `box_1_to_0_masked`, the SCORE
+EGC-start helper, and cutscene `egc_start_copy`.
 
 For OP, v820 remains a useful negative control for ordinary TC4J / `-B`
 lowering. v821 and v824-v828 record the bounded hybrid exceptions backed by
@@ -143,7 +148,8 @@ See
 `docs/reconstruction/op-maine/TH04_OP_NOPOLY_HYBRID_V826.md`,
 `docs/reconstruction/op-maine/TH04_OP_SND_LOAD_PROVENANCE_V823.md`,
 `docs/reconstruction/op-maine/TH04_OP_SND_LOAD_HYBRID_V828.md`,
-`docs/reconstruction/op-maine/TH04_OP_STRICT_FRONTIER_V766.md`, and
+`docs/reconstruction/op-maine/TH04_OP_STRICT_FRONTIER_V766.md`,
+`docs/reconstruction/op-maine/TH04_MAINE_SCORE_CODECS_HYBRID_V832.md`, and
 `docs/reconstruction/op-maine/TH04_MAINE_STRICT_FRONTIER_V732.md`.
 
 For a new exact function, review the complete physical owner, build its

@@ -76,6 +76,7 @@ counts, file paths, and proposals do not supersede the current ledgers.
 - [MAINE SND_LOAD artifact-local hybrid closure](op-maine/TH04_MAINE_SND_LOAD_HYBRID_V829.md)
 - [MAINE shared-sound artifact-local closure](op-maine/TH04_MAINE_SND_SE_CROSSGAME_V830.md)
 - [MAINE regist_menu current-v489 compiler frontier](op-maine/TH04_MAINE_REGIST_FRONTIER_V831.md)
+- [MAINE SCORE codec artifact-local hybrid closure](op-maine/TH04_MAINE_SCORE_CODECS_HYBRID_V832.md)
 - [TC4.02 SCORE rotate-intrinsic negative surface](op-maine/TH04_SCORE_ROTATE_INTRINSICS_V760.md)
 - [BGIMAGE hybrid producer / relocation closure](op-maine/TH04_BGIMAGE_HYBRID_V489.md)
 - [OP big menu/title exact replay](op-maine/TH04_OP_BIG_MENU_TITLE_EXACT_V735.md)

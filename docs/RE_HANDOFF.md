@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-26 after the v830 MAINE shared-sound artifact-local closure. This is the
+Updated 2026-09-26 after the v832 MAINE SCORE codec artifact-local closure. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -29,17 +29,18 @@ use; this host's focused replays use `taskset -c 0,1 nice -n 10`.
 | --- | ---: | ---: | ---: | ---: |
 | OP.EXE | 93 / 93 | 93 | 0 | 16 reviewed |
 | MAIN.EXE | 495 / 495 | 492 | 3 | 73 attestation entries; 6 provisional |
-| MAINE.EXE | 72 / 72 | 66 | 6 | 15 reviewed |
+| MAINE.EXE | 72 / 72 | 68 | 4 | 15 reviewed |
 | ZUN.COM | 3 / 3 | 3 | 0 | 12 reviewed |
 
 MAIN's reviewed file-backed authored extent has 83,442 / 83,469 exact bytes.
 Its 27-byte remainder belongs to `carpet_lighting_put_new` (23), checkerboard
-(2), and `snd_load` (2). OP has 14,692 accepted decoded source-owner bytes of
-14,692 tracked; MAINE has 11,554 / 12,553; ZUN has 442 / 442. These decoded
-counts do not give a packed-file byte denominator or whole-artifact exactness.
+(2), and `snd_load` (2). OP has 14,692 accepted decoded source-owner bytes of 14,692 tracked and ZUN
+has 442 / 442. MAINE decoded owner coverage is reported by the live status and
+decoded-acceptance ledgers. None of these gives a packed-file byte denominator
+or whole-artifact exactness.
 Original-ASM observations are outside the authored C/C++ counts.
 
-OP's authored-function queue is closed; MAINE's six blocked functions have reviewed
+OP's authored-function queue is closed; MAINE's four blocked functions have reviewed
 physical boundaries. v821 closes OP `scoredat_decode` and `scoredat_encode`
 with maintained hybrid source: all control/data flow stays C++, while the
 single 8-bit ROR primitive is independently corroborated by pre-decompilation
@@ -112,12 +113,19 @@ Two cold links reproduce the complete 0x86 `th04/snd_se.cpp` producer, the
 retained MAINE EXE/MAP, and all 559 relocations; canonical v830 checks 66/66
 accepted MAINE slices raw-zero.
 
-The next function-reconstruction focus is MAINE's six remaining blockers.
+v832 closes MAINE `scoredat_decode` and `scoredat_encode` artifact-locally.
+Maintained C++ keeps all codec logic except the TH03 release-backed byte-ROR
+primitive. Two cold links reproduce complete 0xB30 SCORE_TEXT, all 203 ordered
+OMF fixups, retained EXE/MAP identity, and all 559 MZ relocations. Canonical
+v832 checks 68/68 accepted MAINE slices raw-zero.
+
+The next function-reconstruction focus is MAINE's four remaining blockers.
 v831 revalidates the 924-byte `regist_menu` frontier on the retained v489
-producer: switch preserves target JZ+JMP topology but uses MOV/OR, while
-direct if/goto emits the target CMP form but drops the redundant JMP and
-shortens SCORE_TEXT by two bytes. Resume that boss only with a materially new
-source/compiler mechanism; work the SCORE/EGC groups in parallel.
+producer: switch preserves target JZ+JMP topology but uses MOV/OR, while direct
+if/goto emits the target CMP form but drops the redundant JMP and shortens
+SCORE_TEXT by two bytes. Resume that boss only with a materially new
+source/compiler mechanism; work the two EGC-start paths and
+`box_1_to_0_masked` in parallel.
 
 See the [v821 SCORE codec closure](reconstruction/op-maine/TH04_OP_SCORE_CODECS_HYBRID_V821.md),
 [v822 shared-sound provenance bound](reconstruction/op-maine/TH04_OP_SND_SE_SHARED_V822.md),
@@ -127,6 +135,7 @@ See the [v821 SCORE codec closure](reconstruction/op-maine/TH04_OP_SCORE_CODECS_
 [v829 MAINE SND_LOAD artifact-local closure](reconstruction/op-maine/TH04_MAINE_SND_LOAD_HYBRID_V829.md),
 [v830 MAINE shared-sound artifact-local closure](reconstruction/op-maine/TH04_MAINE_SND_SE_CROSSGAME_V830.md),
 [v831 MAINE regist_menu current-v489 compiler frontier](reconstruction/op-maine/TH04_MAINE_REGIST_FRONTIER_V831.md),
+[v832 MAINE SCORE codec artifact-local closure](reconstruction/op-maine/TH04_MAINE_SCORE_CODECS_HYBRID_V832.md),
 [v824 EGC-start hybrid closure](reconstruction/op-maine/TH04_OP_EGC_START_HYBRID_V824.md),
 [v825 EGC rectangle-copy hybrid closure](reconstruction/op-maine/TH04_OP_EGC_COPY_HYBRID_V825.md),
 [v826 nopoly_B_put hybrid closure](reconstruction/op-maine/TH04_OP_NOPOLY_HYBRID_V826.md),
@@ -191,7 +200,7 @@ The canonical cold aggregate receipts in
 | Artifact | Receipt | SHA-256 |
 | --- | --- | --- |
 | OP | `v828-op-snd-load-canonical-receipt.json` | `50928bc1bcef1ea614574e94ccb9538f1e7167e7eb7ec92cafc6cbe806f22cc5` |
-| MAINE | `v830-maine-snd-se-canonical-receipt.json` | `e570bcf46c3e4c1f6d9f5856bfb8536ffb7d3c49abf49eb85cf17fdb31c6d5d8` |
+| MAINE | `v832-maine-score-codecs-canonical-receipt.json` | `b468c5305eebbd2378d86a876cabfc999b0eb12e1133f41f51cf6ba21bbdbcf5` |
 | ZUN | v819-zun-resident-canonical-receipt.json | fe59d4624229bdc111a427d41144b6b6ca93973d729f570831c28805bba03508 |
 
 Preserve `.analysis/targets/`, `.analysis/toolchain/`, `.analysis/ghidra/`,
