@@ -46,10 +46,14 @@ closes MAINE SND_SE_PLAY and _snd_se_update by replaying the complete 0x86
 shared-sound producer inside MAINE; canonical v830 checks 66/66 accepted MAINE
 slices raw-zero. MAINE is therefore 66/72 exact with six blockers.
 
-The next function-reconstruction focus stays on MAINE. Prioritize the 924-byte
-regist_menu boss and the SCORE/EGC producer groups rather than harvesting only
-small leaves. MAIN remains a side lane unless shared-source changes require
-artifact-local replay.
+The next function-reconstruction focus stays on MAINE. v831 revalidates the
+924-byte `regist_menu` boss on the current v489 producer: natural switch
+source preserves target JZ+JMP/size but uses MOV/OR, while natural if/goto
+produces direct-memory CMP but removes the redundant JMP and shrinks
+SCORE_TEXT by two bytes. Do not repeat that matrix without a new
+source/compiler mechanism. Continue the boss in parallel with the SCORE/EGC
+producer groups rather than harvesting only small leaves. MAIN remains a side
+lane unless shared-source changes require artifact-local replay.
 
 ## ZUN.COM: authored-function source authority closed
 

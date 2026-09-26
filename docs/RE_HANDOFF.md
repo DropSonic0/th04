@@ -113,6 +113,11 @@ retained MAINE EXE/MAP, and all 559 relocations; canonical v830 checks 66/66
 accepted MAINE slices raw-zero.
 
 The next function-reconstruction focus is MAINE's six remaining blockers.
+v831 revalidates the 924-byte `regist_menu` frontier on the retained v489
+producer: switch preserves target JZ+JMP topology but uses MOV/OR, while
+direct if/goto emits the target CMP form but drops the redundant JMP and
+shortens SCORE_TEXT by two bytes. Resume that boss only with a materially new
+source/compiler mechanism; work the SCORE/EGC groups in parallel.
 
 See the [v821 SCORE codec closure](reconstruction/op-maine/TH04_OP_SCORE_CODECS_HYBRID_V821.md),
 [v822 shared-sound provenance bound](reconstruction/op-maine/TH04_OP_SND_SE_SHARED_V822.md),
@@ -121,6 +126,7 @@ See the [v821 SCORE codec closure](reconstruction/op-maine/TH04_OP_SCORE_CODECS_
 [v828 SND_LOAD maintained-hybrid closure](reconstruction/op-maine/TH04_OP_SND_LOAD_HYBRID_V828.md),
 [v829 MAINE SND_LOAD artifact-local closure](reconstruction/op-maine/TH04_MAINE_SND_LOAD_HYBRID_V829.md),
 [v830 MAINE shared-sound artifact-local closure](reconstruction/op-maine/TH04_MAINE_SND_SE_CROSSGAME_V830.md),
+[v831 MAINE regist_menu current-v489 compiler frontier](reconstruction/op-maine/TH04_MAINE_REGIST_FRONTIER_V831.md),
 [v824 EGC-start hybrid closure](reconstruction/op-maine/TH04_OP_EGC_START_HYBRID_V824.md),
 [v825 EGC rectangle-copy hybrid closure](reconstruction/op-maine/TH04_OP_EGC_COPY_HYBRID_V825.md),
 [v826 nopoly_B_put hybrid closure](reconstruction/op-maine/TH04_OP_NOPOLY_HYBRID_V826.md),
