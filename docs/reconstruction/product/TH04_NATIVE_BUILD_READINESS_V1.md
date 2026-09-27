@@ -34,7 +34,7 @@ is one serial compile pass, with strict OMF parsing of each emitted object.
 | --- | --- | --- |
 | `src/op/**/*.cpp` | 48/48 compiled to valid OMF | No OP entry TU or product link yet |
 | `src/maine/**/*.cpp` | 26/26 compiled to valid OMF | No MAINE entry TU or product link yet |
-| `src/shared/**/*.{cpp,c}` under OP flags | 14/19 compiled directly | Four require missing headers; BGIMAGE uses the assembly backend |
+| `src/shared/**/*.{cpp,c}` under OP flags | Initial 14/19 directly; current 19/19 with BGIMAGE assembly backend | Four formerly blocked sources now use TH04-owned headers |
 | `src/shared/hardware/bgimage.cpp` | TC4J `-B` emitted symbolic ASM; pinned TASM32 assembled valid OMF | The assembler reported one segment-alignment warning, as in the existing focused producer workflow |
 
 The private compiler receipts are
@@ -51,19 +51,40 @@ those aliases. The product builder must isolate output per input and record the
 actual generated object name; deriving it from the long source name produced a
 false failure in the first diagnostic pass.
 
-The four direct shared compile blockers are `vram_planes.cpp` (`planar.h`),
-`determine_modes.cpp`, `pmd_resident.c`, and `mmd_resident.c` (the latter three
-require `x86real.h` and `th04/snd/snd.h`). `bgimage.cpp` is the fifth direct
-TCC failure and instead has the verified `-B`/TASM32 producer path. These
-missing declarations must be recovered or routed through the repository's
-attested compatibility boundary; they cannot be silently supplied by a ReC98
-source include path.
+The four initial direct shared compile blockers were `vram_planes.cpp`
+(`planar.h`), `determine_modes.cpp`, `pmd_resident.c`, and `mmd_resident.c`
+(`x86real.h` and `th04/snd/snd.h`). They now include the existing TH04-owned
+PC-98, x86, and sound interfaces. `vram_planes.hpp` declares only the four far
+VRAM pointers needed by that producer. Two cold OP and MAINE scaffold links
+preserve zero raw differences in each of the four accepted function slices;
+these replays are function Oracles, not standalone product links. The MMD replay
+continues to record one aggregate image difference in each artifact outside
+its accepted function slice.
+
+`python3 scripts/probes/probe_th04_native_source_compile.py --output-dir
+.analysis/reconstruction/probes/native-th04-source-compile-20260927` then
+compiled a fresh copy of only this repository's `src/`: 48 OP, 26 MAINE, and
+19 shared C/C++ translation units, all producing valid OMF. BGIMAGE took the
+verified TC4J `-B`/TASM32 producer path. The private receipt SHA-256 is
+`b1d7a182c0803eeab92bd20effb383c783b1cbc4979237d9e6f9ccb6da42cfd0`.
+The pinned MS-DOS runner and installed Borland/TASM tools are external tool
+inputs; no ReC98 source or headers enter this compile snapshot.
+
+A second cold source-only compile has receipt SHA-256
+`9b9ea408617c7c88aa89f31994b0c8136ec35b1ec3955c4a290b8947034c1255`.
+`scripts/probes/compare_th04_native_source_compile.py` compares both receipts
+and their objects: 92/93 raw OMF files match; BGIMAGE differs only in TASM's
+dependency timestamp comment. All 93 timestamp-normalized objects and all 93
+link-relevant OMF record sequences match. The compiler evidence input digest
+hashes ordered lines of `source path`, one space, `source_sha256`, and newline
+from the first receipt.
 
 ## Current build-graph gaps
 
 - MAIN C/C++ source has 764 quoted include sites whose paths do not resolve
-  inside this repository, covering 102 distinct header names. This is a
-  source-graph observation, not a count of missing semantic declarations.
+  inside this repository, covering 102 distinct include paths, including
+  headers and source fragments. This is a source-graph observation, not a
+  count of missing semantic declarations.
 - No checked-in OP or MAINE product translation unit includes their respective
   `src/op/main/main.inl` or `src/maine/end/main.inl` entry body. Other bounded
   `.inl` fragments also lack a product TU; some are historical overlapping

@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-27 after the native product-build review. This is the
+Updated 2026-09-27 after the TH04-only source compile gate. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -158,11 +158,15 @@ remain unresolved exactness work.
 
 The [native product-build readiness note](reconstruction/product/TH04_NATIVE_BUILD_READINESS_V1.md)
 records a separate compiler observation: a repository-only `src/` snapshot
-compiled all 48 OP and 26 MAINE C++ translation units into valid OMF with
-pinned TC4J. Four shared C/C++ units still need local or attested compatibility
-headers; BGIMAGE builds through its established `-B`/TASM32 path. MAIN has 102
-distinct unresolved quoted header paths, and the OP/MAINE entry `.inl` bodies
-are not yet included by product TUs. No repository-owned whole-artifact link or
+compiled all 48 OP, 26 MAINE, and 19 shared C/C++ translation units into valid
+OMF with pinned TC4J/TASM32. Four formerly blocked shared units now use
+TH04-owned headers and cold-replay their accepted OP and MAINE slices raw-zero.
+The two fresh TH04-only compile rounds have 93/93 matching link-relevant OMF
+objects; BGIMAGE's sole raw-object difference is a TASM dependency timestamp.
+BGIMAGE builds through its established `-B`/TASM32 path. MAIN has 102
+distinct unresolved quoted include paths, including source fragments. The
+OP/MAINE entry `.inl` bodies are not yet included by product TUs. No
+repository-owned whole-artifact link or
 candidate runtime acceptance follows from the compiler probe. The immediate
 build lane is source-graph closure, serial product links, MZ/relocation checks,
 DIET packaging, then a candidate PC-98 scenario. Raw target equality stays

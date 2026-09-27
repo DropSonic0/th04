@@ -1,7 +1,7 @@
 #pragma option -zCSHARED -k-
 
-#include "x86real.h"
-#include "th04/snd/snd.h"
+#include "src/shared/platform/x86.hpp"
+#include "src/shared/sound/api.hpp"
 
 bool16 snd_pmd_resident(void)
 {

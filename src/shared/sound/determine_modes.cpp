@@ -1,7 +1,7 @@
 #pragma option -zCSHARED
 
-#include "x86real.h"
-#include "th04/snd/snd.h"
+#include "src/shared/platform/x86.hpp"
+#include "src/shared/sound/api.hpp"
 
 int pascal snd_determine_modes(int req_bgm_mode, int req_se_mode)
 {

@@ -83,6 +83,10 @@ def main() -> int:
     output.mkdir()
     source_hash = sha(SOURCE.read_bytes())
     header_hash = sha(HEADER.read_bytes())
+    platform_headers = {
+        header: sha((ROOT / "src/shared/platform" / header).read_bytes())
+        for header in ("types.hpp", "pc98.hpp")
+    }
     env = os.environ.copy()
     env.update(WINEPREFIX=str(ROOT / ".analysis/toolchain/wineprefix"),
                WINEDEBUG="-all", MSDOS_PATH=r"C:\TC4\BIN;C:\TASM50\BIN")
@@ -112,6 +116,11 @@ def main() -> int:
             header_dst = work / "src/shared/hardware/vram_planes.hpp"
             header_dst.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(HEADER, header_dst)
+            platform_dst = work / "src/shared/platform"
+            platform_dst.mkdir(parents=True, exist_ok=True)
+            for header in ("types.hpp", "pc98.hpp"):
+                shutil.copy2(ROOT / "src/shared/platform" / header,
+                             platform_dst / header)
             obj = work / "obj/th01/vplanset.obj"
             obj.unlink()
             command = ["wine", str(RUNNER), "-e", "-x", "tcc", "-c", "-I.",
@@ -166,6 +175,9 @@ def main() -> int:
             raise RuntimeError(f"{name}: cold rounds disagree")
     if sha(SOURCE.read_bytes()) != source_hash or sha(HEADER.read_bytes()) != header_hash:
         raise RuntimeError("maintained source changed during replay")
+    if any(sha((ROOT / "src/shared/platform" / header).read_bytes()) != digest
+           for header, digest in platform_headers.items()):
+        raise RuntimeError("TH04 platform header changed during replay")
     receipt = {
         "schema_version": 1,
         "observed_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
@@ -173,6 +185,7 @@ def main() -> int:
         "source": str(SOURCE.relative_to(ROOT)),
         "source_sha256": source_hash,
         "header_sha256": header_hash,
+        "platform_header_sha256": platform_headers,
         "builds": builds,
         "limit": "No packed-file offsets or whole-artifact exact claim; ReC98 is link scaffolding.",
     }
