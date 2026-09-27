@@ -32,6 +32,7 @@ RET_POP = {
     "FILE_WRITE": 6,
     "GRAPH_400LINE": 0,
     "GRAPH_CLEAR": 0,
+    "GRAPH_COPY_PAGE": 2,
     "GRAPH_GAIJI_PUTC": 8,
     "GRAPH_GAIJI_PUTS": 12,
     "GRAPH_PI_FREE": 8,

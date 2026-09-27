@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-27 after the MAINE native graphics-gaiji batch. This is the
+Updated 2026-09-27 after the MAINE native graphics-page batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -160,29 +160,29 @@ remain unresolved exactness work.
 
 The [native product-build readiness note](reconstruction/product/TH04_NATIVE_BUILD_READINESS_V1.md)
 and `config/native_maine_sources.toml` define the current TH04-only MAINE
-source order. Pinned TC4J/TASM32 builds all 117 maintained translation units
-(75 C++, 42 ASM). Two cold no-archive builds agree on link-relevant and
+source order. Pinned TC4J/TASM32 builds all 118 maintained translation units
+(76 C++, 42 ASM). Two cold no-archive builds agree on link-relevant and
 timestamp-normalized OMF records, with only BGIMAGE raw timestamp drift; TLINK
-still reports 23 unresolved names and zero warnings. The historical
+still reports 22 unresolved names and zero warnings. The historical
 `masters.lib` calibration links, but is not a standalone product: its MZ
-passes 597 relocation sites at two DOS load segments and the call audit checks
-19 far entry ABIs, 75 relocated direct far calls, and one same-CS far call.
-See the [graphics gaiji receipt note](reconstruction/product/TH04_NATIVE_GRAPH_GAIJI_V861.md)
-for current hashes, target carry-fix provenance, and display limits. This
+passes 599 relocation sites at two DOS load segments and the call audit checks
+20 far entry ABIs, 85 relocated direct far calls, and one same-CS far call.
+See the [graphics-page receipt note](reconstruction/product/TH04_NATIVE_GRAPH_COPY_V862.md)
+for current hashes, the TC4J loop-scope failure, and memory limits. This
 work has not reached MAINE at runtime.
 Start with `python3 scripts/probes/probe_th04_native_maine_link.py --check-manifest`;
 the focused notes give the cold-link, comparator, MZ,
 and call-ABI commands with fresh private output directories.
 
-The current 23 names group as follows: memory `HMEM_FREE`,
+The current 22 names group as follows: memory `HMEM_FREE`,
 `HMEM_ALLOCBYTE`, `MEM_ASSIGN_DOS`, `MEM_UNASSIGN`; packed-file service
 `PFSTART`, `PFEND`, `_bbufsiz`; VSYNC `VSYNC_START`, `VSYNC_END`,
 `_vsync_Count1`; sound `BGM_INIT`, `BGM_FINISH`, `BGM_READ_SDATA`,
-`BGM_SOUND`; graphics `GRAPH_COPY_PAGE`, `GRAPH_PI_LOAD_PACK`,
+`BGM_SOUND`; graphics `GRAPH_PI_LOAD_PACK`,
 `GRAPH_PACK_PUT_8`; text gaiji
 `GAIJI_BACKUP`, `GAIJI_RESTORE`, `GAIJI_ENTRY_BFNT`; and sprite storage
 `SUPER_PUT`, `SUPER_FREE`, `SUPER_ENTRY_BFNT`. The no-archive receipt at
-`.analysis/reconstruction/probes/native-maine-graph-gaiji-v1-a-20260927/receipt.json`
+`.analysis/reconstruction/probes/native-maine-graph-copy-v1b-a-20260927/receipt.json`
 is the current private failure vector. New probes require fresh private output
 directories and only one writable Borland/Wine build at a time.
 

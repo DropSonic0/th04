@@ -792,6 +792,13 @@ link-relevant and timestamp-normalized OMF records. Historical-library
 calibration passes 597 MZ relocation sites and 19 far entry ABIs. The CG,
 GRCG, and VRAM behavior has not been exercised in a MAINE runtime scenario.
 
+The [TH04-local graphics page copy](TH04_NATIVE_GRAPH_COPY_V862.md) adds one
+source unit and closes one more name. Two cold 118-TU no-archive builds leave
+22 unresolved names with zero warnings and agree on link-relevant and
+timestamp-normalized OMF records. Historical-library calibration passes 599
+MZ relocation sites and 20 far entry ABIs. It borrows temporary memory from
+the still-unresolved TH04 heap owner; page-copy runtime behavior is untested.
+
 ## Private PC-98 boot diagnostics
 
 `scripts/probes/prepare_th04_maine_diagnostic_hdi.py` creates disposable
