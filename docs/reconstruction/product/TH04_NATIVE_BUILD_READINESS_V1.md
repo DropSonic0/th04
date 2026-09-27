@@ -785,6 +785,13 @@ link-relevant and timestamp-normalized OMF records. Historical-library
 calibration passes 597 MZ relocation sites and 17 far entry ABIs, including
 the two gaiji returns. The PC-98 display path remains untested at runtime.
 
+The [TH04-local graphics gaiji writers](TH04_NATIVE_GRAPH_GAIJI_V861.md)
+add one source unit and close two more names. Two cold 117-TU no-archive
+builds leave 23 unresolved names with zero warnings and agree on
+link-relevant and timestamp-normalized OMF records. Historical-library
+calibration passes 597 MZ relocation sites and 19 far entry ABIs. The CG,
+GRCG, and VRAM behavior has not been exercised in a MAINE runtime scenario.
+
 ## Private PC-98 boot diagnostics
 
 `scripts/probes/prepare_th04_maine_diagnostic_hdi.py` creates disposable
