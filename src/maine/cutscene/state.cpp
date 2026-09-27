@@ -16,8 +16,11 @@ extern const unsigned short BOX_MASKS[5][4] = {
 
 cursor_t cursor;
 int text_interval;
+unsigned char text_col;
 unsigned char fast_forward;
 planar16_t far *box_bg;
 unsigned char script[8192];
 unsigned char near *script_p;
 int script_param_number_default;
+// The target's cutscene glyph buffer starts with two spaces and a terminator.
+ShiftJISKanji CUTSCENE_KANJI[2] = { { { ' ', ' ' } }, { { 0, 0 } } };

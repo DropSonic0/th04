@@ -9,20 +9,28 @@ struct cursor_t {
     int y;
 };
 
-struct planar16_t {
-    dots16_t B;
-    dots16_t R;
-    dots16_t G;
-    dots16_t E;
+template<class T> struct Planar {
+    T B;
+    T R;
+    T G;
+    T E;
+};
+typedef Planar<dots16_t> planar16_t;
+
+// The script interpreter writes one Shift-JIS glyph into this two-byte view.
+struct ShiftJISKanji {
+    char byte[2];
 };
 
 extern cursor_t cursor;
 extern int text_interval;
+extern unsigned char text_col;
 extern unsigned char fast_forward;
 extern planar16_t far *box_bg;
 extern unsigned char script[8192];
 extern unsigned char near *script_p;
 extern int script_param_number_default;
 extern const unsigned short BOX_MASKS[5][4];
+extern ShiftJISKanji CUTSCENE_KANJI[2];
 
 #endif

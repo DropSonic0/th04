@@ -157,54 +157,31 @@ product construction, and a candidate runtime scenario; the two MAIN bodies
 remain unresolved exactness work.
 
 The [native product-build readiness note](reconstruction/product/TH04_NATIVE_BUILD_READINESS_V1.md)
-records a separate compiler observation: a repository-only `src/` snapshot
-compiled all 48 OP, 26 MAINE, and 19 shared C/C++ translation units into valid
-OMF with pinned TC4J/TASM32. Four formerly blocked shared units now use
-TH04-owned headers and cold-replay their accepted OP and MAINE slices raw-zero.
-The two fresh TH04-only compile rounds have 93/93 matching link-relevant OMF
-objects; BGIMAGE's sole raw-object difference is a TASM dependency timestamp.
-BGIMAGE builds through its established `-B`/TASM32 path. MAIN has 102
-distinct unresolved quoted include paths, including source fragments. MAINE
-has a TH04-only entry TU, SCORE EGC copy TU, and target-attested local state
-for cutscenes, VRAM/input, sound, PI, score, and CDG. The 83-object
-native MAINE diagnostic under pinned TC4J/TASM32/TLINK has four unresolved
-function bodies: `cutscene_animate`, `staffroll_animate`, `verdict_animate`,
-and `regist_menu`. Its external historical `masters.lib` is a calibration
-input, not a product dependency; removing it exposes 51 more PC-98 runtime
-symbols from 40 archive members. The library's extracted objects have an
-incompatible large-model ABI for a standalone TH04 link. Earlier assembler
-`DGROUP group _TEXT` declarations caused TLINK's 64 KB group overflow after
-the data externals closed. A product-only group selection excludes `_TEXT`,
-while the ZUN accepted OMF and 6360-byte component remain unchanged in cold
-replay. TLINK still exits nonzero and may write a parsable but incomplete MZ;
-no candidate can run yet. The affected MAINE 72-slice cold aggregate passed;
-receipt SHA-256 `e8fa13b97ea73cdf10533671d1b8f2c87726b9052e38a823159d921c7e5c2616`.
-The new TH04-local staffroll TU and 21 target-attested resources compile. An
-85-object source link with no historical archive resolves `staffroll_animate`
-and exposes `GRCG_SETCOLOR`; 55 distinct externals remain, and TLINK still
-exits nonzero. The same 85 objects with the historical archive used only for
-calibration leave exactly the other three C++ bodies unresolved and still fail
-TLINK. Compare symbol identities, not just counts.
-The TH04-local registration TU and its 126-byte target-attested resource block
-also compile. The next 87-object no-archive link resolves `regist_menu` and
-exposes `SUPER_ENTRY_BFNT` plus `SUPER_FREE`; 56 names remain and TLINK still
-fails. A pinned TLIB public-name inventory routes 54 support names to 43
-historical archive members; the two C++ bodies lack archive providers. This
-is an owner queue, not an accepted product ABI. Shared input/playchar/score
-declaration changes passed the MAINE 72-slice cold aggregate raw-zero;
-receipt SHA-256 `871e1398afab56d030e7d0ea04688ca497cc0f40bc01df466cdd00a5ed2726be`.
-The TH04-local verdict TU, state, and 25 named resources compile; its 271
-semantic resource bytes and public names match the attested target in OMF.
-The 90-object no-archive link resolves `verdict_animate` and exposes
-`_random_seed`. It still fails with 56 unresolved names; 55 route by public
-name to 44 historical library members, while `cutscene_animate` has no archive
-provider. Partial MZ relocations remain diagnostic only.
-The [readiness note](reconstruction/product/TH04_NATIVE_BUILD_READINESS_V1.md)
-records target data offsets, cold receipts, the DGROUP failure and repair,
-the ReC98 TH01 build-method comparison, and TH05 reuse guidance. OP still
-lacks an entry TU. The immediate lane is the remaining MAINE cutscene body, local runtime
-support, serial product links, MZ/relocation checks, DIET packaging, and a
-candidate PC-98 scenario. Raw target equality stays on its separate ledger.
+records the current TH04-only compile and link lane. A fresh `src/` snapshot
+compiles 95 MAINE and shared C/C++/ASM translation units under the pinned
+TC4J/TASM32 toolchain. The MAINE entry, staffroll, registration, verdict, and
+cutscene C++ bodies all have product translation units. The cutscene PI masks
+and adjacent box/glyph data match the attested target in their compiled OMF
+owners. The two latest cold no-archive links agree on every link-relevant and
+timestamp-normalized OMF object; BGIMAGE differs only in a dependency
+timestamp. Both links fail TLINK with 62 distinct unresolved support names and
+zero warnings. Their parsable MZ files and 430 relocation entries are
+incomplete diagnostics, not runnable candidates.
+The affected MAINE cold aggregate passes all 72 accepted function slices
+raw-zero after the cutscene additions; receipt SHA-256
+`a1fff45cf81442a1aa3e0a6ae6c253c958a283e4c1aa1be028dc841fcd118471`.
+
+The historical `masters.lib` remains an ABI-incompatible calibration input.
+A pinned public-name inventory routes 60 of the 62 unresolved names to 48
+archive members; `GRAPH_PACK_PUT_8_NOCLIP` and `_snd_se_update` need local
+MAINE owners. The maintained TH04 OP body for the latter has independent
+MAINE target corroboration and is the next bounded support task. Product
+closure still needs the remaining runtime providers, a successful serial
+TLINK link, owned MAP/MZ relocation checks, DIET packaging, and a candidate
+PC-98 scenario. OP lacks an entry TU; MAIN still has 102 distinct unresolved
+quoted include paths. The remaining two nonexact MAIN function slices are
+outside this build lane. Source ownership and runtime correctness are separate
+from the already accepted raw-zero function ledgers.
 
 See the [v821 SCORE codec closure](reconstruction/op-maine/TH04_OP_SCORE_CODECS_HYBRID_V821.md),
 [v822 shared-sound provenance bound](reconstruction/op-maine/TH04_OP_SND_SE_SHARED_V822.md),

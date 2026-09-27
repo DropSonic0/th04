@@ -452,6 +452,59 @@ and incomplete MZ. The second receipt SHA-256 is
 `a2226805c0f0c149dab115d531e6c1cdb194917b69b16d7abaf2afa9cbd250e6`;
 BGIMAGE's raw OMF differs only in a dependency timestamp.
 
+The cutscene product owner now compiles the maintained
+`cutscene_animate.inl`, `script_op.inl`, `box_bg_snap.inl`, and
+`pic_put_both_masked.inl` through TH04-local translation units. The accepted
+function bodies themselves were not edited. A target and OMF probe checks
+`PI_MASKS` at MAINE `0E53:060C` (decoded load `0xEB3C`), the adjacent
+`BOX_MASKS` at `0E53:062C`, and the initial `CUTSCENE_KANJI` buffer at
+`0E53:0654`: the PI mask object matches all 32 target bytes, while the state
+object matches 44 contiguous mask and glyph bytes with publics at offsets 0
+and 40. Its receipt SHA-256 is
+`07c4ede8d1812ae9346f51e14d41320217536f66deaeea6ca016931bf034a6cd`.
+The buffer begins with two ASCII spaces and two zero bytes; the target's
+decoded load, rather than the candidate MAP alone, establishes those bytes.
+
+The first 92-object product probe attached the glyph loop and background
+snapshot, replacing the unresolved `cutscene_animate()` name with
+`script_op(unsigned char)`. Adding the local script interpreter, PI masks,
+and masked blit yields 95 objects. The no-archive link now has 62 distinct
+unresolved names, no warnings, TLINK exit 1, and a parsable but incomplete MZ
+with 430 relocation entries (receipt SHA-256
+`669aa2d33aa0c90bbbbedb12611a6609771f158299b94c1d36200d2e64cc525d`).
+The seven new names are the previously unreachable masked-pixel writer,
+scroll, byte-box fill, GRCG disable, white fades, and SE update; the cutscene
+C++ bodies themselves are resolved. A second cold build agrees on all 95
+link-relevant and timestamp-normalized OMF objects and the full failure
+signature (receipt SHA-256
+`72b724ec69114d9650f8ae6965e6b6e00e74e847d9f2036bde231466272e5ba4`).
+Only BGIMAGE's raw object dependency timestamp differs. A pinned archive
+public-name inventory routes 60 of the 62 remaining names to 48 historical
+members. `GRAPH_PACK_PUT_8_NOCLIP` and `_snd_se_update` have no archive
+provider; the first has a separate upstream candidate assembly implementation,
+and the second has a TH04 OP accepted source body. Neither is yet a MAINE
+product owner. The archive remains calibration evidence, not a product input.
+After restoring the accepted box-background wrapper composition, the complete
+MAINE cold aggregate passes all 72 accepted function slices raw-zero (receipt
+SHA-256 `a1fff45cf81442a1aa3e0a6ae6c253c958a283e4c1aa1be028dc841fcd118471`).
+
+This exposes two useful TH05 checks: an accepted body can reveal additional
+support calls only after its real caller and command parser are linked, so
+compare symbol identities across cold links; and initialized masks next to
+mutable glyph storage should be checked through both target bytes and OMF
+public offsets before merging them into one data owner. This TH04 cutscene
+wrapper is TH04-only; ReC98's shared TH01–TH05 build response supplied no
+standalone artifact manifest.
+
+The first aggregate repeated the previously recorded v839 isolated-header
+closure failure after a temporary `state.hpp` include in two accepted wrappers.
+Those changes were reverted; both wrapper backends and the complete aggregate
+then passed. The v839 knowledge row remains the reusable TH05 warning.
+The two link receipts above were generated again from this final wrapper
+composition: all 95 link-relevant objects, the 62-name unresolved vector,
+warnings, and failed-link MZ agree. The prior v844 receipts remain historical
+diagnostics with a different wrapper source hash.
+
 ## Current build-graph gaps
 
 - MAIN C/C++ source has 764 quoted include sites whose paths do not resolve
