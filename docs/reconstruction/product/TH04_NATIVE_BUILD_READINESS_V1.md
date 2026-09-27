@@ -799,6 +799,15 @@ timestamp-normalized OMF records. Historical-library calibration passes 599
 MZ relocation sites and 20 far entry ABIs. It borrows temporary memory from
 the still-unresolved TH04 heap owner; page-copy runtime behavior is untested.
 
+The [TH04-local segmented heap](TH04_NATIVE_HEAP_V863.md) adds one source
+unit and closes four MAINE-used names. Two cold 119-TU no-archive builds
+leave 18 unresolved names and agree on link-relevant and timestamp-normalized
+OMF records. Historical-library calibration passes 604 MZ relocation sites
+and 27 far entry ABIs. An isolated DOS runtime probe passes allocation,
+reuse, split, coalescing, and release; it also records a TC4J return-path
+code-generation counterexample that the current source avoids. MAINE itself
+still has no PC-98 runtime checkpoint.
+
 ## Private PC-98 boot diagnostics
 
 `scripts/probes/prepare_th04_maine_diagnostic_hdi.py` creates disposable

@@ -39,8 +39,18 @@ RET_POP = {
     "GRAPH_START": 0,
     "GRAPH_SCROLLUP": 2,
     "GRCG_BYTEBOXFILL_X": 8,
+    "HMEM_ALLOC": 2,
+    "HMEM_ALLOCBYTE": 2,
+    "HMEM_FREE": 2,
+    "MEM_ASSIGN": 4,
+    "MEM_ASSIGN_ALL": 0,
+    "MEM_ASSIGN_DOS": 2,
+    "MEM_UNASSIGN": 0,
     "PALETTE_INIT": 0,
 }
+# These public heap entries are linked but have no MAINE call site yet.
+# Check their return ABI; require a call site for every active entry above.
+OPTIONAL_UNCALLED = {"HMEM_ALLOC", "MEM_ASSIGN", "MEM_ASSIGN_ALL"}
 
 
 def sha(data: bytes) -> str:
@@ -117,8 +127,13 @@ def main() -> int:
         start = segment * 16 + offset
         if start >= len(body):
             raise ValueError(f"public outside load image: {name}")
+        owners = [upper for lower, upper in code_ranges.get(segment, [])
+                  if lower <= offset < upper]
+        if len(owners) != 1:
+            raise ValueError(f"public has no unique code contribution: {name}")
+        end = segment * 16 + min(owners[0], offset + 1024)
         proc = subprocess.run([ndisasm, "-b16", "-o", hex(offset), "-"],
-                              input=body[start:start + 256], capture_output=True,
+            input=body[start:end], capture_output=True,
                               check=True, timeout=10).stdout.decode("ascii")
         first_return = None
         for line in proc.splitlines():
@@ -150,7 +165,7 @@ def main() -> int:
                 displacement = int.from_bytes(body[site + 2:site + 4], "little", signed=True)
                 if (local + 4 + displacement) & 0xFFFF == offset:
                     cs_push_calls.append(site)
-        if not calls and not cs_push_calls:
+        if not calls and not cs_push_calls and name not in OPTIONAL_UNCALLED:
             raise ValueError(f"{name} has no far or CS-pushed same-segment calls")
         rows.append({"public": name, "segment": segment, "offset": offset,
                      "first_return": first_return, "far_call_sites": calls,
