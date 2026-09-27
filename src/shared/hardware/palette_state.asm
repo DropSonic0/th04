@@ -6,11 +6,22 @@
     .data
 
 public _PaletteTone, PaletteTone, _Palettes, Palettes
+public _PalettesInit, PalettesInit
 
 PaletteTone label word
 _PaletteTone dw 100
 
 Palettes label byte
 _Palettes db 48 dup (0) ; 16 RGB triplets, 8 bits per component
+
+PalettesInit label byte
+_PalettesInit db 000h,000h,000h, 000h,000h,0FFh
+              db 0FFh,000h,000h, 0FFh,000h,0FFh
+              db 000h,0FFh,000h, 000h,0FFh,0FFh
+              db 0FFh,0FFh,000h, 0FFh,0FFh,0FFh
+              db 077h,077h,077h, 000h,000h,0AAh
+              db 0AAh,000h,000h, 0AAh,000h,0AAh
+              db 000h,0AAh,000h, 000h,0AAh,0AAh
+              db 0AAh,0AAh,000h, 0AAh,0AAh,0AAh
 
 end

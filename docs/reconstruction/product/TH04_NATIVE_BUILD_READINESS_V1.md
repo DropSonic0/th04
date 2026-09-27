@@ -741,11 +741,26 @@ and into near-return `GRAPH_CLEAR`. Ordinary MZ relocation checks also passed.
 The [far-call ABI note](TH04_NATIVE_FAR_CALL_ABI_V856.md) records the
 rejecting MZ instructions, the conditional TH04 large-model repair, a
 negative-control auditor, and replay commands. `FILE_SIZE` now has a local
-owner as well. The latest 109-TU no-archive link has 32 unresolved names and
+owner as well. The 109-TU no-archive link at that checkpoint had 32 unresolved names and
 zero warnings; two cold OMF builds agree after the known BGIMAGE timestamp
 normalization. Historical-library calibration passes 569-site static MZ
 relocation checks and the new nine-entry, 44-call ABI audit. This removes one
 known stack corruption path; it is not runtime acceptance or product closure.
+
+TH04-local clip defaults, `GRAPH_400LINE`, and the `GRAPH_START` plus
+`PALETTE_INIT` C++ owner now close two more names. An initial TASM graph
+startup attempt failed TLINK with a near-call fixup overflow into
+`GRAPH_CLEAR`; the separate ASM palette initializer exposed the same problem
+calling `PALETTE_SHOW`. These negative compiler observations are recorded in
+the [far-call ABI note](TH04_NATIVE_FAR_CALL_ABI_V856.md). The maintained
+startup uses a C++ producer and checked-in TH04 palette and clip data.
+Two cold 112-TU no-archive builds agree on all link-relevant and
+timestamp-normalized OMF objects, with BGIMAGE raw timestamp drift only;
+both leave 30 names and zero warnings. Historical-library calibration TLINK
+exits 0, its 594 MZ relocation sites pass the two-load audit, and the
+expanded ABI audit checks 12 entries, 48 relocated direct far calls, and one
+same-segment `push cs; call rel16`. Neither these static gates nor the earlier
+OP boot diagnostic proves MAINE runtime behavior.
 
 ## Private PC-98 boot diagnostics
 
@@ -795,7 +810,7 @@ run would not close the TH04-only product link.
   MAINE now has `src/maine/end/entry.cpp` for `main.inl`; other bounded
   `.inl` fragments also lack a product TU; some are historical overlapping
   replay fragments and must be selected by ownership rather than bulk-included.
-- MAINE now has an explicit 109-TU source/order manifest. The other artifacts
+- MAINE now has an explicit 112-TU source/order manifest. The other artifacts
   still need manifests, and the four-artifact product link control plane must
   assign startup objects, system libraries, segments, and outputs. ReC98
   linker responses remain calibration evidence.

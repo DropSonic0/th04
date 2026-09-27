@@ -230,6 +230,13 @@ latest calibration MZ passes 569 relocation sites plus 44 relocated far
 calls into nine audited far-return entries. The
 [focused ABI note](reconstruction/product/TH04_NATIVE_FAR_CALL_ABI_V856.md)
 records the rejecting opcodes, repair, accepted-slice regressions, and limits.
+The next TH04-local graphics batch adds clip defaults, 640x400 mode setup,
+graph startup, and palette initialization. Two cold 112-TU no-archive MAINE
+builds agree after BGIMAGE timestamp normalization and leave 30 names with
+zero warnings. The historical-library calibration links; 594 relocation
+sites pass the DOS load audit and 12 entry ABIs pass for 48 direct far calls
+plus one same-segment `push cs; call`. This is still a static calibration
+artifact; MAINE runtime entry remains unobserved.
 Product closure needs the remaining local runtime providers, a successful
 TH04-only TLINK link, its own MAP/MZ relocation audit, DIET packaging, and a
 candidate PC-98 scenario. OP lacks an entry TU; MAIN

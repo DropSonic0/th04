@@ -28,7 +28,10 @@ RET_POP = {
     "FILE_SEEK": 6,
     "FILE_SIZE": 0,
     "FILE_WRITE": 6,
+    "GRAPH_400LINE": 0,
     "GRAPH_CLEAR": 0,
+    "GRAPH_START": 0,
+    "PALETTE_INIT": 0,
 }
 
 
@@ -69,8 +72,15 @@ def main() -> int:
         for i in range(reloc_count)
     }
     publics = {}
+    code_ranges: dict[int, list[tuple[int, int]]] = {}
     for line in map_bytes.decode("ascii", errors="replace").splitlines():
-        match = re.match(r"^\s*([0-9A-F]{4}):([0-9A-F]{4})\s+([A-Z][A-Z0-9_]+)\s*$", line)
+        contribution = re.match(r"^\s*([0-9A-F]{4}):([0-9A-F]{4})\s+([0-9A-F]{4})\s+C=CODE\b", line)
+        if contribution:
+            segment = int(contribution[1], 16)
+            start = int(contribution[2], 16)
+            length = int(contribution[3], 16)
+            code_ranges.setdefault(segment, []).append((start, start + length))
+        match = re.match(r"^\s*([0-9A-F]{4}):([0-9A-F]{4})\s+(?:idle\s+)?([A-Z][A-Z0-9_]+)\s*$", line)
         if match:
             address = (int(match[1], 16), int(match[2], 16))
             prior = publics.setdefault(match[3], address)
@@ -117,10 +127,26 @@ def main() -> int:
         while (site := body.find(call_bytes, cursor)) != -1:
             calls.append(site)
             cursor = site + 1
-        if not calls or any(site + 3 not in reloc_sites for site in calls):
-            raise ValueError(f"{name} has no far calls or an unrelocated far-call segment")
+        if any(site + 3 not in reloc_sites for site in calls):
+            raise ValueError(f"{name} has an unrelocated far-call segment")
+        # TC4J can implement a far call within CS as PUSH CS; CALL rel16.
+        # Its far callee still needs RETF, but the near displacement needs no
+        # MZ relocation because CS supplies the segment at run time.
+        cs_push_calls = []
+        base = segment * 16
+        for lower, upper in code_ranges.get(segment, []):
+            for local in range(lower, upper - 3):
+                site = base + local
+                if body[site:site + 2] != b"\x0e\xe8":
+                    continue
+                displacement = int.from_bytes(body[site + 2:site + 4], "little", signed=True)
+                if (local + 4 + displacement) & 0xFFFF == offset:
+                    cs_push_calls.append(site)
+        if not calls and not cs_push_calls:
+            raise ValueError(f"{name} has no far or CS-pushed same-segment calls")
         rows.append({"public": name, "segment": segment, "offset": offset,
-                     "first_return": first_return, "far_call_sites": calls})
+                     "first_return": first_return, "far_call_sites": calls,
+                     "cs_push_near_call_sites": cs_push_calls})
     output.mkdir(parents=True)
     receipt = {
         "schema_version": 1,
@@ -130,11 +156,13 @@ def main() -> int:
         "map_sha256": sha(map_bytes),
         "ndisasm_sha256": sha(Path(ndisasm).read_bytes()),
         "total_far_calls": sum(len(row["far_call_sites"]) for row in rows),
+        "total_cs_push_near_calls": sum(len(row["cs_push_near_call_sites"]) for row in rows),
         "functions": rows,
         "limit": "Checks call/return distance, stack cleanup, and relocation presence; runtime behavior and argument values remain unobserved.",
     }
     (output / "receipt.json").write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({"functions": len(rows), "far_calls": receipt["total_far_calls"],
+                      "cs_push_near_calls": receipt["total_cs_push_near_calls"],
                       "relocations": reloc_count}, sort_keys=True))
     return 0
 
