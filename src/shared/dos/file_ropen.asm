@@ -20,9 +20,14 @@ assume cs:_TEXT, ds:DGROUP
 
 public FILE_ROPEN
 
+ifdef TH04_LARGE_PRODUCT
+FILENAME_OFF equ 6
+FILE_ROPEN proc far
+else
 FILENAME_OFF equ 4
-
 FILE_ROPEN proc near
+endif
+
     push bp
     mov bp, sp
 
@@ -31,8 +36,16 @@ FILE_ROPEN proc near
     cmp bx, -1
     jne short ropen_done
 
+ifdef TH04_LARGE_PRODUCT
+    push ds
+    lds dx, dword ptr [bp+FILENAME_OFF]
+    mov ax, 3D00h
+    int 21h
+    pop ds
+else
     push word ptr [bp+FILENAME_OFF]
     call DOS_ROPEN
+endif
     sbb bx, bx
     or ax, bx
     mov file_Handle, ax
@@ -49,7 +62,11 @@ FILE_ROPEN proc near
 
 ropen_done:
     pop bp
+ifdef TH04_LARGE_PRODUCT
+    retf 4
+else
     ret 2
+endif
 FILE_ROPEN endp
 
 even

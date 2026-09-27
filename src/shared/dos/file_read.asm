@@ -18,10 +18,15 @@ _TEXT segment word public 'CODE' use16
 assume cs:_TEXT, ds:DGROUP
 public FILE_READ
 
+ifdef TH04_LARGE_PRODUCT
+BUF_PTR   equ 8
+READ_SIZE equ 6
+FILE_READ proc far
+else
 BUF_PTR   equ 6
 READ_SIZE equ 4
-
 FILE_READ proc near
+endif
     push bp
     mov bp, sp
     push si
@@ -109,7 +114,11 @@ exit_loop:
     pop di
     pop si
     pop bp
+ifdef TH04_LARGE_PRODUCT
+    retf 6
+else
     ret 6
+endif
 even
 FILE_READ endp
 

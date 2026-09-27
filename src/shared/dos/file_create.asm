@@ -22,9 +22,13 @@ assume cs:_TEXT, ds:DGROUP
 
 public FILE_CREATE
 
+ifdef TH04_LARGE_PRODUCT
+FILENAME_OFF equ 6
+FILE_CREATE proc far
+else
 FILENAME_OFF equ 4
-
 FILE_CREATE proc near
+endif
     push bp
     mov bp, sp
 
@@ -33,11 +37,23 @@ FILE_CREATE proc near
     cmp bx, -1
     jne short create_done
 
+ifdef TH04_LARGE_PRODUCT
+    push ds
+    lds dx, dword ptr [bp+FILENAME_OFF]
+    mov cx, 20h
+    mov ah, 3Ch
+    int 21h
+    pop ds
+    sbb dx, dx
+    xor ax, dx
+    sub ax, dx
+else
     mov cx, 20h
     mov ah, 3Ch
     push ax
     push word ptr [bp+FILENAME_OFF]
     call DOS_AXDX
+endif
     or ax, dx
     mov file_Handle, ax
 
@@ -54,7 +70,11 @@ FILE_CREATE proc near
 
 create_done:
     pop bp
+ifdef TH04_LARGE_PRODUCT
+    retf 4
+else
     ret 2
+endif
 FILE_CREATE endp
 
 even

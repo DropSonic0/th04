@@ -14,7 +14,11 @@ _TEXT segment word public 'CODE' use16
 assume cs:_TEXT, ds:DGROUP
 public GRAPH_CLEAR
 
+ifdef TH04_LARGE_PRODUCT
+GRAPH_CLEAR proc far
+else
 GRAPH_CLEAR proc near
+endif
     mov al, 80h
     pushf
     cli
@@ -36,7 +40,11 @@ GRAPH_CLEAR proc near
     mov di, bx
 
     out 7ch, al
+ifdef TH04_LARGE_PRODUCT
+    retf
+else
     ret
+endif
 GRAPH_CLEAR endp
 
 even

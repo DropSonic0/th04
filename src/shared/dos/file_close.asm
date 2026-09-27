@@ -69,12 +69,20 @@ FILE_FLUSH endp
 
 even
 
+ifdef TH04_LARGE_PRODUCT
+FILE_CLOSE proc far
+else
 FILE_CLOSE proc near
+endif
     call FILE_FLUSH
     mov ah, 3Eh
     int 21h
     mov file_Handle, -1
+ifdef TH04_LARGE_PRODUCT
+    retf
+else
     ret
+endif
 FILE_CLOSE endp
 
 _TEXT ends

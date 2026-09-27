@@ -222,6 +222,14 @@ no-archive MAINE link leaves 33 unresolved names and zero warnings; two cold
 OMF builds agree after BGIMAGE timestamp normalization. The historical-library
 calibration MZ links and passes its 569-site relocation/load audit. Joystick
 hardware behavior remains unobserved; this is not product closure.
+The file-I/O and `GRAPH_CLEAR` product ABI review found that an earlier
+calibration MZ had far calls into near-return local ASM despite passing
+TLINK and MZ relocation checks. Product-only far entry/return branches and
+a local `FILE_SIZE` owner now leave 32 unresolved names over 109 TUs. The
+latest calibration MZ passes 569 relocation sites plus 44 relocated far
+calls into nine audited far-return entries. The
+[focused ABI note](reconstruction/product/TH04_NATIVE_FAR_CALL_ABI_V856.md)
+records the rejecting opcodes, repair, accepted-slice regressions, and limits.
 Product closure needs the remaining local runtime providers, a successful
 TH04-only TLINK link, its own MAP/MZ relocation audit, DIET packaging, and a
 candidate PC-98 scenario. OP lacks an entry TU; MAIN

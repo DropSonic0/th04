@@ -18,11 +18,17 @@ assume cs:_TEXT, ds:DGROUP
 
 public FILE_SEEK, FILE_TELL
 
+ifdef TH04_LARGE_PRODUCT
+SEEK_DIR    equ 6
+SEEK_POS_LO equ 8
+SEEK_POS_HI equ 10
+FILE_SEEK proc far
+else
 SEEK_DIR    equ 4
 SEEK_POS_LO equ 6
 SEEK_POS_HI equ 8
-
 FILE_SEEK proc near
+endif
     call FILE_FLUSH
     cmp bx, -1
     je short seek_error
@@ -46,7 +52,11 @@ FILE_SEEK proc near
     mov word ptr file_BufferPos+2, dx
 
 seek_error:
+ifdef TH04_LARGE_PRODUCT
+    retf 6
+else
     ret 6
+endif
 FILE_SEEK endp
 
 even

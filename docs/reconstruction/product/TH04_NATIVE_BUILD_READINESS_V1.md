@@ -735,6 +735,18 @@ warning; its 569 MZ relocations, entry, stack, and two DOS load tests pass
 `c44fe1f7287eca9386b7b8ed7a849c39acf54fbe7103bc5fc65bffa5ca9bc980`
 and `114b891d372119d7c2446d28070130f05fe11892a55fe1a5ff3723a006c3a83a`).
 
+The product link then exposed a separate, more serious ABI blocker: TLINK
+accepted MAINE's far calls into seven existing near-return `FILE_*` owners
+and into near-return `GRAPH_CLEAR`. Ordinary MZ relocation checks also passed.
+The [far-call ABI note](TH04_NATIVE_FAR_CALL_ABI_V856.md) records the
+rejecting MZ instructions, the conditional TH04 large-model repair, a
+negative-control auditor, and replay commands. `FILE_SIZE` now has a local
+owner as well. The latest 109-TU no-archive link has 32 unresolved names and
+zero warnings; two cold OMF builds agree after the known BGIMAGE timestamp
+normalization. Historical-library calibration passes 569-site static MZ
+relocation checks and the new nine-entry, 44-call ABI audit. This removes one
+known stack corruption path; it is not runtime acceptance or product closure.
+
 ## Private PC-98 boot diagnostics
 
 `scripts/probes/prepare_th04_maine_diagnostic_hdi.py` creates disposable
@@ -783,7 +795,7 @@ run would not close the TH04-only product link.
   MAINE now has `src/maine/end/entry.cpp` for `main.inl`; other bounded
   `.inl` fragments also lack a product TU; some are historical overlapping
   replay fragments and must be selected by ownership rather than bulk-included.
-- MAINE now has an explicit 108-TU source/order manifest. The other artifacts
+- MAINE now has an explicit 109-TU source/order manifest. The other artifacts
   still need manifests, and the four-artifact product link control plane must
   assign startup objects, system libraries, segments, and outputs. ReC98
   linker responses remain calibration evidence.

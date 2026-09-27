@@ -20,9 +20,13 @@ assume cs:_TEXT, ds:DGROUP
 
 public FILE_APPEND
 
+ifdef TH04_LARGE_PRODUCT
+FILENAME_OFF equ 6
+FILE_APPEND proc far
+else
 FILENAME_OFF equ 4
-
 FILE_APPEND proc near
+endif
     push bp
     mov bp, sp
 
@@ -31,10 +35,21 @@ FILE_APPEND proc near
     cmp bx, -1
     jne short append_exit
 
+ifdef TH04_LARGE_PRODUCT
+    push ds
+    lds dx, dword ptr [bp+FILENAME_OFF]
+    mov ax, 3D02h
+    int 21h
+    pop ds
+    sbb dx, dx
+    xor ax, dx
+    sub ax, dx
+else
     mov ax, 3D02h
     push ax
     push word ptr [bp+FILENAME_OFF]
     call DOS_AXDX
+endif
     or ax, dx
     mov file_Handle, ax
     mov cx, ax
@@ -61,7 +76,11 @@ FILE_APPEND proc near
 
 append_exit:
     pop bp
+ifdef TH04_LARGE_PRODUCT
+    retf 4
+else
     ret 2
+endif
 FILE_APPEND endp
 
 _TEXT ends

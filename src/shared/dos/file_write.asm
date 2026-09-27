@@ -18,11 +18,17 @@ assume cs:_TEXT, ds:DGROUP
 
 public FILE_WRITE
 
+ifdef TH04_LARGE_PRODUCT
+WRITE_SIZE equ 6
+BUF_OFF    equ 8
+BUF_SEG    equ 10
+FILE_WRITE proc far
+else
 WRITE_SIZE equ 4
 BUF_OFF    equ 6
 BUF_SEG    equ 8
-
 FILE_WRITE proc near
+endif
     push bp
     mov bp, sp
     push si
@@ -108,7 +114,11 @@ write_done:
     pop si
     mov sp, bp
     pop bp
+ifdef TH04_LARGE_PRODUCT
+    retf 6
+else
     ret 6
+endif
 
 even
 FILE_WRITE endp

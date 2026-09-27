@@ -91,6 +91,7 @@ asm_sources = [
   "src/shared/dos/file_read.asm",
   "src/shared/dos/file_ropen.asm",
   "src/shared/dos/file_seek.asm",
+  "src/shared/dos/file_size.asm",
   "src/shared/dos/file_state.asm",
   "src/shared/dos/file_write.asm",
   "src/shared/dos/resdata.asm",
