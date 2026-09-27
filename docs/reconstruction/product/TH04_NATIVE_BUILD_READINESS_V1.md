@@ -694,6 +694,29 @@ and `afe4b0f6603834d1c0309dcc8d0ece114ea2d39e512b6456c04ba2651e93fd1c`).
 The historical archive and its dictionary warning still limit this artifact
 to calibration.
 
+`palette_fade.cpp` now owns the four black/white fades in the TH04 product
+source. Each begins at its reference tone, aligns to the next vertical blank,
+calls `PALETTE_SHOW` at six-tone steps, waits the signed 16-bit speed in
+vertical blanks, and forces the endpoint tone. `vsync_wait.cpp` uses the
+PC-98 GDC status port `0xA0` bit `0x20` to wait for the next rising edge;
+TC4J emitted two real `in` polling loops and a far return. This is the
+port-polling path only; interrupt-backed timing and actual emulator behavior
+remain unobserved.
+
+The 107-object no-archive link has 38 unresolved names, down exactly the
+four fade entry points, and zero warnings. Both cold rounds agree on every
+link-relevant and timestamp-normalized OMF object, with BGIMAGE raw
+dependency timestamp drift only (receipt SHA-256
+`1864605bef36322beb1e0c767e0797833b1cd5cf1b29846f74146a7ae136cdbf`
+and `0997164f68ed9958ad3918d38f2ae82648badf90c47358bafe198f801abd17b4`).
+The historical-library calibration links without near-call fixup errors;
+its 573-site MZ passes the static relocation, entry, stack, and two DOS load
+checks (receipt SHA-256
+`a7a1e11638a557e7b8900a83704c67240b9e4e4f4bbeb5ec613a014be6517149`
+and `0a74cd716243c54b36c918ef8b75438999c4bb708b097a409a7e59159f0c6827`).
+The archive dictionary warning persists. The source manifest now lists 71
+C/C++ and 36 ASM TUs.
+
 ## Current build-graph gaps
 
 - MAIN C/C++ source has 764 quoted include sites whose paths do not resolve
@@ -704,7 +727,7 @@ to calibration.
   MAINE now has `src/maine/end/entry.cpp` for `main.inl`; other bounded
   `.inl` fragments also lack a product TU; some are historical overlapping
   replay fragments and must be selected by ownership rather than bulk-included.
-- MAINE now has an explicit 105-TU source/order manifest. The other artifacts
+- MAINE now has an explicit 107-TU source/order manifest. The other artifacts
   still need manifests, and the four-artifact product link control plane must
   assign startup objects, system libraries, segments, and outputs. ReC98
   linker responses remain calibration evidence.

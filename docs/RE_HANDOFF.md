@@ -206,6 +206,11 @@ The current manifest has 105 TUs after adding local palette state and analog
 Two cold rounds agree. The historical-library calibration still links, and
 all 569 MZ relocation sites pass the static audit. LCD palette behavior and
 PC-98 runtime output remain unobserved.
+The latest 107-TU manifest also includes four local palette fades and
+port-polled `VSYNC_WAIT`. Its no-archive link has 38 unresolved names and zero
+warnings; cold OMF comparison passes. Historical-library calibration still
+links, and all 573 relocation sites pass the static DOS load audit. The
+candidate has not yet been run in a PC-98 emulator.
 Product closure needs the remaining local runtime providers, a successful
 TH04-only TLINK link, its own MAP/MZ relocation audit, DIET packaging, and a
 candidate PC-98 scenario. OP lacks an entry TU; MAIN
