@@ -14,10 +14,11 @@ source evidence.
 
 ## Current open questions
 
-Reconstruction is paused for repository maintenance. Use the live ledgers and
+Native product-build investigation is active. Use the live ledgers and
 [`RE_HANDOFF.md`](../RE_HANDOFF.md) for current counts and acceptance. These
 notes explain the remaining source and container gaps:
 
+- [Native DOS product build readiness and source-graph gaps](product/TH04_NATIVE_BUILD_READINESS_V1.md)
 - [OP strict source blockers](op-maine/TH04_OP_STRICT_FRONTIER_V766.md)
 - [MAINE strict source blockers](op-maine/TH04_MAINE_STRICT_FRONTIER_V732.md)
 - [ZUN resident `_main` and `cfg_init` blockers](zun/TH04_ZUN_MAIN_V241.md)

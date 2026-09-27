@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-27 after the MAIN aggregate build check. This is the
+Updated 2026-09-27 after the native product-build review. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -155,6 +155,18 @@ runtime-tested replacement. Next
 work is packed-container ownership, DIET/link-layout closure, standalone
 product construction, and a candidate runtime scenario; the two MAIN bodies
 remain unresolved exactness work.
+
+The [native product-build readiness note](reconstruction/product/TH04_NATIVE_BUILD_READINESS_V1.md)
+records a separate compiler observation: a repository-only `src/` snapshot
+compiled all 48 OP and 26 MAINE C++ translation units into valid OMF with
+pinned TC4J. Four shared C/C++ units still need local or attested compatibility
+headers; BGIMAGE builds through its established `-B`/TASM32 path. MAIN has 102
+distinct unresolved quoted header paths, and the OP/MAINE entry `.inl` bodies
+are not yet included by product TUs. No repository-owned whole-artifact link or
+candidate runtime acceptance follows from the compiler probe. The immediate
+build lane is source-graph closure, serial product links, MZ/relocation checks,
+DIET packaging, then a candidate PC-98 scenario. Raw target equality stays
+on its separate exactness ledger.
 
 See the [v821 SCORE codec closure](reconstruction/op-maine/TH04_OP_SCORE_CODECS_HYBRID_V821.md),
 [v822 shared-sound provenance bound](reconstruction/op-maine/TH04_OP_SND_SE_SHARED_V822.md),
