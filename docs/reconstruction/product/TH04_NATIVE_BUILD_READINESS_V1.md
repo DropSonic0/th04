@@ -576,6 +576,32 @@ For TH05, a source-hash guard failure after a controlled wrapper edit needs
 both an updated guard and a fresh byte-and-relocation replay; a hash edit alone
 does not establish preservation.
 
+The next TH04-local hardware owner is `src/shared/hardware/display_control.asm`.
+Its four far Pascal entry points perform the PC-98 BIOS graphics show/hide
+calls, disable the GRCG, and set the GRCG mode and four color tile registers.
+The tile update preserves the caller's interrupt flags and the callee-saved
+`BP`, `CX`, and `DX`; `GRCG_SETCOLOR` returns with `retf 4` for its two word
+arguments. This is hardware assembly, not a target-byte reconstruction.
+The PC-98 BIOS service numbers and GRCG register sequence were corroborated
+against `_reference/ReC98/libs/master.lib/{graph_hide,graph_show,grcg_setcolor}.asm`;
+that source does not establish TH04 target-byte identity.
+TASM32 produced a valid OMF object with four matching public names and no
+fixups. A disassembly of its 54 code bytes verified the far returns and the
+parameter offsets. Behavior on PC-98 hardware remains to be observed.
+
+The 98-object TH04-only no-archive link now has 57 unresolved support names,
+down exactly four, and zero warnings. Two cold rounds agree on every
+link-relevant and timestamp-normalized OMF object; the BGIMAGE raw dependency
+timestamp is the only object drift (receipt SHA-256
+`7d98c10359530f11e59d15ec787d1d9bad4d1bf133f3ab8811dbf9d93f384da4`
+and `8e546500f151bd70f10772674cd0e2d91a5a14e3568113a50f4b3ee72aabbfa7`).
+The historical-library calibration still links with no unresolved names or
+near-call fixup errors. Its 573-relocation MZ passes the static load audit at
+both tested DOS segments (receipt SHA-256
+`1d3600369c7c7aa66e9a1ae4e107f9cbde005e2aa87db47de167d62dd24f6c99`
+and `f35dd54632ceffc437c957690b29a96cb1e15a660da3da05aa65528a6c7d28a7`).
+The archive warning and product/runtime limits remain.
+
 ## Current build-graph gaps
 
 - MAIN C/C++ source has 764 quoted include sites whose paths do not resolve

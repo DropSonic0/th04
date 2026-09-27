@@ -164,7 +164,7 @@ cutscene, sound-effect update, and unclipped PI writer now have product owners.
 The cutscene PI masks and adjacent box/glyph data match the attested target
 in their compiled OMF owners. Two cold no-archive links agree on every
 link-relevant and timestamp-normalized object; BGIMAGE differs only in a
-dependency timestamp. Both links fail TLINK with 61 unresolved support names
+dependency timestamp. Those 97-object links fail TLINK with 61 support names
 and zero warnings. Their parsable MZ files and 432 relocation entries are
 incomplete diagnostics, not runnable candidates.
 The affected MAINE cold aggregate passes all 72 accepted function slices
@@ -172,7 +172,7 @@ raw-zero after the cutscene additions; receipt SHA-256
 `a1fff45cf81442a1aa3e0a6ae6c253c958a283e4c1aa1be028dc841fcd118471`.
 
 The historical `masters.lib` remains an ABI-incompatible calibration input.
-All 61 unresolved names route to 49 historical archive members by public
+The prior 61 unresolved names route to 49 historical archive members by public
 name. A product-only C++ compile branch now puts the four MAINE near-code
 segments in `GROUP_01`; the exact replay branch retains its original groups.
 The historical-library calibration link consequently exits 0 with no unresolved
@@ -183,6 +183,10 @@ The product-group wrapper edit passed a focused SCORE codec replay and the
 full cold MAINE aggregate: all 72 accepted function slices remain raw-zero
 (aggregate receipt SHA-256
 `fda5aab5ce3d50fba8f8693f34915896657cd95999b55e9b86bd96e25ceefe03`).
+TH04-local display controls now own `GRAPH_HIDE`, `GRAPH_SHOW`, `GRCG_OFF`,
+and `GRCG_SETCOLOR`. The current 98-object no-archive link has 57 unresolved
+names and zero warnings; two cold rounds agree. The historical-library
+calibration still links, and its 573 MZ relocation sites pass the static audit.
 Product closure needs the remaining local runtime providers, a successful
 TH04-only TLINK link, its own MAP/MZ relocation audit, DIET packaging, and a
 candidate PC-98 scenario. OP lacks an entry TU; MAIN
