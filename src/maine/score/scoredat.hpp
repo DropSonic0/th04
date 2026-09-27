@@ -41,6 +41,9 @@ enum {
     gs_DOT = 0xC4,
     gs_ALL = 0xE9,
     ES_EXTRA = 0xFD,
+    SCOREDAT_CLEARED_A = 1,
+    SCOREDAT_CLEARED_B = 2,
+    SCOREDAT_CLEARED_BOTH = 3,
 };
 
 #endif

@@ -384,6 +384,51 @@ reports the archive's invalid extended-dictionary warning. The partial MZ has
 receipt SHA-256:
 `b77239850bc753f6972bbae6dc20634a69808ab32c00c70707620c02d83c7c77`.
 
+The next local owner is `src/maine/score/regist.cpp`, which includes the
+accepted 924-byte `regist_menu` body in `SCORE_TEXT` with TH04 declarations.
+A target-only probe identifies one 126-byte registration resource block at
+MAINE decoded load `0xEDBB`: `hi01.pi`, `scnum2.bft`, two separately
+addressable copies of the 50-byte Shift-JIS slow-mode notice, and `name`.
+`regist_resources.cpp` emits the same contiguous block once in its freshly
+compiled OMF. The local input flag values agree with owned `input_s.asm`, and
+the `graph_putsa_fx` declaration follows the owned FAR Pascal ASM's `RETF 10`.
+TC4J confirms `playchar_t` occupies one byte in the current profile; the
+product state now uses that type. The first focused compile failed because
+`resident.hpp` relies on `types.hpp` for the 16-bit Borland `bool`; the new
+wrapper includes the latter first and then compiles. Keep this include order
+when migrating TH05 wrappers, or explicitly update and cold-replay all old
+isolated snapshot closures before changing a shared header.
+
+The fresh 87-object no-archive link resolves `regist_menu()` and exposes
+`SUPER_ENTRY_BFNT` and `SUPER_FREE`; the total unresolved vector is now 56
+with zero warnings and TLINK exit 1 (receipt SHA-256
+`a6b3ee7260f06bc59979bd187d07c171e8723e33b24baca4a825f9ca821e94cd`).
+No partial MZ or relocation count from this failed link is product evidence.
+The affected MAINE 72-slice cold aggregate passed all accepted raw-zero
+comparisons after the input/playchar/score declaration changes (receipt
+SHA-256 `871e1398afab56d030e7d0ea04688ca497cc0f40bc01df466cdd00a5ed2726be`).
+An independent second 87-object no-archive build agrees on every
+link-relevant and timestamp-normalized OMF object, the 56-name unresolved
+vector, warning vector, and incomplete MZ. Its receipt SHA-256 is
+`ae12c7fe1ce0fd1b7d056937671b0abf4eb369cee3eb15a66f27b9b547c91a31`;
+only BGIMAGE's raw OMF dependency timestamp differs. This remains a
+deterministic failed product link.
+An independently recorded TLIB public-name inventory maps 54 of those 56
+names to 43 members of the pinned historical archive. Only the two remaining
+C++ bodies have no archive public-name provider. This gives a bounded local
+runtime porting queue; a public-name match does not attest memory model,
+calling convention, fixups, or suitability for a standalone product.
+`scripts/probes/inventory_th04_maine_support.py` checks the no-archive receipt,
+archive digest, and TLIB listing digest before reporting this mapping.
+
+For the following verdict owner, a target-only probe identifies a unique
+274-byte display data block at MAINE decoded load `0xEC4A` (candidate MAP
+`0E53:071A`). It checks eight CP932 label/file anchors, including `_ude.txt`
+and the slowdown verdict text; SHA-256 is
+`6d588142d2da59f6b695df4bf51f6e77ca1fc3ca36e206278ae2f5774324a8aa`.
+This prepares an ownership boundary only. The verdict's helper code, state,
+resource arrays, and runtime reads have not yet been attached to the product.
+
 ## Current build-graph gaps
 
 - MAIN C/C++ source has 764 quoted include sites whose paths do not resolve

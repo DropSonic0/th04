@@ -1,9 +1,10 @@
 #include "src/maine/score/scoredat.hpp"
+#include "src/maine/score/playchar.hpp"
 
 // Resident score data and the current registration selection.
 scoredat_section_t hi;
 unsigned char rank;
-unsigned char playchar;
+playchar_t playchar;
 unsigned char entered_place;
 
 // Three rows of 17 TH04 gaiji codes for the name-entry keyboard.

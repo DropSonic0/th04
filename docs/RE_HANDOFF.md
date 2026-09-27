@@ -185,10 +185,18 @@ and exposes `GRCG_SETCOLOR`; 55 distinct externals remain, and TLINK still
 exits nonzero. The same 85 objects with the historical archive used only for
 calibration leave exactly the other three C++ bodies unresolved and still fail
 TLINK. Compare symbol identities, not just counts.
+The TH04-local registration TU and its 126-byte target-attested resource block
+also compile. The next 87-object no-archive link resolves `regist_menu` and
+exposes `SUPER_ENTRY_BFNT` plus `SUPER_FREE`; 56 names remain and TLINK still
+fails. A pinned TLIB public-name inventory routes 54 support names to 43
+historical archive members; the two C++ bodies lack archive providers. This
+is an owner queue, not an accepted product ABI. Shared input/playchar/score
+declaration changes passed the MAINE 72-slice cold aggregate raw-zero;
+receipt SHA-256 `871e1398afab56d030e7d0ea04688ca497cc0f40bc01df466cdd00a5ed2726be`.
 The [readiness note](reconstruction/product/TH04_NATIVE_BUILD_READINESS_V1.md)
 records target data offsets, cold receipts, the DGROUP failure and repair,
 the ReC98 TH01 build-method comparison, and TH05 reuse guidance. OP still
-lacks an entry TU. The immediate lane is the three remaining MAINE bodies, local runtime
+lacks an entry TU. The immediate lane is the two remaining MAINE bodies, local runtime
 support, serial product links, MZ/relocation checks, DIET packaging, and a
 candidate PC-98 scenario. Raw target equality stays on its separate ledger.
 
