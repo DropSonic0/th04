@@ -58,6 +58,7 @@ c_sources = [
   "src/shared/hardware/egc_control.cpp",
   "src/shared/hardware/frame_delay.cpp",
   "src/shared/hardware/graph_pack_put_8_noclip.cpp",
+  "src/shared/hardware/graph_pi_free.cpp",
   "src/shared/hardware/graph_start.cpp",
   "src/shared/hardware/input_wait.cpp",
   "src/shared/hardware/palette_fade.cpp",

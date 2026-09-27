@@ -243,6 +243,12 @@ builds agree after BGIMAGE timestamp normalization; historical-library
 calibration links and passes 594 MZ relocation sites plus 14 entry ABIs.
 The [focused graphics note](reconstruction/product/TH04_NATIVE_SCROLL_BOX_V858.md)
 records semantic and runtime limits.
+The [PI cleanup note](reconstruction/product/TH04_NATIVE_PI_FREE_V859.md)
+records the next local far Pascal owner and a TC4J `const far*` segment-cast
+failure/recovery. Two cold 115-TU no-archive builds agree and leave 27 names;
+historical-library calibration passes 597 MZ relocations and 15 far entry
+ABIs. `HMEM_FREE` is still unresolved, and no MAINE runtime checkpoint has
+exercised this path.
 Product closure needs the remaining local runtime providers, a successful
 TH04-only TLINK link, its own MAP/MZ relocation audit, DIET packaging, and a
 candidate PC-98 scenario. OP lacks an entry TU; MAIN

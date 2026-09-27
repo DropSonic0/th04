@@ -771,6 +771,13 @@ link-relevant OMF records. Historical-library calibration links and passes
 594 MZ relocation sites plus the expanded 14-entry call ABI audit. No
 MAINE runtime checkpoint has exercised these hardware paths yet.
 
+The [TH04-local PI cleanup owner](TH04_NATIVE_PI_FREE_V859.md) adds a 115th
+source unit. Two cold no-archive builds leave 27 unresolved names with zero
+warnings and agree on link-relevant and timestamp-normalized OMF objects.
+Historical-library calibration passes 597 MZ relocation sites and 15 far
+entry ABIs, including `GRAPH_PI_FREE` with `RETF 8`. `HMEM_FREE` remains a
+separate TH04-owned requirement; no runtime PI cleanup observation exists.
+
 ## Private PC-98 boot diagnostics
 
 `scripts/probes/prepare_th04_maine_diagnostic_hdi.py` creates disposable
