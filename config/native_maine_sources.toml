@@ -122,6 +122,7 @@ asm_sources = [
   "src/shared/hardware/palette_state.asm",
   "src/shared/hardware/text_control.asm",
   "src/shared/hardware/vram_state.asm",
+  "src/shared/hardware/vsync_irq.asm",
   "src/shared/math/trig_tables.asm",
   "src/shared/pc98/graph_clear.asm",
   "src/shared/runtime/file_exist.asm",

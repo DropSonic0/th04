@@ -47,6 +47,8 @@ RET_POP = {
     "MEM_ASSIGN_DOS": 2,
     "MEM_UNASSIGN": 0,
     "PALETTE_INIT": 0,
+    "VSYNC_START": 0,
+    "VSYNC_END": 0,
 }
 # These public heap entries are linked but have no MAINE call site yet.
 # Check their return ABI; require a call site for every active entry above.

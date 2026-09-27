@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-27 after the MAINE native graphics-page batch. This is the
+Updated 2026-09-27 after the MAINE native VSync batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -160,28 +160,27 @@ remain unresolved exactness work.
 
 The [native product-build readiness note](reconstruction/product/TH04_NATIVE_BUILD_READINESS_V1.md)
 and `config/native_maine_sources.toml` define the current TH04-only MAINE
-source order. Pinned TC4J/TASM32 builds all 119 maintained translation units
-(77 C++, 42 ASM). Two cold no-archive builds agree on link-relevant and
+source order. Pinned TC4J/TASM32 builds all 120 maintained translation units
+(77 C++, 43 ASM). Two cold no-archive builds agree on link-relevant and
 timestamp-normalized OMF records, with only BGIMAGE raw timestamp drift; TLINK
-still reports 18 unresolved names and zero warnings. The historical
+still reports 15 unresolved names and zero warnings. The historical
 `masters.lib` calibration links, but is not a standalone product: its MZ
 passes 604 relocation sites at two DOS load segments and the call audit checks
-27 far entry ABIs, 107 relocated direct far calls, and one same-CS far call.
-See the [segmented-heap receipt note](reconstruction/product/TH04_NATIVE_HEAP_V863.md)
-for current hashes, isolated DOS runtime coverage, and the TC4J merged-return
-failure. This work has not reached MAINE at PC-98 runtime.
+29 far entry ABIs, 110 relocated direct far calls, and one same-CS far call.
+See the [VSync receipt note](reconstruction/product/TH04_NATIVE_VSYNC_V864.md)
+for current hashes and isolated DOS vector-lifecycle coverage. This work has
+not reached MAINE at PC-98 runtime.
 Start with `python3 scripts/probes/probe_th04_native_maine_link.py --check-manifest`;
 the focused notes give the cold-link, comparator, MZ,
 and call-ABI commands with fresh private output directories.
 
-The current 18 names group as follows: packed-file service `PFSTART`,
-`PFEND`, `_bbufsiz`; VSYNC `VSYNC_START`, `VSYNC_END`,
-`_vsync_Count1`; sound `BGM_INIT`, `BGM_FINISH`, `BGM_READ_SDATA`,
+The current 15 names group as follows: packed-file service `PFSTART`,
+`PFEND`, `_bbufsiz`; sound `BGM_INIT`, `BGM_FINISH`, `BGM_READ_SDATA`,
 `BGM_SOUND`; graphics `GRAPH_PI_LOAD_PACK`,
 `GRAPH_PACK_PUT_8`; text gaiji
 `GAIJI_BACKUP`, `GAIJI_RESTORE`, `GAIJI_ENTRY_BFNT`; and sprite storage
 `SUPER_PUT`, `SUPER_FREE`, `SUPER_ENTRY_BFNT`. The no-archive receipt at
-`.analysis/reconstruction/probes/native-maine-heap-v2-a-20260927/receipt.json`
+`.analysis/reconstruction/probes/native-maine-vsync-v1-a-20260927/receipt.json`
 is the current private failure vector. New probes require fresh private output
 directories and only one writable Borland/Wine build at a time.
 

@@ -808,6 +808,13 @@ reuse, split, coalescing, and release; it also records a TC4J return-path
 code-generation counterexample that the current source avoids. MAINE itself
 still has no PC-98 runtime checkpoint.
 
+The [TH04-local VSync interrupt owner](TH04_NATIVE_VSYNC_V864.md) adds one
+assembly unit and closes three further names. Two cold 120-TU no-archive
+builds leave 15 unresolved names. Its isolated DOS runtime probe checks the
+INT 0Ah counters, far callback, and INT 0Ah/18h vector restoration. The
+historical-library calibration passes 604 MZ relocation sites and 29 far
+entry ABIs; PC-98 interrupt timing remains untested.
+
 ## Private PC-98 boot diagnostics
 
 `scripts/probes/prepare_th04_maine_diagnostic_hdi.py` creates disposable
