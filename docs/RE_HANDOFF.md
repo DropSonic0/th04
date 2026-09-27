@@ -166,8 +166,8 @@ objects; BGIMAGE's sole raw-object difference is a TASM dependency timestamp.
 BGIMAGE builds through its established `-B`/TASM32 path. MAIN has 102
 distinct unresolved quoted include paths, including source fragments. MAINE
 has a TH04-only entry TU, SCORE EGC copy TU, and target-attested local state
-for cutscenes, VRAM/input, sound, PI, score, and CDG. The current 83-object
-native MAINE diagnostic under pinned TC4J/TASM32/TLINK has only four unresolved
+for cutscenes, VRAM/input, sound, PI, score, and CDG. The 83-object
+native MAINE diagnostic under pinned TC4J/TASM32/TLINK has four unresolved
 function bodies: `cutscene_animate`, `staffroll_animate`, `verdict_animate`,
 and `regist_menu`. Its external historical `masters.lib` is a calibration
 input, not a product dependency; removing it exposes 51 more PC-98 runtime
@@ -179,10 +179,16 @@ while the ZUN accepted OMF and 6360-byte component remain unchanged in cold
 replay. TLINK still exits nonzero and may write a parsable but incomplete MZ;
 no candidate can run yet. The affected MAINE 72-slice cold aggregate passed;
 receipt SHA-256 `e8fa13b97ea73cdf10533671d1b8f2c87726b9052e38a823159d921c7e5c2616`.
+The new TH04-local staffroll TU and 21 target-attested resources compile. An
+85-object source link with no historical archive resolves `staffroll_animate`
+and exposes `GRCG_SETCOLOR`; 55 distinct externals remain, and TLINK still
+exits nonzero. The same 85 objects with the historical archive used only for
+calibration leave exactly the other three C++ bodies unresolved and still fail
+TLINK. Compare symbol identities, not just counts.
 The [readiness note](reconstruction/product/TH04_NATIVE_BUILD_READINESS_V1.md)
 records target data offsets, cold receipts, the DGROUP failure and repair,
 the ReC98 TH01 build-method comparison, and TH05 reuse guidance. OP still
-lacks an entry TU. The immediate lane is the four MAINE bodies, local runtime
+lacks an entry TU. The immediate lane is the three remaining MAINE bodies, local runtime
 support, serial product links, MZ/relocation checks, DIET packaging, and a
 candidate PC-98 scenario. Raw target equality stays on its separate ledger.
 

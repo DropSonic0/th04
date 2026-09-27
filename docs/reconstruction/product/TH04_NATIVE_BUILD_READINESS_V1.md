@@ -337,12 +337,52 @@ objects use an ABI unsuitable as a drop-in large-model product dependency.
 It remains a link-frontier diagnostic; TH04's runnable product still needs
 local, ABI-checked runtime owners.
 
+The native link probe now has `--without-support`, which performs the entire
+serial TH04 source/OMF build and omits the historical archive from the TLINK
+response. Its fresh 83-object run reproduces the 55-name frontier with zero
+warnings and a nonzero linker exit (receipt SHA-256
+`6211764483f4996991d6d11ee91f4e13cbf521322364bf84b13b9979adbcf17f`).
+The receipt records `support_lib_sha256 = null`, so the omitted archive is
+visible in the replay identity rather than inferred from a manually edited
+response.
+
 For the next body-owner pass, a target-only probe attests 21 contiguous
 staffroll resource filenames at MAINE load `0xEB88` and the verdict image
 name `ude.pi` uniquely at `0xED54` (receipt SHA-256
 `bd5a62aca5c3c1ca2255e1614452e4e032b683ca6ec6e355fecedcdcec27e1e7`).
 The v489 MAP supplies candidate names and segment addresses for these bytes;
 their source owners and successful asset loads remain open.
+
+The first TH04-local body-owner pass attaches the seven staffroll dissolve
+helpers and `staffroll_animate` in `src/maine/end/staff.cpp`. A new local CDG
+header checks the 16-byte slot structure against the TH04 ASM field offsets.
+`staff_resources.cpp` owns 21 addressable filenames; their concatenated
+193-byte block appears once in the freshly compiled OMF and equals the
+target-observed block hash
+`a3228d034412eb1d9611eb6a136cd7f30a98a0b1c4f818b691ae0993798db55a`.
+The first staff compile exposed a missing declaration for the already owned
+`BGIMAGE_PUT_RECT_16` ASM routine. A local FAR Pascal four-word declaration,
+checked against its `proc far` and argument list, closed that compile error.
+With no historical support archive, the 85-object link still has 55 undefined
+names: `staffroll_animate()` disappears and `GRCG_SETCOLOR` appears as an
+additional runtime dependency. Comparing only the count would hide this
+progress; compare symbol identities without the `in module` suffix because TLINK also changes
+which referencing module it names when object order changes. TLINK still exits
+nonzero, so this is not a runnable or relocation-accepted product.
+Two fresh 85-object no-archive builds match in every link-relevant and
+dependency-timestamp-normalized OMF record, unresolved vector, warning vector,
+and incomplete MZ. Their receipt SHA-256 values are
+`14e158222412736dce205941083dc512cfe3801ccab4da76f3fdda31928bef39`
+and `3b39e4efba3e6189d607e37442283938b785dd8934d3729a1f50ebc3a11d1af1`.
+Only BGIMAGE's raw OMF dependency timestamp differs. This is a deterministic
+link failure, not product acceptance.
+With the same 85 TH04 objects and the pinned historical archive added solely
+for calibration, TLINK reports the three remaining C++ bodies:
+`cutscene_animate`, `verdict_animate`, and `regist_menu`. Its nonzero exit also
+reports the archive's invalid extended-dictionary warning. The partial MZ has
+468 relocation entries, which cannot enter load-segment acceptance. Calibration
+receipt SHA-256:
+`b77239850bc753f6972bbae6dc20634a69808ab32c00c70707620c02d83c7c77`.
 
 ## Current build-graph gaps
 
@@ -363,6 +403,15 @@ their source owners and successful asset loads remain open.
   does not install and exercise a candidate build.
 
 ## Build lane
+
+TH095's local `scripts/build-whole.py` checks the manifest against all source
+TUs before a real link and reports unique unresolved names separately from
+their diagnostic line count. Its `audit-owner-relocations.py` inventories
+relocation targets in writable and zero-fill data. The TH04 equivalent should
+retain these ownership gates but use OMF PUBDEF/EXTDEF/FIXUPP, TLINK MAP, MZ
+segment:offset relocation sites, and two DOS load segments rather than PE
+DIR32/import-section rules. The TH095 scripts are method evidence only; their
+addresses and libraries are unrelated to TH04.
 
 Start with an explicit OP/MAINE source and object graph, then attach the
 missing entry bodies and shared producers. Compile all declared TUs serially
