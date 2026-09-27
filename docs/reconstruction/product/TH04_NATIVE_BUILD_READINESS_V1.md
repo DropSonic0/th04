@@ -815,6 +815,13 @@ INT 0Ah counters, far callback, and INT 0Ah/18h vector restoration. The
 historical-library calibration passes 604 MZ relocation sites and 29 far
 entry ABIs; PC-98 interrupt timing remains untested.
 
+The [TH04-local gaiji storage and BFNT loader](TH04_NATIVE_GAIJI_STORAGE_V865.md)
+add one C++ unit and close three more names. Two cold 121-TU no-archive
+builds leave 12 unresolved names. A synthetic BFNT DOS probe passes the
+backup/restore lifecycle and file validation using test-only DOS adapters;
+the real CG port image and product file hook remain untested. Historical-
+library calibration passes 613 MZ relocation sites and 32 far entry ABIs.
+
 ## Private PC-98 boot diagnostics
 
 `scripts/probes/prepare_th04_maine_diagnostic_hdi.py` creates disposable

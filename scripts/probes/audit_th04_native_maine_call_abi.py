@@ -22,6 +22,9 @@ PROBES = (ROOT / ".analysis/reconstruction/probes").resolve()
 RET_POP = {
     "GAIJI_PUTCA": 8,
     "GAIJI_PUTSA": 10,
+    "GAIJI_BACKUP": 0,
+    "GAIJI_RESTORE": 0,
+    "GAIJI_ENTRY_BFNT": 4,
     "FILE_APPEND": 4,
     "FILE_CLOSE": 0,
     "FILE_CREATE": 4,

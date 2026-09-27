@@ -58,6 +58,7 @@ c_sources = [
   "src/shared/hardware/egc_control.cpp",
   "src/shared/hardware/frame_delay.cpp",
   "src/shared/hardware/gaiji_text.cpp",
+  "src/shared/hardware/gaiji_storage.cpp",
   "src/shared/hardware/graph_copy_page.cpp",
   "src/shared/hardware/graph_gaiji.cpp",
   "src/shared/hardware/graph_pack_put_8_noclip.cpp",
