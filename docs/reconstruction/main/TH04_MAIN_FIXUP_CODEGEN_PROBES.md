@@ -1,5 +1,7 @@
 # TH04 `MAIN.EXE` unresolved producer probes
 
+> **Status:** Historical negative-routing packet. v836 supersedes the `snd_load` blocker described here; current MAIN blockers are only `carpet_lighting_put_new` and checkerboard. Negative compiler observations remain valid for the exact forms tested.
+
 This is a compact routing index for unresolved FIXUPP and code-generation
 problems. It deliberately omits resolved per-version experiments and does not
 define current progress. Before acting, query `config/units.csv`,

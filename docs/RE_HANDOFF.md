@@ -1,11 +1,14 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-26 after the v835 MAINE regist_menu ordinary-C++ closure. This is the
+Updated 2026-09-27 after the v836 MAIN SND_LOAD closure and analysis cleanup. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
 work order; `docs/reconstruction/README.md` routes focused evidence. Versioned
-notes and historical receipt paths are snapshots, not current acceptance.
+notes, historical receipt paths, `config/evidence.csv`, and version-tagged
+`config/knowledge.csv` rows are chronological snapshots, not current acceptance.
+When an old row says a function is blocked, check for later evidence before
+acting.
 
 ## Resume checks
 
@@ -28,13 +31,15 @@ use; this host's focused replays use `taskset -c 0,1 nice -n 10`.
 | Artifact | Reviewed authored boundaries | Exact authored functions | Blocked | Original-ASM observations |
 | --- | ---: | ---: | ---: | ---: |
 | OP.EXE | 93 / 93 | 93 | 0 | 16 reviewed |
-| MAIN.EXE | 495 / 495 | 492 | 3 | 73 attestation entries; 6 provisional |
+| MAIN.EXE | 495 / 495 | 493 | 2 | 73 attestation entries; 6 provisional |
 | MAINE.EXE | 72 / 72 | 72 | 0 | 15 reviewed |
 | ZUN.COM | 3 / 3 | 3 | 0 | 12 reviewed |
 
-MAIN's reviewed file-backed authored extent has 83,442 / 83,469 exact bytes.
-Its 27-byte remainder belongs to `carpet_lighting_put_new` (23), checkerboard
-(2), and `snd_load` (2). OP has 14,692 accepted decoded source-owner bytes of 14,692 tracked and ZUN
+MAIN's reviewed file-backed authored extent has 83,444 / 83,469 exact bytes.
+Its 25-byte remainder belongs only to `carpet_lighting_put_new` (23) and
+checkerboard (2). v836 migrates MAIN `SND_LOAD` from historical partial owners
+to one exact 234-byte maintained owner. OP has 14,692 accepted decoded
+source-owner bytes of 14,692 tracked and ZUN
 has 442 / 442. MAINE decoded owner coverage is reported by the live status and
 decoded-acceptance ledgers. None of these gives a packed-file byte denominator
 or whole-artifact exactness.
@@ -133,9 +138,12 @@ ordinary semantic conditional expression naturally emits the target
 direct-CMP/JZ/JMP frontier under pinned TC4.02. Literal original-source
 spelling is not claimed.
 
-The next function-reconstruction focus is MAIN's three reviewed blockers / 27
-bytes. After MAIN closes, move to packed-container ownership, DIET, standalone
-product construction, and runtime validation.
+The next function-reconstruction focus is MAIN's two reviewed blockers / 25
+bytes: `carpet_lighting_put_new` (23 residual bytes) and
+`playfield_checkerboard_grcg_tdw_` (2 residual bytes). MAIN `SND_LOAD` is
+already exact as of v836. After MAIN closes, move to packed-container
+ownership, DIET/link-layout closure, standalone product construction, and
+runtime validation.
 
 See the [v821 SCORE codec closure](reconstruction/op-maine/TH04_OP_SCORE_CODECS_HYBRID_V821.md),
 [v822 shared-sound provenance bound](reconstruction/op-maine/TH04_OP_SND_SE_SHARED_V822.md),
@@ -218,13 +226,14 @@ The canonical cold aggregate receipts in
 
 Preserve `.analysis/targets/`, `.analysis/toolchain/`, `.analysis/ghidra/`,
 `.analysis/runtime/images/zun.hdi`, the v401/v402/v489 source snapshots,
-DIET replay inputs, and the configured v546 ZUN runtime inventory. Expanded
-focused probe worktrees through v828 have been pruned after their small
-results/receipts were checksum-verified into
-`focused-probe-heads-v828-20260926.tar.zst` with an adjacent manifest and
-archive checksum. Probe scratch again retains only the configured
-`v546-zun-runtime-inventory-001` input. Stable focused/canonical receipts remain
-directly under `.analysis/reconstruction/receipt-archive/`.
+DIET replay inputs, and the configured v546 ZUN runtime inventory. All recordable expanded probe and exact-unit replay worktrees present at this
+cleanup were checksum-verified into
+`replay-heads-v837-20260927.tar.zst` with an adjacent file manifest and archive
+checksum (`87f4805bacc4c93c78a3dc0457931df7b882642b053061d83af08791d3019681`), then pruned. Pure scratch directories with no result files or
+receipts were deleted rather than archived. Probe scratch now retains only the
+configured `v546-zun-runtime-inventory-001` live input; expanded
+`exact-unit-replay` worktrees are empty. Stable focused/canonical receipts
+remain directly under `.analysis/reconstruction/receipt-archive/`.
 These private archives are ignored and exist only on this workspace; a fresh
 clone must regenerate evidence from checked-in commands. Historical paths into
 pruned worktrees are provenance, not live input promises. Use

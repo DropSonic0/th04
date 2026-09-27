@@ -1,5 +1,7 @@
 # TH04 snd_load DS preservation v391
 
+> **Status:** Historical partial-owner checkpoint, superseded by v836. MAIN `SND_LOAD` is now exact as one 234-byte maintained owner; keep this note only for the earlier DS-preservation and encoding analysis.
+
 ## Scope
 
 This packet promotes only two formerly blocked bytes inside the reviewed 234-byte `snd_load()` body:

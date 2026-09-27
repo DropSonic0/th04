@@ -1,23 +1,24 @@
 # TH04 reconstruction roadmap
 
-Updated 2026-09-26 after the v835 MAINE regist_menu ordinary-C++ closure. This is the
+Updated 2026-09-27 after the v836 MAIN SND_LOAD closure and analysis cleanup. This is the
 current next-work map. Use
-`python3 scripts/status.py` and the live ledgers for counts; versioned
-experiments and rejected approaches remain in `docs/reconstruction/` and
-`config/evidence.csv`.
+`python3 scripts/status.py` and the live ledgers for counts. Versioned notes,
+`config/evidence.csv`, and version-tagged `config/knowledge.csv` rows are a
+chronological evidence history, not current-state authority; later accepted
+rows may supersede earlier blocker language.
 
 ## Current baseline
 
 | Artifact | Exact authored functions | Remaining | Reviewed boundaries |
 | --- | ---: | ---: | ---: |
 | OP.EXE | 93 / 93 | 0 | 93 / 93 |
-| MAIN.EXE | 492 / 495 | 3 blocked | 495 / 495 |
+| MAIN.EXE | 493 / 495 | 2 blocked | 495 / 495 |
 | MAINE.EXE | 72 / 72 | 0 | 72 / 72 |
 | ZUN.COM | 3 / 3 | 0 | 3 / 3 |
 
 OP has 14,692 accepted decoded source-owner bytes out of 14,692 tracked; ZUN
 has 442 out of 442. MAINE decoded owner coverage is reported by the live status
-and acceptance ledgers rather than a hand-maintained packed-file denominator. MAIN's 83,442 / 83,469 exact authored C/C++
+and acceptance ledgers rather than a hand-maintained packed-file denominator. MAIN's 83,444 / 83,469 exact authored C/C++
 bytes cover only its reviewed file-backed owner extents.
 
 ZUN now has all three reviewed authored functions decoded-exact. OP and MAINE
@@ -59,11 +60,16 @@ JZ+JMP but used MOV/OR, while direct if/goto emitted direct CMP but merged the
 JMP. v835 supersedes that frontier with materially new pinned-compiler evidence;
 do not reintroduce the old barrier or repeat the closed matrix.
 
-ZUN, OP, and MAINE authored-function queues are now closed. The immediate
-function-level prerequisite for artifact closure is MAIN's remaining 27 exact
-authored bytes across three reviewed blockers. Work MAIN as one artifact, then
-return to complete product/container ownership, DIET, standalone build, and
-runtime closure.
+ZUN, OP, and MAINE authored-function queues are closed. v836 also closes
+MAIN `SND_LOAD` as one complete 234-byte owner, superseding the historical
+232/234 partial-owner frontier. MAIN is now **493/495 exact** with only
+25 residual authored bytes: 23 in `carpet_lighting_put_new` and 2 in
+`playfield_checkerboard_grcg_tdw_`.
+
+Those two MAIN producers are the remaining function-level prerequisite before
+whole-product closure. After they close, return to complete container
+ownership, DIET/link layout, standalone product construction, and runtime
+validation. Decoded-function exactness is not packed-file exactness.
 
 ## ZUN.COM: authored-function source authority closed
 

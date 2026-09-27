@@ -1,5 +1,7 @@
 # TH04 OP EGC rectangle-copy hybrid closure (v825)
 
+> **Status:** Historical checkpoint. v825 raised OP to 89/93; v826-v828 later close the remaining four blockers, and current OP is 93/93.
+
 ## Result
 
 `egc_copy_rect_1_to_0_16()` at OP decoded payload `0xE378` is now

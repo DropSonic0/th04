@@ -1,5 +1,7 @@
 # TH04 MAINE regist_menu current-v489 compiler frontier (v831)
 
+> **Status:** Historical negative checkpoint, superseded by v835. The v831 split remains valid for the source forms tested, but current MAINE is 72/72 and `regist_menu()` is accepted from ordinary semantic C++.
+
 ## Result
 
 `regist_menu()` remains blocked at payload `0xC814`, size `0x39C` / 924 bytes.

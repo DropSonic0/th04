@@ -1,5 +1,7 @@
 # TH04 final blocker local-HDI provenance search (v413)
 
+> **Status:** Historical provenance search. v836 later closes MAIN `SND_LOAD`; the HDI negative still matters as provenance evidence, while carpet/checkerboard remain the only current MAIN authored blockers.
+
 ## Scope
 
 After v408-v412 reduced MAIN to 27 nonexact bytes, the remaining legal route

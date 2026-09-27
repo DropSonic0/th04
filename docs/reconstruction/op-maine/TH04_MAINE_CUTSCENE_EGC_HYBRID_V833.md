@@ -1,5 +1,7 @@
 # TH04 MAINE cutscene EGC artifact-local hybrid closure (v833)
 
+> **Status:** Historical checkpoint. v833 raised MAINE to 70/72; v834 closes the SCORE EGC helper and v835 closes `regist_menu()`, bringing current MAINE to 72/72.
+
 ## Result
 
 v833 promotes two MAINE CUTSCENE_TEXT functions:

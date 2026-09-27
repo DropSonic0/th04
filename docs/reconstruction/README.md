@@ -33,8 +33,8 @@ counts, file paths, and proposals do not supersede the current ledgers.
 
 - [Checkerboard counted-LOOP blocker](main/TH04_MAIN_CHECKERBOARD_V396.md)
 - [Stage 4 carpet low-level producer blocker](main/TH04_MAIN_KURUMI_CARPET_V174.md)
-- [snd_load DS/MOV analysis](main/TH04_SND_LOAD_DS_V391.md)
-- [Cross-cutting compiler/FIXUPP negatives](main/TH04_MAIN_FIXUP_CODEGEN_PROBES.md)
+- [snd_load DS/MOV analysis (historical; superseded by v836)](main/TH04_SND_LOAD_DS_V391.md)
+- [Cross-cutting compiler/FIXUPP negatives (historical routing)](main/TH04_MAIN_FIXUP_CODEGEN_PROBES.md)
 - [Public trial provenance intake](main/TH04_TRIAL_PROVENANCE_V500.md)
 
 ### OP / MAINE / packed artifacts
@@ -75,9 +75,9 @@ counts, file paths, and proposals do not supersede the current ledgers.
 - [MAINE strict-source frontier after v730-v732](op-maine/TH04_MAINE_STRICT_FRONTIER_V732.md)
 - [MAINE SND_LOAD artifact-local hybrid closure](op-maine/TH04_MAINE_SND_LOAD_HYBRID_V829.md)
 - [MAINE shared-sound artifact-local closure](op-maine/TH04_MAINE_SND_SE_CROSSGAME_V830.md)
-- [MAINE regist_menu current-v489 compiler frontier](op-maine/TH04_MAINE_REGIST_FRONTIER_V831.md)
+- [MAINE regist_menu compiler frontier (historical; superseded by v835)](op-maine/TH04_MAINE_REGIST_FRONTIER_V831.md)
 - [MAINE SCORE codec artifact-local hybrid closure](op-maine/TH04_MAINE_SCORE_CODECS_HYBRID_V832.md)
-- [MAINE cutscene EGC artifact-local hybrid closure](op-maine/TH04_MAINE_CUTSCENE_EGC_HYBRID_V833.md)
+- [MAINE cutscene EGC artifact-local hybrid closure (historical checkpoint)](op-maine/TH04_MAINE_CUTSCENE_EGC_HYBRID_V833.md)
 - [MAINE SCORE EGC helper closure](op-maine/TH04_MAINE_SCORE_EGC_HYBRID_V834.md)
 - [MAINE regist_menu ordinary-C++ closure](op-maine/TH04_MAINE_REGIST_TERNARY_V835.md)
 - [TC4.02 SCORE rotate-intrinsic negative surface](op-maine/TH04_SCORE_ROTATE_INTRINSICS_V760.md)
