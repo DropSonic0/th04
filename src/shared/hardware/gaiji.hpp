@@ -4,6 +4,7 @@
 // TH04 gaiji code points used by the score-registration keyboard. The
 // accepted 51-byte MAINE alphabet places these controls in its final row.
 enum {
+    g_NULL = 0,
     g_EMPTY = 0x02,
     gs_SPACE = 0xCD,
     gs_ARROW_LEFT = 0xCE,

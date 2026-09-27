@@ -193,10 +193,16 @@ historical archive members; the two C++ bodies lack archive providers. This
 is an owner queue, not an accepted product ABI. Shared input/playchar/score
 declaration changes passed the MAINE 72-slice cold aggregate raw-zero;
 receipt SHA-256 `871e1398afab56d030e7d0ea04688ca497cc0f40bc01df466cdd00a5ed2726be`.
+The TH04-local verdict TU, state, and 25 named resources compile; its 271
+semantic resource bytes and public names match the attested target in OMF.
+The 90-object no-archive link resolves `verdict_animate` and exposes
+`_random_seed`. It still fails with 56 unresolved names; 55 route by public
+name to 44 historical library members, while `cutscene_animate` has no archive
+provider. Partial MZ relocations remain diagnostic only.
 The [readiness note](reconstruction/product/TH04_NATIVE_BUILD_READINESS_V1.md)
 records target data offsets, cold receipts, the DGROUP failure and repair,
 the ReC98 TH01 build-method comparison, and TH05 reuse guidance. OP still
-lacks an entry TU. The immediate lane is the two remaining MAINE bodies, local runtime
+lacks an entry TU. The immediate lane is the remaining MAINE cutscene body, local runtime
 support, serial product links, MZ/relocation checks, DIET packaging, and a
 candidate PC-98 scenario. Raw target equality stays on its separate ledger.
 

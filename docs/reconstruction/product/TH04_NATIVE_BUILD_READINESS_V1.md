@@ -429,6 +429,29 @@ and the slowdown verdict text; SHA-256 is
 This prepares an ownership boundary only. The verdict's helper code, state,
 resource arrays, and runtime reads have not yet been attached to the product.
 
+The verdict owner now compiles seven TH04-local bodies in `verdict.cpp`, with
+separate state and named CP932 resources. Its text-buffer terminator is an
+alias of byte 28 inside the 30-byte buffer, matching the candidate v489 MAP's
+overlapping addresses; it is not a second allocation. A focused OMF Oracle checks
+all 25 resource public names and the complete 271 semantic bytes of gaiji
+labels and strings against the attested target, excluding three zero-valued
+state/alignment bytes from the target's 274-byte block (receipt SHA-256
+`ca2d417736b1c8fcf25d2303cc65582d37b75c82e41004797e1cec9b3f66e948`).
+The first wrapper compile found `V_WHITE` missing; including the existing
+TH04 color owner closed the compiler error. The current 90-object no-archive
+link resolves `verdict_animate()` and exposes `_random_seed`; it still has 56
+unresolved names, zero warnings, and TLINK exit 1 (receipt SHA-256
+`84bf73b78043832507c2cb2e786784fa3bc16aa90e7097b32906beaad20f4604`).
+Its 407-entry partial-MZ relocation table is diagnostic only. The pinned TLIB
+public-name inventory now maps 55 of the 56 names to 44 historical members;
+`cutscene_animate()` alone lacks an archive public-name provider. These
+members remain ABI-unaccepted calibration inputs.
+Two 90-object no-archive cold builds agree in every link-relevant and
+timestamp-normalized OMF object, the 56-name unresolved vector, warnings,
+and incomplete MZ. The second receipt SHA-256 is
+`a2226805c0f0c149dab115d531e6c1cdb194917b69b16d7abaf2afa9cbd250e6`;
+BGIMAGE's raw OMF differs only in a dependency timestamp.
+
 ## Current build-graph gaps
 
 - MAIN C/C++ source has 764 quoted include sites whose paths do not resolve
