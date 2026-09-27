@@ -197,10 +197,15 @@ TH04-local as well. The latest 103-object no-archive link has 45 unresolved
 names and zero warnings; two cold rounds agree. Historical-library calibration
 still links, and all 569 MZ relocation sites pass the static audit. This is
 not yet a TH04-only runnable executable.
-MAINE's 103-TU source and object order is pinned in
-`config/native_maine_sources.toml` and checked by CI. Its first cold manifest
+MAINE's source and object order is pinned in
+`config/native_maine_sources.toml` and checked by CI. Its first 103-TU cold manifest
 build preserved all link-relevant OMF objects, the TLINK response, incomplete
 MZ, and 45-name failure vector from the preceding scan-based build.
+The current manifest has 105 TUs after adding local palette state and analog
+`PALETTE_SHOW`; the no-archive link has 42 unresolved names and zero warnings.
+Two cold rounds agree. The historical-library calibration still links, and
+all 569 MZ relocation sites pass the static audit. LCD palette behavior and
+PC-98 runtime output remain unobserved.
 Product closure needs the remaining local runtime providers, a successful
 TH04-only TLINK link, its own MAP/MZ relocation audit, DIET packaging, and a
 candidate PC-98 scenario. OP lacks an entry TU; MAIN

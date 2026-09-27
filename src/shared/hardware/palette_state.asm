@@ -1,0 +1,16 @@
+; TH04-local 16-color palette storage. Both C and historical Pascal spelling
+; refer to the same words/bytes in DGROUP.
+
+    .8086
+    .model use16 large SHARED
+    .data
+
+public _PaletteTone, PaletteTone, _Palettes, Palettes
+
+PaletteTone label word
+_PaletteTone dw 100
+
+Palettes label byte
+_Palettes db 48 dup (0) ; 16 RGB triplets, 8 bits per component
+
+end

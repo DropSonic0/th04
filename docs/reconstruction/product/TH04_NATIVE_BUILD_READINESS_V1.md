@@ -654,7 +654,7 @@ and `4f201a0c988d8cacec3bdc0777fb0fa975d1e061072a215a15f0013e5244d27f`).
 The archive warning and product/runtime limits remain.
 
 The MAINE probe now reads `config/native_maine_sources.toml` as its explicit
-TH04 source and object-order manifest. It lists 68 C/C++ and 35 ASM TUs from
+TH04 source and object-order manifest. Its first revision listed 68 C/C++ and 35 ASM TUs from
 `src/maine/` and `src/shared/`; a missing, duplicate, stale, or unlisted TU
 fails before Wine starts. A negative probe with `random.cpp` removed from the
 manifest was rejected with that exact missing path. The manifest-only check
@@ -670,6 +670,30 @@ For TH05, guard complete source-set membership and explicit link order before
 interpreting a successful compiler pass as product coverage. The other TH04
 artifacts still need their own explicit manifests.
 
+The first palette support owner adds `palette_state.asm` and
+`palette_show.cpp` to that manifest, now 69 C/C++ and 36 ASM TUs. The state
+exports both C and Pascal spellings for `PaletteTone` and the 48-byte
+`Palettes` array. `PALETTE_SHOW` writes 16 analog palette entries through
+PC-98 ports `0xA8`, `0xAC`, `0xAA`, and `0xAE`; tone 0..100 scales each
+component's high nibble toward black and 100..200 toward white. This follows
+the analog branch of the bounded ReC98 reference. Its LCD-specific path and
+hardware timing remain unobserved, so this is a semantic product candidate,
+not exact or runtime-accepted source.
+
+The 105-object no-archive link now has 42 unresolved names, down exactly
+`PALETTE_SHOW`, `_PaletteTone`, and `_Palettes`, with zero warnings. Two cold
+rounds agree on every link-relevant and timestamp-normalized object, again
+with only BGIMAGE raw dependency timestamp drift (receipt SHA-256
+`7ca23d5e7ff847cfa4e20db0d6dbdc3c75931b5f838d039f28e6e18b95e84c77`
+and `c0eb881b9214cd8eccbf863be7246ce5cee56d5c8836783e6157014442895b99`).
+Historical-library calibration TLINK still exits 0 without duplicate palette
+storage or near-call fixup errors. The 569-site MZ relocation audit passes
+with eight distinct in-image segment values (receipt SHA-256
+`72fc5d894f69be49ed440fef2245ccec076cc8f1f2ce47dbee136dbaef303b10`
+and `afe4b0f6603834d1c0309dcc8d0ece114ea2d39e512b6456c04ba2651e93fd1c`).
+The historical archive and its dictionary warning still limit this artifact
+to calibration.
+
 ## Current build-graph gaps
 
 - MAIN C/C++ source has 764 quoted include sites whose paths do not resolve
@@ -680,7 +704,7 @@ artifacts still need their own explicit manifests.
   MAINE now has `src/maine/end/entry.cpp` for `main.inl`; other bounded
   `.inl` fragments also lack a product TU; some are historical overlapping
   replay fragments and must be selected by ownership rather than bulk-included.
-- MAINE now has an explicit 103-TU source/order manifest. The other artifacts
+- MAINE now has an explicit 105-TU source/order manifest. The other artifacts
   still need manifests, and the four-artifact product link control plane must
   assign startup objects, system libraries, segments, and outputs. ReC98
   linker responses remain calibration evidence.
