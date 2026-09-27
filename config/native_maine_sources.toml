@@ -107,6 +107,8 @@ asm_sources = [
   "src/shared/hardware/graph_putsa_fx.asm",
   "src/shared/hardware/graph_state.asm",
   "src/shared/hardware/graph_400line.asm",
+  "src/shared/hardware/graph_scrollup.asm",
+  "src/shared/hardware/grcg_byteboxfill_x.asm",
   "src/shared/hardware/hflip_lut.asm",
   "src/shared/hardware/hflip_state.asm",
   "src/shared/hardware/input_s.asm",

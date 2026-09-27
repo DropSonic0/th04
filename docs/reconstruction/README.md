@@ -20,6 +20,7 @@ notes explain the remaining source and container gaps:
 
 - [Native DOS product build readiness and source-graph gaps](product/TH04_NATIVE_BUILD_READINESS_V1.md)
 - [Native MAINE far-call ABI trap and repair](product/TH04_NATIVE_FAR_CALL_ABI_V856.md)
+- [Native PC-98 scroll and GRCG rectangle owners](product/TH04_NATIVE_SCROLL_BOX_V858.md)
 - [OP strict source blockers](op-maine/TH04_OP_STRICT_FRONTIER_V766.md)
 - [MAINE strict source blockers](op-maine/TH04_MAINE_STRICT_FRONTIER_V732.md)
 - [ZUN resident `_main` and `cfg_init` blockers](zun/TH04_ZUN_MAIN_V241.md)

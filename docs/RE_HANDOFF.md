@@ -237,6 +237,12 @@ zero warnings. The historical-library calibration links; 594 relocation
 sites pass the DOS load audit and 12 entry ABIs pass for 48 direct far calls
 plus one same-segment `push cs; call`. This is still a static calibration
 artifact; MAINE runtime entry remains unobserved.
+TH04-local GDC scroll and GRCG byte rectangle owners now reduce the
+114-TU MAINE no-archive frontier to 28 names with zero warnings. Two cold
+builds agree after BGIMAGE timestamp normalization; historical-library
+calibration links and passes 594 MZ relocation sites plus 14 entry ABIs.
+The [focused graphics note](reconstruction/product/TH04_NATIVE_SCROLL_BOX_V858.md)
+records semantic and runtime limits.
 Product closure needs the remaining local runtime providers, a successful
 TH04-only TLINK link, its own MAP/MZ relocation audit, DIET packaging, and a
 candidate PC-98 scenario. OP lacks an entry TU; MAIN

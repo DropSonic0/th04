@@ -31,6 +31,8 @@ RET_POP = {
     "GRAPH_400LINE": 0,
     "GRAPH_CLEAR": 0,
     "GRAPH_START": 0,
+    "GRAPH_SCROLLUP": 2,
+    "GRCG_BYTEBOXFILL_X": 8,
     "PALETTE_INIT": 0,
 }
 

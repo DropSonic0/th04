@@ -762,6 +762,15 @@ expanded ABI audit checks 12 entries, 48 relocated direct far calls, and one
 same-segment `push cs; call rel16`. Neither these static gates nor the earlier
 OP boot diagnostic proves MAINE runtime behavior.
 
+The next two TH04-local PC-98 graphics owners implement vertical GDC scroll
+and byte-aligned GRCG rectangle fill. The
+[focused hardware note](TH04_NATIVE_SCROLL_BOX_V858.md) records their
+boundaries and static limits. The current 114-TU no-archive MAINE link has
+28 unresolved names and zero warnings; two cold builds agree on all
+link-relevant OMF records. Historical-library calibration links and passes
+594 MZ relocation sites plus the expanded 14-entry call ABI audit. No
+MAINE runtime checkpoint has exercised these hardware paths yet.
+
 ## Private PC-98 boot diagnostics
 
 `scripts/probes/prepare_th04_maine_diagnostic_hdi.py` creates disposable
@@ -810,7 +819,7 @@ run would not close the TH04-only product link.
   MAINE now has `src/maine/end/entry.cpp` for `main.inl`; other bounded
   `.inl` fragments also lack a product TU; some are historical overlapping
   replay fragments and must be selected by ownership rather than bulk-included.
-- MAINE now has an explicit 112-TU source/order manifest. The other artifacts
+- MAINE now has an explicit 114-TU source/order manifest. The other artifacts
   still need manifests, and the four-artifact product link control plane must
   assign startup objects, system libraries, segments, and outputs. ReC98
   linker responses remain calibration evidence.
