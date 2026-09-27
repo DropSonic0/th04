@@ -67,3 +67,73 @@ corresponding load-module word is `0x0200`. `_pferrno` and `_pfkey` follow at
 addresses, not target addresses. No independent TH04 product or PC-98
 runtime claim follows from either the host archive probe or this data-only
 owner.
+
+## TH04-local DOS service
+
+`src/shared/formats/pf_archive.cpp` and `pf_int21.asm` now own `PFSTART`,
+`PFEND`, and the resident INT 21h entry. The assembly unit preserves a
+24-byte register/flags frame, loads the TH04 data group before its far Pascal
+callback, and forwards unrelated DOS calls to the saved vector. The C++ unit
+decrypts the PAR directory, exposes a single read-only archive member as a
+DOS handle, and decodes payload bytes through the configured `bbufsiz`
+buffer. The read cursor can reach an extra expanded byte, while seek-from-end
+uses the directory's declared size. The handler restores the vector on
+`pfend()` and before forwarding process termination. These are semantic
+owners, not exact target-byte claims.
+
+The checked-in `scripts/probes/probe_th04_native_pf_hook_runtime.py` builds
+those units with TC4J/TASM/TLINK and runs a DOS program against private copies
+of both pinned real archives. It checks compressed and stored members,
+auxiliary XOR, loose-file forwarding, buffered reads, seek backwards/end,
+all five one-byte expansion cases, and vector restoration after `pfend()`.
+The nine-member version passed under pinned MS-DOS Player. Its test MZ has
+269 unique nonoverlapping relocation sites and passes relocation checks at
+DOS load segments `0x2000` and `0x6000` (receipt SHA-256
+`8f8306e50f6a15d7ff8f55970f30f8dc477325150984881e5636e46c3c5f3880`).
+The service's one-active-virtual-handle policy and PC-98 game integration
+remain open. The test MZ proves DOS behavior only; it does not prove MAINE
+reaches a displayed frame.
+
+Two cold no-archive MAINE builds compile 125 TH04-owned units (80 C++, 45
+ASM) and reduce TLINK's frontier to eight names without warnings. The
+comparator finds all 125 link-relevant and timestamp-normalized OMF records
+equal; only BGIMAGE has its prior raw timestamp drift. The A/B receipt
+SHA-256 values are
+`58aae0ca863032d63aac25f93825d1c310f28991394cc3b1e587c37e1e456c77`
+and `f0f82f2b18ff4b25a3f43aa1a0349929047911a65352d66e13f8551e0e5091e9`;
+the source manifest digest is
+`08c6c7027c4b2576466719e1065bff9b792aa514a5089362d16d4ea710b4500e`.
+`PFSTART` and `PFEND` no longer need the historical archive in that link.
+The mixed-support calibration TLINK exits 0 with the known extended-dictionary
+warning (receipt SHA-256
+`52e257047349af5c97be021c6cd6c5a54a80048f47221d79c33bd6d9e5bb4909`).
+Its MAP locates TH04-local `PF_DISPATCH` at `0887:316B`, `PFEND` at
+`0887:33F6`, `PFSTART` at `0887:342D`, `PF_HOOK_INSTALL` at `0887:482C`,
+and `PF_HOOK_REMOVE` at `0887:4859`. These are calibration addresses, not
+target offsets. The MZ auditor checks 631 relocation sites at load segments
+`0x2000` and `0x6000` (receipt SHA-256
+`3dde114975581a09cee81fe0be08c535cb679d79e5cf7517f6cb9d297fe0af58`).
+The call-ABI auditor checks 33 far returns, 128 relocated direct far calls,
+and one same-CS call (receipt SHA-256
+`0ddc34ad73fb0c86fd1ce12cffc6f3ecde58840b5aa4161e1997983cd3a9f67b`).
+This is structural evidence for the mixed-support MZ, not a standalone
+TH04 product or a PC-98 runtime acceptance.
+
+Replay commands from a clean worktree, using new private output directories:
+
+```text
+python3 scripts/probes/probe_th04_native_pf_hook_runtime.py --output-dir .analysis/reconstruction/probes/NEW-runtime
+python3 scripts/probes/probe_th04_native_maine_link.py --without-support --output-dir .analysis/reconstruction/probes/NEW-a
+python3 scripts/probes/probe_th04_native_maine_link.py --without-support --output-dir .analysis/reconstruction/probes/NEW-b
+python3 scripts/probes/compare_th04_native_maine_link.py .analysis/reconstruction/probes/NEW-a .analysis/reconstruction/probes/NEW-b
+python3 scripts/probes/probe_th04_native_maine_link.py --output-dir .analysis/reconstruction/probes/NEW-lib
+python3 scripts/probes/audit_th04_native_maine_mz.py --link-receipt .analysis/reconstruction/probes/NEW-lib/receipt.json --output-dir .analysis/reconstruction/probes/NEW-mz
+python3 scripts/probes/audit_th04_native_maine_call_abi.py --link-receipt .analysis/reconstruction/probes/NEW-lib/receipt.json --output-dir .analysis/reconstruction/probes/NEW-call
+```
+
+Two TC4J constraints surfaced during implementation. A translation unit whose
+long basename is rewritten to DOS 8.3 cannot reliably resolve `../runtime`
+from the rewritten path; use a repository-root include under the existing
+`-I.` flag. `_dos_open()` takes `int *` for its output handle under this
+toolchain, even when the stored handle is later an unsigned DOS word. These
+constraints are worth preserving for TH05's first native build.
