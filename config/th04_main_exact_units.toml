@@ -1190,6 +1190,7 @@ object_path = "obj/th04/snd_pmdr.obj"
 
 [[units]]
 id = "th04-main-snd-load-prefix"
+default_enabled = false
 repo_source = "src/shared/sound/load_prefix.inl"
 source_mode = "fragment"
 patch_path = "th04/snd/load.cpp"
@@ -1199,6 +1200,7 @@ object_path = "obj/th04/snd_load.obj"
 
 [[units]]
 id = "th04-main-snd-load-tail"
+default_enabled = false
 repo_source = "src/shared/sound/load_tail.inl"
 source_mode = "fragment"
 patch_path = "th04/snd/load.cpp"
@@ -1209,6 +1211,7 @@ object_path = "obj/th04/snd_load.obj"
 
 [[units]]
 id = "th04-main-snd-load-open"
+default_enabled = false
 repo_source = "src/shared/sound/load_open.inl"
 source_mode = "fragment"
 patch_path = "th04/snd/load.cpp"
@@ -1218,6 +1221,7 @@ object_path = "obj/th04/snd_load.obj"
 
 [[units]]
 id = "th04-main-snd-load-dispatch-read"
+default_enabled = false
 repo_source = "src/shared/sound/load_dispatch_read.inl"
 source_mode = "fragment"
 patch_path = "th04/snd/load.cpp"
@@ -1227,6 +1231,7 @@ object_path = "obj/th04/snd_load.obj"
 
 [[units]]
 id = "th04-main-snd-load-func-load"
+default_enabled = false
 repo_source = "src/shared/sound/load_func.inl"
 source_mode = "replace"
 patch_path = "th04/snd/load.cpp"
@@ -12538,7 +12543,7 @@ size = "0x25"
 # separately from the still-blocked TH04-specific MOV BX,AX encoding.
 [[units]]
 id = "th04-main-snd-load-push-ds"
-default_enabled = true
+default_enabled = false
 requires_units = ["th04-main-snd-load-prefix"]
 repo_source = "src/shared/sound/load_push_ds.inl"
 source_mode = "fragment"
@@ -12553,7 +12558,7 @@ size = "0x1"
 
 [[units]]
 id = "th04-main-snd-load-pop-ds"
-default_enabled = true
+default_enabled = false
 requires_units = ["th04-main-snd-load-push-ds"]
 repo_source = "src/shared/sound/load_pop_ds.inl"
 source_mode = "fragment"
@@ -12804,7 +12809,7 @@ object_path = "obj/th04/stages.obj"
 # artifact-locally in OP v828 and MAINE v829.
 [[units]]
 id = "th04-main-snd-load-hybrid-v836"
-default_enabled = false
+default_enabled = true
 repo_source = "src/shared/sound/load.cpp"
 source_mode = "overlay"
 overlay_path = "th04/snd_load.cpp"

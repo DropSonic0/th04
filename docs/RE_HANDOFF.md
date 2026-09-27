@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-27 after the v836 MAIN SND_LOAD closure and analysis cleanup. This is the
+Updated 2026-09-27 after the MAIN aggregate build check. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -138,12 +138,23 @@ ordinary semantic conditional expression naturally emits the target
 direct-CMP/JZ/JMP frontier under pinned TC4.02. Literal original-source
 spelling is not claimed.
 
-The next function-reconstruction focus is MAIN's two reviewed blockers / 25
-bytes: `carpet_lighting_put_new` (23 residual bytes) and
-`playfield_checkerboard_grcg_tdw_` (2 residual bytes). MAIN `SND_LOAD` is
-already exact as of v836. After MAIN closes, move to packed-container
-ownership, DIET/link-layout closure, standalone product construction, and
-runtime validation.
+MAIN's two reviewed blockers / 25 bytes remain
+`carpet_lighting_put_new` (23 residual bytes) and
+`playfield_checkerboard_grcg_tdw_` (2 residual bytes). They are deferred while
+build readiness is examined. The default MAIN replay manifest now selects the
+complete exact `SND_LOAD` at `SHARED:03B6` and excludes its historical partial
+owners. `python3 scripts/replay_th04_main_exact_units.py --run-id gpt-6-sol-main-aggregate-fixed-20260927`
+cold-built the selected 275 units
+twice with raw-zero accepted extents; receipt SHA-256
+`40f18d358cdfdd970e841baeb93da4a83567e17344c32327730864b4fc40b6c4`.
+The scaffold-built MAIN.EXE is 152,974 bytes versus the 156,258-byte target;
+the complete MZ comparison rejects raw identity. All 1,136 relocation sites
+and site values match, but their entry order differs. This remains a
+diagnostic ReC98 scaffold build, not a standalone TH04 product or a
+runtime-tested replacement. Next
+work is packed-container ownership, DIET/link-layout closure, standalone
+product construction, and a candidate runtime scenario; the two MAIN bodies
+remain unresolved exactness work.
 
 See the [v821 SCORE codec closure](reconstruction/op-maine/TH04_OP_SCORE_CODECS_HYBRID_V821.md),
 [v822 shared-sound provenance bound](reconstruction/op-maine/TH04_OP_SND_SE_SHARED_V822.md),

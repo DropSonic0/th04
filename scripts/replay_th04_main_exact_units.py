@@ -1911,14 +1911,21 @@ def main() -> int:
         entries = resolve_unit_dependencies(all_entries, wanted)
     if not entries:
         parser.error("no units selected")
-    if args.list_selected:
-        for entry in entries:
-            print(entry["id"])
-        return 0
     ledger = read_units()
     for entry in entries:
         if entry["id"] not in ledger:
             raise RuntimeError(f"manifest unit missing from units.csv: {entry['id']}")
+    if not args.unit:
+        nonexact = [entry["id"] for entry in entries if ledger[entry["id"]]["state"] != "exact"]
+        if nonexact:
+            raise RuntimeError(
+                "default replay selects non-exact units; update default_enabled in the "
+                f"manifest: {', '.join(nonexact)}"
+            )
+    if args.list_selected:
+        for entry in entries:
+            print(entry["id"])
+        return 0
 
     resolved = subprocess.check_output(["git", "rev-parse", revision], cwd=REFERENCE, text=True).strip()
     if resolved != revision:
