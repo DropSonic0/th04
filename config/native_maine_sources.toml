@@ -77,6 +77,7 @@ c_sources = [
   "src/shared/math/vector.cpp",
   "src/shared/runtime/random.cpp",
   "src/shared/sound/delay_until_measure.cpp",
+  "src/shared/sound/bgm_beep.cpp",
   "src/shared/sound/determine_modes.cpp",
   "src/shared/sound/kaja_interrupt.cpp",
   "src/shared/sound/load.cpp",
@@ -135,4 +136,5 @@ asm_sources = [
   "src/shared/pc98/graph_clear.asm",
   "src/shared/runtime/file_exist.asm",
   "src/shared/runtime/master_version.asm",
+  "src/shared/sound/bgm_timer.asm",
 ]

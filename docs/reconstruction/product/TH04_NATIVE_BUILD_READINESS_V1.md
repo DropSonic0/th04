@@ -877,6 +877,12 @@ run would not close the TH04-only product link.
 
 ## Current build-graph gaps
 
+The [BGM batch](TH04_NATIVE_BGM_V871.md) closes MAINE's four remaining
+external BGM providers with TH04-local source. The 130-object no-support
+MAINE link now succeeds; its MZ passes 656 static relocations and the expanded
+far-call ABI gate. This is a standalone MAINE build candidate, with PC-98
+game-entry runtime acceptance still open.
+
 - MAIN C/C++ source has 764 quoted include sites whose paths do not resolve
   inside this repository, covering 102 distinct include paths, including
   headers and source fragments. This is a source-graph observation, not a
@@ -885,14 +891,15 @@ run would not close the TH04-only product link.
   MAINE now has `src/maine/end/entry.cpp` for `main.inl`; other bounded
   `.inl` fragments also lack a product TU; some are historical overlapping
   replay fragments and must be selected by ownership rather than bulk-included.
-- MAINE now has an explicit 114-TU source/order manifest. The other artifacts
+- MAINE now has an explicit 130-TU source/order manifest. The other artifacts
   still need manifests, and the four-artifact product link control plane must
   assign startup objects, system libraries, segments, and outputs. ReC98
   linker responses remain calibration evidence.
 - OP, MAINE, and ZUN still need a product DIET/container route. ZUN's source
   composite additionally retains the documented usage-asset input.
-- The private calibration MAINE MZ has booted inside a diagnostic disk through
-  OP. Its MAINE entry remains unobserved, and it is not a TH04-only product.
+- The private calibration disk has reached OP, but its MAINE entry remains
+  unobserved. The new TH04-only MAINE MZ has not yet passed that game-entry
+  scenario or the packed-container route.
 
 ## Build lane
 

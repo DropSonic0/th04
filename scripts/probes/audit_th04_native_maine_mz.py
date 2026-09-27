@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-"""Audit a successful diagnostic MAINE MZ at two DOS load segments.
-
-This proves only MZ/relocation structure. A calibration link with the
-historical archive is not a TH04-owned product or a runtime acceptance.
-"""
+"""Audit a successful native MAINE MZ at two DOS load segments."""
 
 from __future__ import annotations
 
@@ -34,12 +30,12 @@ def main() -> int:
             or output.exists() or not output.is_relative_to(private)):
         parser.error("receipt and new output must be below .analysis/reconstruction/probes")
     link = json.loads(source_receipt.read_text(encoding="utf-8"))
-    if not link["link_complete"] or not link["support_lib_sha256"]:
-        raise ValueError("expected a successful historical-library calibration link")
+    if not link["link_complete"]:
+        raise ValueError("expected a successful native MAINE link")
     exe = source_receipt.parent / "source/bin/maine-native.exe"
     raw = exe.read_bytes()
     if sha(raw) != link["mz_header"]["sha256"]:
-        raise ValueError("calibration MZ identity drift")
+        raise ValueError("native MZ identity drift")
     mz = parse_mz(raw)
     if not mz.valid or len(mz.relocations) != link["mz_header"]["relocations"]:
         raise ValueError("MZ format or relocation count drift")
@@ -74,6 +70,7 @@ def main() -> int:
         "schema_version": 1,
         "artifact": "th04-maine",
         "evidence_class": "static-relocation",
+        "historical_support_library": bool(link["support_lib_sha256"]),
         "link_receipt_sha256": sha(source_receipt.read_bytes()),
         "mz_sha256": sha(raw),
         "image_bytes": len(image),
@@ -86,7 +83,7 @@ def main() -> int:
         "stack_top_bytes": stack_top,
         "minimum_allocated_bytes": minimum_allocated,
         "load_segments_checked": list(load_segments),
-        "limit": "Static structure for a historical-library calibration MZ only; no TH04-owned product, emulator execution, or behavioral acceptance.",
+        "limit": "Static MZ structure only; PC-98 emulator execution and behavioral acceptance remain separate.",
     }
     (output / "receipt.json").write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({"relocations": len(sites), "target_segments": len(set(values)),

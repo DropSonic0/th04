@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-28 after the MAINE native BFNT sprite batch. This is the
+Updated 2026-09-28 after the TH04-only MAINE BGM/link batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -160,19 +160,29 @@ remain unresolved exactness work.
 
 The [native product-build readiness note](reconstruction/product/TH04_NATIVE_BUILD_READINESS_V1.md)
 and `config/native_maine_sources.toml` define the current TH04-only MAINE
-source order. Pinned TC4J/TASM32 builds all 128 maintained translation units
-(82 C++, 46 ASM). Two cold no-archive links leave four unresolved BGM names
-and zero warnings; all 128 link-relevant and timestamp-normalized OMF records
-agree, with BGIMAGE's prior raw timestamp drift. The mixed-support
-`masters.lib` calibration is not a standalone product: its MZ passes 649
-relocation sites at two DOS load segments and the call audit checks 33 far
-returns, 141 relocated direct far calls, and one same-CS far call. The
-calibration MAP places TH04-local `SUPER_ENTRY_BFNT` at `07C9:47CE` and
-`SUPER_PUT` at `07C9:4B8E`; these are candidate MAP addresses, not target
-offsets.
+source order. Pinned TC4J/TASM32/TLINK compiles 130 TH04-owned translation
+units (83 C/C++, 47 ASM) and links MAINE without `masters.lib`: two cold
+links agree on the complete MZ SHA-256
+`6a20e946ce6ed8c6865887ba90fef31e4cbcb34937dd22e6829b30c21a5435f2`,
+with zero unresolved symbols and zero warnings. All 130 link-relevant and
+timestamp-normalized OMF objects agree; BGIMAGE's raw dependency timestamp
+comment differs. The static MZ auditor checks 656 relocation sites at DOS
+load segments `0x2000` and `0x6000`, entry `0000:0000`, and stack
+`12C3:0080`. The call auditor checks 36 far-return owners, 148 relocated
+direct far calls, and one same-CS far call. These are compiler/linker and
+static binary observations of a TH04-only MAINE build candidate, not target
+byte exactness or full PC-98 runtime acceptance.
+
+The [BGM/link note](reconstruction/product/TH04_NATIVE_BGM_V871.md) records
+the pinned `MIKO.EFS` historical-library differential, 15 effects/1496 words,
+DOS software-`INT 8` test, final cold-link commands, and the critical far-call
+fixup counterexample. Plain TASM `call` and even `call far ptr` reached the
+wrong full-link address while TLINK reported success. Symbolic `9A` far-call
+encoding plus a relocation-aware linear-target audit fixes that edge. The
+private final link, MZ, and call receipts are at
+`.analysis/reconstruction/probes/native-maine-bgm-v3-{a,mz,call}-20260928/receipt.json`.
 See the [BFNT sprite note](reconstruction/product/TH04_NATIVE_SUPER_SPRITE_V870.md)
-for the current historical-library differential, fake-VRAM test, and BGM
-frontier.
+for its historical-library differential and fake-VRAM test.
 See the [PI decoder note](reconstruction/product/TH04_NATIVE_PI_DECODE_V869.md)
 for the current real-resource differential and binary-versus-readable-source
 hazard. The [PAR archive/service note](reconstruction/product/TH04_NATIVE_PF_ARCHIVE_V867.md)
@@ -186,11 +196,15 @@ Start with `python3 scripts/probes/probe_th04_native_maine_link.py --check-manif
 the focused notes give the cold-link, comparator, MZ,
 and call-ABI commands with fresh private output directories.
 
-The current four names are `BGM_INIT`, `BGM_FINISH`, `BGM_READ_SDATA`, and
-`BGM_SOUND`. The no-archive receipt at
-`.analysis/reconstruction/probes/native-maine-super-v1-a-20260928/receipt.json`
-is the current private failure vector. New probes require fresh private output
-directories and only one writable Borland/Wine build at a time.
+The TH04-only MZ was inserted into a disposable FAT12 diagnostic HDI through
+`scripts/probes/prepare_th04_maine_diagnostic_hdi.py`, with original source HDI
+identity checked before and after. A 20-second DOSBox-X `GAME.BAT` run reaches
+the OP splash but writes only the `START` marker, so candidate MAINE entry is
+unobserved (run receipt SHA-256
+`bc168c158e083cb1e306915ccb9551fc548e6676ae9ee78478e07283a1990edc`).
+This prepares the next runtime scenario;
+new probes require fresh private output directories and only one writable
+Borland/Wine build at a time.
 
 The TH04-local `PFSTART`/`PFEND` INT 21h hook now passes nine pinned real
 resource cases in a separate DOS test MZ, including all five declared-size
@@ -202,8 +216,11 @@ paragraph indexing crosses 64 KiB and the isolated test MZ has 247 audited
 relocations. The TH04-local BFNT sprite service matches the historical
 small-model pattern and palette hashes for all 20 `SCNUM2.BFT` patterns. Its
 fake-VRAM draw and lifecycle test passes with 256 audited test-MZ relocations.
-The next bounded batch should close the four BGM owners using the pinned
-`MIKO.EFS` resource, then run a no-library MAINE link and PC-98 scenario.
+The BGM DOS test covers 15 effects, 1496 frequency words, software IRQ entry,
+and exit after `mem_unassign()`. It does not establish real PC-98 timer cadence
+or MAINE game entry. The next bounded runtime batch should boot the normal
+`GAME.BAT` route, record a checkpoint proving candidate MAINE entered, and
+compare PC-98 input, video, sound, and save/config behavior.
 Paragraph-based `hmem_alloc(unsigned)` can represent image buffers larger than
 64 KiB; the byte-count `hmem_allocbyte(unsigned)` cannot. See the packed-row
 note for the decoder and ownership details.
@@ -219,13 +236,12 @@ diagnostic reaches OP only. The [runtime preparation note](reconstruction/produc
 has the private HDI commands. Continue the normal OP-to-MAIN-to-MAINE route
 before making a runtime acceptance claim.
 
-Product closure needs the remaining local runtime providers, a successful
-TH04-only TLINK link, its own MAP/MZ relocation audit, DIET packaging, and a
-candidate PC-98 scenario. OP lacks an entry TU; MAIN
-still has 102 distinct unresolved
-quoted include paths. The remaining two nonexact MAIN function slices are
-outside this build lane. Source ownership and runtime correctness are separate
-from the already accepted raw-zero function ledgers.
+Whole-game product closure still needs OP's missing entry TU and source graph,
+MAIN's 102 distinct unresolved quoted include paths, artifact manifests and
+links beyond MAINE, DIET/container packaging, and a candidate PC-98 scenario.
+The remaining two nonexact MAIN function slices are outside this build lane.
+Source ownership and runtime correctness are separate from the accepted
+raw-zero function ledgers.
 
 See the [v821 SCORE codec closure](reconstruction/op-maine/TH04_OP_SCORE_CODECS_HYBRID_V821.md),
 [v822 shared-sound provenance bound](reconstruction/op-maine/TH04_OP_SND_SE_SHARED_V822.md),

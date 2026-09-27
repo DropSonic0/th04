@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Compile TH04-owned MAINE sources and report the native link frontier.
 
-The optional external masters.lib is a pinned calibration input. An unresolved
-link or a valid MZ is reported as evidence, never as product acceptance.
+The optional external masters.lib is a pinned calibration input. A complete
+TH04-only MZ is a build candidate; runtime acceptance requires separate gates.
 """
 
 from __future__ import annotations
@@ -226,7 +226,11 @@ def main() -> int:
         "mz_header": ({"sha256": sha(exe), "valid": mz.valid,
                 "relocations": len(mz.relocations)} if mz else None),
         "link_complete": link.returncode == 0 and not errors and bool(mz and mz.valid),
-        "limit": "This calibration link is not a standalone product or runtime acceptance; inspect every relocation and owner after it closes."
+        "limit": (
+            "Historical-library calibration only; not a TH04-only product or runtime acceptance."
+            if not args.without_support else
+            "TH04-only MAINE build candidate; audit every relocation and ABI edge, then validate PC-98 runtime and packaging."
+        ),
     }
     (output / "receipt.json").write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({"c_sources": len(sources), "asm_sources": len(asm_sources),

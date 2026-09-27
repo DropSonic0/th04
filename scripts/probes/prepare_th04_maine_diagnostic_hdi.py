@@ -153,10 +153,15 @@ def main() -> int:
             parser.error("candidate receipts must be private probe receipts")
         link = json.loads(link_path.read_text(encoding="utf-8"))
         audit = json.loads(audit_path.read_text(encoding="utf-8"))
-        if (not link["link_complete"] or not link["support_lib_sha256"]
+        if (not link["link_complete"]
                 or audit["link_receipt_sha256"] != sha(link_path.read_bytes())
                 or audit["mz_sha256"] != link["mz_header"]["sha256"]):
-            raise ValueError("expected statically audited historical-library calibration MZ")
+            raise ValueError("expected statically audited native MAINE MZ")
+        if (not link["support_lib_sha256"] and link["warnings"]):
+            raise ValueError("TH04-only native MAINE link has warnings")
+        if ("historical_support_library" in audit and
+                audit["historical_support_library"] != bool(link["support_lib_sha256"])):
+            raise ValueError("MZ audit support-library scope differs from link")
         exe = link_path.parent / "source/bin/maine-native.exe"
         candidate = exe.read_bytes()
         if sha(candidate) != audit["mz_sha256"]:
@@ -188,7 +193,7 @@ def main() -> int:
         required = (len(candidate) + fs.cluster_bytes - 1) // fs.cluster_bytes
         extra = required - len(old_chain)
         if extra < 0:
-            raise ValueError("calibration MZ unexpectedly smaller than packed target")
+            raise ValueError("candidate MZ unexpectedly smaller than packed target")
         available = [k for k in range(2, fs.max_cluster + 1) if fs.fat(k) == 0]
         if len(available) < extra:
             raise ValueError("insufficient free FAT12 clusters")
@@ -230,7 +235,9 @@ def main() -> int:
         "scope": "private diagnostic MAINE boot image, not product acceptance",
         "original_hdi_sha256": runtime["image"]["sha256"],
         "original_maine_sha256": target["sha256"],
-        "maine_source": "original" if candidate is None else "historical-library calibration",
+        "maine_source": ("original" if candidate is None else
+                         "historical-library calibration" if link["support_lib_sha256"] else
+                         "TH04-only native MAINE"),
         "startup": args.startup,
         "link_receipt_sha256": sha(link_path.read_bytes()) if link_path else None,
         "mz_audit_receipt_sha256": sha(audit_path.read_bytes()) if audit_path else None,

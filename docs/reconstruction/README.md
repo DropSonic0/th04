@@ -32,6 +32,7 @@ notes explain the remaining source and container gaps:
 - [Native PAR archive fixtures and DOS file service](product/TH04_NATIVE_PF_ARCHIVE_V867.md)
 - [Native packed PI decoder and historical ABI/source divergence](product/TH04_NATIVE_PI_DECODE_V869.md)
 - [Native BFNT sprite storage and planar renderer](product/TH04_NATIVE_SUPER_SPRITE_V870.md)
+- [Native BGM beeper service, standalone MAINE link, and IRQ far-call fixup](product/TH04_NATIVE_BGM_V871.md)
 - [OP strict source blockers](op-maine/TH04_OP_STRICT_FRONTIER_V766.md)
 - [MAINE strict source blockers](op-maine/TH04_MAINE_STRICT_FRONTIER_V732.md)
 - [ZUN resident `_main` and `cfg_init` blockers](zun/TH04_ZUN_MAIN_V241.md)

@@ -20,6 +20,10 @@ import tomllib
 ROOT = Path(__file__).resolve().parents[2]
 PROBES = (ROOT / ".analysis/reconstruction/probes").resolve()
 RET_POP = {
+    # The IRQ wrapper calls this C++ far Pascal entry directly.
+    "BGM_TICK": 0,
+    "BGM_TIMER_START": 0,
+    "BGM_TIMER_STOP": 0,
     "GAIJI_PUTCA": 8,
     "GAIJI_PUTSA": 10,
     "GAIJI_BACKUP": 0,
@@ -67,6 +71,17 @@ def u16(data: bytes, offset: int) -> int:
     return int.from_bytes(data[offset:offset + 2], "little")
 
 
+def far_call_sites(body: bytes, target_linear: int) -> list[int]:
+    sites = []
+    cursor = 0
+    while (site := body.find(b"\x9a", cursor)) != -1:
+        if (site + 5 <= len(body)
+                and u16(body, site + 1) + 16 * u16(body, site + 3) == target_linear):
+            sites.append(site)
+        cursor = site + 1
+    return sites
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--link-receipt", required=True, type=Path)
@@ -78,13 +93,13 @@ def main() -> int:
             or not output.is_relative_to(PROBES) or output.exists()):
         parser.error("use a private link receipt and a new private output directory")
     link = json.loads(link_path.read_text(encoding="utf-8"))
-    if not link["link_complete"] or not link["support_lib_sha256"]:
-        raise ValueError("requires a complete historical-library calibration MZ")
+    if not link["link_complete"]:
+        raise ValueError("requires a complete native MAINE MZ")
     base = link_path.parent / "source"
     exe = (base / "bin/maine-native.exe").read_bytes()
     map_bytes = (base / "obj/product/maine-native.map").read_bytes()
     if sha(exe) != link["mz_header"]["sha256"] or exe[:2] != b"MZ":
-        raise ValueError("calibration MZ identity drift")
+        raise ValueError("native MZ identity drift")
     header_size = u16(exe, 8) * 16
     body = exe[header_size:]
     reloc_count = u16(exe, 6)
@@ -122,8 +137,7 @@ def main() -> int:
             if name not in publics:
                 continue
             segment, offset = publics[name]
-            call_bytes = b"\x9a" + offset.to_bytes(2, "little") + segment.to_bytes(2, "little")
-            if call_bytes in body and name not in RET_POP:
+            if far_call_sites(body, segment * 16 + offset) and name not in RET_POP:
                 raise ValueError(f"far call to unaudited near-source ASM public: {name}")
     rows = []
     for name, expected_pop in RET_POP.items():
@@ -150,14 +164,17 @@ def main() -> int:
         expected = "retf" if expected_pop == 0 else f"retf 0x{expected_pop:x}"
         if first_return != expected:
             raise ValueError(f"{name} first return is {first_return!r}, expected {expected!r}")
-        call_bytes = b"\x9a" + offset.to_bytes(2, "little") + segment.to_bytes(2, "little")
-        calls = []
-        cursor = 0
-        while (site := body.find(call_bytes, cursor)) != -1:
-            calls.append(site)
-            cursor = site + 1
+        # TLINK can normalize a far target to another segment:offset pair
+        # with the same load-image address. Compare that address and require
+        # the call's segment operand to be an MZ relocation site.
+        calls = far_call_sites(body, start)
         if any(site + 3 not in reloc_sites for site in calls):
             raise ValueError(f"{name} has an unrelocated far-call segment")
+        if name == "BGM_TICK":
+            timer_segment, timer_offset = publics["BGM_TIMER_STOP"]
+            irq_start = timer_segment * 16 + timer_offset
+            if len(calls) != 1 or not irq_start < calls[0] < irq_start + 128:
+                raise ValueError("BGM IRQ does not contain one relocated far call to BGM_TICK")
         # TC4J can implement a far call within CS as PUSH CS; CALL rel16.
         # Its far callee still needs RETF, but the near displacement needs no
         # MZ relocation because CS supplies the segment at run time.
@@ -179,7 +196,8 @@ def main() -> int:
     output.mkdir(parents=True)
     receipt = {
         "schema_version": 1,
-        "scope": "MAINE calibration ASM call distance and MZ relocation sites",
+        "scope": "MAINE native ASM call distance and MZ relocation sites",
+        "historical_support_library": bool(link["support_lib_sha256"]),
         "link_receipt_sha256": sha(link_path.read_bytes()),
         "mz_sha256": sha(exe),
         "map_sha256": sha(map_bytes),

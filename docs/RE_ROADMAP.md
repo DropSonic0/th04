@@ -69,7 +69,10 @@ MAIN `SND_LOAD` as one complete 234-byte owner, superseding the historical
 The two MAIN producers remain exactness work. The current user-directed build
 lane defers them while closing TH04-only source dependencies, standalone
 product construction, relocation checks, DIET packaging, and runtime
-validation. Decoded-function exactness is not packed-file exactness.
+validation. MAINE now cold-links from 130 TH04-owned translation units with
+zero unresolved symbols; 656 relocations and the far-call ABI pass static
+checks. Candidate MAINE game entry and the other artifact product links are
+still open. Decoded-function exactness is not packed-file exactness.
 
 ## ZUN.COM: authored-function source authority closed
 
