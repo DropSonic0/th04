@@ -184,9 +184,14 @@ full cold MAINE aggregate: all 72 accepted function slices remain raw-zero
 (aggregate receipt SHA-256
 `fda5aab5ce3d50fba8f8693f34915896657cd95999b55e9b86bd96e25ceefe03`).
 TH04-local display controls now own `GRAPH_HIDE`, `GRAPH_SHOW`, `GRCG_OFF`,
-and `GRCG_SETCOLOR`. The current 98-object no-archive link has 57 unresolved
+and `GRCG_SETCOLOR`. Its 98-object no-archive link had 57 unresolved
 names and zero warnings; two cold rounds agree. The historical-library
 calibration still links, and its 573 MZ relocation sites pass the static audit.
+EGC startup and PC-98 text controls are now TH04-local too. The latest
+100-object no-archive link has 51 unresolved names and zero warnings; both
+cold rounds agree. The new historical-library calibration MZ links and its
+570 relocation sites pass the static audit. Hardware behavior is still
+unobserved.
 Product closure needs the remaining local runtime providers, a successful
 TH04-only TLINK link, its own MAP/MZ relocation audit, DIET packaging, and a
 candidate PC-98 scenario. OP lacks an entry TU; MAIN

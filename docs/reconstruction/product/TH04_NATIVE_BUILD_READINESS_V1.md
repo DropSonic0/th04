@@ -602,6 +602,32 @@ both tested DOS segments (receipt SHA-256
 and `f35dd54632ceffc437c957690b29a96cb1e15a660da3da05aa65528a6c7d28a7`).
 The archive warning and product/runtime limits remain.
 
+The next two TH04-local support owners cover EGC mode initialization and PC-98
+text controls. `egc_control.cpp` uses TC4J port intrinsics for far Pascal
+`EGC_ON`, `EGC_OFF`, and `EGC_START`; its 119-byte code segment contains the
+expected port writes and far returns. `text_control.asm` uses TASM32 for
+`KEY_BEEP_OFF`, `TEXT_CURSOR_HIDE`, and `TEXT_SYSTEMLINE_HIDE`, preserving `ES`
+or `DX` as needed and sending the text escape commands through BIOS `int 29h`.
+The hardware operations were corroborated against the bounded ReC98
+`egc.asm`, `keybeep.asm`, and `txesc.asm` references; this is not target-byte or
+runtime acceptance. The first focused EGC compile exposed TC4J's include
+lookup rule: `#include "graphics.hpp"` did not resolve relative to the TU, so
+the maintained source uses its TH04-local repository path.
+
+The current 100-object no-archive link has 51 unresolved support names, down
+exactly six, and zero warnings. Both cold rounds agree on every link-relevant
+and timestamp-normalized OMF object; BGIMAGE again has dependency timestamp
+drift only (receipt SHA-256
+`9a5efe8200a540cdcd619c5b3e15f96bc982f2172dd7992776ca6e21940c8351`
+and `ddb96942d77f415c7b6117ae49be9c03cd276b84237b130eb9e87f5d0c60eeab`).
+Historical-library calibration TLINK still exits 0, with its invalid
+extended-dictionary warning. The resulting MZ has 570 relocation sites and
+six segment-word values; all sites, entry, stack, and both DOS load checks
+pass the static audit (receipt SHA-256
+`56aa098280592dd56deb3929c4bd50d48da52472e222ad751654e8a7e3d4a93a`
+and `8ea0a7a6cf53b2be071667b4336a4e2be9a9c463d75e32a18c0c38b0ed4dfa7a`).
+The old 573-relocation count belonged to the preceding source graph.
+
 ## Current build-graph gaps
 
 - MAIN C/C++ source has 764 quoted include sites whose paths do not resolve
