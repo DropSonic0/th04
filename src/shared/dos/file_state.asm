@@ -49,5 +49,9 @@ _file_ErrorStat label word
 file_ErrorStat dw ?
 _BSS ends
 
+ifdef TH04_LARGE_PRODUCT
+DGROUP group _DATA, _BSS
+else
 DGROUP group _TEXT, _DATA, _BSS
+endif
 end

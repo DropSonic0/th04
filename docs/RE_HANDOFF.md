@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-27 after the TH04-only source compile gate. This is the
+Updated 2026-09-27 after the MAINE native-link and accepted-function replay. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -164,13 +164,27 @@ TH04-owned headers and cold-replay their accepted OP and MAINE slices raw-zero.
 The two fresh TH04-only compile rounds have 93/93 matching link-relevant OMF
 objects; BGIMAGE's sole raw-object difference is a TASM dependency timestamp.
 BGIMAGE builds through its established `-B`/TASM32 path. MAIN has 102
-distinct unresolved quoted include paths, including source fragments. The
-OP/MAINE entry `.inl` bodies are not yet included by product TUs. No
-repository-owned whole-artifact link or
-candidate runtime acceptance follows from the compiler probe. The immediate
-build lane is source-graph closure, serial product links, MZ/relocation checks,
-DIET packaging, then a candidate PC-98 scenario. Raw target equality stays
-on its separate exactness ledger.
+distinct unresolved quoted include paths, including source fragments. MAINE
+has a TH04-only entry TU, SCORE EGC copy TU, and target-attested local state
+for cutscenes, VRAM/input, sound, PI, score, and CDG. The current 83-object
+native MAINE diagnostic under pinned TC4J/TASM32/TLINK has only four unresolved
+function bodies: `cutscene_animate`, `staffroll_animate`, `verdict_animate`,
+and `regist_menu`. Its external historical `masters.lib` is a calibration
+input, not a product dependency; removing it exposes 51 more PC-98 runtime
+symbols from 40 archive members. The library's extracted objects have an
+incompatible large-model ABI for a standalone TH04 link. Earlier assembler
+`DGROUP group _TEXT` declarations caused TLINK's 64 KB group overflow after
+the data externals closed. A product-only group selection excludes `_TEXT`,
+while the ZUN accepted OMF and 6360-byte component remain unchanged in cold
+replay. TLINK still exits nonzero and may write a parsable but incomplete MZ;
+no candidate can run yet. The affected MAINE 72-slice cold aggregate passed;
+receipt SHA-256 `e8fa13b97ea73cdf10533671d1b8f2c87726b9052e38a823159d921c7e5c2616`.
+The [readiness note](reconstruction/product/TH04_NATIVE_BUILD_READINESS_V1.md)
+records target data offsets, cold receipts, the DGROUP failure and repair,
+the ReC98 TH01 build-method comparison, and TH05 reuse guidance. OP still
+lacks an entry TU. The immediate lane is the four MAINE bodies, local runtime
+support, serial product links, MZ/relocation checks, DIET packaging, and a
+candidate PC-98 scenario. Raw target equality stays on its separate ledger.
 
 See the [v821 SCORE codec closure](reconstruction/op-maine/TH04_OP_SCORE_CODECS_HYBRID_V821.md),
 [v822 shared-sound provenance bound](reconstruction/op-maine/TH04_OP_SND_SE_SHARED_V822.md),

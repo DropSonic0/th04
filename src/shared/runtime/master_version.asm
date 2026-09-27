@@ -21,5 +21,9 @@ _Master_Copyright label byte
     db 'All rights reserved.', 0
 _DATA ends
 
+ifdef TH04_LARGE_PRODUCT
+DGROUP group _DATA
+else
 DGROUP group _TEXT, _DATA
+endif
 end

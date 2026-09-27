@@ -1,6 +1,6 @@
 #include "src/shared/hardware/graphics.hpp"
+#include "src/maine/cutscene/box_mask.hpp"
 
-typedef unsigned int box_mask_t;
 typedef unsigned int vram_offset_t;
 typedef unsigned short egc_temp_t;
 
@@ -13,6 +13,6 @@ extern const unsigned short BOX_MASKS[][4];
 extern unsigned char far *VRAM_PLANE_B;
 
 
-#pragma codeseg CUTSCENE_TEXT box_masked_01
+#pragma codeseg CUTSCENE_TEXT cutscene_01
 #include "src/maine/cutscene/box_1_to_0_masked.inl"
 #pragma codeseg

@@ -38,5 +38,9 @@ graph_MeshByte label byte
 _graph_MeshByte db 55h
 _DATA ends
 
+ifdef TH04_LARGE_PRODUCT
+DGROUP group _DATA
+else
 DGROUP group _TEXT, _DATA
+endif
 end

@@ -17,5 +17,5 @@ extern unsigned char fast_forward;
 void near box_1_to_0_animate(void);
 void near box_bg_put(void);
 
-#pragma codeseg CUTSCENE_TEXT cursor_advance_01
+#pragma codeseg CUTSCENE_TEXT cutscene_01
 #include "src/maine/cutscene/cursor_advance.inl"
