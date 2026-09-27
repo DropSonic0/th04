@@ -48,6 +48,10 @@ inline void delay_then_regist_menu(void)
     regist_menu();
 }
 
+#if defined(TH04P)
+#pragma codeseg MAINE_E_TEXT GROUP_01
+#else
 #pragma codeseg MAINE_E_TEXT maine_e_01
+#endif
 #include "src/maine/end/main.inl"
 #pragma codeseg

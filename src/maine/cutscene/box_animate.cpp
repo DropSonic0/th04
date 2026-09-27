@@ -9,6 +9,10 @@ extern int text_interval;
 void near egc_start_copy(void);
 void pascal near box_1_to_0_masked(box_mask_t mask);
 
+#if defined(TH04P)
+#pragma codeseg CUTSCENE_TEXT GROUP_01
+#else
 #pragma codeseg CUTSCENE_TEXT cutscene_01
+#endif
 #include "src/maine/cutscene/box_animate.inl"
 #pragma codeseg

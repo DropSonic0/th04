@@ -6,6 +6,10 @@
 // SCORE_TEXT-local EGC copy helper, maintained separately from this owner.
 void pascal near score_rect_copy(int left, int top, int width, int height);
 
+#if defined(TH04P)
+#pragma codeseg SCORE_TEXT GROUP_01
+#else
 #pragma codeseg SCORE_TEXT score_01
+#endif
 #include "src/maine/score/name_cursor.inl"
 #pragma codeseg

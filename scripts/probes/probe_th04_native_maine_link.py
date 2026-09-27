@@ -27,7 +27,10 @@ RUNNER = ROOT / "_reference/ReC98/bin/msdos.exe"
 RUNNER_SHA256 = "f7f6cb0a3e816c5edb13112d327c1bddbf7463fe7bf9a005ca1eb5317751bd02"
 SUPPORT_LIB = ROOT / "_reference/ReC98/bin/masters.lib"
 SUPPORT_SHA256 = "6be41dbcfcf4504977165ccc44443525a29a01f85a1580e6ad0c620bf802faf6"
-FLAGS = ("-c", "-I.", "-O", "-b-", "-3", "-Z", "-d", "-DGAME=4", "-ml")
+# The MS-DOS command tail is bounded. A longer product define makes TC4J
+# misread the longest MAINE source path's extension before compilation.
+# TH04P selects C++ code grouping; ASM still uses TH04_LARGE_PRODUCT.
+FLAGS = ("-c", "-I.", "-O", "-b-", "-3", "-Z", "-d", "-DGAME=4", "-DTH04P", "-ml")
 
 
 def sha(path: Path) -> str:

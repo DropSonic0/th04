@@ -8,6 +8,10 @@ extern int playchar;
 
 enum { PLAYCHAR_REIMU = 0 };
 
+#if defined(TH04P)
+#pragma codeseg SCORE_TEXT GROUP_01
+#else
 #pragma codeseg SCORE_TEXT score_01
+#endif
 #include "src/maine/score/score_put.inl"
 #pragma codeseg

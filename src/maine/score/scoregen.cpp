@@ -6,7 +6,11 @@ unsigned char pascal near scoredat_decode(void);
 void pascal near scoredat_encode(void);
 extern const char SCOREDAT_FN[];
 
+#if defined(TH04P)
+#pragma codeseg SCORE_TEXT GROUP_01
+#else
 #pragma codeseg SCORE_TEXT score_01
+#endif
 void near scoredat_recreate(void)
 #include "src/maine/score/scoregen.inl"
 #pragma codeseg

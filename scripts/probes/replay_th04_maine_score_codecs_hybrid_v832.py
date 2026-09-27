@@ -51,7 +51,7 @@ CODECS = {
     "decode": {
         "source": "src/maine/score/scoredec.cpp",
         "body": "src/maine/score/scoredec.inl",
-        "source_sha256": "a17a23949ea77175a412140933d4c13a8188950c445708ac8d1f5df42eaa7826",
+        "source_sha256": "e6588f654bba3a84aa26852b68385e100b44c4a935138681420f710a80049d92",
         "body_sha256": "4d459c348791132ac5a6c33fa9be021aa5ab918928dc1121c67d4822bd94347a",
         "candidate_file": "th04/formats/scoredat/decode.cpp",
         "signature": "uint8_t pascal near scoredat_decode(void)\n",
@@ -63,7 +63,7 @@ CODECS = {
     "encode": {
         "source": "src/maine/score/scoreenc.cpp",
         "body": "src/maine/score/scoreenc.inl",
-        "source_sha256": "e096f024619da728df4f7d4fc78088a6d7a96b32bb1f4013bd3a40da9547e18f",
+        "source_sha256": "b7cdb87cd70d2878f115abe0ac249f00ddafba32d7d6ba8fe3c5ff4fbf650d79",
         "body_sha256": "5bbf1ca6e6a8aba2af0cf0459a2d2b1c32f9b3e58e5fa3a808b5ad500ff9529b",
         "candidate_file": "th04/formats/scoredat/encode.cpp",
         "signature": "void pascal near scoredat_encode(void)\n",

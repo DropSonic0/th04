@@ -14,7 +14,11 @@ enum script_ret_t { CONTINUE = 0, STOP = -1 };
 #define str_sep_control_or_space(c) (iscntrl(c) || ((c) == ' '))
 #define text_fx graph_putsa_fx_func
 
+#if defined(TH04P)
+#pragma codeseg CUTSCENE_TEXT GROUP_01
+#else
 #pragma codeseg CUTSCENE_TEXT cutscene_01
+#endif
 void near box_bg_allocate_and_snap(void);
 void near box_bg_put(void);
 void near box_bg_free(void);

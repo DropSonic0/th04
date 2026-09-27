@@ -17,7 +17,11 @@ extern unsigned char far *VRAM_PLANE_R;
 extern unsigned char far *VRAM_PLANE_G;
 extern unsigned char far *VRAM_PLANE_E;
 
+#if defined(TH04P)
+#pragma codeseg CUTSCENE_TEXT GROUP_01
+#else
 #pragma codeseg CUTSCENE_TEXT cutscene_01
+#endif
 void near box_bg_free(void);
 #include "src/maine/cutscene/box_bg_snap.inl"
 #pragma codeseg

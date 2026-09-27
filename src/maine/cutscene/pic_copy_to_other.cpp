@@ -11,6 +11,10 @@ extern unsigned char far *VRAM_PLANE_B;
 
 void near egc_start_copy(void);
 
+#if defined(TH04P)
+#pragma codeseg CUTSCENE_TEXT GROUP_01
+#else
 #pragma codeseg CUTSCENE_TEXT cutscene_01
+#endif
 #include "src/maine/cutscene/pic_copy_to_other.inl"
 #pragma codeseg

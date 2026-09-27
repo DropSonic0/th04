@@ -9,6 +9,10 @@ int pascal near cutscene_script_load(const char far *fn);
 void near cutscene_animate(void);
 void near cutscene_script_free(void);
 
+#if defined(TH04P)
+#pragma codeseg MAINE_E_TEXT GROUP_01
+#else
 #pragma codeseg MAINE_E_TEXT maine_e_01
+#endif
 #include "src/maine/end/end_animate.inl"
 #pragma codeseg

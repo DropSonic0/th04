@@ -45,7 +45,11 @@ extern char aTimes[], aTimes_0[], aPoint[], a_ude_txt[];
 extern char aBhbhbhbhbhbhu_[], aPicacovVVcvsfT[], aUde_pi[];
 }
 
+#if defined(TH04P)
+#pragma codeseg MAINE_01_TEXT GROUP_01
+#else
 #pragma codeseg MAINE_01_TEXT maine_01
+#endif
 #include "src/maine/end/graph_3_digit_put.inl"
 #include "src/maine/end/graph_fraction_of_million_put.inl"
 #include "src/maine/end/skill_apply_and_graph_percentage_put.inl"

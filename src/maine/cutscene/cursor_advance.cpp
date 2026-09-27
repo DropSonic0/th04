@@ -17,5 +17,9 @@ extern unsigned char fast_forward;
 void near box_1_to_0_animate(void);
 void near box_bg_put(void);
 
+#if defined(TH04P)
+#pragma codeseg CUTSCENE_TEXT GROUP_01
+#else
 #pragma codeseg CUTSCENE_TEXT cutscene_01
+#endif
 #include "src/maine/cutscene/cursor_advance.inl"

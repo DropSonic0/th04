@@ -173,12 +173,19 @@ raw-zero after the cutscene additions; receipt SHA-256
 
 The historical `masters.lib` remains an ABI-incompatible calibration input.
 All 61 unresolved names route to 49 historical archive members by public
-name. A calibration link with that archive resolves the names but TLINK still
-fails: nine `MAINE_E_TEXT` near-call fixups overflow across the four separately
-grouped TH04 code segments, and the archive's extended dictionary warns.
-Product closure needs one valid near-code group, the remaining local runtime
-providers, a successful serial TLINK link, owned MAP/MZ relocation checks,
-DIET packaging, and a candidate PC-98 scenario. OP lacks an entry TU; MAIN
+name. A product-only C++ compile branch now puts the four MAINE near-code
+segments in `GROUP_01`; the exact replay branch retains its original groups.
+The historical-library calibration link consequently exits 0 with no unresolved
+names or near-call fixup errors. Its valid MZ has 573 relocations, all unique,
+nonoverlapping, in-image, and statically safe at two DOS load segments; the
+archive's extended dictionary still warns. This remains a calibration artifact.
+The product-group wrapper edit passed a focused SCORE codec replay and the
+full cold MAINE aggregate: all 72 accepted function slices remain raw-zero
+(aggregate receipt SHA-256
+`fda5aab5ce3d50fba8f8693f34915896657cd95999b55e9b86bd96e25ceefe03`).
+Product closure needs the remaining local runtime providers, a successful
+TH04-only TLINK link, its own MAP/MZ relocation audit, DIET packaging, and a
+candidate PC-98 scenario. OP lacks an entry TU; MAIN
 still has 102 distinct unresolved
 quoted include paths. The remaining two nonexact MAIN function slices are
 outside this build lane. Source ownership and runtime correctness are separate

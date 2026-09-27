@@ -25,7 +25,11 @@ inline void egc_setup_copy_masked(unsigned short mask) {
     outport(EGC_MASKREG, mask);
 }
 
+#if defined(TH04P)
+#pragma codeseg CUTSCENE_TEXT GROUP_01
+#else
 #pragma codeseg CUTSCENE_TEXT cutscene_01
+#endif
 void near egc_start_copy(void);
 void pascal near pic_copy_to_other(screen_x_t left, vram_y_t top);
 #include "src/maine/cutscene/pic_put_both_masked.inl"

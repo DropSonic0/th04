@@ -9,6 +9,10 @@ int far pascal gaiji_restore(void);
 }
 void game_exit(void);
 
+#if defined(TH04P)
+#pragma codeseg MAINE_E_TEXT GROUP_01
+#else
 #pragma codeseg MAINE_E_TEXT maine_e_01
+#endif
 #include "src/maine/core/game_exit_and_exec.inl"
 #pragma codeseg

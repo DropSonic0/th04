@@ -34,7 +34,11 @@ extern char aSff8_cdg[], aSff8b_cdg[];
 extern char aSff9_cdg[], aSff9b_cdg[];
 }
 
+#if defined(TH04P)
+#pragma codeseg MAINE_01_TEXT GROUP_01
+#else
 #pragma codeseg MAINE_01_TEXT maine_01
+#endif
 #include "src/maine/end/staffroll_dissolve_radial_put.inl"
 #include "src/maine/end/staffroll_dissolve_diagonal_put.inl"
 #include "src/maine/end/staffroll_dissolve_axis_put.inl"

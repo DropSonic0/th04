@@ -30,7 +30,11 @@ enum script_ret_t { CONTINUE = 0, STOP = -1 };
 
 // The parameter readers themselves are TH04 CUTSCENE_TEXT owners. These
 // adapters keep each command's default value in the original shared state.
+#if defined(TH04P)
+#pragma codeseg CUTSCENE_TEXT GROUP_01
+#else
 #pragma codeseg CUTSCENE_TEXT cutscene_01
+#endif
 void pascal near script_param_read_number_first(int& ret);
 void pascal near script_param_read_number_second(int& ret);
 inline void script_param_read_number_first(int& ret, int fallback) {

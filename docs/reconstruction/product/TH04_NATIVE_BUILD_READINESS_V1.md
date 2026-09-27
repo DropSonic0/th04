@@ -527,11 +527,54 @@ nine near-call `Fixup overflow` errors from `MAINE_E_TEXT` to cutscene,
 staffroll, verdict, and registration functions. Its 573-entry MZ relocation
 table is an incomplete diagnostic. The four product code segments in this
 MAP occupy only `0x2C1C` bytes combined, but their OMF owners currently place
-them in four distinct groups. The next control-plane task is to compile them
-into one product-only near-code group while leaving the exact replay branch's
-group inputs intact. For TH05, symbol closure and near-call relocation closure
-are separate acceptance gates; inspect both the segment/group MAP and TLINK's
-fixup diagnostics before booting any MZ.
+them in four distinct groups. For TH05, symbol closure and near-call
+relocation closure are separate acceptance gates; inspect both the segment/group
+MAP and TLINK's fixup diagnostics before booting any MZ.
+
+The product-only code-group branch now compiles all 35 MAINE wrapper TUs for
+these four segments into `GROUP_01`. Their original pragma branch remains the
+default for isolated exact replay. The C++ build selects the new branch with
+`-DTH04P`; the existing TASM `TH04_LARGE_PRODUCT` flag controls DGROUP
+separately. A first attempt used the long C++ define name, which made TC4J
+misread the longest MAINE source path as a `.16S` file before compilation.
+The shorter flag removes that MS-DOS command-tail failure. For TH05, leave
+room for the longest 8.3-translated path when adding compiler switches.
+
+The current no-archive 97-object link still fails on 61 support names with
+zero warnings. Its two cold rounds agree on every link-relevant and
+timestamp-normalized OMF object and the failure signature (receipt SHA-256
+`df10f66ff6cbc67cdc463f804e835efd0a18f782b8324c7ba88341f6d678fc6a`
+and `e73c77892a0c301f3fa7711fe17d618f0ca4bb6d00490a3964d8b3baf3c50e39`).
+The MAP assigns `MAINE_E_TEXT`, `CUTSCENE_TEXT`, `MAINE_01_TEXT`, and
+`SCORE_TEXT` to `GROUP_01` without duplicate-group warnings. The historical
+archive calibration now links with TLINK exit 0, no unresolved names, and no
+near-fixup errors. Its sole warning says the archive's invalid extended
+dictionary was ignored. Its 573-relocation MZ is structurally valid (receipt
+SHA-256 `d50e0ab235b6b9ff405c3bf07c7ca505254db9697f2461945a256d63ba008596`).
+That executable is a calibration artifact because the archive is not an
+accepted TH04-local runtime implementation.
+
+An independent static audit of this calibration MZ confirms all 573
+relocation sites are unique, nonoverlapping, and inside its 63,540-byte load
+image. Their five distinct segment-word values stay within its 3,972 image
+paragraphs. Entry `CS:IP` points into the image; the initial stack top at
+76,544 bytes fits the 76,560-byte minimum allocation. Relocation arithmetic
+does not wrap at DOS load segments `0x2000` and `0x6000` (receipt SHA-256
+`aced2ad9a422a35c6a7b12837330c23daa019f4aafc1ba29f7b50153f1d695a1`).
+This establishes static relocation structure for the calibration artifact;
+runtime behavior and a complete TH04-only link remain open.
+
+Changing wrapper pragmas also changed the two pinned SCORE codec wrapper
+source hashes in their replay guard. After updating those hashes to the current
+checked-in wrappers, a cold focused replay matched decode, encode, and the
+complete `SCORE_TEXT` bytes while preserving all 559 target MAINE relocations
+(receipt SHA-256 `cc3d0cc4b6059b5375b8cb3228fa87b7545aed71a34d779671677555af6e990e`).
+The full cold MAINE aggregate then passed all 72 accepted function slices
+against the original target (receipt SHA-256
+`fda5aab5ce3d50fba8f8693f34915896657cd95999b55e9b86bd96e25ceefe03`).
+For TH05, a source-hash guard failure after a controlled wrapper edit needs
+both an updated guard and a fresh byte-and-relocation replay; a hash edit alone
+does not establish preservation.
 
 ## Current build-graph gaps
 

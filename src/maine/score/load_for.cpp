@@ -8,6 +8,10 @@ extern const char SCOREDAT_FN_1[];
 unsigned char pascal near scoredat_decode(void);
 void near scoredat_recreate(void);
 
+#if defined(TH04P)
+#pragma codeseg SCORE_TEXT GROUP_01
+#else
 #pragma codeseg SCORE_TEXT score_01
+#endif
 #include "src/maine/score/load_for.inl"
 #pragma codeseg

@@ -22,6 +22,10 @@ static const screen_y_t BOX_TOP = 320;
 static const pixel_t BOX_H = 64;
 static const vram_byte_amount_t BOX_VRAM_W = 60;
 
+#if defined(TH04P)
+#pragma codeseg CUTSCENE_TEXT GROUP_01
+#else
 #pragma codeseg CUTSCENE_TEXT cutscene_01
+#endif
 #include "src/maine/cutscene/box_bg_put.inl"
 #pragma codeseg
