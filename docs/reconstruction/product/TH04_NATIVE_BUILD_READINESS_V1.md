@@ -717,6 +717,24 @@ and `0a74cd716243c54b36c918ef8b75438999c4bb708b097a409a7e59159f0c6827`).
 The archive dictionary warning persists. The source manifest now lists 71
 C/C++ and 36 ASM TUs.
 
+`src/shared/hardware/joystick.asm` adds TH04-local first-controller detection,
+YM2203 port I/O, DOS keyboard-buffer flush, and the two joystick state words.
+It exports C and Pascal data names needed by the existing TH04 input producer.
+The implementation follows the bounded TH04 branch of the local historical
+library as semantic candidate evidence; its hardware behavior and target-byte
+identity have not been tested. The 108-TU manifest has 71 C/C++ and 37 ASM
+sources. Two cold no-archive links each leave 33 unresolved names, down exactly
+`JS_START`, `JS_END`, `JS_SENSE`, `js_bexist`, and `js_stat`, with zero warnings.
+All 108 link-relevant and timestamp-normalized OMF objects agree; BGIMAGE's
+raw dependency timestamp alone differs (receipt SHA-256
+`5a00760eaa7c64a2ba45640db384e959309020b36784659f05a6315d0ed030f2`
+and `398da81efc01c1f6ce7c72220938b208b0f173ac04e0c90999dafca5119cd3ae`).
+Historical-library calibration TLINK exits 0 with only its existing dictionary
+warning; its 569 MZ relocations, entry, stack, and two DOS load tests pass
+(link/audit receipts
+`c44fe1f7287eca9386b7b8ed7a849c39acf54fbe7103bc5fc65bffa5ca9bc980`
+and `114b891d372119d7c2446d28070130f05fe11892a55fe1a5ff3723a006c3a83a`).
+
 ## Private PC-98 boot diagnostics
 
 `scripts/probes/prepare_th04_maine_diagnostic_hdi.py` creates disposable
@@ -765,7 +783,7 @@ run would not close the TH04-only product link.
   MAINE now has `src/maine/end/entry.cpp` for `main.inl`; other bounded
   `.inl` fragments also lack a product TU; some are historical overlapping
   replay fragments and must be selected by ownership rather than bulk-included.
-- MAINE now has an explicit 107-TU source/order manifest. The other artifacts
+- MAINE now has an explicit 108-TU source/order manifest. The other artifacts
   still need manifests, and the four-artifact product link control plane must
   assign startup objects, system libraries, segments, and outputs. ReC98
   linker responses remain calibration evidence.

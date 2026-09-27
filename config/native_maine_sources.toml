@@ -107,6 +107,7 @@ asm_sources = [
   "src/shared/hardware/hflip_state.asm",
   "src/shared/hardware/input_s.asm",
   "src/shared/hardware/input_state.asm",
+  "src/shared/hardware/joystick.asm",
   "src/shared/hardware/palette_state.asm",
   "src/shared/hardware/text_control.asm",
   "src/shared/hardware/vram_state.asm",

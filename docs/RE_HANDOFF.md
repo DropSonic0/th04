@@ -217,6 +217,11 @@ launching the original MAINE from AUTOEXEC produced DOS invalid-interrupt
 60H, so direct launch is an invalid MAINE acceptance route. The
 [native build note](reconstruction/product/TH04_NATIVE_BUILD_READINESS_V1.md)
 records the paired receipts and replay scripts.
+TH04-local joystick support now resolves five more names. The 108-TU
+no-archive MAINE link leaves 33 unresolved names and zero warnings; two cold
+OMF builds agree after BGIMAGE timestamp normalization. The historical-library
+calibration MZ links and passes its 569-site relocation/load audit. Joystick
+hardware behavior remains unobserved; this is not product closure.
 Product closure needs the remaining local runtime providers, a successful
 TH04-only TLINK link, its own MAP/MZ relocation audit, DIET packaging, and a
 candidate PC-98 scenario. OP lacks an entry TU; MAIN
