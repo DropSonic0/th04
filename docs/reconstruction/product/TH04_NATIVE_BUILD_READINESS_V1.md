@@ -653,6 +653,23 @@ SHA-256 `d3349459f11fbb10a5c0f3008534e2a2bef18b7c8985ca7564506f992ef49bc4`
 and `4f201a0c988d8cacec3bdc0777fb0fa975d1e061072a215a15f0013e5244d27f`).
 The archive warning and product/runtime limits remain.
 
+The MAINE probe now reads `config/native_maine_sources.toml` as its explicit
+TH04 source and object-order manifest. It lists 68 C/C++ and 35 ASM TUs from
+`src/maine/` and `src/shared/`; a missing, duplicate, stale, or unlisted TU
+fails before Wine starts. A negative probe with `random.cpp` removed from the
+manifest was rejected with that exact missing path. The manifest-only check
+is now part of `scripts/ci.py`. A fresh cold link from the manifest matched
+the preceding scan-based 103 objects after dependency-timestamp normalization,
+including the identical TLINK response SHA-256
+`1d559857f525cb908d7d4b7a6debec7cbcfbc857308e922cf8d265670ce145e4`,
+identical incomplete MZ SHA-256
+`bb037ff2bdea2efbf30befaf21e7a3cf189d672da601d0a7da8d6593d0e4af2a`,
+and the same 45 unresolved names (manifest-link receipt SHA-256
+`070f538a166f4c753f409a0b4afa15f7acc012f0ede25f8590928939b07137b6`).
+For TH05, guard complete source-set membership and explicit link order before
+interpreting a successful compiler pass as product coverage. The other TH04
+artifacts still need their own explicit manifests.
+
 ## Current build-graph gaps
 
 - MAIN C/C++ source has 764 quoted include sites whose paths do not resolve
@@ -663,9 +680,10 @@ The archive warning and product/runtime limits remain.
   MAINE now has `src/maine/end/entry.cpp` for `main.inl`; other bounded
   `.inl` fragments also lack a product TU; some are historical overlapping
   replay fragments and must be selected by ownership rather than bulk-included.
-- The source tree has no four-artifact product link manifest that assigns every
-  C/C++/ASM TU, object order, startup object, library, segment, and output.
-  ReC98 linker responses are calibration evidence, not this manifest.
+- MAINE now has an explicit 103-TU source/order manifest. The other artifacts
+  still need manifests, and the four-artifact product link control plane must
+  assign startup objects, system libraries, segments, and outputs. ReC98
+  linker responses remain calibration evidence.
 - OP, MAINE, and ZUN still need a product DIET/container route. ZUN's source
   composite additionally retains the documented usage-asset input.
 - The current PC-98 smoke script boots the original private disk image. It

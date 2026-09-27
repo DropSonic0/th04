@@ -17,6 +17,7 @@ import re
 import shutil
 import subprocess
 import sys
+import tomllib
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -27,10 +28,43 @@ RUNNER = ROOT / "_reference/ReC98/bin/msdos.exe"
 RUNNER_SHA256 = "f7f6cb0a3e816c5edb13112d327c1bddbf7463fe7bf9a005ca1eb5317751bd02"
 SUPPORT_LIB = ROOT / "_reference/ReC98/bin/masters.lib"
 SUPPORT_SHA256 = "6be41dbcfcf4504977165ccc44443525a29a01f85a1580e6ad0c620bf802faf6"
+SOURCE_MANIFEST = ROOT / "config/native_maine_sources.toml"
 # The MS-DOS command tail is bounded. A longer product define makes TC4J
 # misread the longest MAINE source path's extension before compilation.
 # TH04P selects C++ code grouping; ASM still uses TH04_LARGE_PRODUCT.
 FLAGS = ("-c", "-I.", "-O", "-b-", "-3", "-Z", "-d", "-DGAME=4", "-DTH04P", "-ml")
+
+
+def load_sources() -> tuple[list[Path], list[Path]]:
+    data = tomllib.loads(SOURCE_MANIFEST.read_text(encoding="utf-8"))
+    if (set(data) != {"schema_version", "artifact", "c_sources", "asm_sources"}
+            or data["schema_version"] != 1 or data["artifact"] != "th04-maine"):
+        raise ValueError("invalid MAINE native source manifest")
+
+    result: list[list[Path]] = []
+    for key, suffixes in (("c_sources", {".c", ".cpp"}), ("asm_sources", {".asm"})):
+        listed = data[key]
+        if not isinstance(listed, list) or not listed or not all(isinstance(s, str) for s in listed):
+            raise ValueError(f"invalid {key} source list")
+        if len(set(listed)) != len(listed):
+            raise ValueError(f"duplicate source in {key}")
+        paths = [Path(s) for s in listed]
+        for name, path in zip(listed, paths):
+            if (path.is_absolute() or ".." in path.parts or name != path.as_posix()
+                    or path.parts[:2] not in (("src", "maine"), ("src", "shared"))
+                    or path.suffix not in suffixes or not (ROOT / path).is_file()):
+                raise ValueError(f"invalid or missing MAINE source: {name}")
+        discovered = {
+            path.relative_to(ROOT).as_posix()
+            for group in ("maine", "shared")
+            for path in (ROOT / "src" / group).rglob("*")
+            if path.suffix in suffixes
+        }
+        if set(listed) != discovered:
+            raise ValueError(f"{key} source graph drift: missing={sorted(discovered - set(listed))}, "
+                             f"stale={sorted(set(listed) - discovered)}")
+        result.append(paths)
+    return result[0], result[1]
 
 
 def sha(path: Path) -> str:
@@ -67,10 +101,22 @@ def assemble(source: Path, obj: Path, work: Path, env: dict[str, str], log: Path
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output-dir", type=Path, required=True)
+    parser.add_argument("--output-dir", type=Path)
+    parser.add_argument("--check-manifest", action="store_true",
+                        help="check the TH04 source graph without running Wine")
     parser.add_argument("--without-support", action="store_true",
                         help="link only TH04 source plus pinned Borland system libraries")
     args = parser.parse_args()
+    if args.check_manifest:
+        if args.output_dir or args.without_support:
+            parser.error("--check-manifest cannot be combined with build options")
+        sources, asm_sources = load_sources()
+        print(json.dumps({"artifact": "th04-maine", "c_sources": len(sources),
+                          "asm_sources": len(asm_sources),
+                          "manifest_sha256": sha(SOURCE_MANIFEST)}, sort_keys=True))
+        return 0
+    if args.output_dir is None:
+        parser.error("--output-dir is required for a native link probe")
     output = args.output_dir.resolve()
     private = (ROOT / ".analysis/reconstruction/probes").resolve()
     if output.exists() or not output.is_relative_to(private):
@@ -85,6 +131,7 @@ def main() -> int:
     for path, expected in identities:
         if sha(path) != expected:
             raise RuntimeError(f"pinned input identity drift: {path}")
+    sources, asm_sources = load_sources()
 
     output.mkdir(parents=True)
     work = output / "source"
@@ -97,11 +144,6 @@ def main() -> int:
     env.update(WINEPREFIX=str(ROOT / ".analysis/toolchain/wineprefix"),
                WINEDEBUG="-all", MSDOS_PATH=r"C:\TC4\BIN;C:\TASM50\BIN")
 
-    sources = sorted(path.relative_to(ROOT) for group in ("maine", "shared")
-                     for path in (ROOT / "src" / group).rglob("*")
-                     if path.suffix in (".cpp", ".c"))
-    asm_sources = sorted(path.relative_to(ROOT) for group in ("maine", "shared")
-                         for path in (ROOT / "src" / group).rglob("*.asm"))
     object_paths: list[Path] = []
     records: list[dict[str, str]] = []
     for index, source in enumerate(sources):
@@ -171,6 +213,7 @@ def main() -> int:
                   "TH04-owned MAINE source graph and diagnostic support-library link"),
         "runner_sha256": RUNNER_SHA256,
         "support_lib_sha256": None if args.without_support else SUPPORT_SHA256,
+        "source_manifest_sha256": sha(SOURCE_MANIFEST),
         "compiler_flags": list(FLAGS),
         "assembler_flags": ["/m", "/mx", "/kh32768", "/t", "/dGAME=4",
                             "/dTH04_LARGE_PRODUCT=1"],

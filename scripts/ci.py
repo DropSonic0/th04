@@ -23,6 +23,9 @@ def main() -> int:
     try:
         run("Python unit tests", [python, "-m", "unittest", "discover", "-s", "tests", "-v"])
         run("Tracking ledgers", [python, "scripts/validate_tracking.py"])
+        run("Native MAINE source manifest", [
+            python, "scripts/probes/probe_th04_native_maine_link.py", "--check-manifest",
+        ])
         run(
             "Compatibility dependency audit",
             [python, "scripts/audit_compat_dependencies.py", "--check"],
