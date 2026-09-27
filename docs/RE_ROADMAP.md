@@ -1,6 +1,6 @@
 # TH04 reconstruction roadmap
 
-Updated 2026-09-27 after the v836 MAIN SND_LOAD closure and analysis cleanup. This is the
+Updated 2026-09-27 for the native product-build lane. This is the
 current next-work map. Use
 `python3 scripts/status.py` and the live ledgers for counts. Versioned notes,
 `config/evidence.csv`, and version-tagged `config/knowledge.csv` rows are a
@@ -66,9 +66,9 @@ MAIN `SND_LOAD` as one complete 234-byte owner, superseding the historical
 25 residual authored bytes: 23 in `carpet_lighting_put_new` and 2 in
 `playfield_checkerboard_grcg_tdw_`.
 
-Those two MAIN producers are the remaining function-level prerequisite before
-whole-product closure. After they close, return to complete container
-ownership, DIET/link layout, standalone product construction, and runtime
+The two MAIN producers remain exactness work. The current user-directed build
+lane defers them while closing TH04-only source dependencies, standalone
+product construction, relocation checks, DIET packaging, and runtime
 validation. Decoded-function exactness is not packed-file exactness.
 
 ## ZUN.COM: authored-function source authority closed

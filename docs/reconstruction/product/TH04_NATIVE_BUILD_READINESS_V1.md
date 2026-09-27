@@ -822,6 +822,14 @@ backup/restore lifecycle and file validation using test-only DOS adapters;
 the real CG port image and product file hook remain untested. Historical-
 library calibration passes 613 MZ relocation sites and 32 far entry ABIs.
 
+The [TH04-local packed-row renderer](TH04_NATIVE_PACK_PUT_V866.md) adds one
+C++ unit and closes `GRAPH_PACK_PUT_8`. Two cold 122-TU no-archive builds
+leave 11 unresolved names and agree on all link-relevant OMF records. An
+isolated DOS probe verifies packed color planes and both clipping directions
+against fake VRAM. The historical-library calibration passes 614 MZ
+relocation sites and 33 far entry ABIs. PI decompression, hardware VRAM,
+and MAINE runtime behavior remain separate gates.
+
 ## Private PC-98 boot diagnostics
 
 `scripts/probes/prepare_th04_maine_diagnostic_hdi.py` creates disposable

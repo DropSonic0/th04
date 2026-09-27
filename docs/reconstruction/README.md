@@ -28,6 +28,7 @@ notes explain the remaining source and container gaps:
 - [Native segmented heap and TC4J merged-return counterexample](product/TH04_NATIVE_HEAP_V863.md)
 - [Native VSync interrupt and DOS vector lifecycle](product/TH04_NATIVE_VSYNC_V864.md)
 - [Native gaiji backup, restore, and BFNT loader](product/TH04_NATIVE_GAIJI_STORAGE_V865.md)
+- [Native packed-row renderer and PI decoder handoff](product/TH04_NATIVE_PACK_PUT_V866.md)
 - [OP strict source blockers](op-maine/TH04_OP_STRICT_FRONTIER_V766.md)
 - [MAINE strict source blockers](op-maine/TH04_MAINE_STRICT_FRONTIER_V732.md)
 - [ZUN resident `_main` and `cfg_init` blockers](zun/TH04_ZUN_MAIN_V241.md)

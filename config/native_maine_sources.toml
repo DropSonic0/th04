@@ -61,6 +61,7 @@ c_sources = [
   "src/shared/hardware/gaiji_storage.cpp",
   "src/shared/hardware/graph_copy_page.cpp",
   "src/shared/hardware/graph_gaiji.cpp",
+  "src/shared/hardware/graph_pack_put_8.cpp",
   "src/shared/hardware/graph_pack_put_8_noclip.cpp",
   "src/shared/hardware/graph_pi_free.cpp",
   "src/shared/hardware/graph_start.cpp",
