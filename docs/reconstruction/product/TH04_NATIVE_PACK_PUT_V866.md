@@ -48,7 +48,10 @@ MAINE PC-98 runtime success.
 
 ## PI decoder handoff
 
-`GRAPH_PI_LOAD_PACK` remains a separate 11-name frontier item. The bounded
+This v866 handoff was completed by the
+[v869 PI decoder batch](TH04_NATIVE_PI_DECODE_V869.md); its seven-name
+no-support frontier and real-resource differential are the current state.
+At v866, `GRAPH_PI_LOAD_PACK` was a separate 11-name frontier item. The bounded
 historical decoder source is `libs/master.lib/graph_pi_load_pack.asm`; it
 parses `Pi` plus a 0x1A-terminated comment, mode/aspect/plane fields,
 machine extension, big-endian dimensions, optional 48-byte palette, then

@@ -51,6 +51,7 @@ c_sources = [
   "src/shared/core/game_init_op.cpp",
   "src/shared/core/state.cpp",
   "src/shared/formats/pi_load.cpp",
+  "src/shared/formats/pi_decode.cpp",
   "src/shared/formats/pi_put.cpp",
   "src/shared/formats/pi_put_quarter.cpp",
   "src/shared/formats/pi_state.cpp",

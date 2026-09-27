@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-27 after the MAINE native PAR archive/state batch. This is the
+Updated 2026-09-28 after the MAINE native PI decoder batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -160,17 +160,19 @@ remain unresolved exactness work.
 
 The [native product-build readiness note](reconstruction/product/TH04_NATIVE_BUILD_READINESS_V1.md)
 and `config/native_maine_sources.toml` define the current TH04-only MAINE
-source order. Pinned TC4J/TASM32 builds all 125 maintained translation units
-(80 C++, 45 ASM). Two cold no-archive links leave eight unresolved names
-and zero warnings; all 125 link-relevant and timestamp-normalized OMF records
+source order. Pinned TC4J/TASM32 builds all 126 maintained translation units
+(81 C++, 45 ASM). Two cold no-archive links leave seven unresolved names
+and zero warnings; all 126 link-relevant and timestamp-normalized OMF records
 agree, with BGIMAGE's prior raw timestamp drift. The mixed-support
-`masters.lib` calibration is not a standalone product: its MZ passes 631
+`masters.lib` calibration is not a standalone product: its MZ passes 637
 relocation sites at two DOS load segments and the call audit checks 33 far
-returns, 128 relocated direct far calls, and one same-CS far call. The
-calibration MAP places TH04-local `PFSTART` at `0887:342D` and `PFEND` at
-`0887:33F6`; those are candidate MAP addresses, not target offsets.
-See the [PAR archive/service note](reconstruction/product/TH04_NATIVE_PF_ARCHIVE_V867.md)
-for current hashes, private PI/BFNT fixtures, and the TH04-local file hook.
+returns, 134 relocated direct far calls, and one same-CS far call. The
+calibration MAP places TH04-local `GRAPH_PI_LOAD_PACK` at `0825:3323`; this is
+a candidate MAP address, not a target offset.
+See the [PI decoder note](reconstruction/product/TH04_NATIVE_PI_DECODE_V869.md)
+for the current real-resource differential and binary-versus-readable-source
+hazard. The [PAR archive/service note](reconstruction/product/TH04_NATIVE_PF_ARCHIVE_V867.md)
+has the private PI/BFNT fixture hashes and the TH04-local file hook.
 The [packed-row note](reconstruction/product/TH04_NATIVE_PACK_PUT_V866.md)
 retains the fake-VRAM test and PI decoder handoff.
 The [gaiji-storage note](reconstruction/product/TH04_NATIVE_GAIJI_STORAGE_V865.md)
@@ -180,21 +182,22 @@ Start with `python3 scripts/probes/probe_th04_native_maine_link.py --check-manif
 the focused notes give the cold-link, comparator, MZ,
 and call-ABI commands with fresh private output directories.
 
-The current eight names group as follows: sound `BGM_INIT`, `BGM_FINISH`,
-`BGM_READ_SDATA`, `BGM_SOUND`; graphics `GRAPH_PI_LOAD_PACK`; and sprite storage
-`SUPER_PUT`, `SUPER_FREE`, `SUPER_ENTRY_BFNT`. The no-archive receipt at
-`.analysis/reconstruction/probes/native-maine-pf-hook-v1-a-20260927/receipt.json`
+The current seven names group as follows: sound `BGM_INIT`, `BGM_FINISH`,
+`BGM_READ_SDATA`, `BGM_SOUND`; and sprite storage `SUPER_PUT`, `SUPER_FREE`,
+`SUPER_ENTRY_BFNT`. The no-archive receipt at
+`.analysis/reconstruction/probes/native-maine-pi-decode-v1-a-20260928/receipt.json`
 is the current private failure vector. New probes require fresh private output
 directories and only one writable Borland/Wine build at a time.
 
 The TH04-local `PFSTART`/`PFEND` INT 21h hook now passes nine pinned real
 resource cases in a separate DOS test MZ, including all five declared-size
 versus decoded-size one-byte cases. This is `runtime-observed` for the isolated
-DOS service; it is not MAINE PC-98 runtime acceptance. The next bounded batch
-should validate `GRAPH_PI_LOAD_PACK` against synthetic and extracted resources,
-including buffers crossing a 64 KiB segment boundary.
-The sprite and BGM owners have separate link names to investigate. The
-paragraph-based `hmem_alloc(unsigned)` can represent image buffers larger than
+DOS service; it is not MAINE PC-98 runtime acceptance. The TH04-local
+`GRAPH_PI_LOAD_PACK` decoder matches historical pixel hashes for two pinned
+640×400 PI resources through both the PAR hook and loose DOS reads; its
+paragraph indexing crosses 64 KiB and the isolated test MZ has 247 audited
+relocations. The next bounded batch should close the sprite and BGM owners.
+Paragraph-based `hmem_alloc(unsigned)` can represent image buffers larger than
 64 KiB; the byte-count `hmem_allocbyte(unsigned)` cannot. See the packed-row
 note for the decoder and ownership details.
 
