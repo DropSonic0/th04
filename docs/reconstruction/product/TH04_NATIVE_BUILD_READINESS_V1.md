@@ -628,6 +628,31 @@ pass the static audit (receipt SHA-256
 and `8ea0a7a6cf53b2be071667b4336a4e2be9a9c463d75e32a18c0c38b0ed4dfa7a`).
 The old 573-relocation count belonged to the preceding source graph.
 
+The following TH04-local batch closes six more names. `file_exist.asm` probes
+DOS with a far filename pointer, closes an opened handle, preserves `DS` and
+`BX`, and returns via `retf 4`. `text_control.asm` now also emits `ESC[2J`
+for `TEXT_CLEAR`. `random.cpp` owns the 32-bit seed initialized to one and a
+modulo-2^32 LCG step with multiplier `0x015A4E35`, returning bits 16–30.
+TC4J emitted `_random_seed` and far Pascal `IRAND` without external symbols.
+`trig_tables.asm` generates its 320 words from rounded
+`256*sin(2*pi*t/256)` using quarter-wave symmetry; `_CosTable8` aliases
+`_SinTable8` at byte offset 128, so the two 256-entry views consume 640 bytes.
+The computed words agree with the ReC98 `sin8[data].asm` reference, but are
+not yet attested against TH04 target data. These ports are behavioral source
+candidates, not exact reconstructions.
+
+The current 103-object no-archive link has 45 unresolved names, down exactly
+six, and zero warnings. Both cold rounds agree on every link-relevant and
+timestamp-normalized OMF object, with BGIMAGE raw timestamp drift only
+(receipt SHA-256 `5b3ec148ce6b08f0b9ade4fd4b24613270a4aa9a0ce9dffdeb11c73c51528e1a`
+and `046ed60ebb7d557db54b570559338da9e69dbca1a242926a001632b9e498aa21`).
+Historical-library calibration TLINK still exits 0; its MZ now has 569
+relocation sites and seven distinct in-image segment words. The independent
+static audit passes site, entry, stack, and two DOS load checks (receipt
+SHA-256 `d3349459f11fbb10a5c0f3008534e2a2bef18b7c8985ca7564506f992ef49bc4`
+and `4f201a0c988d8cacec3bdc0777fb0fa975d1e061072a215a15f0013e5244d27f`).
+The archive warning and product/runtime limits remain.
+
 ## Current build-graph gaps
 
 - MAIN C/C++ source has 764 quoted include sites whose paths do not resolve

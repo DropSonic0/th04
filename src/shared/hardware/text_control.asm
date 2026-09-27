@@ -4,7 +4,7 @@
     .model use16 large SHARED
     .code SHARED
 
-public KEY_BEEP_OFF, TEXT_CURSOR_HIDE, TEXT_SYSTEMLINE_HIDE
+public KEY_BEEP_OFF, TEXT_CLEAR, TEXT_CURSOR_HIDE, TEXT_SYSTEMLINE_HIDE
 
 KEY_BEEP_OFF proc far
     push es
@@ -14,6 +14,18 @@ KEY_BEEP_OFF proc far
     pop es
     retf
 KEY_BEEP_OFF endp
+
+TEXT_CLEAR proc far
+    mov al, 27
+    int 29h
+    mov al, '['
+    int 29h
+    mov al, '2'
+    int 29h
+    mov al, 'J'
+    int 29h
+    retf
+TEXT_CLEAR endp
 
 TEXT_CURSOR_HIDE proc far
     push dx
