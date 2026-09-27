@@ -778,6 +778,13 @@ Historical-library calibration passes 597 MZ relocation sites and 15 far
 entry ABIs, including `GRAPH_PI_FREE` with `RETF 8`. `HMEM_FREE` remains a
 separate TH04-owned requirement; no runtime PI cleanup observation exists.
 
+The [TH04-local text gaiji writers](TH04_NATIVE_GAIJI_TEXT_V860.md) add one
+translation unit and close two further names. Two cold 116-TU no-archive
+builds leave 25 unresolved names with zero warnings and agree on
+link-relevant and timestamp-normalized OMF records. Historical-library
+calibration passes 597 MZ relocation sites and 17 far entry ABIs, including
+the two gaiji returns. The PC-98 display path remains untested at runtime.
+
 ## Private PC-98 boot diagnostics
 
 `scripts/probes/prepare_th04_maine_diagnostic_hdi.py` creates disposable

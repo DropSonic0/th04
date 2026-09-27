@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-27 after the MAINE native-link and accepted-function replay. This is the
+Updated 2026-09-27 after the MAINE native text-gaiji batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -156,99 +156,48 @@ work is packed-container ownership, DIET/link-layout closure, standalone
 product construction, and a candidate runtime scenario; the two MAIN bodies
 remain unresolved exactness work.
 
-The [native product-build readiness note](reconstruction/product/TH04_NATIVE_BUILD_READINESS_V1.md)
-records the current TH04-only compile and link lane. A fresh `src/` snapshot
-compiles 97 MAINE and shared C/C++/ASM translation units under the pinned
-TC4J/TASM32 toolchain. The MAINE entry, staffroll, registration, verdict,
-cutscene, sound-effect update, and unclipped PI writer now have product owners.
-The cutscene PI masks and adjacent box/glyph data match the attested target
-in their compiled OMF owners. Two cold no-archive links agree on every
-link-relevant and timestamp-normalized object; BGIMAGE differs only in a
-dependency timestamp. Those 97-object links fail TLINK with 61 support names
-and zero warnings. Their parsable MZ files and 432 relocation entries are
-incomplete diagnostics, not runnable candidates.
-The affected MAINE cold aggregate passes all 72 accepted function slices
-raw-zero after the cutscene additions; receipt SHA-256
-`a1fff45cf81442a1aa3e0a6ae6c253c958a283e4c1aa1be028dc841fcd118471`.
+## Native build handoff
 
-The historical `masters.lib` remains an ABI-incompatible calibration input.
-The prior 61 unresolved names route to 49 historical archive members by public
-name. A product-only C++ compile branch now puts the four MAINE near-code
-segments in `GROUP_01`; the exact replay branch retains its original groups.
-The historical-library calibration link consequently exits 0 with no unresolved
-names or near-call fixup errors. Its valid MZ has 573 relocations, all unique,
-nonoverlapping, in-image, and statically safe at two DOS load segments; the
-archive's extended dictionary still warns. This remains a calibration artifact.
-The product-group wrapper edit passed a focused SCORE codec replay and the
-full cold MAINE aggregate: all 72 accepted function slices remain raw-zero
-(aggregate receipt SHA-256
-`fda5aab5ce3d50fba8f8693f34915896657cd95999b55e9b86bd96e25ceefe03`).
-TH04-local display controls now own `GRAPH_HIDE`, `GRAPH_SHOW`, `GRCG_OFF`,
-and `GRCG_SETCOLOR`. Its 98-object no-archive link had 57 unresolved
-names and zero warnings; two cold rounds agree. The historical-library
-calibration still links, and its 573 MZ relocation sites pass the static audit.
-EGC startup and PC-98 text controls are now TH04-local too. That
-100-object no-archive link has 51 unresolved names and zero warnings; both
-cold rounds agree. The new historical-library calibration MZ links and its
-570 relocation sites pass the static audit. Hardware behavior is still
-unobserved.
-DOS file existence, text clear, the random seed/step, and trig tables are
-TH04-local as well. The latest 103-object no-archive link has 45 unresolved
-names and zero warnings; two cold rounds agree. Historical-library calibration
-still links, and all 569 MZ relocation sites pass the static audit. This is
-not yet a TH04-only runnable executable.
-MAINE's source and object order is pinned in
-`config/native_maine_sources.toml` and checked by CI. Its first 103-TU cold manifest
-build preserved all link-relevant OMF objects, the TLINK response, incomplete
-MZ, and 45-name failure vector from the preceding scan-based build.
-The current manifest has 105 TUs after adding local palette state and analog
-`PALETTE_SHOW`; the no-archive link has 42 unresolved names and zero warnings.
-Two cold rounds agree. The historical-library calibration still links, and
-all 569 MZ relocation sites pass the static audit. LCD palette behavior and
-PC-98 runtime output remain unobserved.
-The latest 107-TU manifest also includes four local palette fades and
-port-polled `VSYNC_WAIT`. Its no-archive link has 38 unresolved names and zero
-warnings; cold OMF comparison passes. Historical-library calibration still
-links, and all 573 relocation sites pass the static DOS load audit. The
-historical-library calibration MZ was installed in a disposable HDI. Both
-original and calibration copies booted through `GAME.BAT` into OP with
-identical 10-second frames and logs; neither reached MAINE. Directly
-launching the original MAINE from AUTOEXEC produced DOS invalid-interrupt
-60H, so direct launch is an invalid MAINE acceptance route. The
-[native build note](reconstruction/product/TH04_NATIVE_BUILD_READINESS_V1.md)
-records the paired receipts and replay scripts.
-TH04-local joystick support now resolves five more names. The 108-TU
-no-archive MAINE link leaves 33 unresolved names and zero warnings; two cold
-OMF builds agree after BGIMAGE timestamp normalization. The historical-library
-calibration MZ links and passes its 569-site relocation/load audit. Joystick
-hardware behavior remains unobserved; this is not product closure.
-The file-I/O and `GRAPH_CLEAR` product ABI review found that an earlier
-calibration MZ had far calls into near-return local ASM despite passing
-TLINK and MZ relocation checks. Product-only far entry/return branches and
-a local `FILE_SIZE` owner now leave 32 unresolved names over 109 TUs. The
-latest calibration MZ passes 569 relocation sites plus 44 relocated far
-calls into nine audited far-return entries. The
-[focused ABI note](reconstruction/product/TH04_NATIVE_FAR_CALL_ABI_V856.md)
-records the rejecting opcodes, repair, accepted-slice regressions, and limits.
-The next TH04-local graphics batch adds clip defaults, 640x400 mode setup,
-graph startup, and palette initialization. Two cold 112-TU no-archive MAINE
-builds agree after BGIMAGE timestamp normalization and leave 30 names with
-zero warnings. The historical-library calibration links; 594 relocation
-sites pass the DOS load audit and 12 entry ABIs pass for 48 direct far calls
-plus one same-segment `push cs; call`. This is still a static calibration
-artifact; MAINE runtime entry remains unobserved.
-TH04-local GDC scroll and GRCG byte rectangle owners now reduce the
-114-TU MAINE no-archive frontier to 28 names with zero warnings. Two cold
-builds agree after BGIMAGE timestamp normalization; historical-library
-calibration links and passes 594 MZ relocation sites plus 14 entry ABIs.
-The [focused graphics note](reconstruction/product/TH04_NATIVE_SCROLL_BOX_V858.md)
-records semantic and runtime limits.
-The [PI cleanup note](reconstruction/product/TH04_NATIVE_PI_FREE_V859.md)
-records the next local far Pascal owner and a TC4J `const far*` segment-cast
-failure/recovery. Two cold 115-TU no-archive builds agree and leave 27 names;
-historical-library calibration passes 597 MZ relocations and 15 far entry
-ABIs. `HMEM_FREE` is still unresolved, and no MAINE runtime checkpoint has
-exercised this path.
+The [native product-build readiness note](reconstruction/product/TH04_NATIVE_BUILD_READINESS_V1.md)
+and `config/native_maine_sources.toml` define the current TH04-only MAINE
+source order. Pinned TC4J/TASM32 builds all 116 maintained translation units
+(74 C++, 42 ASM). Two cold no-archive builds agree on link-relevant and
+timestamp-normalized OMF records, with only BGIMAGE raw timestamp drift; TLINK
+still reports 25 unresolved names and zero warnings. The historical
+`masters.lib` calibration links, but is not a standalone product: its MZ
+passes 597 relocation sites at two DOS load segments and the call audit checks
+17 far entry ABIs, 66 relocated direct far calls, and one same-CS far call.
+See the [gaiji receipt note](reconstruction/product/TH04_NATIVE_GAIJI_TEXT_V860.md)
+for the current hashes and the
+[PI cleanup note](reconstruction/product/TH04_NATIVE_PI_FREE_V859.md)
+for the preceding checkpoint. This work has not reached MAINE at runtime.
+Start with `python3 scripts/probes/probe_th04_native_maine_link.py --check-manifest`;
+the focused notes give the cold-link, comparator, MZ,
+and call-ABI commands with fresh private output directories.
+
+The current 25 names group as follows: memory `HMEM_FREE`,
+`HMEM_ALLOCBYTE`, `MEM_ASSIGN_DOS`, `MEM_UNASSIGN`; packed-file service
+`PFSTART`, `PFEND`, `_bbufsiz`; VSYNC `VSYNC_START`, `VSYNC_END`,
+`_vsync_Count1`; sound `BGM_INIT`, `BGM_FINISH`, `BGM_READ_SDATA`,
+`BGM_SOUND`; graphics `GRAPH_COPY_PAGE`, `GRAPH_GAIJI_PUTC`,
+`GRAPH_GAIJI_PUTS`, `GRAPH_PI_LOAD_PACK`, `GRAPH_PACK_PUT_8`; text gaiji
+`GAIJI_BACKUP`, `GAIJI_RESTORE`, `GAIJI_ENTRY_BFNT`; and sprite storage
+`SUPER_PUT`, `SUPER_FREE`, `SUPER_ENTRY_BFNT`. The no-archive receipt at
+`.analysis/reconstruction/probes/native-maine-gaiji-text-v1-a-20260927/receipt.json`
+is the current private failure vector. New probes require fresh private output
+directories and only one writable Borland/Wine build at a time.
+
+A prior calibration MZ linked despite far calls into near-return local ASM.
+The [far-call ABI note](reconstruction/product/TH04_NATIVE_FAR_CALL_ABI_V856.md)
+records the counterexample, product-only repair, and accepted-slice replay;
+TLINK success and relocation counts alone are insufficient. After changing
+shared headers, segment ownership, link order, or ABI, cold-replay every
+affected accepted unit. Direct AUTOEXEC launch of even the original MAINE
+faults at DOS interrupt 60H; the paired original/calibration `GAME.BAT`
+diagnostic reaches OP only. The [runtime preparation note](reconstruction/product/TH04_NATIVE_BUILD_READINESS_V1.md)
+has the private HDI commands. Continue the normal OP-to-MAIN-to-MAINE route
+before making a runtime acceptance claim.
+
 Product closure needs the remaining local runtime providers, a successful
 TH04-only TLINK link, its own MAP/MZ relocation audit, DIET packaging, and a
 candidate PC-98 scenario. OP lacks an entry TU; MAIN
