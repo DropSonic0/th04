@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-28 after the MAINE native PI decoder batch. This is the
+Updated 2026-09-28 after the MAINE native BFNT sprite batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -160,15 +160,19 @@ remain unresolved exactness work.
 
 The [native product-build readiness note](reconstruction/product/TH04_NATIVE_BUILD_READINESS_V1.md)
 and `config/native_maine_sources.toml` define the current TH04-only MAINE
-source order. Pinned TC4J/TASM32 builds all 126 maintained translation units
-(81 C++, 45 ASM). Two cold no-archive links leave seven unresolved names
-and zero warnings; all 126 link-relevant and timestamp-normalized OMF records
+source order. Pinned TC4J/TASM32 builds all 128 maintained translation units
+(82 C++, 46 ASM). Two cold no-archive links leave four unresolved BGM names
+and zero warnings; all 128 link-relevant and timestamp-normalized OMF records
 agree, with BGIMAGE's prior raw timestamp drift. The mixed-support
-`masters.lib` calibration is not a standalone product: its MZ passes 637
+`masters.lib` calibration is not a standalone product: its MZ passes 649
 relocation sites at two DOS load segments and the call audit checks 33 far
-returns, 134 relocated direct far calls, and one same-CS far call. The
-calibration MAP places TH04-local `GRAPH_PI_LOAD_PACK` at `0825:3323`; this is
-a candidate MAP address, not a target offset.
+returns, 141 relocated direct far calls, and one same-CS far call. The
+calibration MAP places TH04-local `SUPER_ENTRY_BFNT` at `07C9:47CE` and
+`SUPER_PUT` at `07C9:4B8E`; these are candidate MAP addresses, not target
+offsets.
+See the [BFNT sprite note](reconstruction/product/TH04_NATIVE_SUPER_SPRITE_V870.md)
+for the current historical-library differential, fake-VRAM test, and BGM
+frontier.
 See the [PI decoder note](reconstruction/product/TH04_NATIVE_PI_DECODE_V869.md)
 for the current real-resource differential and binary-versus-readable-source
 hazard. The [PAR archive/service note](reconstruction/product/TH04_NATIVE_PF_ARCHIVE_V867.md)
@@ -182,10 +186,9 @@ Start with `python3 scripts/probes/probe_th04_native_maine_link.py --check-manif
 the focused notes give the cold-link, comparator, MZ,
 and call-ABI commands with fresh private output directories.
 
-The current seven names group as follows: sound `BGM_INIT`, `BGM_FINISH`,
-`BGM_READ_SDATA`, `BGM_SOUND`; and sprite storage `SUPER_PUT`, `SUPER_FREE`,
-`SUPER_ENTRY_BFNT`. The no-archive receipt at
-`.analysis/reconstruction/probes/native-maine-pi-decode-v1-a-20260928/receipt.json`
+The current four names are `BGM_INIT`, `BGM_FINISH`, `BGM_READ_SDATA`, and
+`BGM_SOUND`. The no-archive receipt at
+`.analysis/reconstruction/probes/native-maine-super-v1-a-20260928/receipt.json`
 is the current private failure vector. New probes require fresh private output
 directories and only one writable Borland/Wine build at a time.
 
@@ -196,7 +199,11 @@ DOS service; it is not MAINE PC-98 runtime acceptance. The TH04-local
 `GRAPH_PI_LOAD_PACK` decoder matches historical pixel hashes for two pinned
 640×400 PI resources through both the PAR hook and loose DOS reads; its
 paragraph indexing crosses 64 KiB and the isolated test MZ has 247 audited
-relocations. The next bounded batch should close the sprite and BGM owners.
+relocations. The TH04-local BFNT sprite service matches the historical
+small-model pattern and palette hashes for all 20 `SCNUM2.BFT` patterns. Its
+fake-VRAM draw and lifecycle test passes with 256 audited test-MZ relocations.
+The next bounded batch should close the four BGM owners using the pinned
+`MIKO.EFS` resource, then run a no-library MAINE link and PC-98 scenario.
 Paragraph-based `hmem_alloc(unsigned)` can represent image buffers larger than
 64 KiB; the byte-count `hmem_allocbyte(unsigned)` cannot. See the packed-row
 note for the decoder and ownership details.

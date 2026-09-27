@@ -77,7 +77,9 @@ call-audit receipt SHA-256 values are respectively
 `7256b4c8b32ef09a9cb55fd365559d81c137aebbed3d6358c88b7dcd80e95768`,
 `62fb4f91f6fb075b3122e93915e453bf1a9e335c91a3bbcd03a43c6d887a68ec`,
 and `99deca903272d344be6d4e99b8d5b7e96e9cb01a9a27c15d7e05cb5bf1e81dd9`.
-This mixed-support MZ is a diagnostic, not a standalone TH04 product. Native
-MAINE still needs the sprite and BGM providers. Larger or odd-width PI
+This mixed-support MZ is a diagnostic, not a standalone TH04 product. At v869,
+native MAINE still needed the sprite and BGM providers; the
+[v870 sprite batch](TH04_NATIVE_SUPER_SPRITE_V870.md) later closed the sprite
+names. Larger or odd-width PI
 resources and an actual PC-98 display scenario remain separate runtime
 coverage.
