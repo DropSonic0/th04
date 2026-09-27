@@ -717,6 +717,44 @@ and `0a74cd716243c54b36c918ef8b75438999c4bb708b097a409a7e59159f0c6827`).
 The archive dictionary warning persists. The source manifest now lists 71
 C/C++ and 36 ASM TUs.
 
+## Private PC-98 boot diagnostics
+
+`scripts/probes/prepare_th04_maine_diagnostic_hdi.py` creates disposable
+FAT12 HDIs from the hash-pinned private disk. It attests the original
+`GENSO/MAINE.EXE` against `config/targets.toml`, checks both FAT mirrors,
+and can install the relocation-audited historical-library calibration MZ.
+The default AUTOEXEC invokes the disk's `GAME.BAT`, which first runs ZUN
+initialization and then OP. An explicit `--original-maine` control uses the
+same disk and AUTOEXEC with the original executable. The `--startup
+direct-maine` mode exists only to reproduce a negative control. The script
+never changes the pinned source HDI or commits game assets.
+
+The paired `game-bat` preparations have private receipt SHA-256 values
+`815b1b6b1da05fd3b6f196696f7fa20bd7e73c1cd44460e21af0f54262ee8ef5`
+(original) and
+`0dc9d005de02eea6cb1bc3a9979e4531bc1baa4f3cbbb7126b550de51aea1a33`
+(calibration). `scripts/probes/run_th04_maine_diagnostic_hdi.py`, under
+`xvfb-run -a`, copies each prepared image for execution, pins the DOSBox-X
+binary and base configuration, records a 10-second X11 frame, and extracts
+the DOS marker from the executed FAT12 image. Its receipts are
+`859d2f2620912e8d9c760e66d1486737e0f45e4c12853e13c31ec1e081f07f4c`
+and `ef3267998e2dad3ae0f0d1c2dc6d9c322cd5ea2c13e0342df1d357741a7084d8`.
+Both executions reached the OP title sequence with pixel-identical frames,
+identical emulator logs, passing boot markers, and only `START` in
+`DIAG.TXT`. This is runtime-observed OP boot availability, **not** evidence
+that the calibration MAINE MZ executed or behaved correctly.
+
+Directly invoking the hash-attested original MAINE from AUTOEXEC, with the
+same DOS environment but without the normal OP transition, displayed DOS's
+invalid-interrupt `60H` error. The reproducible original direct-run receipt
+is `aa900623c88145125268faa689fde4ced5786ef66ade995e0657a9741ecdedea`.
+Therefore a direct MAINE launch is an invalid acceptance scenario: a candidate
+failure there cannot be assigned to its link or relocations. A future runtime
+Oracle must reach MAINE through the original `GAME.BAT → OP → MAIN → MAINE`
+state transition and record a checkpoint proving MAINE was entered. The
+calibration build still depends on historical `masters.lib`; even a successful
+run would not close the TH04-only product link.
+
 ## Current build-graph gaps
 
 - MAIN C/C++ source has 764 quoted include sites whose paths do not resolve
@@ -733,8 +771,8 @@ C/C++ and 36 ASM TUs.
   linker responses remain calibration evidence.
 - OP, MAINE, and ZUN still need a product DIET/container route. ZUN's source
   composite additionally retains the documented usage-asset input.
-- The current PC-98 smoke script boots the original private disk image. It
-  does not install and exercise a candidate build.
+- The private calibration MAINE MZ has booted inside a diagnostic disk through
+  OP. Its MAINE entry remains unobserved, and it is not a TH04-only product.
 
 ## Build lane
 

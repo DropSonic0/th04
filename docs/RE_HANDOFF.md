@@ -210,7 +210,13 @@ The latest 107-TU manifest also includes four local palette fades and
 port-polled `VSYNC_WAIT`. Its no-archive link has 38 unresolved names and zero
 warnings; cold OMF comparison passes. Historical-library calibration still
 links, and all 573 relocation sites pass the static DOS load audit. The
-candidate has not yet been run in a PC-98 emulator.
+historical-library calibration MZ was installed in a disposable HDI. Both
+original and calibration copies booted through `GAME.BAT` into OP with
+identical 10-second frames and logs; neither reached MAINE. Directly
+launching the original MAINE from AUTOEXEC produced DOS invalid-interrupt
+60H, so direct launch is an invalid MAINE acceptance route. The
+[native build note](reconstruction/product/TH04_NATIVE_BUILD_READINESS_V1.md)
+records the paired receipts and replay scripts.
 Product closure needs the remaining local runtime providers, a successful
 TH04-only TLINK link, its own MAP/MZ relocation audit, DIET packaging, and a
 candidate PC-98 scenario. OP lacks an entry TU; MAIN
