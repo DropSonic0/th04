@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-27 after the MAINE native packed-row batch. This is the
+Updated 2026-09-27 after the MAINE native PAR archive/state batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -160,15 +160,17 @@ remain unresolved exactness work.
 
 The [native product-build readiness note](reconstruction/product/TH04_NATIVE_BUILD_READINESS_V1.md)
 and `config/native_maine_sources.toml` define the current TH04-only MAINE
-source order. Pinned TC4J/TASM32 builds all 122 maintained translation units
-(79 C++, 43 ASM). Two cold no-archive builds agree on link-relevant and
+source order. Pinned TC4J/TASM32 builds all 123 maintained translation units
+(79 C++, 44 ASM). Two cold no-archive builds agree on link-relevant and
 timestamp-normalized OMF records, with only BGIMAGE raw timestamp drift; TLINK
-still reports 11 unresolved names and zero warnings. The historical
+still reports 10 unresolved names and zero warnings. The historical
 `masters.lib` calibration links, but is not a standalone product: its MZ
 passes 614 relocation sites at two DOS load segments and the call audit checks
 33 far entry ABIs, 124 relocated direct far calls, and one same-CS far call.
-See the [packed-row receipt note](reconstruction/product/TH04_NATIVE_PACK_PUT_V866.md)
-for current hashes, the fake-VRAM test limits, and the PI decoder handoff.
+See the [PAR archive/state note](reconstruction/product/TH04_NATIVE_PF_ARCHIVE_V867.md)
+for current hashes, private PI/BFNT fixtures, and the file-hook frontier.
+The [packed-row note](reconstruction/product/TH04_NATIVE_PACK_PUT_V866.md)
+retains the fake-VRAM test and PI decoder handoff.
 The [gaiji-storage note](reconstruction/product/TH04_NATIVE_GAIJI_STORAGE_V865.md)
 retains the BFNT test and stdio memory-pressure counterexample. This work has
 not reached MAINE at PC-98 runtime.
@@ -176,18 +178,21 @@ Start with `python3 scripts/probes/probe_th04_native_maine_link.py --check-manif
 the focused notes give the cold-link, comparator, MZ,
 and call-ABI commands with fresh private output directories.
 
-The current 11 names group as follows: packed-file service `PFSTART`,
-`PFEND`, `_bbufsiz`; sound `BGM_INIT`, `BGM_FINISH`, `BGM_READ_SDATA`,
+The current 10 names group as follows: packed-file service `PFSTART`,
+`PFEND`; sound `BGM_INIT`, `BGM_FINISH`, `BGM_READ_SDATA`,
 `BGM_SOUND`; graphics `GRAPH_PI_LOAD_PACK`; and sprite storage
 `SUPER_PUT`, `SUPER_FREE`, `SUPER_ENTRY_BFNT`. The no-archive receipt at
-`.analysis/reconstruction/probes/native-maine-pack-put-v1-a-20260927/receipt.json`
+`.analysis/reconstruction/probes/native-maine-pf-state-v1-a-20260927/receipt.json`
 is the current private failure vector. New probes require fresh private output
 directories and only one writable Borland/Wine build at a time.
 
 For the next bounded batch, the packed-file service is a useful first
-dependency: the pinned `GENSO/` disk directory has game containers but no
-standalone `.PI` entry. Then validate `GRAPH_PI_LOAD_PACK` against synthetic
-and extracted resources, including buffers crossing a 64 KiB segment boundary.
+dependency. `scripts/probes/probe_th04_pf_archive.py` now extracts real PI and
+BFNT fixtures from the pinned `GENSO/` containers into private output. Implement
+and exercise the TH04-local `PFSTART`/`PFEND` DOS INT 21h hook against them,
+including the five declared-size versus decoded-size one-byte cases. Then
+validate `GRAPH_PI_LOAD_PACK` against synthetic and extracted resources,
+including buffers crossing a 64 KiB segment boundary.
 The sprite and BGM owners have separate link names to investigate. The
 paragraph-based `hmem_alloc(unsigned)` can represent image buffers larger than
 64 KiB; the byte-count `hmem_allocbyte(unsigned)` cannot. See the packed-row

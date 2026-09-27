@@ -107,6 +107,7 @@ asm_sources = [
   "src/shared/formats/cdg_put.asm",
   "src/shared/formats/cdg_put_noalpha_8.asm",
   "src/shared/formats/cdg_state.asm",
+  "src/shared/formats/pf_state.asm",
   "src/shared/hardware/bgimage_state.asm",
   "src/shared/hardware/clip_state.asm",
   "src/shared/hardware/bgimager.asm",

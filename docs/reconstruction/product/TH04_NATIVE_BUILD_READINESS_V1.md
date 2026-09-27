@@ -830,6 +830,13 @@ against fake VRAM. The historical-library calibration passes 614 MZ
 relocation sites and 33 far entry ABIs. PI decompression, hardware VRAM,
 and MAINE runtime behavior remain separate gates.
 
+The [TH04 PAR archive probe and local state owner](TH04_NATIVE_PF_ARCHIVE_V867.md)
+recover 290 entries from the pinned HDI and private PI/BFNT fixtures. The
+data owner closes `_bbufsiz`; two cold 123-TU no-archive builds leave 10
+unresolved names and agree on link-relevant OMF. Historical-library
+calibration still passes 614 MZ relocations and 33 far entry ABIs. The
+TH04-local `PFSTART`/`PFEND` DOS INT 21h service remains unimplemented.
+
 ## Private PC-98 boot diagnostics
 
 `scripts/probes/prepare_th04_maine_diagnostic_hdi.py` creates disposable
