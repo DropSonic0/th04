@@ -505,6 +505,34 @@ composition: all 95 link-relevant objects, the 62-name unresolved vector,
 warnings, and failed-link MZ agree. The prior v844 receipts remain historical
 diagnostics with a different wrapper source hash.
 
+The next two local support owners compile without TC4J warnings. A shared
+product TU includes the already accepted TH04 sound-effect updater body; a
+TH04-local C++ routine unpacks 4-bit PI pixels into B/R/G/E VRAM planes without
+rejecting the cutscene's temporary row 400. This byte-to-plane order follows
+the historical rotation-table semantics, but has not yet been checked in an
+emulator. The first 97-object no-archive link removes both prior missing
+publics and exposes `BGM_SOUND`, called for beep-mode effects. It fails with
+61 unique unresolved names, zero warnings, and 432 relocation entries in its
+incomplete MZ (receipt SHA-256
+`2694f49f38ba4647a0f2fa33d6afbb9f7d368f8059a0f16de593dfd3723509b9`).
+A second cold build agrees on all 97 link-relevant and timestamp-normalized
+OMF objects, the full unresolved vector, and the failed MZ; only BGIMAGE's
+raw dependency timestamp differs (receipt SHA-256
+`2beae6a0adc076f03d61b0179dbedd3752a6507a412dbd888871251be28bd18c`).
+Every remaining name routes by public name to 49 historical archive members.
+
+A separate historical-library calibration link resolves all 61 names, yet
+TLINK still exits 1. It reports an invalid extended dictionary warning and
+nine near-call `Fixup overflow` errors from `MAINE_E_TEXT` to cutscene,
+staffroll, verdict, and registration functions. Its 573-entry MZ relocation
+table is an incomplete diagnostic. The four product code segments in this
+MAP occupy only `0x2C1C` bytes combined, but their OMF owners currently place
+them in four distinct groups. The next control-plane task is to compile them
+into one product-only near-code group while leaving the exact replay branch's
+group inputs intact. For TH05, symbol closure and near-call relocation closure
+are separate acceptance gates; inspect both the segment/group MAP and TLINK's
+fixup diagnostics before booting any MZ.
+
 ## Current build-graph gaps
 
 - MAIN C/C++ source has 764 quoted include sites whose paths do not resolve

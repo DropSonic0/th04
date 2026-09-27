@@ -158,27 +158,28 @@ remain unresolved exactness work.
 
 The [native product-build readiness note](reconstruction/product/TH04_NATIVE_BUILD_READINESS_V1.md)
 records the current TH04-only compile and link lane. A fresh `src/` snapshot
-compiles 95 MAINE and shared C/C++/ASM translation units under the pinned
-TC4J/TASM32 toolchain. The MAINE entry, staffroll, registration, verdict, and
-cutscene C++ bodies all have product translation units. The cutscene PI masks
-and adjacent box/glyph data match the attested target in their compiled OMF
-owners. The two latest cold no-archive links agree on every link-relevant and
-timestamp-normalized OMF object; BGIMAGE differs only in a dependency
-timestamp. Both links fail TLINK with 62 distinct unresolved support names and
-zero warnings. Their parsable MZ files and 430 relocation entries are
+compiles 97 MAINE and shared C/C++/ASM translation units under the pinned
+TC4J/TASM32 toolchain. The MAINE entry, staffroll, registration, verdict,
+cutscene, sound-effect update, and unclipped PI writer now have product owners.
+The cutscene PI masks and adjacent box/glyph data match the attested target
+in their compiled OMF owners. Two cold no-archive links agree on every
+link-relevant and timestamp-normalized object; BGIMAGE differs only in a
+dependency timestamp. Both links fail TLINK with 61 unresolved support names
+and zero warnings. Their parsable MZ files and 432 relocation entries are
 incomplete diagnostics, not runnable candidates.
 The affected MAINE cold aggregate passes all 72 accepted function slices
 raw-zero after the cutscene additions; receipt SHA-256
 `a1fff45cf81442a1aa3e0a6ae6c253c958a283e4c1aa1be028dc841fcd118471`.
 
 The historical `masters.lib` remains an ABI-incompatible calibration input.
-A pinned public-name inventory routes 60 of the 62 unresolved names to 48
-archive members; `GRAPH_PACK_PUT_8_NOCLIP` and `_snd_se_update` need local
-MAINE owners. The maintained TH04 OP body for the latter has independent
-MAINE target corroboration and is the next bounded support task. Product
-closure still needs the remaining runtime providers, a successful serial
-TLINK link, owned MAP/MZ relocation checks, DIET packaging, and a candidate
-PC-98 scenario. OP lacks an entry TU; MAIN still has 102 distinct unresolved
+All 61 unresolved names route to 49 historical archive members by public
+name. A calibration link with that archive resolves the names but TLINK still
+fails: nine `MAINE_E_TEXT` near-call fixups overflow across the four separately
+grouped TH04 code segments, and the archive's extended dictionary warns.
+Product closure needs one valid near-code group, the remaining local runtime
+providers, a successful serial TLINK link, owned MAP/MZ relocation checks,
+DIET packaging, and a candidate PC-98 scenario. OP lacks an entry TU; MAIN
+still has 102 distinct unresolved
 quoted include paths. The remaining two nonexact MAIN function slices are
 outside this build lane. Source ownership and runtime correctness are separate
 from the already accepted raw-zero function ledgers.
