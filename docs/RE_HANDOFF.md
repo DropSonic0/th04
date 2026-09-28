@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the twelfth MAIN declaration closure batch. This is the
+Updated 2026-09-29 after the thirteenth MAIN declaration closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -209,8 +209,8 @@ native OP has transferred control to `MAIN.EXE`. This does not establish
 original MAIN or MAINE execution. The strict shared CDG loader still gives
 raw-zero decoded modules and matching relocations for both OP and MAINE in
 two cold replay links. See the native OP note for receipts and limits. MAIN has no
-standalone build yet: its maintained sources refer to 91 missing quoted
-include paths: 53 declarations (299 references), 35 composite `.cpp`
+standalone build yet: its maintained sources refer to 89 missing quoted
+include paths: 52 declarations (283 references), 35 composite `.cpp`
 fragments, and two `.inl` fragments. See the
 [MAIN source-closure note](reconstruction/product/TH04_NATIVE_MAIN_SOURCE_CLOSURE_V882.md)
 for the eight affected composite producers and missing data/BSS owners.
@@ -315,6 +315,19 @@ by the first closed replay, the strict aggregate rewrites 19 staged occurrences
 while preserving all 275 accepted extents in two cold builds. Spark BSS
 ownership, the remaining 90-path source closure, standalone MAIN placement,
 and PC-98 startup remain open.
+
+The historical `th04/main/tile/tile.hpp` path now resolves to the artifact-local
+tile API through a product include wrapper. The v937 TC4J probe matches
+link-semantic OMF for tile-ring storage, image-VO arithmetic, dirty flags,
+invalidation state, and render/add declarations; the focused `tile_ring_set_vo`
+owner is raw/MAP/relocation exact at 79 bytes. The first focused replay exposed
+a cross-game duplicate `entity_flag_t` declaration, and the first aggregate
+hit the old hash-bound spark rewrite; the canonical TH02 entity guard in the
+product header and removal of that redundant rewrite fixed both controls. The
+strict aggregate rewrites 22 staged occurrences while preserving all 275
+accepted extents in two cold builds. Tile DATA/BSS ownership, the remaining
+89-path source closure, standalone MAIN placement, and PC-98 startup remain
+open.
 
 The [native ZUN note](reconstruction/zun/TH04_ZUN_NATIVE_SOURCE_BUILD_V880.md)
 records a TH04-only 18-object Tiny resident COM, cold 13,356-byte flat launcher,

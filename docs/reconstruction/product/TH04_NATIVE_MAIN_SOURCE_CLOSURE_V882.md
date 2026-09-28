@@ -5,19 +5,19 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v936 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v936-20260929/inventory.json`.
+The current v939 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v939-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 53 | 299 |
+| `.h` / `.hpp` declarations | 52 | 283 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **90** | **336** |
+| **Total** | **89** | **320** |
 
-The heaviest remaining header edge is `th04/main/tile/tile.hpp` (16), followed
-by `th04/main/item/item.hpp` (16), `th04/main/midboss/midboss.hpp` (15), and
-`th04/main/playfld.hpp` (15). Five
+The heaviest remaining header edge is `th04/main/item/item.hpp` (16), followed
+by `th04/main/midboss/midboss.hpp` (15), `th04/main/playfld.hpp` (15), and
+`x86real.h` (13). Five
 other missing platform/header names
 have no `th04/` prefix: `platform.h`, `x86real.h`, `planar.h`, `decomp.hpp`,
 and `shiftjis.hpp`. These names denote needed declarations, not approval to
@@ -384,10 +384,42 @@ aggregate receipt SHA-256:
 The v936 inventory is now 90 missing paths / 336 references. Spark BSS
 ownership, standalone MAIN linking, and PC-98 startup remain open.
 
+## MAIN tile-header closure
+
+The thirteenth declaration batch routes the historical
+`th04/main/tile/tile.hpp` edge through the product wrapper
+`src/main/include/th04/main/tile/tile.hpp` and the artifact-local
+`src/main/tile/tile.hpp`. The local surface preserves the TH04 tile-ring
+dimensions, signed VRAM-offset representation, tile-image lookup arithmetic,
+dirty-half flags, invalidation box, and mixed near/Pascal render entry points.
+The v937 TC4J reference/local probe produced identical link-semantic OMF
+(`d68b707cd1869aa667242f303960250779b7cca158a9b64b268f11d7ab57758b`);
+receipt SHA-256:
+`1b8a2c7999ac1f4c7e609ae85482e915768be6e735cebf7fa0236883696569ab`.
+
+The first focused replay reached a TH05 consumer and failed on duplicate
+`entity_flag_t` declarations after local TH04 entity headers mixed with
+`th02/main/entity.hpp`; the artifact-local entity header now aliases the
+canonical `TH02_MAIN_ENTITY_HPP` guard, preserving the semantic OMF while
+preventing that cross-game redeclaration. The first aggregate then failed
+closed because the redundant hash-bound spark entity rewrite saw a localized
+spark overlay; that rewrite remains removed. The corrected focused
+`tile_ring_set_vo` owner is raw/MAP/relocation exact at 79 bytes (receipt
+`d52ba1315c6ba0f5e743245c635e44178a3740885c430ea48c5052c762040e0c`), with
+candidate slice SHA-256
+`d74af2b4ba105180caf2bf096a48b0c65cd71c8eb81d1086d99f5c628f333144`.
+The v937 aggregate rewrites 22 staged occurrences and preserves all 275
+accepted extents in two cold builds with identical diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`;
+aggregate receipt SHA-256:
+`327ec7be8460950a4c4832b285ff1f90e3b4fa1b65c75a23bce826578db24f30`.
+The v939 inventory is now 89 missing paths / 320 references. Tile BSS
+ownership, standalone MAIN linking, and PC-98 startup remain open.
+
 This include inventory is only the first frontier. The frame declaration and
 storage batch demonstrates the required pairing, the scroll batch adds a
 second declaration/storage split, and the sound, pattern, and vector batches
-close declaration-only dependencies. The other 53 missing header
+close declaration-only dependencies. The other 52 missing header
 paths still need
 product-owned declarations and, where applicable, their data/BSS owners.
 A native link manifest must account for those owners and not infer completeness
