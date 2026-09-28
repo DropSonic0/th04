@@ -5,19 +5,19 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v932 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v932-20260929/inventory.json`.
+The current v934 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v934-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 55 | 336 |
+| `.h` / `.hpp` declarations | 54 | 317 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **92** | **373** |
+| **Total** | **91** | **354** |
 
-The heaviest remaining header edge is `th04/main/custom.hpp` (19), followed by
-`th04/main/spark.hpp` (18), `th04/main/tile/tile.hpp` (16), and
-`th04/main/item/item.hpp` (16). Five
+The heaviest remaining header edge is `th04/main/spark.hpp` (18), followed by
+`th04/main/tile/tile.hpp` (16), `th04/main/item/item.hpp` (16), and
+`th04/main/midboss/midboss.hpp` (15). Five
 other missing platform/header names
 have no `th04/` prefix: `platform.h`, `x86real.h`, `planar.h`, `decomp.hpp`,
 and `shiftjis.hpp`. These names denote needed declarations, not approval to
@@ -332,10 +332,35 @@ SHA-256: `b64b44c65a91ded2e9d99eabcad8f7642293ef3fc4e7ca382367163a9fcf5f97`.
 The v932 inventory is now 92 missing paths / 373 references. Score DATA/BSS
 ownership, standalone MAIN linking, and PC-98 startup remain open.
 
+## MAIN custom-entity header closure
+
+The eleventh declaration batch routes the historical `th04/main/custom.hpp`
+edge through the product wrapper `src/main/include/th04/main/custom.hpp` and
+the artifact-local `src/main/custom.hpp`. The local GAME 4 surface preserves
+the target-observed 26-byte `custom_t`, 32 entities, all field widths and
+subpixel/playfield members, plus `custom_assert_count`. The v933 TC4J
+reference/local probe produced identical link-semantic OMF
+(`20a755175823399bc8b40c0194a6d111ccd1eae6a9f7f907017145a0ea879a19`);
+receipt SHA-256:
+`f4bf39e083b24bdf808b8f0d024e05bea46148a5d08f5bf3553f809ba63e2b34`.
+
+The focused `chasecrosses_add.cpp` owner is raw/MAP/relocation exact at 1206
+bytes (receipt
+`5ca8d7d418740ad6c076c12dd7aa640d6e3fb0710114695a06a082767aad18bc`), with
+candidate slice SHA-256
+`7a4b38f4b1d8ab22b35e074fd3784c2155c4c6a9eec099063449c3f3c7eea712`. The
+v933 aggregate rewrites 23 staged occurrences and preserves all 275 accepted
+extents in two cold builds with identical diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`;
+aggregate receipt SHA-256:
+`3f2df997eec400a6ce798cbfc705194bb863e5f921f9b427298e80a7d846c7b0`.
+The v934 inventory is now 91 missing paths / 354 references. Custom BSS
+ownership, standalone MAIN linking, and PC-98 startup remain open.
+
 This include inventory is only the first frontier. The frame declaration and
 storage batch demonstrates the required pairing, the scroll batch adds a
 second declaration/storage split, and the sound, pattern, and vector batches
-close declaration-only dependencies. The other 55 missing header
+close declaration-only dependencies. The other 54 missing header
 paths still need
 product-owned declarations and, where applicable, their data/BSS owners.
 A native link manifest must account for those owners and not infer completeness
