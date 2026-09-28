@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the thirtieth MAIN declaration closure batch. This is the
+Updated 2026-09-29 after the thirty-first MAIN declaration closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -437,6 +437,23 @@ two `.inl` fragments; only `th04/dialog.cpp` remains unmapped. The full local
 surface keeps the historical `PLANAR_H` guard so untouched scaffold consumers
 do not redeclare planar templates; declaration closure is compiler-observed
 only, not MAIN DATA/BSS ownership, standalone placement, or PC-98 startup.
+
+The historical `th04/main/drawp.hpp` path now resolves to the product-owned
+MAIN drawpoint declaration through `src/main/include/th04/main/drawp.hpp`,
+backed by `src/main/player/drawp.hpp`. The v983 TC4J reference/local probe
+matches semantic OMF SHA-256
+`be3864707b1601a673d64373aaf28b67ebd017b8aab918953e64f04d687c04c0`.
+The focused `th04-main-player-invalidate-v176` owner is raw/MAP/relocation
+exact at 0xB6 bytes (file 0x11FE2), slice SHA-256
+`13b2ea1657c35eefbd27fb1eaa66c637f48815877175dfbe541e162d0e7a218b`, including
+the existing drawpoint BSS field split. The v983 aggregate preserves all 275
+accepted extents in two cold builds with identical diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb` while
+staging six drawpoint-header occurrences. Inventory v983 is now 66 missing
+paths / 114 references: 29 headers (77 references), 35 `.cpp` fragments, and
+two `.inl` fragments; only `th04/dialog.cpp` remains unmapped. This closes the
+drawpoint declaration edge only; its target DATA/BSS placement, standalone MAIN
+placement, and PC-98 startup remain open.
 
 The historical `th04/main/gather.hpp` path now resolves to the artifact-local
 gather API through a product include wrapper. The v930 TC4J probe matches

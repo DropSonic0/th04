@@ -5,18 +5,18 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v982 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v982-20260929/inventory.json`.
+The current v983 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v983-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 30 | 82 |
+| `.h` / `.hpp` declarations | 29 | 77 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **67** | **119** |
+| **Total** | **66** | **114** |
 
-The heaviest remaining header edge is `th04/main/drawp.hpp` (5 references),
-followed by the four-path backdrop, dialog, and boss surfaces. These names denote needed
+The heaviest remaining header edge is now `th04/main/boss/backdrop.hpp` (4 references),
+followed by the four-path dialog, boss, tile, playperf, and state surfaces. These names denote needed
 declarations, not approval to reuse cross-game product headers.
 
 Eight maintained physical producers include `.cpp` fragments by historical
@@ -939,6 +939,43 @@ header keeps the historical `PLANAR_H` guard because the root-level rewrite
 also reaches legacy scaffold consumers. This is compiler-observed declaration
 closure and affected-unit revalidation, not target DATA/BSS ownership,
 standalone MAIN placement, or PC-98 startup acceptance.
+
+## MAIN drawpoint-header closure
+
+The thirty-first declaration batch routes the historical
+`th04/main/drawp.hpp` edge through
+`src/main/include/th04/main/drawp.hpp`, backed by the semantic player-owned
+`src/main/player/drawp.hpp`. The local surface preserves the historical
+`PlayfieldPoint` dependency and the single `extern PlayfieldPoint drawpoint`
+declaration. The existing v176 replay transform remains the owner of the
+drawpoint BSS field split; this header does not allocate a second storage
+definition.
+
+The v983 TC4J reference/local probe passes with semantic OMF SHA-256
+`be3864707b1601a673d64373aaf28b67ebd017b8aab918953e64f04d687c04c0`
+(receipt SHA-256
+`d8f34d7bb6523b1d3dcaa57e6fc646bda9e14842972f2dbe35be12dddd557f85`).
+The focused `th04-main-player-invalidate-v176` replay proves the 0xB6-byte
+owner at file 0x11FE2, slice SHA-256
+`13b2ea1657c35eefbd27fb1eaa66c637f48815877175dfbe541e162d0e7a218b`, with
+exact MAP placement and the target's ordered relocation overlap in two cold
+builds.
+
+The v983 focused receipt
+`gpt-5-6-sol-main-drawpoint-header-focused-056-20260929/receipt.json` has
+SHA-256 `b647066a687e56251eb7fda4a5092bc79e111731d0c64960352bd4f2a14b3d0e`.
+The aggregate receipt
+`gpt-5-6-sol-main-drawpoint-header-aggregate-057-20260929/receipt.json` has
+SHA-256 `6db0643197e6aa51138701e26b32fb7966125024999685c04430b346c755a15c`
+and preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`; six
+drawpoint-header occurrences are staged. Inventory v983 is 66 missing paths /
+114 references: 29 headers (77 references), 35 `.cpp` fragments, and two
+`.inl` fragments; only `th04/dialog.cpp` remains unmapped. This is
+compiler-observed declaration closure and affected-unit revalidation, not
+drawpoint DATA/BSS placement, standalone MAIN placement, or PC-98 startup
+acceptance.
 
 ## MAIN input API header closure
 
