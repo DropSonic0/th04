@@ -1,9 +1,9 @@
 #include "src/shared/hardware/graphics.hpp"
+#include "src/shared/formats/cdg.hpp"
 
 extern unsigned char playchar_menu_sel;
 extern unsigned char shottype_menu_sel;
 
-void far pascal cdg_put_noalpha_8(screen_x_t left, vram_y_t top, int slot);
 void near shottype_title_box_put(void);
 void pascal near shottype_titles_put(int sel);
 
@@ -18,6 +18,10 @@ static const int PLAYCHAR_REIMU = 0;
 static const int PLAYCHAR_MARISA = 1;
 static const vc2 COL_SHADOW = 1;
 
+#ifdef TH04P
+#pragma codeseg OP_NATIVE_TEXT OP_NATIVE_01
+#else
 #pragma codeseg OP_01_TEXT shottype_menu_initial_01
+#endif
 #include "src/op/menu/shottype_menu_initial.inl"
 #pragma codeseg

@@ -33,6 +33,10 @@ static inline resident_t __seg* cfg_load_and_set_resident(
 	return resident_seg;
 }
 
+#ifdef TH04P
+#pragma codeseg OP_NATIVE_TEXT OP_NATIVE_01
+#else
 #pragma codeseg OP_MAIN_TEXT cfg_load_01
+#endif
 #include "src/op/config/cfg_load.inl"
 #pragma codeseg

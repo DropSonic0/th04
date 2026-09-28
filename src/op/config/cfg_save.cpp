@@ -27,6 +27,10 @@ inline void cfg_options_update_from_resident(cfg_options_t &opts)
 	opts.turbo_mode = resident->turbo_mode;
 }
 
+#ifdef TH04P
+#pragma codeseg OP_NATIVE_TEXT OP_NATIVE_01
+#else
 #pragma codeseg OP_MAIN_TEXT cfg_save_01
+#endif
 #include "src/op/config/cfg_save.inl"
 #pragma codeseg

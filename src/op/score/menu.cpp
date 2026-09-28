@@ -28,6 +28,10 @@ enum {
 #define HISCORE_BG_FN "hi01.pi"
 #define MENU_MAIN_BG_FN "op1.pi"
 
+#ifdef TH04P
+#pragma codeseg OP_NATIVE_TEXT OP_NATIVE_01
+#else
 #pragma codeseg SCORE_TEXT op_01
+#endif
 #include "src/op/score/regist_view_menu.inl"
 #pragma codeseg

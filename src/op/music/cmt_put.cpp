@@ -12,10 +12,14 @@ static const int GLYPH_H = 16;
 static const int COL_CMT_TRACK = 7;
 static const int COL_CMT_COMMENT = 7;
 
-void pascal graph_putsa_fx(
+extern "C" void pascal graph_putsa_fx(
 	int left, int top, int col, const unsigned char far *str
 );
 
+#ifdef TH04P
+#pragma codeseg OP_NATIVE_TEXT OP_NATIVE_01
+#else
 #pragma codeseg OP_MUSIC_TEXT op_music_01
+#endif
 #include "src/op/music/cmt_put.inl"
 #pragma codeseg

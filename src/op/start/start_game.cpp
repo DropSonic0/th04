@@ -15,6 +15,10 @@ void game_exit(void);
 static char BINARY_MAIN[] = "main";
 static char BINARY_DEB[] = "deb";
 
+#ifdef TH04P
+#pragma codeseg OP_NATIVE_TEXT OP_NATIVE_01
+#else
 #pragma codeseg OP_MAIN_TEXT start_game_01
+#endif
 #include "src/op/start/start_game.inl"
 #pragma codeseg

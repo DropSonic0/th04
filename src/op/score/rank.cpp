@@ -11,6 +11,10 @@ static const pixel_t RANK_W = 128;
 static const screen_x_t RANK_LEFT = (RES_X - GLYPH_FULL_W - RANK_W);
 static const screen_y_t RANK_TOP = (RES_Y - (GLYPH_H / 2) - GLYPH_H);
 
+#ifdef TH04P
+#pragma codeseg OP_NATIVE_TEXT OP_NATIVE_01
+#else
 #pragma codeseg SCORE_TEXT op_01
+#endif
 #include "src/op/score/rank_render.inl"
 #pragma codeseg

@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-28 after the TH04-only MAINE BGM/link batch. This is the
+Updated 2026-09-28 after the TH04-only OP native link and boot batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -158,6 +158,51 @@ remain unresolved exactness work.
 
 ## Native build handoff
 
+The [native OP note](reconstruction/product/TH04_NATIVE_OP_LINK_V875.md) and
+`config/native_op_sources.toml` now define a source-only 156-object OP build
+(110 C/C++, 46 ASM). Two cold pinned TC4J/TASM32/TLINK links without
+`masters.lib` produce the same complete 75,212-byte MZ SHA-256
+`a21afefaf14c9530c2e6b85c4fd322bfe8b8c25bbd92c063c2534655f1f41180`,
+with zero unresolved names, errors, or warnings. The static audit validates
+799 relocation sites at DOS loads `0x2000` and `0x6000`; the ABI audit checks
+17 far-return ASM owners, 82 relocated direct far calls, and three same-CS
+calls. The ZUN/Tiny near `DOS_PUTS2` remains unchanged; OP uses its own far
+Pascal four-byte-pointer provider. This is compiler/linker and binary-structure
+evidence, not a whole-artifact exact claim.
+After the CDG ES repair, two further cold links agree on the complete
+75,212-byte MZ SHA-256
+`1abb7acf3d89e01f97262d2e407655a87f9d9a8c1a08b1397fb3c8f4ab19fb23`;
+the same static relocation and far-call audits pass. Four raw OMF files differ
+only in narrowly framed Borland source/dependency timestamp comments, while
+all link-relevant OMF records agree.
+
+The native OP title is visible at 60 and 100 seconds, while the original-image
+control reaches demo gameplay by 45 seconds. A private stage trace reached
+the main-menu loop; a later CDG-slot dump found the second cursor image
+missing. The TH04-large-product `CDG_LOAD_ALL` path now resets `ES=DS`
+before each header copy. After the change, the private trace passed the first
+menu frame and all three checked CDG slots were populated. A disposable
+TC4J MAIN entry shim wrote `MAINHIT.TXT = H` on the normal `GAME.BAT` route:
+native OP has transferred control to `MAIN.EXE`. This does not establish
+original MAIN or MAINE execution. The strict shared CDG loader still gives
+raw-zero decoded modules and matching relocations for both OP and MAINE in
+two cold replay links. See the native OP note for receipts and limits. MAIN has no
+standalone build yet: its maintained sources refer to 102 missing quoted
+include paths: 65 declarations (722 references), 35 composite `.cpp`
+fragments, and two `.inl` fragments. See the
+[MAIN source-closure note](reconstruction/product/TH04_NATIVE_MAIN_SOURCE_CLOSURE_V882.md)
+for the eight affected composite producers and missing data/BSS owners.
+Recover TH04 declarations under the local product tree rather than importing
+ReC98 headers wholesale.
+
+The [native ZUN note](reconstruction/zun/TH04_ZUN_NATIVE_SOURCE_BUILD_V880.md)
+records a TH04-only 18-object Tiny resident COM, cold 13,356-byte flat launcher,
+and deterministic 7,723-byte DIET-packed MZ with zero relocations. The packed
+candidate is not target-byte-exact. In a disposable HDI with original OP,
+MAIN, and MAINE, the normal `GAME.BAT` path reaches demo gameplay by 45
+seconds. This is runtime evidence for the source-only ZUN launch path; other
+launcher options and the combined candidate product chain remain to test.
+
 The [native product-build readiness note](reconstruction/product/TH04_NATIVE_BUILD_READINESS_V1.md)
 and `config/native_maine_sources.toml` define the current TH04-only MAINE
 source order. Pinned TC4J/TASM32/TLINK compiles 130 TH04-owned translation
@@ -172,6 +217,12 @@ load segments `0x2000` and `0x6000`, entry `0000:0000`, and stack
 direct far calls, and one same-CS far call. These are compiler/linker and
 static binary observations of a TH04-only MAINE build candidate, not target
 byte exactness or full PC-98 runtime acceptance.
+The native-only CDG ES correction changes the standalone MAINE MZ to SHA-256
+`adaea486a9931ae1dcead561c8b5ea2bbfab9619f13c3ace699e678c06b23aa2`.
+Its fresh static audit still validates 656 relocations, 36 far-return owners,
+148 direct far calls, and one same-CS call. Two cold links agree on the full
+MZ and all 130 link-relevant/timestamp-normalized OMF objects; only BGIMAGE's
+raw timestamp comment differs.
 
 The [BGM/link note](reconstruction/product/TH04_NATIVE_BGM_V871.md) records
 the pinned `MIKO.EFS` historical-library differential, 15 effects/1496 words,
@@ -236,10 +287,15 @@ diagnostic reaches OP only. The [runtime preparation note](reconstruction/produc
 has the private HDI commands. Continue the normal OP-to-MAIN-to-MAINE route
 before making a runtime acceptance claim.
 
-Whole-game product closure still needs OP's missing entry TU and source graph,
-MAIN's 102 distinct unresolved quoted include paths, artifact manifests and
-links beyond MAINE, DIET/container packaging, and a candidate PC-98 scenario.
+Whole-game product closure still needs MAIN's 102 distinct unresolved quoted
+include paths and absent data/BSS owners, its standalone source manifest and
+link, and a combined candidate PC-98 scenario. OP, ZUN, and MAINE each have
+source-only native build paths; the MAIN build is the controlling blocker.
 The remaining two nonexact MAIN function slices are outside this build lane.
+At this handoff, `python3 scripts/preflight.py`,
+`python3 scripts/validate_tracking.py`, `python3 scripts/ci.py`, and
+`git diff --check` pass. The last CI log is retained privately at
+`.analysis/reconstruction/probes/native-build-ci-v897-20260928.log`.
 Source ownership and runtime correctness are separate from the accepted
 raw-zero function ledgers.
 

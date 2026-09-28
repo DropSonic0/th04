@@ -19,10 +19,14 @@ static const shiftjis_t SE_CHOICE_BEEP[] =
 static const shiftjis_t SE_CHOICE_OFF[] =
 	"@ øÊ¹³µ @";
 
-void far pascal graph_putsa_fx(
+extern "C" void far pascal graph_putsa_fx(
 	int left, int top, int col, const shiftjis_t far *str
 );
 
+#ifdef TH04P
+#pragma codeseg OP_NATIVE_TEXT OP_NATIVE_01
+#else
 #pragma codeseg OP_SETUP_TEXT op_setup_01
+#endif
 #include "src/op/setup/se_choice_put.inl"
 #pragma codeseg

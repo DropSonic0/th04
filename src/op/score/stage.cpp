@@ -9,6 +9,10 @@ enum {
     COL_STAGE = 7,
 };
 
+#ifdef TH04P
+#pragma codeseg OP_NATIVE_TEXT OP_NATIVE_01
+#else
 #pragma codeseg SCORE_TEXT op_01
+#endif
 #include "src/op/score/stage_put.inl"
 #pragma codeseg

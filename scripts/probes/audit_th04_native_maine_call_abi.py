@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check MAINE far calls, returns, and relocation sites for local ASM owners.
+"""Check native TH04 far calls, returns, and relocation sites for ASM owners.
 
 TLINK can resolve a far call to a symbol whose implementation uses a near
 return. This gate catches that invalid ABI even when the MZ structure passes.
@@ -19,7 +19,7 @@ import tomllib
 
 ROOT = Path(__file__).resolve().parents[2]
 PROBES = (ROOT / ".analysis/reconstruction/probes").resolve()
-RET_POP = {
+RET_POP_MAINE = {
     # The IRQ wrapper calls this C++ far Pascal entry directly.
     "BGM_TICK": 0,
     "BGM_TIMER_START": 0,
@@ -61,6 +61,25 @@ RET_POP = {
 # These public heap entries are linked but have no MAINE call site yet.
 # Check their return ABI; require a call site for every active entry above.
 OPTIONAL_UNCALLED = {"HMEM_ALLOC", "MEM_ASSIGN", "MEM_ASSIGN_ALL"}
+RET_POP_OP = {
+    "BGIMAGE_PUT_RECT_16": 8,
+    "CDG_LOAD_ALL": 6,
+    "CDG_LOAD_ALL_NOALPHA": 6,
+    "CDG_PUT_NOALPHA_8": 6,
+    "DOS_PUTS2": 4,
+    "FILE_APPEND": 4,
+    "FILE_CLOSE": 0,
+    "FILE_CREATE": 4,
+    "FILE_READ": 6,
+    "FILE_ROPEN": 4,
+    "FILE_SEEK": 6,
+    "FILE_WRITE": 6,
+    "GRAPH_CLEAR": 0,
+    "GRAPH_PUTSA_FX": 10,
+    "KEY_BEEP_ON": 0,
+    "TEXT_CURSOR_SHOW": 0,
+    "TEXT_SYSTEMLINE_SHOW": 0,
+}
 
 
 def sha(data: bytes) -> str:
@@ -93,11 +112,17 @@ def main() -> int:
             or not output.is_relative_to(PROBES) or output.exists()):
         parser.error("use a private link receipt and a new private output directory")
     link = json.loads(link_path.read_text(encoding="utf-8"))
+    artifact = link.get("artifact", "th04-maine")
+    if artifact not in {"th04-maine", "th04-op"}:
+        raise ValueError(f"unsupported native ABI artifact: {artifact}")
+    product = artifact.removeprefix("th04-")
+    ret_pop = RET_POP_MAINE if product == "maine" else RET_POP_OP
+    optional_uncalled = OPTIONAL_UNCALLED if product == "maine" else set()
     if not link["link_complete"]:
-        raise ValueError("requires a complete native MAINE MZ")
+        raise ValueError(f"requires a complete native {product.upper()} MZ")
     base = link_path.parent / "source"
-    exe = (base / "bin/maine-native.exe").read_bytes()
-    map_bytes = (base / "obj/product/maine-native.map").read_bytes()
+    exe = (base / f"bin/{product}-native.exe").read_bytes()
+    map_bytes = (base / f"obj/product/{product}-native.map").read_bytes()
     if sha(exe) != link["mz_header"]["sha256"] or exe[:2] != b"MZ":
         raise ValueError("native MZ identity drift")
     header_size = u16(exe, 8) * 16
@@ -128,7 +153,8 @@ def main() -> int:
     ndisasm = shutil.which("ndisasm")
     if ndisasm is None:
         raise ValueError("ndisasm is required for instruction boundary checks")
-    manifest = tomllib.loads((ROOT / "config/native_maine_sources.toml").read_text(encoding="utf-8"))
+    manifest = tomllib.loads((ROOT / f"config/native_{product}_sources.toml").read_text(encoding="utf-8"))
+    unaudited_near = []
     for relative in manifest["asm_sources"]:
         source = (ROOT / relative).read_text(encoding="utf-8")
         for found in re.finditer(r"^\s*([A-Za-z_][\w@$?]*)\s+proc\s+near\b", source,
@@ -137,12 +163,14 @@ def main() -> int:
             if name not in publics:
                 continue
             segment, offset = publics[name]
-            if far_call_sites(body, segment * 16 + offset) and name not in RET_POP:
-                raise ValueError(f"far call to unaudited near-source ASM public: {name}")
+            if far_call_sites(body, segment * 16 + offset) and name not in ret_pop:
+                unaudited_near.append(name)
+    if unaudited_near:
+        raise ValueError(f"far calls to unaudited near-source ASM publics: {sorted(set(unaudited_near))}")
     rows = []
-    for name, expected_pop in RET_POP.items():
+    for name, expected_pop in ret_pop.items():
         if name not in publics:
-            raise ValueError(f"missing MAINE ASM public: {name}")
+            raise ValueError(f"missing {product.upper()} ASM public: {name}")
         segment, offset = publics[name]
         start = segment * 16 + offset
         if start >= len(body):
@@ -188,7 +216,7 @@ def main() -> int:
                 displacement = int.from_bytes(body[site + 2:site + 4], "little", signed=True)
                 if (local + 4 + displacement) & 0xFFFF == offset:
                     cs_push_calls.append(site)
-        if not calls and not cs_push_calls and name not in OPTIONAL_UNCALLED:
+        if not calls and not cs_push_calls and name not in optional_uncalled:
             raise ValueError(f"{name} has no far or CS-pushed same-segment calls")
         rows.append({"public": name, "segment": segment, "offset": offset,
                      "first_return": first_return, "far_call_sites": calls,
@@ -196,7 +224,8 @@ def main() -> int:
     output.mkdir(parents=True)
     receipt = {
         "schema_version": 1,
-        "scope": "MAINE native ASM call distance and MZ relocation sites",
+        "scope": f"{product.upper()} native ASM call distance and MZ relocation sites",
+        "artifact": artifact,
         "historical_support_library": bool(link["support_lib_sha256"]),
         "link_receipt_sha256": sha(link_path.read_bytes()),
         "mz_sha256": sha(exe),

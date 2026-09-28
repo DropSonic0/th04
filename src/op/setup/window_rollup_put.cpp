@@ -22,8 +22,12 @@ extern window_t window;
 void far pascal egc_copy_rect_1_to_0_16(
 	screen_x_t left, screen_y_t top, pixel_t w, pixel_t h
 );
-void far pascal super_put(screen_x_t left, screen_y_t top, int patnum);
+extern "C" void far pascal super_put(screen_x_t left, screen_y_t top, int patnum);
 
+#ifdef TH04P
+#pragma codeseg OP_NATIVE_TEXT OP_NATIVE_01
+#else
 #pragma codeseg OP_SETUP_TEXT op_setup_01
+#endif
 #include "src/op/setup/window_rollup_put.inl"
 #pragma codeseg

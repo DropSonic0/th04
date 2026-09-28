@@ -15,10 +15,14 @@ static const vc_t COL_NOT_SELECTED = 3;
 
 extern const char far *PLAYCHAR_TITLE[2][2];
 
-void far pascal graph_putsa_fx(
-	screen_x_t left, vram_y_t top, vc_t color, const char far *str
+extern "C" void far pascal graph_putsa_fx(
+	screen_x_t left, vram_y_t top, int color, const char far *str
 );
 
+#ifdef TH04P
+#pragma codeseg OP_NATIVE_TEXT OP_NATIVE_01
+#else
 #pragma codeseg OP_01_TEXT playchar_titles_put_01
+#endif
 #include "src/op/menu/playchar_titles_put.inl"
 #pragma codeseg

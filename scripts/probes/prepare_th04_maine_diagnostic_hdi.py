@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prepare paired original/calibration MAINE probes in disposable PC-98 HDIs.
+"""Prepare a native OP or MAINE candidate in a disposable PC-98 HDI.
 
 The source image and original target remain read-only. The output is a private
 diagnostic boot image, never a TH04-owned product or runtime acceptance.
@@ -130,22 +130,26 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--link-receipt", type=Path)
     parser.add_argument("--mz-audit-receipt", type=Path)
+    parser.add_argument("--artifact", choices=("maine", "op"), default="maine")
     parser.add_argument("--original-maine", action="store_true")
     parser.add_argument("--startup", choices=STARTUP_COMMANDS, default="game-bat")
     parser.add_argument("--output-dir", type=Path, required=True)
     args = parser.parse_args()
+    artifact = args.artifact
     output = args.output_dir.resolve()
     probes = (ROOT / ".analysis/reconstruction/probes").resolve()
     if output.exists() or not output.is_relative_to(PRIVATE):
         parser.error("use a new private output directory")
     if args.original_maine:
+        if artifact != "maine":
+            parser.error("--original-maine applies only to MAINE")
         if args.link_receipt or args.mz_audit_receipt:
             parser.error("original MAINE must not take candidate receipts")
         link_path = audit_path = None
         candidate = None
     else:
         if not args.link_receipt or not args.mz_audit_receipt:
-            parser.error("candidate MAINE requires both probe receipts")
+            parser.error(f"candidate {artifact.upper()} requires both probe receipts")
         link_path = args.link_receipt.resolve()
         audit_path = args.mz_audit_receipt.resolve()
         if (not link_path.is_relative_to(probes) or link_path.name != "receipt.json"
@@ -153,16 +157,18 @@ def main() -> int:
             parser.error("candidate receipts must be private probe receipts")
         link = json.loads(link_path.read_text(encoding="utf-8"))
         audit = json.loads(audit_path.read_text(encoding="utf-8"))
-        if (not link["link_complete"]
+        if (link.get("artifact", "th04-maine") != f"th04-{artifact}"
+                or audit.get("artifact", "th04-maine") != f"th04-{artifact}"
+                or not link["link_complete"]
                 or audit["link_receipt_sha256"] != sha(link_path.read_bytes())
                 or audit["mz_sha256"] != link["mz_header"]["sha256"]):
-            raise ValueError("expected statically audited native MAINE MZ")
+            raise ValueError(f"expected statically audited native {artifact.upper()} MZ")
         if (not link["support_lib_sha256"] and link["warnings"]):
-            raise ValueError("TH04-only native MAINE link has warnings")
+            raise ValueError(f"TH04-only native {artifact.upper()} link has warnings")
         if ("historical_support_library" in audit and
                 audit["historical_support_library"] != bool(link["support_lib_sha256"])):
             raise ValueError("MZ audit support-library scope differs from link")
-        exe = link_path.parent / "source/bin/maine-native.exe"
+        exe = link_path.parent / f"source/bin/{artifact}-native.exe"
         candidate = exe.read_bytes()
         if sha(candidate) != audit["mz_sha256"]:
             raise ValueError("candidate MZ identity drift")
@@ -173,7 +179,7 @@ def main() -> int:
     if len(original) != runtime["image"]["size"] or sha(original) != runtime["image"]["sha256"]:
         raise ValueError("pinned original HDI identity drift")
     targets = tomllib.loads((ROOT / "config/targets.toml").read_text(encoding="utf-8"))
-    target = next(item for item in targets["artifacts"] if item["id"] == "th04-maine")
+    target = next(item for item in targets["artifacts"] if item["id"] == f"th04-{artifact}")
 
     image = bytearray(original)
     fs = Fat12(image)
@@ -181,12 +187,12 @@ def main() -> int:
     if not image[genso + 11] & 0x10:
         raise ValueError("GENSO is not a directory")
     genso_offsets = [fs.cluster_offset(k) for k in fs.chain(u16(image, genso + 26))]
-    maine = fs.find_entry(genso_offsets, b"MAINE   EXE")
-    old_first = u16(image, maine + 26)
-    old_size = u32(image, maine + 28)
+    product_entry = fs.find_entry(genso_offsets, f"{artifact.upper():<8}EXE".encode("ascii"))
+    old_first = u16(image, product_entry + 26)
+    old_size = u32(image, product_entry + 28)
     old_chain = fs.chain(old_first)
     if old_size != target["size"] or sha(fs.file_bytes(old_first, old_size)) != target["sha256"]:
-        raise ValueError("HDI MAINE.EXE is not the pinned TH04 target")
+        raise ValueError(f"HDI {artifact.upper()}.EXE is not the pinned TH04 target")
 
     new_chain = old_chain
     if candidate is not None:
@@ -205,7 +211,7 @@ def main() -> int:
             offset = fs.cluster_offset(cluster)
             block = candidate[index * fs.cluster_bytes:(index + 1) * fs.cluster_bytes]
             image[offset:offset + fs.cluster_bytes] = block.ljust(fs.cluster_bytes, b"\x00")
-        image[maine + 28:maine + 32] = len(candidate).to_bytes(4, "little")
+        image[product_entry + 28:product_entry + 32] = len(candidate).to_bytes(4, "little")
 
     autoexec_bytes = (AUTOEXEC_PREFIX + STARTUP_COMMANDS[args.startup]
                       + b"ECHO EXIT >> A:\\DIAG.TXT\r\n\x1a")
@@ -232,23 +238,33 @@ def main() -> int:
     image_out.write_bytes(image)
     receipt = {
         "schema_version": 1,
-        "scope": "private diagnostic MAINE boot image, not product acceptance",
+        "scope": f"private diagnostic {artifact.upper()} boot image, not product acceptance",
+        "artifact": f"th04-{artifact}",
         "original_hdi_sha256": runtime["image"]["sha256"],
-        "original_maine_sha256": target["sha256"],
-        "maine_source": ("original" if candidate is None else
-                         "historical-library calibration" if link["support_lib_sha256"] else
-                         "TH04-only native MAINE"),
+        "original_artifact_sha256": target["sha256"],
+        "artifact_source": ("original" if candidate is None else
+                            "historical-library calibration" if link["support_lib_sha256"] else
+                            f"TH04-only native {artifact.upper()}"),
         "startup": args.startup,
         "link_receipt_sha256": sha(link_path.read_bytes()) if link_path else None,
         "mz_audit_receipt_sha256": sha(audit_path.read_bytes()) if audit_path else None,
-        "candidate_maine_sha256": sha(candidate) if candidate is not None else None,
-        "candidate_maine_size": len(candidate) if candidate is not None else None,
-        "original_maine_chain": old_chain,
-        "candidate_maine_chain": new_chain,
+        "candidate_artifact_sha256": sha(candidate) if candidate is not None else None,
+        "candidate_artifact_size": len(candidate) if candidate is not None else None,
+        "original_artifact_chain": old_chain,
+        "candidate_artifact_chain": new_chain,
         "autoexec_sha256": sha(autoexec_bytes),
         "diagnostic_hdi_sha256": sha(image),
         "limit": "Disposable FAT12 image only; no PC-98 execution or behavioral evidence.",
     }
+    if artifact == "maine":
+        receipt.update({
+            "original_maine_sha256": target["sha256"],
+            "maine_source": receipt["artifact_source"],
+            "candidate_maine_sha256": receipt["candidate_artifact_sha256"],
+            "candidate_maine_size": receipt["candidate_artifact_size"],
+            "original_maine_chain": old_chain,
+            "candidate_maine_chain": new_chain,
+        })
     (output / "receipt.json").write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({"image": str(image_out), "candidate_size": len(candidate) if candidate is not None else None,
                       "clusters": len(new_chain), "sha256": receipt["diagnostic_hdi_sha256"]}, sort_keys=True))

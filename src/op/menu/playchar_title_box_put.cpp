@@ -14,6 +14,10 @@ static const vc2 COL_BOX = 2;
 
 #define playchar_title_left_for(left, playchar) 	switch(playchar) { 	case 0: left = (REIMU_LEFT + PLAYCHAR_TITLE_OFFSET_X); break; 	case 1: left = (MARISA_LEFT + PLAYCHAR_TITLE_OFFSET_X); break; 	}
 
+#ifdef TH04P
+#pragma codeseg OP_NATIVE_TEXT OP_NATIVE_01
+#else
 #pragma codeseg OP_01_TEXT m_char_01
+#endif
 #include "src/op/menu/playchar_title_box_put.inl"
 #pragma codeseg

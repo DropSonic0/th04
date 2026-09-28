@@ -26,6 +26,9 @@ def main() -> int:
         run("Native MAINE source manifest", [
             python, "scripts/probes/probe_th04_native_maine_link.py", "--check-manifest",
         ])
+        run("Native OP source manifest", [
+            python, "scripts/probes/probe_th04_native_op_link.py", "--check-manifest",
+        ])
         run(
             "Compatibility dependency audit",
             [python, "scripts/audit_compat_dependencies.py", "--check"],

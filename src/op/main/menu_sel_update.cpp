@@ -13,6 +13,10 @@ static const int MC_EXTRA = 1;
 static const vc2 COL_INACTIVE = 1;
 static const vc2 COL_ACTIVE = 8;
 
+#ifdef TH04P
+#pragma codeseg OP_NATIVE_TEXT OP_NATIVE_01
+#else
 #pragma codeseg OP_MAIN_TEXT menu_sel_update_01
+#endif
 #include "src/op/main/menu_sel_update.inl"
 #pragma codeseg

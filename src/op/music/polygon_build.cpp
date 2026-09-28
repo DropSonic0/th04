@@ -22,6 +22,10 @@ extern const short CosTable8[256];
 extern const short SinTable8[256];
 int far pascal polar(int center, int radius, int ratio);
 
+#ifdef TH04P
+#pragma codeseg OP_NATIVE_TEXT OP_NATIVE_01
+#else
 #pragma codeseg OP_MUSIC_TEXT polygon_build_01
+#endif
 #include "src/op/music/polygon_build.inl"
 #pragma codeseg

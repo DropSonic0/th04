@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compare two cold TH04 MAINE native-link diagnostic receipts."""
+"""Compare two cold TH04 native-link diagnostic receipts."""
 
 from __future__ import annotations
 
@@ -23,6 +23,8 @@ def main() -> int:
     b = json.loads((args.second / "receipt.json").read_text(encoding="utf-8"))
     if a["scope"] != b["scope"] or a["runner_sha256"] != b["runner_sha256"]:
         raise ValueError("scope or toolchain identity drift")
+    if a.get("artifact") != b.get("artifact") or a.get("source_manifest_sha256") != b.get("source_manifest_sha256"):
+        raise ValueError("artifact or source manifest drift")
     if a["support_lib_sha256"] != b["support_lib_sha256"]:
         raise ValueError("support library identity drift")
     if a["compiler_flags"] != b["compiler_flags"]:
@@ -52,6 +54,8 @@ def main() -> int:
                 "link_complete", "mz_header"):
         if a[key] != b[key]:
             raise ValueError(f"{key} drift")
+    if a.get("link_errors", []) != b.get("link_errors", []):
+        raise ValueError("link error drift")
     print(json.dumps({"objects": len(a["objects"]),
                       "link_relevant_equal": True,
                       "timestamp_normalized_equal": True,

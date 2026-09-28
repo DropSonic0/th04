@@ -5,6 +5,10 @@ void near raise_bg_allocate_and_snap(void);
 void pascal near playchar_title_box_put(int playchar);
 void near pic_put(void);
 
+#ifdef TH04P
+#pragma codeseg OP_NATIVE_TEXT OP_NATIVE_01
+#else
 #pragma codeseg OP_01_TEXT playchar_menu_initial_01
+#endif
 #include "src/op/menu/playchar_menu_initial.inl"
 #pragma codeseg

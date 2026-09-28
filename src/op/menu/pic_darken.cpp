@@ -13,6 +13,10 @@ static const screen_x_t REIMU_LEFT = 48;
 static const screen_x_t MARISA_LEFT = 336;
 static const screen_y_t PLAYCHAR_TOP = 52;
 
+#ifdef TH04P
+#pragma codeseg OP_NATIVE_TEXT OP_NATIVE_01
+#else
 #pragma codeseg OP_01_TEXT m_char_01
+#endif
 #include "src/op/menu/pic_darken.inl"
 #pragma codeseg

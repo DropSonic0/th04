@@ -136,11 +136,13 @@ def _pascal_string(data: bytes) -> str | None:
 
 
 def normalize_dependency_timestamps(data: bytes) -> bytes:
-    """Zero only Borland COMENT E9 DOS time/date fields and re-checksum.
+    """Zero Borland E9 and narrowly framed E8 source time/date fields.
 
     Open Watcom's primary OMF definition identifies the four bytes after the
     COMENT type/class as two little-endian ``dos_time``/``dos_date`` words.
-    Source paths and every link-relevant record remain untouched.  In
+    TC4J also emits COMENT E8 with ``00 E8 01``, a Pascal source path, and
+    exactly four trailing time/date bytes. Only that observed framing is
+    normalized. Source paths and every link-relevant record remain untouched. In
     particular, source-level ``__DATE__``/``__TIME__`` bytes in LEDATA are not
     normalized.
     """
@@ -148,16 +150,20 @@ def normalize_dependency_timestamps(data: bytes) -> bytes:
     records = parse_omf(data)
     normalized = bytearray(data)
     for record in records:
-        if (
-            record.record_type == 0x88
-            and len(record.data) >= 7
-            and record.data[1] == 0xE9
-        ):
-            payload = record.offset + 3
-            normalized[payload + 2 : payload + 6] = b"\0\0\0\0"
-            checksum = record.offset + 3 + record.length - 1
-            normalized[checksum] = 0
-            normalized[checksum] = (-sum(normalized[record.offset:checksum])) & 0xFF
+        if record.record_type != 0x88:
+            continue
+        payload = record.offset + 3
+        if len(record.data) >= 7 and record.data[1] == 0xE9:
+            stamp_start = payload + 2
+        elif (len(record.data) >= 8 and record.data[:3] == b"\x00\xE8\x01"
+              and len(record.data) == 4 + record.data[3] + 4):
+            stamp_start = payload + len(record.data) - 4
+        else:
+            continue
+        normalized[stamp_start:stamp_start + 4] = b"\0\0\0\0"
+        checksum = record.offset + 3 + record.length - 1
+        normalized[checksum] = 0
+        normalized[checksum] = (-sum(normalized[record.offset:checksum])) & 0xFF
     result = bytes(normalized)
     parse_omf(result)
     return result

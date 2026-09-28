@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Replay a private MAINE HDI probe under pinned DOSBox-X, with one X11 frame.
+"""Replay a private OP or MAINE HDI probe under pinned DOSBox-X.
 
 Run under ``xvfb-run -a``. A frame and a DOS boot log are diagnostics only;
 the OP-to-MAINE transition must be observed before claiming MAINE execution.
@@ -13,6 +13,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+import signal
 import subprocess
 import time
 import tomllib
@@ -39,6 +40,9 @@ def main() -> int:
         parser.error("use private dirs and a frame before the time limit")
     prep_receipt_path = prepared / "receipt.json"
     prep = json.loads(prep_receipt_path.read_text(encoding="utf-8"))
+    artifact = prep.get("artifact", "th04-maine")
+    if artifact not in {"th04-maine", "th04-op", "th04-zun"}:
+        raise ValueError(f"unsupported prepared artifact: {artifact}")
     source_image = prepared / "diagnostic.hdi"
     if sha(source_image.read_bytes()) != prep["diagnostic_hdi_sha256"]:
         raise ValueError("prepared HDI identity drift")
@@ -77,17 +81,26 @@ def main() -> int:
         "XDG_DATA_HOME": str(output / "data"),
     })
     process = subprocess.Popen(command, cwd=ROOT, env=env, stdout=subprocess.PIPE,
-                               stderr=subprocess.STDOUT, text=True)
+                               stderr=subprocess.STDOUT, text=True,
+                               start_new_session=True)
     screenshot = output / "frame.png"
+    host_timeout = False
     try:
         time.sleep(args.frame_second)
         subprocess.run(["import", "-window", "root", str(screenshot)], check=True,
                        timeout=10, capture_output=True)
-        log, _ = process.communicate(timeout=args.time_limit + 10)
+        try:
+            log, _ = process.communicate(
+                timeout=max(10, args.time_limit - args.frame_second + 10)
+            )
+        except subprocess.TimeoutExpired:
+            host_timeout = True
+            os.killpg(process.pid, signal.SIGKILL)
+            log, _ = process.communicate(timeout=10)
     finally:
         if process.poll() is None:
-            process.kill()
-            process.communicate()
+            os.killpg(process.pid, signal.SIGKILL)
+            process.communicate(timeout=10)
     (output / "boot.log").write_text(log, encoding="utf-8")
     if sha(source_image.read_bytes()) != prep["diagnostic_hdi_sha256"]:
         raise ValueError("prepared source HDI was modified")
@@ -97,31 +110,67 @@ def main() -> int:
         marker = fs.file_bytes(u16(fs.image, entry + 26), u32(fs.image, entry + 28))
     except ValueError:
         marker = None
+    try:
+        game_dir = fs.find_entry([fs.root], b"GENSO      ")
+        game_offsets = [fs.cluster_offset(cluster) for cluster in
+                        fs.chain(u16(fs.image, game_dir + 26))]
+        trace_entry = fs.find_entry(game_offsets, b"OPMARK  TXT")
+        op_trace = fs.file_bytes(u16(fs.image, trace_entry + 26),
+                                 u32(fs.image, trace_entry + 28))
+    except ValueError:
+        op_trace = None
+    try:
+        game_dir = fs.find_entry([fs.root], b"GENSO      ")
+        game_offsets = [fs.cluster_offset(cluster) for cluster in
+                        fs.chain(u16(fs.image, game_dir + 26))]
+        cdg_entry = fs.find_entry(game_offsets, b"OPCDG   BIN")
+        cdg_slots = fs.file_bytes(u16(fs.image, cdg_entry + 26),
+                                  u32(fs.image, cdg_entry + 28))
+    except ValueError:
+        cdg_slots = None
+    try:
+        game_dir = fs.find_entry([fs.root], b"GENSO      ")
+        game_offsets = [fs.cluster_offset(cluster) for cluster in
+                        fs.chain(u16(fs.image, game_dir + 26))]
+        mainhit_entry = fs.find_entry(game_offsets, b"MAINHIT TXT")
+        mainhit = fs.file_bytes(u16(fs.image, mainhit_entry + 26),
+                                u32(fs.image, mainhit_entry + 28))
+    except ValueError:
+        mainhit = None
     expected_boot = runtime["primary"]["execution"]["boot_required_log_markers"]
     receipt = {
         "schema_version": 1,
         "observed_utc": datetime.now(timezone.utc).isoformat(),
-        "scope": "diagnostic PC-98 boot frame; no MAINE execution or runtime acceptance implied",
+        "scope": "diagnostic PC-98 boot frame; product execution needs a separate checkpoint",
+        "artifact": artifact,
         "prepared_receipt_sha256": sha(prep_receipt_path.read_bytes()),
         "prepared_hdi_sha256": prep["diagnostic_hdi_sha256"],
         "executed_hdi_sha256": sha(image.read_bytes()),
-        "maine_source": prep["maine_source"],
+        "artifact_source": prep.get("artifact_source", prep.get("maine_source")),
         "startup": prep["startup"],
         "emulator_sha256": runtime["primary"]["binary_sha256"],
         "x11_config_sha256": sha(config.read_bytes()),
         "command": command,
         "frame_second": args.frame_second,
+        "host_timeout": host_timeout,
         "returncode": process.returncode,
         "missing_boot_markers": [item for item in expected_boot if item not in log],
         "diagnostic_marker_hex": marker.hex() if marker is not None else None,
+        "op_trace_marker_hex": op_trace.hex() if op_trace is not None else None,
+        "op_cdg_slots_hex": cdg_slots.hex() if cdg_slots is not None else None,
+        "mainhit_marker_hex": mainhit.hex() if mainhit is not None else None,
         "boot_log_sha256": sha(log.encode()),
         "frame_sha256": sha(screenshot.read_bytes()),
     }
+    if artifact == "th04-maine":
+        receipt["maine_source"] = receipt["artifact_source"]
     (output / "receipt.json").write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({"receipt": str(output / "receipt.json"),
                       "returncode": process.returncode,
                       "marker_hex": receipt["diagnostic_marker_hex"]}, sort_keys=True))
-    if process.returncode or receipt["missing_boot_markers"]:
+    # A frame probe may stop the emulator after its checkpoint. The receipt
+    # records this separately from an emulator crash or missing boot marker.
+    if (process.returncode and not host_timeout) or receipt["missing_boot_markers"]:
         raise ValueError("diagnostic boot did not pass host smoke markers")
     return 0
 

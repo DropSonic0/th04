@@ -18,6 +18,10 @@ enum {
     SCOREDAT_CLEARED_BOTH = 3,
 };
 
+#ifdef TH04P
+#pragma codeseg OP_NATIVE_TEXT OP_NATIVE_01
+#else
 #pragma codeseg SCORE_TEXT op_01
+#endif
 #include "src/op/score/clear_sprites_load.inl"
 #pragma codeseg

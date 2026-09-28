@@ -46,6 +46,10 @@ void pascal near stage_put(screen_x_t left, screen_y_t top, int gaiji);
     stage_put((STAGE_LEFT + (PLAYCHAR_MARISA * COLUMN_W)), top, hi2.score.g_stage[place]); \
 }
 
+#ifdef TH04P
+#pragma codeseg OP_NATIVE_TEXT OP_NATIVE_01
+#else
 #pragma codeseg SCORE_TEXT op_01
+#endif
 #include "src/op/score/place_put.inl"
 #pragma codeseg

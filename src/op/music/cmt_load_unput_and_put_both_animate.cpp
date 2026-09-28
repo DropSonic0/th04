@@ -10,11 +10,15 @@ static const int GLYPH_H = 16;
 void near cmt_unput_both_animate(void);
 void pascal near cmt_load(int track);
 void near nopoly_B_put(void);
-void far pascal bgimage_put_rect_16(int left, int top, int w, int h);
+extern "C" void far pascal bgimage_put_rect_16(int left, int top, int w, int h);
 void near cmt_fadein_both_animate(void);
 void near cmt_put(void);
 void near music_update_render_and_flip(void);
 
+#ifdef TH04P
+#pragma codeseg OP_NATIVE_TEXT OP_NATIVE_01
+#else
 #pragma codeseg OP_MUSIC_TEXT op_music_01
+#endif
 #include "src/op/music/cmt_load_unput_and_put_both_animate.inl"
 #pragma codeseg

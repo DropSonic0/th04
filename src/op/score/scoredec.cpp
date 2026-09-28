@@ -2,7 +2,11 @@
 #include <stddef.h>
 #include "src/op/score/scoredat.hpp"
 
+#ifdef TH04P
+#pragma codeseg OP_NATIVE_TEXT OP_NATIVE_01
+#else
 #pragma codeseg SCORE_TEXT op_01
+#endif
 unsigned char pascal near scoredat_decode(void)
 #include "src/op/score/scoredec.inl"
 #pragma codeseg

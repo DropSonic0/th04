@@ -19,10 +19,14 @@ struct window_t {
 };
 extern window_t window;
 
-void far pascal super_put(screen_x_t left, screen_y_t top, int patnum);
+extern "C" void far pascal super_put(screen_x_t left, screen_y_t top, int patnum);
 void pascal near window_dropdown_put(screen_x_t left, screen_y_t bottom_tile_top);
 void pascal frame_delay(int frames);
 
+#ifdef TH04P
+#pragma codeseg OP_NATIVE_TEXT OP_NATIVE_01
+#else
 #pragma codeseg OP_SETUP_TEXT op_setup_01
+#endif
 #include "src/op/setup/dropdown.inl"
 #pragma codeseg

@@ -30,9 +30,12 @@ extern cdg_slot_t cdg_slots[64];
 
 void pascal cdg_load_single(int slot, const char *fn, int image);
 void pascal cdg_load_single_noalpha(int slot, const char *fn, int image);
+void pascal cdg_load_all(int slot_first, const char *fn);
+void pascal cdg_load_all_noalpha(int slot_first, const char *fn);
 void pascal cdg_free(int slot);
 void pascal cdg_free_all(void);
 void pascal cdg_put_8(screen_x_t left, vram_y_t top, int slot);
+void pascal cdg_put_noalpha_8(screen_x_t left, vram_y_t top, int slot);
 void pascal cdg_put_plane(screen_x_t left, vram_y_t top, int slot, int plane);
 }
 

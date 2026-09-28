@@ -1,0 +1,5 @@
+ZUN launcher for Touhou Gensokyo
+  ZUN -O  detect the sound configuration
+  ZUN -I  install or remove resident game settings
+  ZUN -S  check sound hardware
+  ZUN -M  check available DOS memory

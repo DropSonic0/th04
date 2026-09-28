@@ -4,7 +4,9 @@
     .model use16 large SHARED
     .code SHARED
 
-public KEY_BEEP_OFF, TEXT_CLEAR, TEXT_CURSOR_HIDE, TEXT_SYSTEMLINE_HIDE
+public KEY_BEEP_OFF, KEY_BEEP_ON, TEXT_CLEAR
+public TEXT_CURSOR_HIDE, TEXT_CURSOR_SHOW
+public TEXT_SYSTEMLINE_HIDE, TEXT_SYSTEMLINE_SHOW
 
 KEY_BEEP_OFF proc far
     push es
@@ -14,6 +16,15 @@ KEY_BEEP_OFF proc far
     pop es
     retf
 KEY_BEEP_OFF endp
+
+KEY_BEEP_ON proc far
+    push es
+    xor ax, ax
+    mov es, ax
+    and byte ptr es:[0500h], 0dfh
+    pop es
+    retf
+KEY_BEEP_ON endp
 
 TEXT_CLEAR proc far
     mov al, 27
@@ -36,6 +47,15 @@ TEXT_CURSOR_HIDE proc far
     retf
 TEXT_CURSOR_HIDE endp
 
+TEXT_CURSOR_SHOW proc far
+    push dx
+    mov dh, '5'
+    mov dl, 'l'
+    call emit_escape
+    pop dx
+    retf
+TEXT_CURSOR_SHOW endp
+
 TEXT_SYSTEMLINE_HIDE proc far
     push dx
     mov dh, '1'
@@ -44,6 +64,15 @@ TEXT_SYSTEMLINE_HIDE proc far
     pop dx
     retf
 TEXT_SYSTEMLINE_HIDE endp
+
+TEXT_SYSTEMLINE_SHOW proc far
+    push dx
+    mov dh, '1'
+    mov dl, 'l'
+    call emit_escape
+    pop dx
+    retf
+TEXT_SYSTEMLINE_SHOW endp
 
 ; PC-98 text BIOS direct output: ESC [ > followed by the selected command.
 emit_escape proc near

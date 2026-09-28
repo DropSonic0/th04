@@ -154,6 +154,12 @@ cdg_load_all proc far
 
 @@loop:
 	call	cdg_free pascal, bp
+ifdef TH04_LARGE_PRODUCT
+	; The TH04-local C++ heap uses LES and may leave ES changed. CDG headers
+	; must always be copied into DGROUP, including after the first allocation.
+	push	ds
+	pop	es
+endif
 	mov	cx, (cdg_t.seg_alpha / dword)
 	rep movsd
 	sub	si, cdg_t.seg_alpha

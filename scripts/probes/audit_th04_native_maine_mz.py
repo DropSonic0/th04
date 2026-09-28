@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Audit a successful native MAINE MZ at two DOS load segments."""
+"""Audit a successful native TH04 MZ at two DOS load segments."""
 
 from __future__ import annotations
 
@@ -30,9 +30,13 @@ def main() -> int:
             or output.exists() or not output.is_relative_to(private)):
         parser.error("receipt and new output must be below .analysis/reconstruction/probes")
     link = json.loads(source_receipt.read_text(encoding="utf-8"))
+    artifact = link.get("artifact", "th04-maine")
+    if artifact not in {"th04-maine", "th04-op", "th04-main"}:
+        raise ValueError(f"unsupported native artifact: {artifact}")
+    product = artifact.removeprefix("th04-")
     if not link["link_complete"]:
-        raise ValueError("expected a successful native MAINE link")
-    exe = source_receipt.parent / "source/bin/maine-native.exe"
+        raise ValueError(f"expected a successful native {product.upper()} link")
+    exe = source_receipt.parent / f"source/bin/{product}-native.exe"
     raw = exe.read_bytes()
     if sha(raw) != link["mz_header"]["sha256"]:
         raise ValueError("native MZ identity drift")
@@ -68,7 +72,7 @@ def main() -> int:
     output.mkdir(parents=True)
     receipt = {
         "schema_version": 1,
-        "artifact": "th04-maine",
+        "artifact": artifact,
         "evidence_class": "static-relocation",
         "historical_support_library": bool(link["support_lib_sha256"]),
         "link_receipt_sha256": sha(source_receipt.read_bytes()),

@@ -35,6 +35,14 @@ def dependency_object(timestamp: bytes, path: bytes = b"FILE.C") -> bytes:
     )
 
 
+def source_timestamp_object(timestamp: bytes, path: bytes = b"FILE.C") -> bytes:
+    return (
+        record(0x80, b"\x05PROBE")
+        + record(0x88, b"\x00\xE8\x01" + bytes([len(path)]) + path + timestamp)
+        + record(0x8A, b"\x00")
+    )
+
+
 class OMFTests(unittest.TestCase):
     def test_valid_object_inventory(self) -> None:
         report = describe_omf(synthetic_object())
@@ -77,6 +85,15 @@ class OMFTests(unittest.TestCase):
             normalize_dependency_timestamps(first),
             normalize_dependency_timestamps(different_path),
         )
+
+    def test_source_timestamp_normalization_preserves_path(self) -> None:
+        first = source_timestamp_object(b"\x01\x02\x03\x04")
+        second = source_timestamp_object(b"\x05\x06\x07\x08")
+        other = source_timestamp_object(b"\x05\x06\x07\x08", b"OTHER.C")
+        self.assertEqual(normalize_dependency_timestamps(first),
+                         normalize_dependency_timestamps(second))
+        self.assertNotEqual(normalize_dependency_timestamps(first),
+                            normalize_dependency_timestamps(other))
 
 
 if __name__ == "__main__":
