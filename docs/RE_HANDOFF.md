@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the twentieth MAIN declaration closure batch. This is the
+Updated 2026-09-29 after the twenty-first MAIN declaration closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -297,6 +297,17 @@ the focused `midboss4_render` owner remains raw/MAP/relocation exact at 0x8D
 bytes. The v959 aggregate preserves all 275 accepted extents in two cold builds
 while rewriting 11 staged occurrences. Phase DATA/BSS ownership, the remaining
 82-path source closure, standalone MAIN placement, and PC-98 startup remain open.
+
+The historical `th04/main/slowdown.hpp` path now resolves to an artifact-local
+slowdown API and a maintained `_turbo_mode` BSS owner through product wrappers.
+The v962 TC4J/TASM/TLINK/DOS probe passes the byte/word declaration and storage
+ABI in two independent runs, and the focused `slowdown_frame_delay` owner remains
+raw/MAP/relocation exact at 0x1A bytes. The v962 aggregate preserves all 275
+accepted extents in two cold builds while rewriting 9 staged occurrences. The
+v963 inventory is now 81 missing paths / 226 references: 44 headers (189
+references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped. Target BSS ordering, standalone MAIN
+placement, and PC-98 startup remain open.
 
 The historical `th04/main/gather.hpp` path now resolves to the artifact-local
 gather API through a product include wrapper. The v930 TC4J probe matches

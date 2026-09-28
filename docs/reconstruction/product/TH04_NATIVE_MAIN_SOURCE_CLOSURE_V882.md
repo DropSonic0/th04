@@ -5,19 +5,20 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v939 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v939-20260929/inventory.json`.
+The current v963 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v963-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 52 | 283 |
+| `.h` / `.hpp` declarations | 44 | 189 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **89** | **320** |
+| **Total** | **81** | **226** |
 
-The heaviest remaining header edge is `th04/main/item/item.hpp` (16), followed
-by `th04/main/midboss/midboss.hpp` (15), `th04/main/playfld.hpp` (15), and
-`x86real.h` (13). Five
+The heaviest remaining header edge is `x86real.h` (13), followed by
+`platform.h` (11), `th04/common.h` (9), and the eight-reference edges
+`th04/playchar.h`, `th04/main/slowdown.hpp`, `th04/main/quit.hpp`,
+`th04/main/hud/hud.hpp`, and `th04/main/bullet/clearzap.hpp`. Five
 other missing platform/header names
 have no `th04/` prefix: `platform.h`, `x86real.h`, `planar.h`, `decomp.hpp`,
 and `shiftjis.hpp`. These names denote needed declarations, not approval to
@@ -32,7 +33,7 @@ Related function bodies already exist as separate maintained `src/main`
 translation units, but their composition and near-call segment ownership must
 be reconciled before adding them to a native MAIN link manifest. Compiling
 both a composite and its included child as objects would duplicate publics.
-The local ReC98 reference has files at all 55 remaining missing header paths, but only
+The local ReC98 reference has files at all 44 remaining missing header paths, but only
 two of the 35 missing `.cpp` paths and neither missing `.inl` path. This is a
 source-location observation, not evidence that those headers are ready for a
 TH04-owned product build. The existing maintained function bodies must be
@@ -625,10 +626,42 @@ references), 35 `.cpp` fragments, and two `.inl` fragments; only
 `th04/dialog.cpp` remains unmapped. Phase DATA/BSS ownership, standalone MAIN
 linking, and PC-98 startup remain open.
 
+## MAIN slowdown-state closure
+
+The twenty-first declaration/data batch routes the historical
+`th04/main/slowdown.hpp` edge through the product wrapper
+`src/main/include/th04/main/slowdown.hpp` and the artifact-local
+`src/main/slowdown.hpp`. The local surface preserves `turbo_mode`,
+`slowdown_factor`, the GAME 5 conditional slowdown flag, and the existing near
+`slowdown_frame_delay` declaration. `src/main/core/slowdown_state.asm` adds the
+artifact-local `_turbo_mode` BSS owner; `src/main/core/frame_state.asm` remains
+the owner of the frame totals and `_slowdown_factor`.
+
+The v962 TC4J/TASM/TLINK/DOS probe passes the byte/word declaration and storage
+ABI in two independent runs. Both runs emit the same slowdown-state and frame
+OMF identities, a valid 217-relocation MZ, and linked SHA-256
+`d9b0151e0f4beb22c8579320fce4c38d0777172e49ffa519aef620ab901be3f9`; receipt
+SHA-256 for the second run:
+`d062328a047cfe5c8dbaff7ab0658b532920a699c50079a852ef5dbec8ccc059`.
+The focused `slowdown_frame_delay` owner is raw/MAP/relocation exact at 0x1A
+bytes (receipt SHA-256
+`0590ab8c18a96ec9838750fa0d6eca4b63f3f7fb5783444dfad46bea59ba9276`), with
+candidate and target slice SHA-256
+`c5a69d9d1869b865085b77c768747c2962bdbea165c7d1d21cc3d16320e59f54`.
+The v962 aggregate rewrites 9 staged occurrences and preserves all 275 accepted
+extents in two cold builds with identical diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`;
+aggregate receipt SHA-256:
+`67811ea3980c999dbfb14ff096476c343816d3be09f0f6d81ab12e8051d10aae`.
+The v963 inventory is now 81 missing paths / 226 references: 44 headers (189
+references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped. Target BSS ordering/offsets, standalone MAIN
+linking, and PC-98 startup remain open.
+
 This include inventory is only the first frontier. The frame declaration and
 storage batch demonstrates the required pairing, the scroll batch adds a
 second declaration/storage split, and the sound, pattern, and vector batches
-close declaration-only dependencies. The remaining 45 missing header
+close declaration-only dependencies. The remaining 44 missing header
 paths still need
 product-owned declarations and, where applicable, their data/BSS owners.
 A native link manifest must account for those owners and not infer completeness
