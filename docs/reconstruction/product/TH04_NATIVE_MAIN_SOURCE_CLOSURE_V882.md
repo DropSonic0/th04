@@ -5,19 +5,19 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v969 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v969-20260929/inventory.json`.
+The current v971 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v971-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 40 | 149 |
+| `.h` / `.hpp` declarations | 39 | 140 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **77** | **186** |
+| **Total** | **76** | **177** |
 
-The heaviest remaining header edge is `th04/common.h` (9), followed by the
-eight-reference edges `th04/main/hud/hud.hpp` and
-`th04/main/bullet/clearzap.hpp`. Five
+The heaviest remaining header edges are `th04/main/hud/hud.hpp` and
+`th04/main/bullet/clearzap.hpp` (8 each), followed by
+`th04/sprites/main_cdg.h` (7). Three
 other missing platform/header names
 have no `th04/` prefix: `planar.h`, `decomp.hpp`, and `shiftjis.hpp`. These
 names denote needed declarations, not approval to
@@ -32,7 +32,7 @@ Related function bodies already exist as separate maintained `src/main`
 translation units, but their composition and near-call segment ownership must
 be reconciled before adding them to a native MAIN link manifest. Compiling
 both a composite and its included child as objects would duplicate publics.
-The local ReC98 reference has files at all 40 remaining missing header paths, but only
+The local ReC98 reference has files at all 39 remaining missing header paths, but only
 two of the 35 missing `.cpp` paths and neither missing `.inl` path. This is a
 source-location observation, not evidence that those headers are ready for a
 TH04-owned product build. The existing maintained function bodies must be
@@ -746,10 +746,38 @@ references), 35 `.cpp` fragments, and two `.inl` fragments; only
 closure only: hardware implementation, target data/BSS placement, standalone
 MAIN linking, and PC-98 startup remain open.
 
+## MAIN common-macro header closure
+
+The twenty-fifth declaration batch routes the historical `th04/common.h` edge
+through the product wrapper `src/main/include/th04/common.h` and the
+artifact-local `src/main/common.hpp`. The GAME=4 surface preserves the
+`MAIN_STAGE_COUNT` and `STAGE_EXTRA` macros without importing the ReC98 header
+into product source.
+
+The v970 TC4J reference/local probe passes with semantic OMF SHA-256
+`919b53d19d4ae0ae919c6957738ce61aaab87a4600007b55deb50acd73367d81` (receipt
+SHA-256
+`fc5ee84698717bc23a013d5a2e1073cd3841a0995908d06a23f7f4dc34b1f396`). The
+focused EMS owner is raw/MAP/relocation exact at 0x1FA bytes at 0xCC88 (receipt
+SHA-256
+`0621b2512af5669039f24a1bcc1c4d5e20ed872247afc6df16921bf89e7b66b9`), with
+candidate and target slice SHA-256
+`038ac29ca0095a32ac3594b3bb40fc35605acd8226e5d8518005c721f02c842f`. The
+v970 aggregate preserves all 275 accepted extents in two cold builds with
+identical diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb` while
+rewriting 14 staged occurrences (receipt SHA-256
+`1c8b4099622301a50d762cefd174ff4997183813987276b774dedebecee6af09`). The
+v971 inventory is now 76 missing paths / 177 references: 39 headers (140
+references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped. This compiler-observed macro closure does
+not establish stage-state/data-BSS ownership, standalone MAIN linking, or
+PC-98 startup.
+
 This include inventory is only the first frontier. The frame declaration and
 storage batch demonstrates the required pairing, the scroll batch adds a
 second declaration/storage split, and the sound, pattern, and vector batches
-close declaration-only dependencies. The remaining 40 missing header
+close declaration-only dependencies. The remaining 39 missing header
 paths still need
 product-owned declarations and, where applicable, their data/BSS owners.
 A native link manifest must account for those owners and not infer completeness
