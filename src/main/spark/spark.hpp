@@ -1,7 +1,7 @@
 #ifndef TH04_MAIN_SPARK_HPP
 #define TH04_MAIN_SPARK_HPP
 
-#include "th04/main/playfld.hpp"
+#include "src/main/playfield/motion.hpp"
 #include "src/main/core/entity.hpp"
 
 struct spark_t {

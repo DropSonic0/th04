@@ -5,19 +5,19 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v934 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v934-20260929/inventory.json`.
+The current v936 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v936-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 54 | 317 |
+| `.h` / `.hpp` declarations | 53 | 299 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **91** | **354** |
+| **Total** | **90** | **336** |
 
-The heaviest remaining header edge is `th04/main/spark.hpp` (18), followed by
-`th04/main/tile/tile.hpp` (16), `th04/main/item/item.hpp` (16), and
-`th04/main/midboss/midboss.hpp` (15). Five
+The heaviest remaining header edge is `th04/main/tile/tile.hpp` (16), followed
+by `th04/main/item/item.hpp` (16), `th04/main/midboss/midboss.hpp` (15), and
+`th04/main/playfld.hpp` (15). Five
 other missing platform/header names
 have no `th04/` prefix: `platform.h`, `x86real.h`, `planar.h`, `decomp.hpp`,
 and `shiftjis.hpp`. These names denote needed declarations, not approval to
@@ -357,10 +357,37 @@ aggregate receipt SHA-256:
 The v934 inventory is now 91 missing paths / 354 references. Custom BSS
 ownership, standalone MAIN linking, and PC-98 startup remain open.
 
+## MAIN spark-header closure
+
+The twelfth declaration batch routes the historical `th04/main/spark.hpp` edge
+through the product wrapper `src/main/include/th04/main/spark.hpp` and the
+artifact-local `src/main/spark/spark.hpp`. The local surface preserves the
+GAME 4 `spark_t` layout, spark counts, ring-offset storage, add-entry ABIs, and
+the target-specific C/C++ lifecycle linkage. The v935 TC4J reference/local
+probe produced identical link-semantic OMF
+(`22b2a2896d46d93082182d9020bb7d8f1e9cd654dd9270f9db81413a8d42353a`);
+receipt SHA-256:
+`2d2adfb01c2b29a52d1fdc70646cb9bb9671832b7df1e6d5c807f378b2bd7640`.
+
+The first focused replay failed closed before compilation because the old
+hash-bound `th04-entity-spark-header-local` rewrite saw the newly localized
+spark header; that redundant rewrite was removed. The corrected focused
+`sparks_init` owner is raw/MAP/relocation exact at 30 bytes (receipt
+`692779c73e7595c5ca728f05ace652035bb2c533f0905bf061c76df7400a90a1`), with
+candidate slice SHA-256
+`16384305e570f94bd3fef1189d3d0e103e6e8ef32c7361a57b73db90c908201f`.
+The v935 aggregate rewrites 19 staged occurrences and preserves all 275
+accepted extents in two cold builds with identical diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`;
+aggregate receipt SHA-256:
+`5ba52fc6615f59609435aca5f5cf9327e489c6cefdb9510b195732a4b16c09a1`.
+The v936 inventory is now 90 missing paths / 336 references. Spark BSS
+ownership, standalone MAIN linking, and PC-98 startup remain open.
+
 This include inventory is only the first frontier. The frame declaration and
 storage batch demonstrates the required pairing, the scroll batch adds a
 second declaration/storage split, and the sound, pattern, and vector batches
-close declaration-only dependencies. The other 54 missing header
+close declaration-only dependencies. The other 53 missing header
 paths still need
 product-owned declarations and, where applicable, their data/BSS owners.
 A native link manifest must account for those owners and not infer completeness

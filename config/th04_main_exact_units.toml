@@ -73,6 +73,13 @@ local_header = "src/main/custom.hpp"
 minimum_count = 1
 
 [[scaffold_tree_include_rewrites]]
+id = "th04-spark-api-local"
+tree_root = "th04"
+old_include = "th04/main/spark.hpp"
+local_header = "src/main/spark/spark.hpp"
+minimum_count = 1
+
+[[scaffold_tree_include_rewrites]]
 id = "th04-scroll-api-local"
 tree_root = "th04"
 old_include = "th04/main/scroll.hpp"
@@ -137,16 +144,6 @@ scaffold_path = "th04/main/circle.hpp"
 scaffold_sha256 = "f2804f8a632495bbf5e796e8bdfdb4b04f23eaac79f47186c2212679f0abc8f9"
 old_include = "th01/math/subpixel.hpp"
 local_header = "src/main/circle.hpp"
-
-[[scaffold_header_rewrites]]
-id = "th04-entity-spark-header-local"
-scaffold_path = "th04/main/spark.hpp"
-scaffold_sha256_any = [
-  "c69b115c3926962df0b9f650508cf9026c28669a3564655e43299ac66c905f87",
-  "f20403688ac2f034008fb1dcc7617428d9ea7203fe639408ed0f563a01ebe46b",
-]
-old_include = "th02/main/entity.hpp"
-local_header = "src/main/core/entity.hpp"
 
 [[scaffold_header_rewrites]]
 id = "th04-entity-item-splash-header-local"
