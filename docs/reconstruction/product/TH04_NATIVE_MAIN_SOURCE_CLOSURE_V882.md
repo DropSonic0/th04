@@ -5,18 +5,18 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v984 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v984-20260929/inventory.json`.
+The current v985 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v985-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 28 | 73 |
+| `.h` / `.hpp` declarations | 27 | 69 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **65** | **110** |
+| **Total** | **64** | **106** |
 
-The heaviest remaining header edge is now `th04/main/boss/bosses.hpp` (4 references),
-followed by the four-path dialog, tile/bb, playperf, EMS, and hiscore surfaces. These names denote needed
+The heaviest remaining header edge is now `th04/formats/dialog.hpp` (4 references),
+followed by tile/bb, playperf, EMS, hiscore, end, std, and splash surfaces. These names denote needed
 declarations, not approval to reuse cross-game product headers.
 
 Eight maintained physical producers include `.cpp` fragments by historical
@@ -939,6 +939,39 @@ header keeps the historical `PLANAR_H` guard because the root-level rewrite
 also reaches legacy scaffold consumers. This is compiler-observed declaration
 closure and affected-unit revalidation, not target DATA/BSS ownership,
 standalone MAIN placement, or PC-98 startup acceptance.
+
+## MAIN boss-declarations header closure
+
+The thirty-third declaration batch routes the historical
+`th04/main/boss/bosses.hpp` edge through
+`src/main/include/th04/main/boss/bosses.hpp`, backed by the semantic
+MAIN-local `src/main/boss/bosses.hpp`. The local surface preserves the six
+Pascal near backdrop callbacks, the near/far Mugetsu and Gengetsu entry
+declarations, and the `GENGETSU_W`/`GENGETSU_H` constants. It declares these
+interfaces only; it does not allocate boss callback state or DATA/BSS storage.
+
+The v985 TC4J reference/local probe passes with semantic OMF SHA-256
+`2813a2905698aa0f6fb94d9aab80d536e96082ed654e5b67d1cd13b558ee800a`
+(receipt SHA-256
+`fb9cb29d5c3ac13fd13f1d1823eab462f64845a209f8937cab0a72107dc0f4c7`).
+The focused `th04-main-main035-boss-tu` replay proves the 0x9B6-byte
+`th04/boss.cpp` owner at file 0x1F761, slice SHA-256
+`14ac3390b67ec8ee06b25669e9f8a62b9da07a9a82d96e100864a9fbe24cad1f`, with
+raw bytes, MAP placement, and relocations exact in two cold builds. Its receipt
+SHA-256 is
+`c4604bc80339715d68c82e013e1f14fdbf84cefbbe5fd367170d7881a6651329`.
+The aggregate receipt
+`gpt-5-6-sol-main-bosses-header-aggregate-061-20260929/receipt.json` has
+SHA-256 `180b6f77c6ab3225ae73f12d83861f114a084feab1135d375181d160885cc40b`
+and preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`;
+four boss-declaration rewrites are staged per build. Inventory v985 is 64
+missing paths / 106 references: 27 headers (69 references), 35 `.cpp` fragments,
+and two `.inl` fragments; only `th04/dialog.cpp` remains unmapped. This is
+compiler-observed declaration closure and affected-unit revalidation, not boss
+callback DATA/BSS ownership, standalone MAIN placement, or PC-98 startup
+acceptance.
 
 ## MAIN boss-backdrop header closure
 
