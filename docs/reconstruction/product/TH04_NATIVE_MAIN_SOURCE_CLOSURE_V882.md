@@ -5,18 +5,18 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v983 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v983-20260929/inventory.json`.
+The current v984 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v984-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 29 | 77 |
+| `.h` / `.hpp` declarations | 28 | 73 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **66** | **114** |
+| **Total** | **65** | **110** |
 
-The heaviest remaining header edge is now `th04/main/boss/backdrop.hpp` (4 references),
-followed by the four-path dialog, boss, tile, playperf, and state surfaces. These names denote needed
+The heaviest remaining header edge is now `th04/main/boss/bosses.hpp` (4 references),
+followed by the four-path dialog, tile/bb, playperf, EMS, and hiscore surfaces. These names denote needed
 declarations, not approval to reuse cross-game product headers.
 
 Eight maintained physical producers include `.cpp` fragments by historical
@@ -939,6 +939,40 @@ header keeps the historical `PLANAR_H` guard because the root-level rewrite
 also reaches legacy scaffold consumers. This is compiler-observed declaration
 closure and affected-unit revalidation, not target DATA/BSS ownership,
 standalone MAIN placement, or PC-98 startup acceptance.
+
+## MAIN boss-backdrop header closure
+
+The thirty-second declaration batch routes the historical
+`th04/main/boss/backdrop.hpp` edge through
+`src/main/include/th04/main/boss/backdrop.hpp`, backed by the semantic
+MAIN-local `src/main/boss/backdrop.hpp`. The local surface preserves the
+`nearfunc_t_near boss_backdrop_colorfill` callback and the Pascal near
+`boss_backdrop_render(screen_x_t, vram_y_t, vc_t)` declaration. It does not
+allocate the callback's target DATA/BSS slot.
+
+The v984 TC4J reference/local probe passes with semantic OMF SHA-256
+`77301002e906ff337223b81062afe57f3e5180237758d5f2cd36c04edbec1fa3`
+(receipt SHA-256
+`14ac78cf2bd9e691bd6bb2c2ad0e35f57788870ef902d86e451a279dc5261dec`).
+The focused `th04-main-mugetsu-gengetsu-bg-v102` replay proves the 0x91-byte
+`th04/mgbg.cpp` owner at file 0x14179 / BOSS_BG_TEXT:0x7E89, slice SHA-256
+`92adca5d8d07674114f2b5a9c65a89a8a54cbef5f929eeb5c583e28c765cb683`, with
+raw bytes, MAP placement, and the target's ordered relocation overlap exact in
+two cold builds. Its focused receipt
+`gpt-5-6-sol-main-backdrop-header-focused-058-20260929/receipt.json` has
+SHA-256 `e9cd19592cb78cf1d5098904cf404465bb874d89991e009a7b4ba97d6b1e47fd`.
+
+The aggregate receipt
+`gpt-5-6-sol-main-backdrop-header-aggregate-059-20260929/receipt.json` has
+SHA-256 `b17a0c6b40a6cb92b4605d5df5f59ef12b0c3c8c626dbf3206a7cf9e55cb9f42`
+and preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`; five
+backdrop-header occurrences are staged. Inventory v984 is 65 missing paths /
+110 references: 28 headers (73 references), 35 `.cpp` fragments, and two
+`.inl` fragments. This is compiler-observed declaration closure and affected
+unit revalidation, not boss backdrop DATA/BSS placement, standalone MAIN
+placement, or PC-98 startup acceptance.
 
 ## MAIN drawpoint-header closure
 

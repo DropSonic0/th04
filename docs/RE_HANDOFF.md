@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the thirty-first MAIN declaration closure batch. This is the
+Updated 2026-09-29 after the thirty-second MAIN declaration closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -437,6 +437,23 @@ two `.inl` fragments; only `th04/dialog.cpp` remains unmapped. The full local
 surface keeps the historical `PLANAR_H` guard so untouched scaffold consumers
 do not redeclare planar templates; declaration closure is compiler-observed
 only, not MAIN DATA/BSS ownership, standalone placement, or PC-98 startup.
+
+The historical `th04/main/boss/backdrop.hpp` path now resolves to the product-owned
+MAIN boss-backdrop API through `src/main/include/th04/main/boss/backdrop.hpp`,
+backed by `src/main/boss/backdrop.hpp`. The v984 TC4J reference/local probe
+matches semantic OMF SHA-256
+`77301002e906ff337223b81062afe57f3e5180237758d5f2cd36c04edbec1fa3`.
+The focused `th04-main-mugetsu-gengetsu-bg-v102` owner is raw/MAP/relocation
+exact at 0x91 bytes (file 0x14179, BOSS_BG_TEXT:0x7E89), slice SHA-256
+`92adca5d8d07674114f2b5a9c65a89a8a54cbef5f929eeb5c583e28c765cb683`.
+The v984 aggregate preserves all 275 accepted extents in two cold builds with
+identical diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb` while
+staging five backdrop-header occurrences. Inventory v984 is now 65 missing
+paths / 110 references: 28 headers (73 references), 35 `.cpp` fragments, and
+two `.inl` fragments; the next header edge is `th04/main/boss/bosses.hpp`.
+This closes the boss-backdrop declaration edge only; its DATA/BSS placement,
+standalone MAIN placement, and PC-98 startup remain open.
 
 The historical `th04/main/drawp.hpp` path now resolves to the product-owned
 MAIN drawpoint declaration through `src/main/include/th04/main/drawp.hpp`,
