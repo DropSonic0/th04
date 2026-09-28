@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the twenty-sixth MAIN declaration closure batch. This is the
+Updated 2026-09-29 after the twenty-seventh MAIN declaration closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -371,6 +371,24 @@ references), 35 `.cpp` fragments, and two `.inl` fragments; only
 `th04/dialog.cpp` remains unmapped. Header closure is compiler-observed only:
 combat/HUD/CDG backing storage, target DATA/BSS ownership, standalone MAIN
 placement, and PC-98 startup remain open.
+
+The historical `th04/main/player/bomb.hpp`, `th04/main/player/shot.hpp`, and
+`th04/formats/super.h` paths now resolve to artifact-local player bomb, shot,
+and super-sprite APIs through product wrappers. The v979 TC4J probe matches
+semantic OMF SHA-256
+`5e0d628d73737cd418324e7cb1ae95dd157febf84740476b2fc721106959790a`.
+Selecting trigger owners `th04-main-bomb-stars-v178` and
+`th04-main-enemies-render-v177` replays bomb core (0x3D9 bytes at file
+0x11734), bomb-star renderer (0x11D at 0x11B0D), shot producer (0x2E9 at
+0x11C2A), and enemy renderer (0xCF at 0x11F13) raw/MAP/ordered-relocation
+exact in two cold builds. The 275-owner aggregate remains deterministic with
+7, 8, and 7 staged rewrites and diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
+Inventory v979 is now 70 missing paths / 135 references: 33 headers (92
+references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped. Combat declaration closure is
+compiler-observed only: backing DATA/BSS ownership, standalone MAIN placement,
+and PC-98 startup remain open.
 
 The historical `th04/main/gather.hpp` path now resolves to the artifact-local
 gather API through a product include wrapper. The v930 TC4J probe matches

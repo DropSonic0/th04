@@ -821,3 +821,50 @@ standalone product closure. A first native MAIN compile frontier should use
 a strict ordered source manifest and report its exact unresolved/include
 set before changing shared ABI or segment groups. Rebuild every affected
 accepted unit after common declaration or layout changes.
+
+## MAIN player, shot, and super-sprite header closure
+
+The twenty-seventh declaration batch routes the historical
+`th04/main/player/bomb.hpp`, `th04/main/player/shot.hpp`, and
+`th04/formats/super.h` edges through the product wrappers
+`src/main/include/th04/main/player/bomb.hpp`,
+`src/main/include/th04/main/player/shot.hpp`, and
+`src/main/include/th04/formats/super.h`, backed by the artifact-local
+`src/main/player/bomb.hpp`, `src/main/player/shot.hpp`, and
+`src/main/formats/super.hpp`. The local surfaces preserve the bomb state and
+callbacks, `Shot`/laser layouts and macros, and the three near Pascal
+super-sprite entry wrappers. The GAME=5 conditional pattern include in the
+shot header keeps shared TH05 calibration consumers on the same historical
+constant surface.
+
+The v979 TC4J reference/local probe passes with semantic OMF SHA-256
+`5e0d628d73737cd418324e7cb1ae95dd157febf84740476b2fc721106959790a`
+(receipt SHA-256
+`04d56e457d97cf16296fc0d1e253fdc9bab36a6cfff648d263a2120acdd78f2c`).
+The focused v979 bomb replay selects the downstream
+`th04-main-bomb-stars-v178` trigger and proves the contiguous bomb core
+(`0x3D9` at file `0x11734`, slice SHA-256
+`354fe2369fbbb605d8b1e7deea259afd64470f1d15927e8a66c6c4c0b220f640`) and
+bomb-star renderer (`0x11D` at `0x11B0D`, slice SHA-256
+`7a97e3330f4d74739ba44c8e108f4dc2ef1b0d9187c595f370e68d79c1fc0664`) in two
+cold builds. The focused shot replay selects
+`th04-main-enemies-render-v177` and proves the shot producer (`0x2E9` at
+`0x11C2A`, slice SHA-256
+`47804105eef832fcc43f7fe4ad2ba28e0e395535c1f35f15722d17366614931e`) and
+adjacent enemy renderer (`0xCF` at `0x11F13`, slice SHA-256
+`1569689d4fb4c791a5f8e782282f01c6d4e5d2765a09e7651fe8fc2900d202f6`). These
+passes include exact MAP placement and ordered MZ relocation checks; the bomb
+core also validates the zero-code `m1rsuf` residual.
+
+The v979 aggregate receipt
+`gpt-5-6-sol-main-player-combat-aggregate-047-20260929/receipt.json` has SHA-256
+`1f0d6e9e62467a837dcab3daeb6931a86357508423ed2d26196a36aab6324345` and
+preserves all 275 accepted extents across two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`; the new
+rewrites stage 7 bomb, 8 shot, and 7 super-sprite occurrences. The v979
+inventory is 70 missing paths / 135 references: 33 headers (92 references),
+35 `.cpp` fragments, and two `.inl` fragments; only `th04/dialog.cpp` remains
+unmapped. This is compiler-observed declaration closure and affected-unit
+revalidation, not target DATA/BSS ownership, standalone MAIN placement, or
+PC-98 startup acceptance.

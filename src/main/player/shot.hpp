@@ -1,14 +1,17 @@
 #ifndef TH04_MAIN_PLAYER_SHOT_HPP
 #define TH04_MAIN_PLAYER_SHOT_HPP
 
+#if (GAME == 5)
+#include "src/main/sprites/main_pat.hpp"
+#endif
 #include "src/main/player/player.hpp"
 #include "src/main/math/randring.hpp"
+#include "src/main/sprites/cels.hpp"
 
 SPPoint pascal near shot_velocity_set(
 	SPPoint near *velocity, unsigned char angle
 );
 
-static const int HITSHOT_CELS = 4;
 static const int HITSHOT_FRAMES_PER_CEL = 4;
 static const int HITSHOT_FRAMES = (HITSHOT_FRAMES_PER_CEL * HITSHOT_CELS);
 
