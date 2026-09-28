@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-28 after the ninth MAIN declaration closure batch. This is the
+Updated 2026-09-29 after the tenth MAIN declaration closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -209,8 +209,8 @@ native OP has transferred control to `MAIN.EXE`. This does not establish
 original MAIN or MAINE execution. The strict shared CDG loader still gives
 raw-zero decoded modules and matching relocations for both OP and MAINE in
 two cold replay links. See the native OP note for receipts and limits. MAIN has no
-standalone build yet: its maintained sources refer to 93 missing quoted
-include paths: 56 declarations (355 references), 35 composite `.cpp`
+standalone build yet: its maintained sources refer to 92 missing quoted
+include paths: 55 declarations (336 references), 35 composite `.cpp`
 fragments, and two `.inl` fragments. See the
 [MAIN source-closure note](reconstruction/product/TH04_NATIVE_MAIN_SOURCE_CLOSURE_V882.md)
 for the eight affected composite producers and missing data/BSS owners.
@@ -287,6 +287,15 @@ layouts, constants, initializer, and entry declarations. The focused
 aggregate rewrites 24 staged occurrences while preserving all 275 accepted
 extents in two cold builds. Gather BSS ownership, the remaining 93-path source
 closure, standalone MAIN placement, and PC-98 startup remain open.
+
+The historical `th04/main/score.hpp` path now resolves to the artifact-local
+score API through a product include wrapper. The v931 TC4J probe matches
+link-semantic OMF for `score_lebcd_t`, high-score/graze/extend/score-delta
+state, and both entry ABIs. The focused `ranking.cpp` owner is raw/MAP/relocation
+exact at 731 bytes, and the strict aggregate rewrites 21 staged occurrences
+while preserving all 275 accepted extents in two cold builds. Score DATA/BSS
+ownership, the remaining 92-path source closure, standalone MAIN placement,
+and PC-98 startup remain open.
 
 The [native ZUN note](reconstruction/zun/TH04_ZUN_NATIVE_SOURCE_BUILD_V880.md)
 records a TH04-only 18-object Tiny resident COM, cold 13,356-byte flat launcher,
