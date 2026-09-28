@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the twenty-third MAIN declaration closure batch. This is the
+Updated 2026-09-29 after the twenty-fourth MAIN declaration closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -209,8 +209,8 @@ native OP has transferred control to `MAIN.EXE`. This does not establish
 original MAIN or MAINE execution. The strict shared CDG loader still gives
 raw-zero decoded modules and matching relocations for both OP and MAINE in
 two cold replay links. See the native OP note for receipts and limits. MAIN has no
-standalone build yet: its maintained sources refer to 79 missing quoted
-include paths: 42 declarations (173 references), 35 composite `.cpp`
+standalone build yet: its maintained sources refer to 77 missing quoted
+include paths: 40 declarations (149 references), 35 composite `.cpp`
 fragments, and two `.inl` fragments. See the
 [MAIN source-closure note](reconstruction/product/TH04_NATIVE_MAIN_SOURCE_CLOSURE_V882.md)
 for the eight affected composite producers and missing data/BSS owners.
@@ -332,6 +332,18 @@ paths / 210 references: 42 headers (173 references), 35 `.cpp` fragments, and
 two `.inl` fragments; only `th04/dialog.cpp` remains unmapped. Play-character
 target DATA/BSS ownership, standalone MAIN placement, and PC-98 startup remain
 open.
+
+The historical `platform.h` and `x86real.h` paths now resolve to artifact-local
+wrappers over `src/shared/platform/types.hpp` and `src/shared/platform/x86.hpp`.
+The v968 TC4J probe matches reference/local semantic OMF SHA-256
+`6a0b4ab3ddee2bee11b29d6adb14137aa4499d0ff243d6e4cc1c8dcf0f84e8d2`.
+Focused `main-entry` (0x7C bytes at 0xC30C) and `bullets_render` (0x10B bytes
+at 0x144E5) owners remain raw/MAP/relocation exact. The v968 aggregate
+preserves all 275 accepted extents in two cold builds while rewriting 23
+platform and 18 x86real occurrences. Inventory v969 is now 77 missing paths /
+186 references: 40 headers (149 references), 35 `.cpp` fragments, and two
+`.inl` fragments; only `th04/dialog.cpp` remains unmapped. Platform/data/BSS
+ownership, standalone MAIN placement, and PC-98 startup remain open.
 
 The historical `th04/main/gather.hpp` path now resolves to the artifact-local
 gather API through a product include wrapper. The v930 TC4J probe matches
@@ -525,7 +537,7 @@ diagnostic reaches OP only. The [runtime preparation note](reconstruction/produc
 has the private HDI commands. Continue the normal OP-to-MAIN-to-MAINE route
 before making a runtime acceptance claim.
 
-Whole-game product closure still needs MAIN's 79 distinct unresolved quoted
+Whole-game product closure still needs MAIN's 77 distinct unresolved quoted
 include paths and remaining data/BSS owners, its standalone source manifest and
 link, and a combined candidate PC-98 scenario. OP, ZUN, and MAINE each have
 source-only native build paths; the MAIN build is the controlling blocker.

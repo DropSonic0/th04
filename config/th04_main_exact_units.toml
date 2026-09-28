@@ -157,6 +157,20 @@ local_header = "src/main/playchar.hpp"
 minimum_count = 1
 
 [[scaffold_tree_include_rewrites]]
+id = "th04-platform-api-local"
+tree_root = "th04"
+old_include = "platform.h"
+local_header = "src/main/include/platform.h"
+minimum_count = 1
+
+[[scaffold_tree_include_rewrites]]
+id = "th04-x86real-api-local"
+tree_root = "th04"
+old_include = "x86real.h"
+local_header = "src/main/include/x86real.h"
+minimum_count = 1
+
+[[scaffold_tree_include_rewrites]]
 id = "th04-scroll-api-local"
 tree_root = "th04"
 old_include = "th04/main/scroll.hpp"

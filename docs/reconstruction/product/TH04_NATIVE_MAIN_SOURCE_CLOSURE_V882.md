@@ -5,22 +5,22 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v967 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v967-20260929/inventory.json`.
+The current v969 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v969-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 42 | 173 |
+| `.h` / `.hpp` declarations | 40 | 149 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **79** | **210** |
+| **Total** | **77** | **186** |
 
-The heaviest remaining header edge is `x86real.h` (13), followed by
-`platform.h` (11), `th04/common.h` (9), and the eight-reference edges
-`th04/main/hud/hud.hpp` and `th04/main/bullet/clearzap.hpp`. Five
+The heaviest remaining header edge is `th04/common.h` (9), followed by the
+eight-reference edges `th04/main/hud/hud.hpp` and
+`th04/main/bullet/clearzap.hpp`. Five
 other missing platform/header names
-have no `th04/` prefix: `platform.h`, `x86real.h`, `planar.h`, `decomp.hpp`,
-and `shiftjis.hpp`. These names denote needed declarations, not approval to
+have no `th04/` prefix: `planar.h`, `decomp.hpp`, and `shiftjis.hpp`. These
+names denote needed declarations, not approval to
 reuse cross-game product headers.
 
 Eight maintained physical producers include `.cpp` fragments by historical
@@ -32,7 +32,7 @@ Related function bodies already exist as separate maintained `src/main`
 translation units, but their composition and near-call segment ownership must
 be reconciled before adding them to a native MAIN link manifest. Compiling
 both a composite and its included child as objects would duplicate publics.
-The local ReC98 reference has files at all 43 remaining missing header paths, but only
+The local ReC98 reference has files at all 40 remaining missing header paths, but only
 two of the 35 missing `.cpp` paths and neither missing `.inl` path. This is a
 source-location observation, not evidence that those headers are ready for a
 TH04-owned product build. The existing maintained function bodies must be
@@ -715,10 +715,41 @@ references), 35 `.cpp` fragments, and two `.inl` fragments; only
 compiler-observed only: target selector/storage ownership, standalone MAIN
 linking, and PC-98 startup remain open.
 
+## MAIN platform and x86 real-mode header closure
+
+The twenty-fourth declaration batch routes the historical `platform.h` and
+`x86real.h` edges through product wrappers
+`src/main/include/platform.h` and `src/main/include/x86real.h`, backed by the
+maintained shared declarations in `src/shared/platform/types.hpp` and
+`src/shared/platform/x86.hpp`. The wrappers preserve the integer/callback
+types, segmented register structures, port/interrupt declarations, and
+`MK_FP` surface without importing the ReC98 headers into product source.
+
+The v968 TC4J reference/local probe passes with semantic OMF SHA-256
+`6a0b4ab3ddee2bee11b29d6adb14137aa4499d0ff243d6e4cc1c8dcf0f84e8d2` (receipt
+SHA-256
+`e4646fd2bdee379b160e27433acf02e2b28c3816ddda993c4dc142fe8a729bdf`). The
+focused `main-entry` owner is raw/MAP/relocation exact at 0x7C bytes at
+0xC30C (receipt SHA-256
+`1d1b42461307a4f03b45b1432929bcb1c7e44cefc2472449b76f123b308f5eba`), and
+the focused `bullets_render` owner is exact at 0x10B bytes at 0x144E5 (receipt
+SHA-256
+`f60d1ec9a2052dd0e8cc688454b408f5105f951fb5a88a182b6aa7b314b1310a`).
+The v968 aggregate preserves all 275 accepted extents in two cold builds with
+identical diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb` while
+rewriting 23 `platform.h` and 18 `x86real.h` occurrences (receipt SHA-256
+`1faa03b0d8a80af58deaf976290eae187acc30211bf0360fab27c9c18bfebff1`). The
+v969 inventory is now 77 missing paths / 186 references: 40 headers (149
+references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped. This is compiler-observed declaration
+closure only: hardware implementation, target data/BSS placement, standalone
+MAIN linking, and PC-98 startup remain open.
+
 This include inventory is only the first frontier. The frame declaration and
 storage batch demonstrates the required pairing, the scroll batch adds a
 second declaration/storage split, and the sound, pattern, and vector batches
-close declaration-only dependencies. The remaining 42 missing header
+close declaration-only dependencies. The remaining 40 missing header
 paths still need
 product-owned declarations and, where applicable, their data/BSS owners.
 A native link manifest must account for those owners and not infer completeness
