@@ -5,19 +5,19 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v980 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v980-20260929/inventory.json`.
+The current v981 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v981-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 32 | 92 |
+| `.h` / `.hpp` declarations | 31 | 87 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **69** | **129** |
+| **Total** | **68** | **124** |
 
-The heaviest remaining header edges are `planar.h`,
-`th04/main/drawp.hpp`, and `th04/hardware/input.h` (5 each), followed by
-the four-path backdrop, dialog, and boss surfaces. These names denote needed
+The heaviest remaining header edges are `planar.h` and
+`th04/main/drawp.hpp` (5 each), followed by the four-path backdrop, dialog,
+and boss surfaces. These names denote needed
 declarations, not approval to reuse cross-game product headers.
 
 Eight maintained physical producers include `.cpp` fragments by historical
@@ -904,4 +904,40 @@ enemy-header occurrences are staged. Inventory v980 is 69 missing paths / 129
 references: 32 headers (92 references), 35 `.cpp` fragments, and two `.inl`
 fragments; only `th04/dialog.cpp` remains unmapped. This is compiler-observed
 declaration closure and affected-unit revalidation, not enemy DATA/BSS
+ownership, standalone MAIN placement, or PC-98 startup acceptance.
+
+## MAIN input API header closure
+
+The twenty-ninth declaration batch routes the historical
+`th04/hardware/input.h` edge through
+`src/main/include/th04/hardware/input.h`, backed by the MAIN-local
+`src/main/hardware/input.hpp`. The local surface preserves the historical
+inputvar/input declaration order, 16-bit input flags, replay byte type,
+diagonal and Q flags, `shiftkey`, and the interface alias. It intentionally
+does not widen `src/shared/hardware/input.hpp`, which remains the shared
+OP/MAINE owner.
+
+The v981 TC4J reference/local probe passes with semantic OMF SHA-256
+`4ad85e3888b72d31bb17af992df891b9858480c2742fa223a54222af25d0212f`
+(receipt SHA-256
+`9681b0e36bff4eb8edd06d992fdd5f34ef11d4fcfef1dc8388e576d37fe1291c`).
+The focused `th04-main-input-wait-for-change` replay proves the 0x56-byte
+owner at file 0x14A13, slice SHA-256
+`1b01e6a95f7ce32132d8760ec73ce22bd17b299758d63ebb554e8abc12976518`,
+with exact MAP placement and empty ordered-relocation overlap in two cold
+builds.
+
+The v981 focused receipt
+`gpt-5-6-sol-main-input-header-focused-050-20260929/receipt.json` has SHA-256
+`5bba457aa4810b6c7db7459a8a4de96b541cc372b2f683d268304dfbabbacd84`.
+The aggregate receipt
+`gpt-5-6-sol-main-input-header-aggregate-051-20260929/receipt.json` has
+SHA-256 `d10911be70dba1e7b9bb400dfac7815bcc22cbf0bdee60188d1764fac72fb5fe`
+and preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`; five
+input-header occurrences are staged. Inventory v981 is 68 missing paths / 124
+references: 31 headers (87 references), 35 `.cpp` fragments, and two `.inl`
+fragments; only `th04/dialog.cpp` remains unmapped. This is compiler-observed
+declaration closure and affected-unit revalidation, not key-state DATA/BSS
 ownership, standalone MAIN placement, or PC-98 startup acceptance.

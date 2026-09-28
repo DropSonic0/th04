@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the twenty-eighth MAIN declaration closure batch. This is the
+Updated 2026-09-29 after the twenty-ninth MAIN declaration closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -405,6 +405,21 @@ staging six enemy-header rewrites. Inventory v980 is now 69 missing paths /
 `.inl` fragments; only `th04/dialog.cpp` remains unmapped. Enemy declaration
 closure is compiler-observed only: enemy DATA/BSS ownership, standalone MAIN
 placement, and PC-98 startup remain open.
+
+The historical `th04/hardware/input.h` path now resolves to a MAIN-local input
+API through `src/main/include/th04/hardware/input.h`, backed by
+`src/main/hardware/input.hpp`. The v981 TC4J probe matches semantic OMF
+SHA-256 `4ad85e3888b72d31bb17af992df891b9858480c2742fa223a54222af25d0212f`.
+The focused `th04-main-input-wait-for-change` owner is raw/MAP exact at 0x56
+bytes (file 0x14A13) with empty relocation overlap. The v981 aggregate
+preserves all 275 accepted extents with identical diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb` while
+staging five input-header rewrites. Inventory v981 is now 68 missing paths /
+124 references: 31 headers (87 references), 35 `.cpp` fragments, and two
+`.inl` fragments; only `th04/dialog.cpp` remains unmapped. Input declaration
+closure is compiler-observed only: key-state DATA/BSS ownership, standalone
+MAIN placement, and PC-98 startup remain open. The MAIN-local surface is kept
+separate from the shared OP/MAINE input header.
 
 The historical `th04/main/gather.hpp` path now resolves to the artifact-local
 gather API through a product include wrapper. The v930 TC4J probe matches
