@@ -480,6 +480,35 @@ references), 35 `.cpp` fragments, and two `.inl` fragments; only
 `th04/dialog.cpp` remains unmapped. Item DATA/BSS ownership, standalone MAIN
 linking, and PC-98 startup remain open.
 
+## MAIN midboss-header closure
+
+The sixteenth declaration batch routes the historical
+`th04/main/midboss/midboss.hpp` edge through the product wrapper
+`src/main/include/th04/main/midboss/midboss.hpp` and the artifact-local
+`src/main/midboss/midboss.hpp`. The local surface preserves the midboss
+constants, `midboss_stuff_t` playfield-motion layout, callback pointer
+distances, stage entry declarations, hit-test inline helpers, and the generic
+flash/render macro while reusing the local midboss state and playfield APIs.
+
+The v950 TC4J reference/local probe produced identical link-semantic OMF
+(`dd141e4f49b86d2ff9573f73da202cefe9b5d9e0c36aa38cc37bf2c104c807a1`);
+receipt SHA-256:
+`45a666ce5359230df2b20faa648ae7f43a347a4c60d678da1d28918e9c9bde01`.
+The focused `midboss4_render` owner is raw/MAP/relocation exact at 0x8D bytes
+(receipt
+`54734a2b85a9e8af4e4701724865f560c75a03f36485df1f7da304b6fd7193dd`), with
+candidate and target slice SHA-256
+`c877ff2878813ec50576de7bdb230983f318e6b220d741f422f1ef467ee03c97`.
+The v950 aggregate rewrites 19 staged occurrences and preserves all 275
+accepted extents in two cold builds with identical diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`;
+aggregate receipt SHA-256:
+`7a9f23674cfe9d2ec59d0e8ca1a4fe277f329e4a333adc0afc7b2fbb9c3ece07`.
+The v951 inventory is now 86 missing paths / 274 references: 49 headers (237
+references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped. Midboss DATA/BSS ownership, standalone
+MAIN linking, and PC-98 startup remain open.
+
 This include inventory is only the first frontier. The frame declaration and
 storage batch demonstrates the required pairing, the scroll batch adds a
 second declaration/storage split, and the sound, pattern, and vector batches
