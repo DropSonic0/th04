@@ -5,15 +5,15 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The v898 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v898-20260928/inventory.json`.
+The current v900 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v900-20260928/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 65 | 722 |
+| `.h` / `.hpp` declarations | 64 | 660 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **102** | **759** |
+| **Total** | **101** | **697** |
 
 The heaviest header edges are `th04/snd/snd.h` (68 references),
 `th04/sprites/main_pat.h` (64), `th04/main/frames.h` (62), and the
@@ -36,20 +36,44 @@ two of the 35 missing `.cpp` paths and neither missing `.inl` path. This is a
 source-location observation, not evidence that those headers are ready for a
 TH04-owned product build. The existing maintained function bodies must be
 composed into their physical translation units and their state owners found.
-The inventory now joins historical include paths to the local exact-unit
-replay ledger. It identifies maintained source for 32 of 37 missing body
-fragment paths. Five have no direct replay mapping:
-`th04/dialog.cpp`, `th04/gsinit.cpp`, `th04/m4tail.inl`,
-`th04/main/dialog/init_exit.inl`, and `th04/y5p2.cpp`. Local files with
-plausible related names exist, but composition must be checked against the
-target producer and accepted replay before claiming ownership.
+The inventory now joins historical include paths to all three exact-replay
+composition surfaces: ordinary unit overlays, build inserts, and source
+splits. Maintained source maps 36 of 37 missing body fragment paths. The four
+v898 false negatives are `th04/gsinit.cpp`, `th04/m4tail.inl`,
+`th04/main/dialog/init_exit.inl`, and `th04/y5p2.cpp`; their checked-in replay
+rules already bind them to maintained source. Only `th04/dialog.cpp` remains
+without a complete local physical composition. It is the historical root
+wrapper for the dialog producer, whose accepted bodies currently enter
+through several fragment and scaffold patch surfaces.
 
-This include inventory is only the first frontier. For example, the 62
-`th04/main/frames.h` references need declarations for frame counters, while
-their original storage lives in separate `frames[data].asm` and
-`frames[bss].asm` producers in the reference build. No corresponding owned
-MAIN state producers are present yet. A native link manifest must account for
-data/BSS and not infer completeness from closing the include list alone.
+## MAIN frame-state closure
+
+The first declaration/data batch localizes the former
+`th04/main/frames.h` dependency at
+`src/main/include/th04/main/frames.h`. This preserves the historical include
+spelling through the product-owned `-Isrc/main/include` root and closes 62
+quoted-include references without changing accepted TU source composition.
+`src/main/core/frame_state.asm` owns the ten public frame/slowdown symbols in
+`_DATA` and `_BSS`; initialized totals begin at zero while stage-relative and
+slowdown state remains uninitialized until normal game setup.
+
+`scripts/probes/probe_th04_native_main_frames.py` attests the pinned toolchain,
+compiles a large-model TC4J consumer, assembles the owner with TASM32, validates
+the single-module OMF producer and ten PUBDEF records, links a valid MZ, and
+runs it under the pinned MS-DOS Player. Two fresh directories both print
+`FRAMES_PASS`; the complete MZ is identical in both runs at SHA-256
+`cbdedb41ae7b7073c8483f21b6cb572ef5b6efd4902642ddaea3baf1352d1047`
+with 217 relocations, and the frame-state OMF is raw-identical at SHA-256
+`9626d47ea08919bf316d21bf2214f16ffb43e829f0fa29522a72bc963a556fe7`.
+This is runtime-observed declaration/storage behavior for an isolated DOS
+probe. Target DATA/BSS offsets, full native MAIN linking, and PC-98 execution
+remain open.
+
+This include inventory is only the first frontier. The frame declaration and
+storage batch demonstrates the required pairing, but the other 64 missing
+header paths still need product-owned declarations and their data/BSS owners.
+A native link manifest must account for those owners and not infer completeness
+from closing the include list alone.
 
 Recover TH04-specific declarations under `src/main` or proved `src/shared`
 ownership, with a build-time include projection if an accepted historical
