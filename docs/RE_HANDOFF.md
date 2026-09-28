@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the thirteenth MAIN declaration closure batch. This is the
+Updated 2026-09-29 after the fifteenth MAIN declaration closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -209,8 +209,8 @@ native OP has transferred control to `MAIN.EXE`. This does not establish
 original MAIN or MAINE execution. The strict shared CDG loader still gives
 raw-zero decoded modules and matching relocations for both OP and MAINE in
 two cold replay links. See the native OP note for receipts and limits. MAIN has no
-standalone build yet: its maintained sources refer to 88 missing quoted
-include paths: 51 declarations (268 references), 35 composite `.cpp`
+standalone build yet: its maintained sources refer to 87 missing quoted
+include paths: 50 declarations (252 references), 35 composite `.cpp`
 fragments, and two `.inl` fragments. See the
 [MAIN source-closure note](reconstruction/product/TH04_NATIVE_MAIN_SOURCE_CLOSURE_V882.md)
 for the eight affected composite producers and missing data/BSS owners.
@@ -340,6 +340,17 @@ bytes, and the strict aggregate rewrites 28 staged occurrences while
 preserving all 275 accepted extents in two cold builds. Playfield DATA/BSS
 ownership, the remaining 88-path source closure, standalone MAIN placement,
 and PC-98 startup remain open.
+
+The historical `th04/main/item/item.hpp` path now resolves to the artifact-local
+item API through a product include wrapper. The v946 TC4J probe matches
+link-semantic OMF (`ec1897de6e3908a4a10c51def070e411a0cffa7c35088cb9f0de9c901cc89447`)
+after preserving the target-bound far/`extern "C"` and byte-width corrections.
+The first focused replay caught the pristine near/C++ declaration mismatch;
+the corrected `items_update` owner is raw/MAP/relocation exact at 0x546 bytes,
+and the strict aggregate rewrites 16 staged occurrences while preserving all
+275 accepted extents in two cold builds. Item DATA/BSS ownership, the
+remaining 87-path source closure, standalone MAIN placement, and PC-98 startup
+remain open.
 
 The [native ZUN note](reconstruction/zun/TH04_ZUN_NATIVE_SOURCE_BUILD_V880.md)
 records a TH04-only 18-object Tiny resident COM, cold 13,356-byte flat launcher,

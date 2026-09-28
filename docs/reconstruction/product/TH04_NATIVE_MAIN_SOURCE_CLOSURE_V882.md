@@ -448,6 +448,38 @@ references), 35 `.cpp` fragments, and two `.inl` fragments; only
 `th04/dialog.cpp` remains unmapped. Playfield DATA/BSS ownership, standalone
 MAIN linking, and PC-98 startup remain open.
 
+## MAIN item-header closure
+
+The fifteenth declaration batch routes the historical
+`th04/main/item/item.hpp` edge through the product wrapper
+`src/main/include/th04/main/item/item.hpp` and the artifact-local
+`src/main/item/item.hpp`. The local surface preserves the GAME 4 item enum,
+`item_t` playfield-motion layout, item constants and storage declarations,
+miss-velocity table, counters, and lifecycle entry points. Its `items_miss_add`
+and `stage_point_items_collected` declarations retain the target-bound v154
+far/`extern "C"` and byte-width corrections already required by the maintained
+source.
+
+The v946 TC4J reference/local probe produced identical link-semantic OMF
+(`ec1897de6e3908a4a10c51def070e411a0cffa7c35088cb9f0de9c901cc89447`);
+receipt SHA-256:
+`262e66ff5751efb4348e9483843c7a1045ba10fe9742927bb22a1c10f1250aa4`.
+The first focused replay failed closed on the pristine near/C++ declaration;
+after applying the target-bound corrections, the focused
+`items_update` owner is raw/MAP/relocation exact at 0x546 bytes (receipt
+`e82eb933e6cccc8fcb9b3965d7713f1a3e21e8941b3acadd1dfbba551133582c`), with
+candidate and target slice SHA-256
+`a0949b541b517ba4be1cb7afd1094b60017235eefd777630b20c038a030f6531`.
+The v946 aggregate rewrites 16 staged occurrences and preserves all 275
+accepted extents in two cold builds with identical diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`;
+aggregate receipt SHA-256:
+`3741650ddd38f66cc1771b8b8b2368716e2dd80121625235c3aa5d7f57496e65`.
+The v947 inventory is now 87 missing paths / 289 references: 50 headers (252
+references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped. Item DATA/BSS ownership, standalone MAIN
+linking, and PC-98 startup remain open.
+
 This include inventory is only the first frontier. The frame declaration and
 storage batch demonstrates the required pairing, the scroll batch adds a
 second declaration/storage split, and the sound, pattern, and vector batches
