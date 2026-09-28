@@ -5,17 +5,17 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v916 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v916-20260928/inventory.json`.
+The current v922 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v922-20260928/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 59 | 461 |
+| `.h` / `.hpp` declarations | 58 | 420 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **96** | **498** |
+| **Total** | **95** | **457** |
 
-The heaviest remaining header edges are the player/bullet headers (41 each),
+The heaviest remaining header edges are the bullet header (41),
 `th04/main/gather.hpp` (24), and the score and custom headers (19 each). Five
 other missing platform/header names
 have no `th04/` prefix: `platform.h`, `x86real.h`, `planar.h`, `decomp.hpp`,
@@ -227,10 +227,49 @@ Aggregate receipt SHA-256:
 This is declaration, compiler, and scaffold-regression evidence; circle BSS
 ownership and a standalone MAIN link remain open.
 
+## MAIN player-header closure
+
+The seventh declaration batch routes the historical
+`th04/main/player/player.hpp` edge through the product wrapper
+`src/main/include/th04/main/player/player.hpp` and the artifact-local
+`src/main/player/player.hpp`. The local surface preserves the candidate's
+player dimensions, option spacing, power/shot constants, player state
+declarations, near entry points, and the transitive `SHOT_W/H` and playfield
+shake declarations needed by the maintained consumers. The candidate header
+is pinned at SHA-256
+`2c5b69b76f3de1be2d2bbd900b60ebde9d4eebc250671ca3fa94b29a7a3e3ded`; the
+current local header is 885 bytes at SHA-256
+`1b40824466d91aa295da6361ed2a295c0dd1867610050f2b3e41a183999f5847`.
+
+The independent v922 TC4J probe exercises the player position/clamp and
+invalidate near calls, global state widths, constants, and `PlayfieldMotion`
+layout. Reference and local builds produce the same link-semantic OMF
+SHA-256 `f5ee3b8c79c907cdfb8f71469b0f224f80ca3051fd10e0726e5cefed855b7212`.
+Probe receipt SHA-256:
+`4aa45e68aea469b068ff144837d5a52df9ca3954e4f87da80dca1bd50c45ecd8`.
+
+The first aggregate compile intentionally exposed two missing transitive
+declarations (`playfield_shake_{x,y,anim_time}` and `SHOT_W/H`); no promotion
+was made from that failed run. After recovering those observed interfaces in
+the local playfield/player headers, the focused player owner replay is
+raw/MAP/relocation exact (56 bytes; receipt SHA-256
+`9362c889c119e40570084e0c678a912421964d4c8efd17695f6e98a052f6b4d2`). The
+strict v922 aggregate freezes the local player header and rewrites 43 staged
+occurrences. Both cold builds preserve all 275 accepted extents and produce
+identical diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`;
+aggregate receipt SHA-256:
+`858c06dbd396e2f6f7d90414bc292bfa319ba00854715d72697ae879f0dc640c`.
+The inventory falls to 95 missing paths / 457 references (58 declaration
+paths, 35 `.cpp` fragments, and two `.inl` fragments); `th04/dialog.cpp`
+remains the only unmapped physical fragment. This closes a declaration and
+replay-control edge, not the player/playfield BSS ownership or standalone
+MAIN link/runtime gates.
+
 This include inventory is only the first frontier. The frame declaration and
 storage batch demonstrates the required pairing, the scroll batch adds a
 second declaration/storage split, and the sound, pattern, and vector batches
-close declaration-only dependencies. The other 59 missing header
+close declaration-only dependencies. The other 58 missing header
 paths still need
 product-owned declarations and, where applicable, their data/BSS owners.
 A native link manifest must account for those owners and not infer completeness
