@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the twenty-seventh MAIN declaration closure batch. This is the
+Updated 2026-09-29 after the twenty-eighth MAIN declaration closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -384,11 +384,27 @@ Selecting trigger owners `th04-main-bomb-stars-v178` and
 exact in two cold builds. The 275-owner aggregate remains deterministic with
 7, 8, and 7 staged rewrites and diagnostic MAIN SHA-256
 `d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
-Inventory v979 is now 70 missing paths / 135 references: 33 headers (92
+Inventory v979 is now 70 missing paths / 135 references: 33 headers (98
 references), 35 `.cpp` fragments, and two `.inl` fragments; only
 `th04/dialog.cpp` remains unmapped. Combat declaration closure is
 compiler-observed only: backing DATA/BSS ownership, standalone MAIN placement,
 and PC-98 startup remain open.
+
+The historical `th04/main/enemy/enemy.hpp` path now resolves to the
+artifact-local enemy API through `src/main/include/th04/main/enemy/enemy.hpp`.
+The v980 TC4J probe matches semantic OMF SHA-256
+`386f9e1c92c7cd65bc1ccd05866fdb7eb344ec71b4f845a4a9d4da71cc430393`.
+Selecting the downstream `th04-main-enemies-render-v177` trigger proves
+`enemies_add` (0xDE at file 0x194F3), `enemies_update` (0x1D6 at 0x19659),
+and `enemies_render` (0xCF at 0x11F13) raw/MAP/ordered-relocation exact in two
+cold builds. The v980 aggregate preserves all 275 accepted extents with
+identical diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb` while
+staging six enemy-header rewrites. Inventory v980 is now 69 missing paths /
+129 references: 32 headers (92 references), 35 `.cpp` fragments, and two
+`.inl` fragments; only `th04/dialog.cpp` remains unmapped. Enemy declaration
+closure is compiler-observed only: enemy DATA/BSS ownership, standalone MAIN
+placement, and PC-98 startup remain open.
 
 The historical `th04/main/gather.hpp` path now resolves to the artifact-local
 gather API through a product include wrapper. The v930 TC4J probe matches

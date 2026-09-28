@@ -5,22 +5,20 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v978 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v978-20260929/inventory.json`.
+The current v980 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v980-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 36 | 117 |
+| `.h` / `.hpp` declarations | 32 | 92 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **73** | **154** |
+| **Total** | **69** | **129** |
 
-The heaviest remaining header edges are `th04/main/player/bomb.hpp` (7),
-followed by `th04/main/player/shot.hpp`, `th04/formats/super.h`, and
-`th04/main/enemy/enemy.hpp` (6 each). Other high-count edges are `planar.h`,
-`th04/main/drawp.hpp`, and `th04/hardware/input.h` (5 each). These
-names denote needed declarations, not approval to
-reuse cross-game product headers.
+The heaviest remaining header edges are `planar.h`,
+`th04/main/drawp.hpp`, and `th04/hardware/input.h` (5 each), followed by
+the four-path backdrop, dialog, and boss surfaces. These names denote needed
+declarations, not approval to reuse cross-game product headers.
 
 Eight maintained physical producers include `.cpp` fragments by historical
 `th04/` paths: `boss_bg_main01.cpp`, `yuuka6_main034.cpp`,
@@ -863,8 +861,47 @@ preserves all 275 accepted extents across two cold builds with identical
 diagnostic MAIN SHA-256
 `d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`; the new
 rewrites stage 7 bomb, 8 shot, and 7 super-sprite occurrences. The v979
-inventory is 70 missing paths / 135 references: 33 headers (92 references),
+inventory is 70 missing paths / 135 references: 33 headers (98 references),
 35 `.cpp` fragments, and two `.inl` fragments; only `th04/dialog.cpp` remains
 unmapped. This is compiler-observed declaration closure and affected-unit
 revalidation, not target DATA/BSS ownership, standalone MAIN placement, or
 PC-98 startup acceptance.
+
+## MAIN enemy API header closure
+
+The twenty-eighth declaration batch routes the historical
+`th04/main/enemy/enemy.hpp` edge through
+`src/main/include/th04/main/enemy/enemy.hpp`, backed by the artifact-local
+`src/main/enemy/enemy.hpp`. The local surface preserves the GAME 4 enemy flag
+range, `enemy_t` field order, 32-entry storage declarations, random-position
+constant, and near entry ABIs while taking its bullet, item, and pattern types
+from product-owned headers.
+
+The v980 TC4J reference/local probe passes with semantic OMF SHA-256
+`386f9e1c92c7cd65bc1ccd05866fdb7eb344ec71b4f845a4a9d4da71cc430393`
+(receipt SHA-256
+`b9f0eae5e43169815f03b0619d94020892f7d0cbe45d96d7c25de391f3a28099`).
+The focused replay selects downstream trigger
+`th04-main-enemies-render-v177` and proves `enemies_add` (0xDE at file
+0x194F3, slice SHA-256
+`f4c44950296962e8e5956f772ad74131efd8712c680e242091508a4c517c42`),
+`enemies_update` (0x1D6 at 0x19659, slice SHA-256
+`0184a3ba5b510c76075380c3f4a6a5ba673fa0fc1badd5122264d731b17b3613`), and
+`enemies_render` (0xCF at 0x11F13, slice SHA-256
+`1569689d4fb4c791a5f8e782282f01c6d4e5d2765a09e7651fe8fc2900d202f6`) in two
+cold builds, including exact MAP placement and ordered MZ relocation checks.
+
+The v980 focused receipt
+`gpt-5-6-sol-main-enemy-header-focused-048-20260929/receipt.json` has SHA-256
+`d2576ba7a2eb28184c2ea7ccc96da423012b3d8f243380c8d72b51c8961b5871`.
+The aggregate receipt
+`gpt-5-6-sol-main-enemy-header-aggregate-049-20260929/receipt.json` has
+SHA-256 `11ebcf7babe30d96c32a8a8aa293d5a96f034a86607262187a6891dca9f635ab`
+and preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`; six
+enemy-header occurrences are staged. Inventory v980 is 69 missing paths / 129
+references: 32 headers (92 references), 35 `.cpp` fragments, and two `.inl`
+fragments; only `th04/dialog.cpp` remains unmapped. This is compiler-observed
+declaration closure and affected-unit revalidation, not enemy DATA/BSS
+ownership, standalone MAIN placement, or PC-98 startup acceptance.
