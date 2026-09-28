@@ -5,18 +5,18 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v922 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v922-20260928/inventory.json`.
+The current v929 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v929-20260928/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 58 | 420 |
+| `.h` / `.hpp` declarations | 57 | 379 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **95** | **457** |
+| **Total** | **94** | **416** |
 
-The heaviest remaining header edges are the bullet header (41),
-`th04/main/gather.hpp` (24), and the score and custom headers (19 each). Five
+The heaviest remaining header edges are `th04/main/gather.hpp` (24), and the
+score and custom headers (19 each), followed by `th04/main/spark.hpp` (18). Five
 other missing platform/header names
 have no `th04/` prefix: `platform.h`, `x86real.h`, `planar.h`, `decomp.hpp`,
 and `shiftjis.hpp`. These names denote needed declarations, not approval to
@@ -31,7 +31,7 @@ Related function bodies already exist as separate maintained `src/main`
 translation units, but their composition and near-call segment ownership must
 be reconciled before adding them to a native MAIN link manifest. Compiling
 both a composite and its included child as objects would duplicate publics.
-The local ReC98 reference has files at all 59 remaining missing header paths, but only
+The local ReC98 reference has files at all 57 remaining missing header paths, but only
 two of the 35 missing `.cpp` paths and neither missing `.inl` path. This is a
 source-location observation, not evidence that those headers are ready for a
 TH04-owned product build. The existing maintained function bodies must be
@@ -260,16 +260,40 @@ identical diagnostic MAIN SHA-256
 `d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`;
 aggregate receipt SHA-256:
 `858c06dbd396e2f6f7d90414bc292bfa319ba00854715d72697ae879f0dc640c`.
-The inventory falls to 95 missing paths / 457 references (58 declaration
+The inventory falls to 94 missing paths / 416 references (57 declaration
 paths, 35 `.cpp` fragments, and two `.inl` fragments); `th04/dialog.cpp`
 remains the only unmapped physical fragment. This closes a declaration and
 replay-control edge, not the player/playfield BSS ownership or standalone
 MAIN link/runtime gates.
 
+## MAIN bullet-header closure
+
+The eighth declaration batch routes the historical
+`th04/main/bullet/bullet.hpp` edge through the product wrapper
+`src/main/include/th04/main/bullet/bullet.hpp` and the artifact-local
+`src/main/bullet/bullet.hpp` plus `types.hpp`. It preserves the GAME 4/GAME 5
+group and spawn values, bullet state unions, template layout, and add-entry
+point declarations. The v928 TC4J reference/local probe produced identical
+link-semantic OMF (`9ed2b36bcdd5ce19767e7f90c6230a81e03fc3f295d4ceeb3e384f3c3c1ca9d8`); receipt SHA-256:
+`80fc64e84bc17731ebb072a8d3dc9570ce74604e8b03fbb49447aefa21f9e1b9`.
+
+The first strict aggregate exposed PC-98 IDE path resolution and a duplicate
+rank declaration in cross-game consumers. Keeping the attested TH04 playfield
+and rank declarations on this bounded API resolves those compiler edges. The
+focused `bullet_a.cpp` owner is raw/MAP/relocation exact at 2139 bytes
+(receipt `9ebb25f673e53eeacf64a94f4116f1ca2ac0081a9eaa94901a944706e36397b6`).
+The final v928 aggregate rewrites 44 staged occurrences and preserves all 275
+accepted extents in two cold builds with identical diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`;
+receipt SHA-256:
+`6f1fa257a62eb9ff356c4ac00cf0f42a36fc5e56920fcc65ced49bf2237a233f`.
+The v929 inventory is now 94 missing paths / 416 references. Bullet BSS
+ownership, standalone MAIN linking, and PC-98 startup remain open.
+
 This include inventory is only the first frontier. The frame declaration and
 storage batch demonstrates the required pairing, the scroll batch adds a
 second declaration/storage split, and the sound, pattern, and vector batches
-close declaration-only dependencies. The other 58 missing header
+close declaration-only dependencies. The other 57 missing header
 paths still need
 product-owned declarations and, where applicable, their data/BSS owners.
 A native link manifest must account for those owners and not infer completeness

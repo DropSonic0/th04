@@ -45,6 +45,13 @@ local_header = "src/main/player/player.hpp"
 minimum_count = 1
 
 [[scaffold_tree_include_rewrites]]
+id = "th04-bullet-api-local"
+tree_root = "th04"
+old_include = "th04/main/bullet/bullet.hpp"
+local_header = "src/main/bullet/bullet.hpp"
+minimum_count = 1
+
+[[scaffold_tree_include_rewrites]]
 id = "th04-scroll-api-local"
 tree_root = "th04"
 old_include = "th04/main/scroll.hpp"
