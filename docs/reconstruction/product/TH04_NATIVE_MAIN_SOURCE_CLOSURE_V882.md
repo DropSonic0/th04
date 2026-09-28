@@ -5,18 +5,18 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v985 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v985-20260929/inventory.json`.
+The current v986 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v986-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 27 | 69 |
+| `.h` / `.hpp` declarations | 26 | 65 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **64** | **106** |
+| **Total** | **63** | **102** |
 
-The heaviest remaining header edge is now `th04/formats/dialog.hpp` (4 references),
-followed by tile/bb, playperf, EMS, hiscore, end, std, and splash surfaces. These names denote needed
+The heaviest remaining header edge is now `th04/main/tile/bb.hpp` (4 references),
+followed by playperf, EMS, hiscore, end, std, and splash surfaces. These names denote needed
 declarations, not approval to reuse cross-game product headers.
 
 Eight maintained physical producers include `.cpp` fragments by historical
@@ -939,6 +939,39 @@ header keeps the historical `PLANAR_H` guard because the root-level rewrite
 also reaches legacy scaffold consumers. This is compiler-observed declaration
 closure and affected-unit revalidation, not target DATA/BSS ownership,
 standalone MAIN placement, or PC-98 startup acceptance.
+
+## MAIN dialog-format header closure
+
+The thirty-fourth declaration batch routes the historical
+`th04/formats/dialog.hpp` edge through
+`src/main/include/th04/formats/dialog.hpp`, backed by the semantic MAIN-local
+`src/main/formats/dialog.hpp`. The local surface preserves the far dialog
+script-buffer pointer, the near `dialog_load(const char *)` and
+`dialog_load()` overloads, the default-distance Yuuka-5 loader, and the near
+`dialog_free()` declaration. It declares the dialog interface only; it does not
+allocate the dialog buffer or other DATA/BSS storage.
+
+The v986 TC4J reference/local probe passes with semantic OMF SHA-256
+`f4da531e53b2dd33dd023cc82d237d1011f15714504ed69aeff8678cfd2ad45c`
+(receipt SHA-256
+`7e7ac4c1d9bea54ac3f07bbcb48d6c49a799572f1e402371d3cabc4d964158f3`).
+The focused `th04-main-module-th04-f-dialog-cpp-ce93` replay proves the 0xAA-byte
+`th04/f_dialog.cpp` owner at file 0xE693, slice SHA-256
+`33389d17fee16f4d25b700efdfae8455c865d143fac26bfa2a33753b9171afe3`, with
+raw bytes, MAP placement, and relocations exact in two cold builds. Its receipt
+SHA-256 is
+`c70dc189f201caaa498bd914c2daadd8242bdb25c80a389081bde07943afeea2`.
+The aggregate receipt
+`gpt-5-6-sol-main-dialog-header-aggregate-063-20260929/receipt.json` has SHA-256
+`280b80de269e831f23ae8e9af8c49853c60fd090dfa87d29cef5abbf1c818abc` and
+preserves all 275 accepted extents in two cold builds with identical diagnostic
+MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`;
+six dialog-format rewrites are staged per build. Inventory v986 is 63 missing
+paths / 102 references: 26 headers (65 references), 35 `.cpp` fragments, and
+two `.inl` fragments; only `th04/dialog.cpp` remains unmapped. This is
+compiler-observed declaration closure and affected-unit revalidation, not dialog
+DATA/BSS ownership, standalone MAIN placement, or PC-98 startup acceptance.
 
 ## MAIN boss-declarations header closure
 

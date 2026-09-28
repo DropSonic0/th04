@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the thirty-third MAIN declaration closure batch. This is the
+Updated 2026-09-29 after the thirty-fourth MAIN declaration closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -479,6 +479,30 @@ and two `.inl` fragments; the next header edge is `th04/formats/dialog.hpp`
 `th04/main/playperf.hpp`. This closes the boss-declaration edge only; callback
 state/DATA/BSS ownership, standalone MAIN placement, and PC-98 startup remain
 open.
+
+The historical `th04/formats/dialog.hpp` path now resolves to the product-owned
+MAIN dialog format API through `src/main/include/th04/formats/dialog.hpp`, backed
+by `src/main/formats/dialog.hpp`. The v986 TC4J reference/local probe covers the
+far dialog buffer pointer, near overloads, the far Yuuka-5 loader, and the
+`dialog_free()` ABI; it matches semantic OMF SHA-256
+`f4da531e53b2dd33dd023cc82d237d1011f15714504ed69aeff8678cfd2ad45c` (receipt
+SHA-256 `7e7ac4c1d9bea54ac3f07bbcb48d6c49a799572f1e402371d3cabc4d964158f3`).
+The focused `th04-main-module-th04-f-dialog-cpp-ce93` replay proves the 0xAA-byte
+`th04/f_dialog.cpp` owner at file 0xE693, slice SHA-256
+`33389d17fee16f4d25b700efdfae8455c865d143fac26bfa2a33753b9171afe3`, with raw
+bytes, MAP placement, and relocations exact in two cold builds. Its receipt
+SHA-256 is `c70dc189f201caaa498bd914c2daadd8242bdb25c80a389081bde07943afeea2`.
+The v986 aggregate receipt
+`gpt-5-6-sol-main-dialog-header-aggregate-063-20260929/receipt.json` has SHA-256
+`280b80de269e831f23ae8e9af8c49853c60fd090dfa87d29cef5abbf1c818abc` and
+preserves all 275 accepted extents in two cold builds with identical diagnostic
+MAIN SHA-256 `d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`;
+six dialog-format rewrites are staged per build. Inventory v986 is now 63
+missing paths / 102 references: 26 headers (65 references), 35 `.cpp` fragments,
+and two `.inl` fragments; the next header edge is `th04/main/tile/bb.hpp`
+(4 references), followed by `th04/main/playperf.hpp`. This closes the dialog
+declaration edge only; dialog DATA/BSS ownership, standalone MAIN placement, and
+PC-98 startup remain open.
 
 The historical `th04/main/drawp.hpp` path now resolves to the product-owned
 MAIN drawpoint declaration through `src/main/include/th04/main/drawp.hpp`,
