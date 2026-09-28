@@ -5,21 +5,20 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v971 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v971-20260929/inventory.json`.
+The current v978 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v978-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 39 | 140 |
+| `.h` / `.hpp` declarations | 36 | 117 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **76** | **177** |
+| **Total** | **73** | **154** |
 
-The heaviest remaining header edges are `th04/main/hud/hud.hpp` and
-`th04/main/bullet/clearzap.hpp` (8 each), followed by
-`th04/sprites/main_cdg.h` (7). Three
-other missing platform/header names
-have no `th04/` prefix: `planar.h`, `decomp.hpp`, and `shiftjis.hpp`. These
+The heaviest remaining header edges are `th04/main/player/bomb.hpp` (7),
+followed by `th04/main/player/shot.hpp`, `th04/formats/super.h`, and
+`th04/main/enemy/enemy.hpp` (6 each). Other high-count edges are `planar.h`,
+`th04/main/drawp.hpp`, and `th04/hardware/input.h` (5 each). These
 names denote needed declarations, not approval to
 reuse cross-game product headers.
 
@@ -32,7 +31,7 @@ Related function bodies already exist as separate maintained `src/main`
 translation units, but their composition and near-call segment ownership must
 be reconciled before adding them to a native MAIN link manifest. Compiling
 both a composite and its included child as objects would duplicate publics.
-The local ReC98 reference has files at all 39 remaining missing header paths, but only
+The local ReC98 reference has files at all 36 remaining missing header paths, but only
 two of the 35 missing `.cpp` paths and neither missing `.inl` path. This is a
 source-location observation, not evidence that those headers are ready for a
 TH04-owned product build. The existing maintained function bodies must be
@@ -774,10 +773,41 @@ references), 35 `.cpp` fragments, and two `.inl` fragments; only
 not establish stage-state/data-BSS ownership, standalone MAIN linking, or
 PC-98 startup.
 
+## MAIN combat, HUD, and CDG header closure
+
+The twenty-sixth declaration batch routes the historical
+`th04/main/bullet/clearzap.hpp`, `th04/main/hud/hud.hpp`, and
+`th04/sprites/main_cdg.h` edges through product wrappers and the artifact-local
+`src/main/bullet/clearzap.hpp`, `src/main/hud/hud.hpp`, and
+`src/main/sprites/main_cdg.hpp`. The local headers preserve the clearzap union
+and frame constants, the HUD HP/graze/number APIs, and the GAME=4/GAME=5 CDG
+slot macros without importing ReC98 headers into product source.
+
+The v977 TC4J reference/local probe passes with semantic OMF SHA-256
+`f63c46cce7df656b34be719f1013a0edb0d936e79c64e40337449b64e5cfcb19` (receipt
+SHA-256 `381fbc1ef9e626dedff8a09ad18ef56474c55edfea8d0d3f6b6201a2fd723228`).
+The focused `bullets_render` owner is raw/MAP/relocation exact at 0x10B bytes
+at 0x144E5 (receipt SHA-256
+`0f45ecbc8676435c31c68b6168782dfa9307d7a1e6d24af3b045553e12338a34`),
+`midboss_hud_defeat_tu` is exact at 0x1CB bytes at 0x642C (receipt SHA-256
+`60f5edc32ae7ddbd73ee579513c9c7fd31f96eae41fc0bd6936bff8ad9ee3423`), and
+`BOSS_BD_TEXT` is exact at 0x27 bytes at 0x7667 (receipt SHA-256
+`a0f5af102af797e4152e7b0a8f200bcedebbb900ffca66da9ed0504ea800c141`). The
+v977 aggregate preserves all 275 accepted extents in two cold builds with
+identical diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb` while
+rewriting 8 clearzap, 10 HUD, and 11 MAIN CDG occurrences (receipt SHA-256
+`375f07c9ece2969f4a45a5d1cf3ecedac6f64e838d3b34ae925ee3a522b32761`). The
+v978 inventory is now 73 missing paths / 154 references: 36 headers (117
+references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped. This closes compiler-observed declaration
+edges only: bullet/HUD/CDG backing storage, target DATA/BSS ownership,
+standalone MAIN placement, and PC-98 startup remain open.
+
 This include inventory is only the first frontier. The frame declaration and
 storage batch demonstrates the required pairing, the scroll batch adds a
 second declaration/storage split, and the sound, pattern, and vector batches
-close declaration-only dependencies. The remaining 39 missing header
+close declaration-only dependencies. The remaining 36 missing header
 paths still need
 product-owned declarations and, where applicable, their data/BSS owners.
 A native link manifest must account for those owners and not infer completeness

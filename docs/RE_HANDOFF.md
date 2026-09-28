@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the twenty-fifth MAIN declaration closure batch. This is the
+Updated 2026-09-29 after the twenty-sixth MAIN declaration closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -209,8 +209,8 @@ native OP has transferred control to `MAIN.EXE`. This does not establish
 original MAIN or MAINE execution. The strict shared CDG loader still gives
 raw-zero decoded modules and matching relocations for both OP and MAINE in
 two cold replay links. See the native OP note for receipts and limits. MAIN has no
-standalone build yet: its maintained sources refer to 76 missing quoted
-include paths: 39 declarations (140 references), 35 composite `.cpp`
+standalone build yet: its maintained sources refer to 73 missing quoted
+include paths: 36 declarations (117 references), 35 composite `.cpp`
 fragments, and two `.inl` fragments. See the
 [MAIN source-closure note](reconstruction/product/TH04_NATIVE_MAIN_SOURCE_CLOSURE_V882.md)
 for the eight affected composite producers and missing data/BSS owners.
@@ -356,6 +356,21 @@ rewriting 14 staged occurrences. Inventory v971 is now 76 missing paths / 177
 references: 39 headers (140 references), 35 `.cpp` fragments, and two `.inl`
 fragments; only `th04/dialog.cpp` remains unmapped. Stage-state/data-BSS
 ownership, standalone MAIN placement, and PC-98 startup remain open.
+
+The historical `th04/main/bullet/clearzap.hpp`, `th04/main/hud/hud.hpp`, and
+`th04/sprites/main_cdg.h` paths now resolve to artifact-local combat, HUD, and
+MAIN CDG APIs through product wrappers. The v977 TC4J probe matches semantic
+OMF SHA-256 `f63c46cce7df656b34be719f1013a0edb0d936e79c64e40337449b64e5cfcb19`.
+Focused `bullets_render` (0x10B bytes at 0x144E5), `midboss_hud_defeat_tu`
+(0x1CB bytes at 0x642C), and `BOSS_BD_TEXT` (0x27 bytes at 0x7667) replays
+remain raw/MAP/relocation exact. The v977 aggregate preserves all 275 accepted
+extents in two cold builds while staging 8, 10, and 11 rewrites; its diagnostic
+MAIN SHA-256 is `d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
+Inventory v978 is now 73 missing paths / 154 references: 36 headers (117
+references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped. Header closure is compiler-observed only:
+combat/HUD/CDG backing storage, target DATA/BSS ownership, standalone MAIN
+placement, and PC-98 startup remain open.
 
 The historical `th04/main/gather.hpp` path now resolves to the artifact-local
 gather API through a product include wrapper. The v930 TC4J probe matches
@@ -549,7 +564,7 @@ diagnostic reaches OP only. The [runtime preparation note](reconstruction/produc
 has the private HDI commands. Continue the normal OP-to-MAIN-to-MAINE route
 before making a runtime acceptance claim.
 
-Whole-game product closure still needs MAIN's 76 distinct unresolved quoted
+Whole-game product closure still needs MAIN's 73 distinct unresolved quoted
 include paths and remaining data/BSS owners, its standalone source manifest and
 link, and a combined candidate PC-98 scenario. OP, ZUN, and MAINE each have
 source-only native build paths; the MAIN build is the controlling blocker.
