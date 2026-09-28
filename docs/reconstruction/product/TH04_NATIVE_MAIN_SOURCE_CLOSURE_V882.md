@@ -569,10 +569,38 @@ references), 35 `.cpp` fragments, and two `.inl` fragments; only
 `th04/dialog.cpp` remains unmapped. Stage DATA/BSS ownership, standalone MAIN
 linking, and PC-98 startup remain open.
 
+## MAIN null-header closure
+
+The nineteenth declaration batch routes the historical
+`th04/main/null.hpp` edge through the product wrapper
+`src/main/include/th04/main/null.hpp` and the artifact-local
+`src/main/null.hpp`. The local surface preserves the C-linked near and far
+Pascal callback declarations `nullfunc_near` and `nullfunc_far`, reusing the
+attested local callback typedef boundary without inventing callback storage.
+
+The v957 TC4J reference/local probe produced identical link-semantic OMF
+(`35fce2163d270dde89609cd884e6217648b40a4696423b8a26123561a26c531b`);
+receipt SHA-256:
+`2398b96c187f1e58cc557eedcd10edc2408b2ea25ada1027627800fc98789a1d`.
+The focused `std_run` owner is raw/MAP/relocation exact at 0x6D bytes
+(receipt SHA-256
+`a252a2a8586767b4a2e7a38d3e996361f781c7f1029d55d43cea78ec15b63224`), with
+candidate and target slice SHA-256
+`123e8bfe546d80986cfaf6176f78704551dc50bf632210474f50c89c76199777`.
+The v957 aggregate rewrites 11 staged occurrences and preserves all 275
+accepted extents in two cold builds with identical diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`;
+aggregate receipt SHA-256:
+`d21177b8aa647c9bacbe22c508203987436bd1903b023e8e87ffddb631ecdcde`.
+The v958 inventory is now 83 missing paths / 243 references: 46 headers (206
+references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped. Null callback implementation ownership,
+standalone MAIN linking, and PC-98 startup remain open.
+
 This include inventory is only the first frontier. The frame declaration and
 storage batch demonstrates the required pairing, the scroll batch adds a
 second declaration/storage split, and the sound, pattern, and vector batches
-close declaration-only dependencies. The remaining 47 missing header
+close declaration-only dependencies. The remaining 46 missing header
 paths still need
 product-owned declarations and, where applicable, their data/BSS owners.
 A native link manifest must account for those owners and not infer completeness

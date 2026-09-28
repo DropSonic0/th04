@@ -210,7 +210,7 @@ original MAIN or MAINE execution. The strict shared CDG loader still gives
 raw-zero decoded modules and matching relocations for both OP and MAINE in
 two cold replay links. See the native OP note for receipts and limits. MAIN has no
 standalone build yet: its maintained sources refer to 84 missing quoted
-include paths: 47 declarations (214 references), 35 composite `.cpp`
+include paths: 46 declarations (206 references), 35 composite `.cpp`
 fragments, and two `.inl` fragments. See the
 [MAIN source-closure note](reconstruction/product/TH04_NATIVE_MAIN_SOURCE_CLOSURE_V882.md)
 for the eight affected composite producers and missing data/BSS owners.
@@ -278,6 +278,16 @@ constraints, the focused `bullet_a.cpp` owner is raw/MAP/relocation exact at
 preserving all 275 accepted extents in two cold builds. Bullet BSS ownership,
 the remaining 94-path source closure, standalone MAIN placement, and PC-98
 startup remain open.
+
+The historical `th04/main/null.hpp` path now resolves to the artifact-local
+near/far Pascal null-callback API through a product wrapper. The v957 TC4J
+probe matches reference/local link-semantic OMF
+(`35fce2163d270dde89609cd884e6217648b40a4696423b8a26123561a26c531b`), and
+the focused `std_run` owner remains raw/MAP/relocation exact at 0x6D bytes.
+The v957 aggregate preserves all 275 accepted extents in two cold builds while
+rewriting 11 staged occurrences. Null callback implementation ownership, the
+remaining 83-path source closure, standalone MAIN placement, and PC-98 startup
+remain open.
 
 The historical `th04/main/gather.hpp` path now resolves to the artifact-local
 gather API through a product include wrapper. The v930 TC4J probe matches
