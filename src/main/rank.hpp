@@ -3,6 +3,9 @@
 
 #include "src/shared/platform/abi.hpp"
 
+#ifndef TH01_RANK_H
+#define TH01_RANK_H
+
 typedef enum {
 	RANK_EASY,
 	RANK_NORMAL,
@@ -25,6 +28,8 @@ typedef enum {
 #define RANKS_CAPS { 	"EASY", "NORMAL", "HARD", "LUNATIC" }
 
 #define RANKS_CAPS_CENTERED { 	" EASY ", 	"NORMAL", 	" HARD ", 	"LUNATIC" }
+
+#endif
 
 extern unsigned char rank;
 

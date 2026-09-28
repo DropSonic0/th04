@@ -509,10 +509,41 @@ references), 35 `.cpp` fragments, and two `.inl` fragments; only
 `th04/dialog.cpp` remains unmapped. Midboss DATA/BSS ownership, standalone
 MAIN linking, and PC-98 startup remain open.
 
+## MAIN rank-header closure
+
+The seventeenth declaration batch routes the historical
+`th04/main/rank.hpp` edge through the product wrapper
+`src/main/include/th04/main/rank.hpp` and the artifact-local
+`src/main/rank.hpp`. The local surface preserves the GAME 4 rank enum,
+display-string macros, `rank` global, and `select_for_rank` Pascal ABI. Its
+type block also honors the historical `TH01_RANK_H` boundary so a mixed
+translation unit that has already included the inherited rank header does not
+redeclare `rank_t`.
+
+The v953 TC4J reference/local probe produced identical link-semantic OMF
+(`83f8091d847f4b7babb72502cb70f94ef66a80deaf6ce8fcf93314bf9bfddc3f`);
+receipt SHA-256:
+`8f1493886f31cabdf193a2e26e517450e77befaf5bac42e0ab7d4aac51b916d5`.
+The accepted full cohort is the 275-owner aggregate: both cold builds retain
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`, and the
+rank rewrite records 14 staged occurrences. The `stage_bonus` owner at
+0x1EC8E/0x58D is raw/MAP/relocation exact with candidate and target slice
+SHA-256
+`9d34b803f8675921e44088a82add869aa55c3fc4f337ad0d31c3e2289b24adda`;
+aggregate receipt SHA-256:
+`6a6eb52ffaa032280d65b8800b70f15947edd0228664421cc463122ce5a734be`.
+The v954 inventory is now 85 missing paths / 262 references: 48 headers (225
+references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped. The first focused controls exposed the
+mixed rank-guard and HUD dependency/cohort limits, so no minimal focused exact
+claim is made. Rank DATA/BSS ownership, standalone MAIN linking, and PC-98
+startup remain open.
+
 This include inventory is only the first frontier. The frame declaration and
 storage batch demonstrates the required pairing, the scroll batch adds a
 second declaration/storage split, and the sound, pattern, and vector batches
-close declaration-only dependencies. The other 52 missing header
+close declaration-only dependencies. The remaining 48 missing header
 paths still need
 product-owned declarations and, where applicable, their data/BSS owners.
 A native link manifest must account for those owners and not infer completeness
