@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the twenty-second MAIN declaration closure batch. This is the
+Updated 2026-09-29 after the twenty-third MAIN declaration closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -209,8 +209,8 @@ native OP has transferred control to `MAIN.EXE`. This does not establish
 original MAIN or MAINE execution. The strict shared CDG loader still gives
 raw-zero decoded modules and matching relocations for both OP and MAINE in
 two cold replay links. See the native OP note for receipts and limits. MAIN has no
-standalone build yet: its maintained sources refer to 80 missing quoted
-include paths: 43 declarations (181 references), 35 composite `.cpp`
+standalone build yet: its maintained sources refer to 79 missing quoted
+include paths: 42 declarations (173 references), 35 composite `.cpp`
 fragments, and two `.inl` fragments. See the
 [MAIN source-closure note](reconstruction/product/TH04_NATIVE_MAIN_SOURCE_CLOSURE_V882.md)
 for the eight affected composite producers and missing data/BSS owners.
@@ -319,6 +319,19 @@ v965 inventory is now 80 missing paths / 218 references: 43 headers (181
 references), 35 `.cpp` fragments, and two `.inl` fragments; only
 `th04/dialog.cpp` remains unmapped. Quit-state target BSS ordering, standalone
 MAIN placement, and PC-98 startup remain open.
+
+The historical `th04/playchar.h` path now resolves to the artifact-local
+GAME=4 play-character API through `src/main/include/th04/playchar.h` and
+`src/main/playchar.hpp`. The v966 TC4J probe matches reference/local semantic
+OMF SHA-256
+`dd123fa70e950c5c93493b3d0241434a705a2b3c07dca432eeafca9c6da7f0ec`; the
+focused `gameplay_session_init` owner is raw/MAP/relocation exact at 0x1CD
+bytes. The v966 aggregate preserves all 275 accepted extents in two cold
+builds while rewriting 16 staged occurrences. Inventory v967 is now 79 missing
+paths / 210 references: 42 headers (173 references), 35 `.cpp` fragments, and
+two `.inl` fragments; only `th04/dialog.cpp` remains unmapped. Play-character
+target DATA/BSS ownership, standalone MAIN placement, and PC-98 startup remain
+open.
 
 The historical `th04/main/gather.hpp` path now resolves to the artifact-local
 gather API through a product include wrapper. The v930 TC4J probe matches
@@ -512,7 +525,7 @@ diagnostic reaches OP only. The [runtime preparation note](reconstruction/produc
 has the private HDI commands. Continue the normal OP-to-MAIN-to-MAINE route
 before making a runtime acceptance claim.
 
-Whole-game product closure still needs MAIN's 80 distinct unresolved quoted
+Whole-game product closure still needs MAIN's 79 distinct unresolved quoted
 include paths and remaining data/BSS owners, its standalone source manifest and
 link, and a combined candidate PC-98 scenario. OP, ZUN, and MAINE each have
 source-only native build paths; the MAIN build is the controlling blocker.

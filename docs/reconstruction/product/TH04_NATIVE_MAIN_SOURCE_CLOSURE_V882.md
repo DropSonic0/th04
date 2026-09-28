@@ -5,20 +5,19 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v965 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v965-20260929/inventory.json`.
+The current v967 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v967-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 43 | 181 |
+| `.h` / `.hpp` declarations | 42 | 173 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **80** | **218** |
+| **Total** | **79** | **210** |
 
 The heaviest remaining header edge is `x86real.h` (13), followed by
 `platform.h` (11), `th04/common.h` (9), and the eight-reference edges
-`th04/playchar.h`, `th04/main/hud/hud.hpp`, and
-`th04/main/bullet/clearzap.hpp`. Five
+`th04/main/hud/hud.hpp` and `th04/main/bullet/clearzap.hpp`. Five
 other missing platform/header names
 have no `th04/` prefix: `platform.h`, `x86real.h`, `planar.h`, `decomp.hpp`,
 and `shiftjis.hpp`. These names denote needed declarations, not approval to
@@ -688,10 +687,38 @@ references), 35 `.cpp` fragments, and two `.inl` fragments; only
 `th04/dialog.cpp` remains unmapped. Quit-state target BSS ordering/offsets,
 standalone MAIN linking, and PC-98 startup remain open.
 
+## MAIN play-character header closure
+
+The twenty-third declaration batch routes the historical `th04/playchar.h`
+edge through the product wrapper `src/main/include/th04/playchar.h` and the
+artifact-local `src/main/playchar.hpp`. The GAME=4 surface preserves the
+`playchar_t` and `shot_type_t` enums, `playchar_other()`, and the `playchar`
+global declaration without importing the ReC98 header into product source.
+
+The v966 TC4J reference/local probe passes with semantic OMF SHA-256
+`dd123fa70e950c5c93493b3d0241434a705a2b3c07dca432eeafca9c6da7f0ec` (receipt
+SHA-256
+`6b931b76cb2f8eecd6a0a0c52ce9ffa881edaebb227770cf01246aaf2862b5ae`). The
+focused `gameplay_session_init` owner is raw/MAP/relocation exact at 0x1CD
+bytes (receipt SHA-256
+`308b3095f422fa416f327df8c97435e8904c78fa7804a837be67650bbb2a771c`), with
+candidate and target slice SHA-256
+`2e37dff3ee0d9933fc207c7157cc5bdb3a8dd582128a07089f4cac2538cf833b`.
+The v966 aggregate preserves all 275 accepted extents in two cold builds with
+identical diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb` while
+rewriting 16 staged occurrences (receipt SHA-256
+`1d94ab32501781db1796fbcb73565aca1a4da5244607f8388471df185cac0eda`). The
+v967 inventory is now 79 missing paths / 210 references: 42 headers (173
+references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped. The play-character declaration is
+compiler-observed only: target selector/storage ownership, standalone MAIN
+linking, and PC-98 startup remain open.
+
 This include inventory is only the first frontier. The frame declaration and
 storage batch demonstrates the required pairing, the scroll batch adds a
 second declaration/storage split, and the sound, pattern, and vector batches
-close declaration-only dependencies. The remaining 43 missing header
+close declaration-only dependencies. The remaining 42 missing header
 paths still need
 product-owned declarations and, where applicable, their data/BSS owners.
 A native link manifest must account for those owners and not infer completeness
