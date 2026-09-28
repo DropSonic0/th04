@@ -234,6 +234,13 @@ local_header = "src/main/hardware/input.hpp"
 minimum_count = 1
 
 [[scaffold_tree_include_rewrites]]
+id = "th04-planar-api-local"
+tree_root = "th04"
+old_include = "planar.h"
+local_header = "src/main/hardware/planar.hpp"
+minimum_count = 1
+
+[[scaffold_tree_include_rewrites]]
 id = "th04-scroll-api-local"
 tree_root = "th04"
 old_include = "th04/main/scroll.hpp"

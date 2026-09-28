@@ -5,19 +5,18 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v981 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v981-20260929/inventory.json`.
+The current v982 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v982-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 31 | 87 |
+| `.h` / `.hpp` declarations | 30 | 82 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **68** | **124** |
+| **Total** | **67** | **119** |
 
-The heaviest remaining header edges are `planar.h` and
-`th04/main/drawp.hpp` (5 each), followed by the four-path backdrop, dialog,
-and boss surfaces. These names denote needed
+The heaviest remaining header edge is `th04/main/drawp.hpp` (5 references),
+followed by the four-path backdrop, dialog, and boss surfaces. These names denote needed
 declarations, not approval to reuse cross-game product headers.
 
 Eight maintained physical producers include `.cpp` fragments by historical
@@ -905,6 +904,41 @@ references: 32 headers (92 references), 35 `.cpp` fragments, and two `.inl`
 fragments; only `th04/dialog.cpp` remains unmapped. This is compiler-observed
 declaration closure and affected-unit revalidation, not enemy DATA/BSS
 ownership, standalone MAIN placement, or PC-98 startup acceptance.
+
+## MAIN planar API header closure
+
+The thirtieth declaration batch routes the historical root `planar.h` edge
+through `src/main/include/planar.h`, backed by the product-owned
+`src/main/hardware/planar.hpp`. The local surface preserves the complete
+historical planar guard, row-dot aliases, `Planar`/`DotRect` templates, VRAM
+plane helpers, and GRCG/EGC macros; the current MAIN probe exercises the
+row-width aliases, `dots_t()`, and paragraph-aligned `grcg_segment()` arithmetic.
+
+The v982 TC4J reference/local probe passes with semantic OMF SHA-256
+`113841b4368c98e426fe3456e601cff139cf4fac55cdaf1e35d527db8434695b`
+(receipt SHA-256
+`de44f2e42411c486de43a1fd44a96941700bb66c028785e05810058fdfdd0199`).
+The focused `th04-main-elly-backdrop-v200` replay proves the 0x0E-byte owner at
+file 0xD6CC, slice SHA-256
+`6e1968ec26ed949a9659f9f56232985154f34111f607b4a0b8d51debb145688b`, with
+exact MAP placement and zero ordered-relocation overlap in two cold builds.
+
+The v982 focused receipt
+`gpt-5-6-sol-main-planar-header-focused-054-20260929/receipt.json` has SHA-256
+`ab4e6e70ab463837fa90a62284f89e4b19b65ffddc81837fc0d641887ca2d9fd`.
+The aggregate receipt
+`gpt-5-6-sol-main-planar-header-aggregate-055-20260929/receipt.json` has
+SHA-256 `97987d4c472aae68ca7c8fe2b759954e6f4ad59a8c888a4202ca5892dce4d59c`
+and preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`; eleven
+planar-header occurrences are staged. Inventory v982 is 67 missing paths / 119
+references: 30 headers (82 references), 35 `.cpp` fragments, and two `.inl`
+fragments; only `th04/dialog.cpp` remains unmapped. The local full-surface
+header keeps the historical `PLANAR_H` guard because the root-level rewrite
+also reaches legacy scaffold consumers. This is compiler-observed declaration
+closure and affected-unit revalidation, not target DATA/BSS ownership,
+standalone MAIN placement, or PC-98 startup acceptance.
 
 ## MAIN input API header closure
 
