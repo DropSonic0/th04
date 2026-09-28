@@ -31,6 +31,13 @@ local_header = "src/main/math/vector.hpp"
 minimum_count = 1
 
 [[scaffold_tree_include_rewrites]]
+id = "th04-circle-api-local"
+tree_root = "th04"
+old_include = "th04/main/circle.hpp"
+local_header = "src/main/circle.hpp"
+minimum_count = 1
+
+[[scaffold_tree_include_rewrites]]
 id = "th04-scroll-api-local"
 tree_root = "th04"
 old_include = "th04/main/scroll.hpp"
@@ -88,6 +95,13 @@ scaffold_path = "th04/main/circle.cpp"
 scaffold_sha256 = "98dc19943c9c182180de813bd50137417673de10c502a30b305f0d197cd94d7e"
 old_include = "th02/main/entity.hpp"
 local_header = "src/main/core/entity.hpp"
+
+[[scaffold_header_rewrites]]
+id = "th04-circle-api-local"
+scaffold_path = "th04/main/circle.hpp"
+scaffold_sha256 = "f2804f8a632495bbf5e796e8bdfdb4b04f23eaac79f47186c2212679f0abc8f9"
+old_include = "th01/math/subpixel.hpp"
+local_header = "src/main/circle.hpp"
 
 [[scaffold_header_rewrites]]
 id = "th04-entity-spark-header-local"

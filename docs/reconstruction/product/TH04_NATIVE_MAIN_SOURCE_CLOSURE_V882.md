@@ -5,19 +5,19 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v915 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v915-20260928/inventory.json`.
+The current v916 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v916-20260928/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 60 | 481 |
+| `.h` / `.hpp` declarations | 59 | 461 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **97** | **518** |
+| **Total** | **96** | **498** |
 
 The heaviest remaining header edges are the player/bullet headers (41 each),
-`th04/main/gather.hpp` (24), `th04/main/circle.hpp` (20), and the score and
-custom headers (19 each). Five other missing platform/header names
+`th04/main/gather.hpp` (24), and the score and custom headers (19 each). Five
+other missing platform/header names
 have no `th04/` prefix: `platform.h`, `x86real.h`, `planar.h`, `decomp.hpp`,
 and `shiftjis.hpp`. These names denote needed declarations, not approval to
 reuse cross-game product headers.
@@ -31,7 +31,7 @@ Related function bodies already exist as separate maintained `src/main`
 translation units, but their composition and near-call segment ownership must
 be reconciled before adding them to a native MAIN link manifest. Compiling
 both a composite and its included child as objects would duplicate publics.
-The local ReC98 reference has files at all 60 missing header paths, but only
+The local ReC98 reference has files at all 59 remaining missing header paths, but only
 two of the 35 missing `.cpp` paths and neither missing `.inl` path. This is a
 source-location observation, not evidence that those headers are ready for a
 TH04-owned product build. The existing maintained function bodies must be
@@ -196,10 +196,41 @@ Aggregate receipt SHA-256:
 This closes 22 maintained-source references and supplies six split BSS owners.
 Their target offsets and integration into a standalone MAIN link remain open.
 
+## MAIN circle-header closure
+
+The sixth declaration batch preserves `th04/main/circle.hpp` through a thin
+product include wrapper and the artifact-local `src/main/circle.hpp`. The
+header declares the two Pascal circle constructors, the two near update/render
+entries, and the `vc_t circles_color` state without importing the candidate
+TH01 header chain. The local declaration surface is 560 bytes and the pinned
+candidate header is bound to SHA-256
+`f2804f8a632495bbf5e796e8bdfdb4b04f23eaac79f47186c2212679f0abc8f9`.
+
+The independent v917 TC4J probe exercises all four entry points, the color
+state, subpixel parameter width, and the palette-index type. Reference and
+local builds produce the same link-semantic OMF SHA-256
+`51e9e794c0d7a2f03d1c27517080b335e2fec704c75b3ad3a359d6ba7e3b066c`.
+Probe receipt SHA-256:
+`cef1c43cec929882d7daf05e116d46c6651d830e6348228c39b10ad93e7c658e`.
+
+Focused v005 replay records the accepted `circle.cpp` extent as raw-zero and
+preserves its MAP and relocation ownership; receipt SHA-256
+`d5053194d1cd8b011b33a5cdde2ef402f39248ef0fe6e04e3de434fbe48414de`.
+The strict v916 aggregate freezes `src/main/circle.hpp`, rewrites all 20
+historical circle-header occurrences across 20 staged files, and records the
+header rewrite from the attested scaffold candidate. Both cold builds preserve
+raw bytes, MAP extents, and relocations for all 275 accepted units; their
+diagnostic MAIN candidates remain identical at SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
+Aggregate receipt SHA-256:
+`b28f33fe653d24342614435e685f63bfd664c8b3f8f78eee98a8648505b516cf`.
+This is declaration, compiler, and scaffold-regression evidence; circle BSS
+ownership and a standalone MAIN link remain open.
+
 This include inventory is only the first frontier. The frame declaration and
 storage batch demonstrates the required pairing, the scroll batch adds a
 second declaration/storage split, and the sound, pattern, and vector batches
-close declaration-only dependencies. The other 60 missing header
+close declaration-only dependencies. The other 59 missing header
 paths still need
 product-owned declarations and, where applicable, their data/BSS owners.
 A native link manifest must account for those owners and not infer completeness
