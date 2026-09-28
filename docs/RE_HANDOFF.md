@@ -157,6 +157,14 @@ TH05-shared `PAT_ENEMY_KILL_last` declaration; after closing that cross-game
 consumer, both cold builds preserve all 275 accepted extents, MAP ownership,
 and relocations. Receipt SHA-256
 `39830c44554d42b25933c113c5de32596e7e483cc5204a6e0475f94e32f22c4c`.
+The v913 aggregate redirects 27 staged `th04/math/vector.hpp` occurrences to
+the artifact-local vector API. Its receipt explicitly contains the new header
+snapshot and rewrite records; both cold builds preserve all 275 accepted
+extents, MAP ownership, and relocations. Receipt SHA-256
+`075ee33b00435a57dd2a0b290c17b8b749f22df13f4ac7914418f919f3d1e1dd`.
+An earlier v911 green aggregate omitted the configured rewrite because its
+new header was not frozen; it is retained only as replay-control negative
+evidence, not as vector closure.
 The scaffold-built MAIN.EXE is 152,974 bytes versus the 156,258-byte target;
 the complete MZ comparison rejects raw identity. All 1,136 relocation sites
 and site values match, but their entry order differs. This remains a
@@ -197,8 +205,8 @@ native OP has transferred control to `MAIN.EXE`. This does not establish
 original MAIN or MAINE execution. The strict shared CDG loader still gives
 raw-zero decoded modules and matching relocations for both OP and MAINE in
 two cold replay links. See the native OP note for receipts and limits. MAIN has no
-standalone build yet: its maintained sources refer to 99 missing quoted
-include paths: 62 declarations (528 references), 35 composite `.cpp`
+standalone build yet: its maintained sources refer to 98 missing quoted
+include paths: 61 declarations (503 references), 35 composite `.cpp`
 fragments, and two `.inl` fragments. See the
 [MAIN source-closure note](reconstruction/product/TH04_NATIVE_MAIN_SOURCE_CLOSURE_V882.md)
 for the eight affected composite producers and missing data/BSS owners.
@@ -223,6 +231,13 @@ constant. The v909 aggregate rewrites 68 staged occurrences and preserves all
 275 accepted units in two cold builds; its first attempt caught the TH05
 midboss fragment's dependency on `PAT_ENEMY_KILL_last`. Pattern closure does
 not supply any of the remaining state owners or complete the MAIN link.
+The historical `th04/math/vector.hpp` path now resolves to an artifact-local
+four-entry vector API without widening the narrower OP/MAINE shared header.
+A TC4J reference/local ABI probe matches link-semantic OMF, and corrected v913
+replay rewrites 27 staged occurrences while preserving all 275 accepted units.
+The replay driver now freezes headers introduced solely by tree rewrites; this
+fix prevents a configured rewrite from being silently skipped. Vector closure
+does not provide remaining MAIN data owners or a standalone link.
 
 The [native ZUN note](reconstruction/zun/TH04_ZUN_NATIVE_SOURCE_BUILD_V880.md)
 records a TH04-only 18-object Tiny resident COM, cold 13,356-byte flat launcher,

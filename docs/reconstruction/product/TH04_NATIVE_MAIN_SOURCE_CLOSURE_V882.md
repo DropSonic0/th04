@@ -5,19 +5,19 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v909 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v909-20260928/inventory.json`.
+The current v913 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v913-20260928/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 62 | 528 |
+| `.h` / `.hpp` declarations | 61 | 503 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **99** | **565** |
+| **Total** | **98** | **540** |
 
 The heaviest remaining header edges are the player/bullet headers (41 each),
-`th04/math/vector.hpp` (25), `th04/main/gather.hpp` (24), and
-`th04/main/scroll.hpp` (22). Five other missing platform/header names
+`th04/main/gather.hpp` (24), and `th04/main/scroll.hpp` (22). Five other
+missing platform/header names
 have no `th04/` prefix: `platform.h`, `x86real.h`, `planar.h`, `decomp.hpp`,
 and `shiftjis.hpp`. These names denote needed declarations, not approval to
 reuse cross-game product headers.
@@ -31,7 +31,7 @@ Related function bodies already exist as separate maintained `src/main`
 translation units, but their composition and near-call segment ownership must
 be reconciled before adding them to a native MAIN link manifest. Compiling
 both a composite and its included child as objects would duplicate publics.
-The local ReC98 reference has files at all 62 missing header paths, but only
+The local ReC98 reference has files at all 61 missing header paths, but only
 two of the 35 missing `.cpp` paths and neither missing `.inl` path. This is a
 source-location observation, not evidence that those headers are ready for a
 TH04-owned product build. The existing maintained function bodies must be
@@ -122,9 +122,44 @@ Aggregate receipt SHA-256:
 This is compiler and regression evidence only, not a standalone MAIN build or
 runtime result.
 
+## MAIN vector-header closure
+
+The fourth declaration batch preserves `th04/math/vector.hpp` through a thin
+product include wrapper and the complete artifact-local
+`src/main/math/vector.hpp`. The latter declares `vector2()`,
+`vector2_between_plus()`, near `vector2_near()`, and `vector2_at()` against
+the already maintained `SPPoint`/subpixel ABI. It deliberately does not widen
+the proved OP/MAINE-facing `src/shared/math/vector.hpp`: an initial v910 probe
+did so and immediately failed because a shared source snapshot does not own
+the MAIN-only subpixel header.
+
+A pinned TC4J dual compile exercises all four calls, near/far distance,
+Pascal argument order, references, and point layout. Reference and local
+headers produce identical link-semantic OMF SHA-256
+`ea2d4cafa2585ebb907486e26bcff121f2fc0827cb954999aa1b8244eff08406`.
+Probe receipt SHA-256:
+`70282b54e1331d5338a61b49d97df4e48ea011fdc1ab9f096a07ae0a31f6e000`.
+
+The first aggregate v911 exposed a replay-control false positive rather than
+a compiler mismatch. Its manifest named the new tree rewrite, but the cold
+snapshot collected only headers already reachable from selected maintained
+sources. Because the new vector header was introduced solely by the rewrite,
+the materializer silently omitted the rewrite and still reported 275 passing
+units. The replay input collector now freezes every configured tree-rewrite
+header and its transitive `src/` closure; a unit test prevents recurrence.
+Final v913 records the vector header in `repo_input_snapshot` and rewrites 27
+occurrences across 27 staged files. Both cold builds preserve raw bytes, MAP
+extents, and relocations for all 275 accepted units, with identical diagnostic
+MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
+Aggregate receipt SHA-256:
+`075ee33b00435a57dd2a0b290c17b8b749f22df13f4ac7914418f919f3d1e1dd`.
+This closes 25 maintained-source references but remains declaration and replay
+evidence, not standalone linking or runtime acceptance.
+
 This include inventory is only the first frontier. The frame declaration and
-storage batch demonstrates the required pairing, while the sound and pattern
-batches close declaration-only dependencies. The other 62 missing header
+storage batch demonstrates the required pairing, while the sound, pattern,
+and vector batches close declaration-only dependencies. The other 61 missing header
 paths still need
 product-owned declarations and, where applicable, their data/BSS owners.
 A native link manifest must account for those owners and not infer completeness

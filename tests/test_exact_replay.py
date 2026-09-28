@@ -284,6 +284,26 @@ class CandidateExtentTests(unittest.TestCase):
 
 
 class RepoInputSnapshotTests(unittest.TestCase):
+    def test_tree_rewrite_header_and_transitive_closure_are_frozen(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            repo = Path(temporary)
+            header_dir = repo / "src" / "main" / "math"
+            header_dir.mkdir(parents=True)
+            vector = header_dir / "vector.hpp"
+            vector.write_text(
+                '#include "src/main/math/subpixel.hpp"\n', encoding="ascii"
+            )
+            (header_dir / "subpixel.hpp").write_bytes(b"// local ABI\n")
+            rewrite = {"local_header": "src/main/math/vector.hpp"}
+            with patch.object(replay, "ROOT", repo), patch.object(
+                replay, "REC98_COMPAT", repo / "compat" / "rec98"
+            ):
+                paths = replay.repo_input_paths(
+                    [], [], [], scaffold_tree_include_rewrites=[rewrite]
+                )
+            self.assertIn(Path("src/main/math/vector.hpp"), paths)
+            self.assertIn(Path("src/main/math/subpixel.hpp"), paths)
+
     def test_transitive_product_headers_are_frozen_before_cold_build(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

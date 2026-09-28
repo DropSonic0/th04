@@ -87,6 +87,7 @@ def repo_input_paths(
     scaffold_extractions: list[dict[str, object]] | None = None,
     prebuild_objects: list[dict[str, object]] | None = None,
     source_transforms: list[dict[str, object]] | None = None,
+    scaffold_tree_include_rewrites: list[dict[str, object]] | None = None,
 ) -> list[Path]:
     """Return all live repository inputs that cold replay must freeze once."""
 
@@ -114,6 +115,12 @@ def repo_input_paths(
     for entry in source_transforms or []:
         for value in entry.get("repo_inputs", []):
             paths.add(Path(str(value)))
+    # A tree rewrite can be the only edge that introduces a new product header.
+    # Freeze that header and its transitive src/ closure before materialization;
+    # otherwise apply_scaffold_tree_include_rewrites() would silently skip it.
+    for entry in scaffold_tree_include_rewrites or []:
+        if entry.get("local_header"):
+            paths.add(Path(str(entry["local_header"])))
     # Freeze product-owned headers reached by selected source, including their
     # own local includes. The pinned ReC98 archive does not contain these files.
     pending = list(paths)
@@ -1951,6 +1958,7 @@ def main() -> int:
                     scaffold_extractions,
                     prebuild_objects,
                     source_transforms,
+                    scaffold_tree_include_rewrites,
                 ),
             )
             state = {
@@ -2017,6 +2025,7 @@ def main() -> int:
             scaffold_extractions,
             prebuild_objects,
             source_transforms,
+            scaffold_tree_include_rewrites,
         ),
     )
     snapshot_compat = snapshot_root / "compat" / "rec98"
