@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the seventeenth MAIN declaration closure batch. This is the
+Updated 2026-09-29 after the eighteenth MAIN declaration closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -209,8 +209,8 @@ native OP has transferred control to `MAIN.EXE`. This does not establish
 original MAIN or MAINE execution. The strict shared CDG loader still gives
 raw-zero decoded modules and matching relocations for both OP and MAINE in
 two cold replay links. See the native OP note for receipts and limits. MAIN has no
-standalone build yet: its maintained sources refer to 85 missing quoted
-include paths: 48 declarations (225 references), 35 composite `.cpp`
+standalone build yet: its maintained sources refer to 84 missing quoted
+include paths: 47 declarations (214 references), 35 composite `.cpp`
 fragments, and two `.inl` fragments. See the
 [MAIN source-closure note](reconstruction/product/TH04_NATIVE_MAIN_SOURCE_CLOSURE_V882.md)
 for the eight affected composite producers and missing data/BSS owners.
@@ -365,9 +365,19 @@ reference/local link-semantic OMF (`83f8091d...`); its include-order guard
 prevents duplicate rank enum declarations. The accepted full 275-owner
 aggregate preserves both cold builds, and `stage_bonus` at 0x1EC8E/0x58D
 remains raw/MAP/relocation exact. Rank DATA/BSS ownership, the remaining
-85-path source closure, standalone MAIN placement, and PC-98 startup remain
+84-path source closure, standalone MAIN placement, and PC-98 startup remain
 open. Minimal focused controls are recorded as failed dependency/cohort
 controls, not exact evidence.
+
+The historical `th04/main/stage/stage.hpp` path now resolves to the
+artifact-local stage callback API through a product wrapper. The v955 TC4J
+probe matches reference/local link-semantic OMF
+(`b2d6a74eae9046ad2ab910bd0674eddcad26a70d5af860f877e1c77137a86d75`), and
+the focused `demo-session` owner remains raw/MAP/relocation exact at 0x51E
+bytes. The v955 aggregate preserves all 275 accepted extents in two cold
+builds while rewriting 17 staged occurrences. Stage DATA/BSS ownership, the
+remaining 84-path source closure, standalone MAIN placement, and PC-98
+startup remain open.
 
 The [native ZUN note](reconstruction/zun/TH04_ZUN_NATIVE_SOURCE_BUILD_V880.md)
 records a TH04-only 18-object Tiny resident COM, cold 13,356-byte flat launcher,

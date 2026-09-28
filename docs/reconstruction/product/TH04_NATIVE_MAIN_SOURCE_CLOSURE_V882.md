@@ -540,10 +540,39 @@ mixed rank-guard and HUD dependency/cohort limits, so no minimal focused exact
 claim is made. Rank DATA/BSS ownership, standalone MAIN linking, and PC-98
 startup remain open.
 
+## MAIN stage-header closure
+
+The eighteenth declaration batch routes the historical
+`th04/main/stage/stage.hpp` edge through the product wrapper
+`src/main/include/th04/main/stage/stage.hpp` and the artifact-local
+`src/main/stage/stage.hpp`. The local surface preserves the byte-sized
+`stage_id` global and the two near Pascal callback pointers
+`stage_invalidate` and `stage_render`, reusing the attested local callback
+typedefs in `src/shared/platform/types.hpp`.
+
+The v955 TC4J reference/local probe produced identical link-semantic OMF
+(`b2d6a74eae9046ad2ab910bd0674eddcad26a70d5af860f877e1c77137a86d75`);
+receipt SHA-256:
+`e6a322428d760143f5bf0418a015be0d06e5a38ccabfd9d663a6b41aea263215`.
+The focused `demo-session` owner is raw/MAP/relocation exact at 0x51E bytes
+(receipt SHA-256
+`5e6865be7aefa18aeb4ab93f1343fc150795377fb586f76131bcdea281cbf1f1`), with
+candidate and target slice SHA-256
+`1c409149015a161d36078c7297e9e5fee04bb2dc4ef1b088c72ec81ed1f71e34`.
+The v955 aggregate rewrites 17 staged occurrences and preserves all 275
+accepted extents in two cold builds with identical diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`;
+aggregate receipt SHA-256:
+`24f33dc5b3e3eb9b0f06e65bdc86cced2c5e85dd970cf9ee758d389f2a9bc6e`.
+The v956 inventory is now 84 missing paths / 251 references: 47 headers (214
+references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped. Stage DATA/BSS ownership, standalone MAIN
+linking, and PC-98 startup remain open.
+
 This include inventory is only the first frontier. The frame declaration and
 storage batch demonstrates the required pairing, the scroll batch adds a
 second declaration/storage split, and the sound, pattern, and vector batches
-close declaration-only dependencies. The remaining 48 missing header
+close declaration-only dependencies. The remaining 47 missing header
 paths still need
 product-owned declarations and, where applicable, their data/BSS owners.
 A native link manifest must account for those owners and not infer completeness
