@@ -16,6 +16,13 @@ old_include = "libs/master.lib/pc98_gfx.hpp"
 local_header = "src/shared/hardware/graphics.hpp"
 minimum_count = 1
 
+[[scaffold_tree_include_rewrites]]
+id = "th04-sound-api-local"
+tree_root = "th04"
+old_include = "th04/snd/snd.h"
+local_header = "src/shared/sound/api.hpp"
+minimum_count = 1
+
 [[scaffold_header_rewrites]]
 id = "th04-bb-format-local"
 scaffold_path = "th04/main/tile/bb.hpp"

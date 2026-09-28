@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-28 after the first MAIN declaration/data closure batch. This is the
+Updated 2026-09-28 after the second MAIN declaration closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -147,6 +147,10 @@ owners. `python3 scripts/replay_th04_main_exact_units.py --run-id gpt-6-sol-main
 cold-built the selected 275 units
 twice with raw-zero accepted extents; receipt SHA-256
 `40f18d358cdfdd970e841baeb93da4a83567e17344c32327730864b4fc40b6c4`.
+The later v905 aggregate redirects all 77 staged `th04/snd/snd.h` include
+occurrences to the maintained shared sound API. Two cold builds again preserve
+all 275 accepted extents, MAP ownership, and relocations; receipt SHA-256
+`c5ed61a81376b3cf3873f688d78106f8adc6b17522cd194d8879539a2ac60124`.
 The scaffold-built MAIN.EXE is 152,974 bytes versus the 156,258-byte target;
 the complete MZ comparison rejects raw identity. All 1,136 relocation sites
 and site values match, but their entry order differs. This remains a
@@ -187,8 +191,8 @@ native OP has transferred control to `MAIN.EXE`. This does not establish
 original MAIN or MAINE execution. The strict shared CDG loader still gives
 raw-zero decoded modules and matching relocations for both OP and MAINE in
 two cold replay links. See the native OP note for receipts and limits. MAIN has no
-standalone build yet: its maintained sources refer to 101 missing quoted
-include paths: 64 declarations (660 references), 35 composite `.cpp`
+standalone build yet: its maintained sources refer to 100 missing quoted
+include paths: 63 declarations (592 references), 35 composite `.cpp`
 fragments, and two `.inl` fragments. See the
 [MAIN source-closure note](reconstruction/product/TH04_NATIVE_MAIN_SOURCE_CLOSURE_V882.md)
 for the eight affected composite producers and missing data/BSS owners.
@@ -200,6 +204,12 @@ product-owned `frames.h` closes 62 include references, and a local ASM owner
 provides its ten frame/slowdown DATA/BSS symbols. Two isolated TC4J/TASM/TLINK
 DOS probes pass with identical frame OMF and final MZ; this does not yet place
 the owner in a standalone MAIN link or attest target DATA/BSS offsets.
+The historical `th04/snd/snd.h` include path now resolves to the maintained
+shared sound API and closes 68 references. A TC4J reference/local ABI probe
+passes, and the v905 aggregate cold-replays all accepted units while actually
+using that local API. The first aggregate attempt also caught and corrected
+the missing transitive `PF_FN_LEN` macro. This remains declaration closure,
+not standalone linking or full MAIN startup.
 
 The [native ZUN note](reconstruction/zun/TH04_ZUN_NATIVE_SOURCE_BUILD_V880.md)
 records a TH04-only 18-object Tiny resident COM, cold 13,356-byte flat launcher,

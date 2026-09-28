@@ -5,19 +5,19 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v900 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v900-20260928/inventory.json`.
+The current v904 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v904-20260928/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 64 | 660 |
+| `.h` / `.hpp` declarations | 63 | 592 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **101** | **697** |
+| **Total** | **100** | **629** |
 
-The heaviest header edges are `th04/snd/snd.h` (68 references),
-`th04/sprites/main_pat.h` (64), `th04/main/frames.h` (62), and the
-player/bullet headers (41 each). Five other missing platform/header names
+The heaviest remaining header edges are `th04/sprites/main_pat.h` (64
+references) and the player/bullet headers (41 each). Five other missing
+platform/header names
 have no `th04/` prefix: `platform.h`, `x86real.h`, `planar.h`, `decomp.hpp`,
 and `shiftjis.hpp`. These names denote needed declarations, not approval to
 reuse cross-game product headers.
@@ -69,9 +69,35 @@ This is runtime-observed declaration/storage behavior for an isolated DOS
 probe. Target DATA/BSS offsets, full native MAIN linking, and PC-98 execution
 remain open.
 
+## MAIN sound-header closure
+
+The second declaration batch preserves the historical `th04/snd/snd.h`
+spelling at `src/main/include/th04/snd/snd.h`, but forwards only to the already
+maintained `src/shared/sound/api.hpp`. It therefore closes 68 quoted-include
+references without copying the TH03/TH02 candidate header chain into product
+source. A pinned TC4J dual compile exercises enum widths, constants, calling
+conventions, inline helpers, and public references against both the pinned
+reference header and the local shared API. Their link-semantic OMF records are
+identical; raw objects differ only in dependency comments and equivalent
+PUBDEF order.
+
+The first full cold aggregate attempt exposed a declaration omitted by that
+initial probe: `dialog_op()` still needed the transitively supplied
+`PF_FN_LEN`. After adding the 8.3-plus-null value (`13`) to the shared API and
+the probe, run v905 rewrote 77 includes across 76 staged TH04 files to the
+local API. Both cold builds completed, selected all 275 units, and preserved
+raw bytes, MAP extents, and relocations for every accepted extent. The two
+diagnostic MAIN candidates are identical at SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
+Receipt SHA-256:
+`c5ed61a81376b3cf3873f688d78106f8adc6b17522cd194d8879539a2ac60124`.
+This aggregate still depends on the pinned scaffold and is not a standalone
+MAIN build or runtime result.
+
 This include inventory is only the first frontier. The frame declaration and
-storage batch demonstrates the required pairing, but the other 64 missing
-header paths still need product-owned declarations and their data/BSS owners.
+storage batch demonstrates the required pairing, while the sound batch closes
+a declaration-only dependency. The other 63 missing header paths still need
+product-owned declarations and, where applicable, their data/BSS owners.
 A native link manifest must account for those owners and not infer completeness
 from closing the include list alone.
 

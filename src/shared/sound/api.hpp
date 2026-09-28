@@ -3,6 +3,9 @@
 
 #include "src/shared/platform/types.hpp"
 
+// Maximum 8.3 packfile member name including the terminating null byte.
+#define PF_FN_LEN 13
+
 typedef enum {
 	KAJA_SONG_PLAY = 0x00,
 	KAJA_SONG_STOP = 0x01,
@@ -99,7 +102,7 @@ extern "C" {
 #endif
 
 int pascal snd_determine_modes(int req_bgm_mode, int req_se_mode);
-void pascal snd_load(const char fn[13], snd_load_func_t func);
+void pascal snd_load(const char fn[PF_FN_LEN], snd_load_func_t func);
 void snd_se_reset(void);
 void pascal snd_se_play(int new_se);
 void snd_se_update(void);
