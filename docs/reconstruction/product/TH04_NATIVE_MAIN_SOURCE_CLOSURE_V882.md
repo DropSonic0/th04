@@ -5,19 +5,19 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v904 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v904-20260928/inventory.json`.
+The current v909 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v909-20260928/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 63 | 592 |
+| `.h` / `.hpp` declarations | 62 | 528 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **100** | **629** |
+| **Total** | **99** | **565** |
 
-The heaviest remaining header edges are `th04/sprites/main_pat.h` (64
-references) and the player/bullet headers (41 each). Five other missing
-platform/header names
+The heaviest remaining header edges are the player/bullet headers (41 each),
+`th04/math/vector.hpp` (25), `th04/main/gather.hpp` (24), and
+`th04/main/scroll.hpp` (22). Five other missing platform/header names
 have no `th04/` prefix: `platform.h`, `x86real.h`, `planar.h`, `decomp.hpp`,
 and `shiftjis.hpp`. These names denote needed declarations, not approval to
 reuse cross-game product headers.
@@ -31,7 +31,7 @@ Related function bodies already exist as separate maintained `src/main`
 translation units, but their composition and near-call segment ownership must
 be reconciled before adding them to a native MAIN link manifest. Compiling
 both a composite and its included child as objects would duplicate publics.
-The local ReC98 reference has files at all 65 missing header paths, but only
+The local ReC98 reference has files at all 62 missing header paths, but only
 two of the 35 missing `.cpp` paths and neither missing `.inl` path. This is a
 source-location observation, not evidence that those headers are ready for a
 TH04-owned product build. The existing maintained function bodies must be
@@ -94,9 +94,38 @@ Receipt SHA-256:
 This aggregate still depends on the pinned scaffold and is not a standalone
 MAIN build or runtime result.
 
+## MAIN pattern-header closure
+
+The third declaration batch preserves the historical
+`th04/sprites/main_pat.h` spelling through a product-owned include wrapper.
+`src/main/sprites/main_pat.hpp` now owns the complete TH04 pattern-number enum,
+and `src/main/sprites/cels.hpp` owns the animation counts used to derive its
+ranges. This closes 64 maintained-source references. A pinned TC4J dual
+compile materializes every TH04 pattern and cel constant from the pinned
+reference and local headers; the link-semantic OMF SHA-256 is identical at
+`c2cf7e0a22986ad13a661ec01bfa5e49c27c83be8a0e546a78541a28736c544d`.
+Probe receipt SHA-256:
+`8f315d647de255c82f422fde9d86d46337d7a2b8822e26d1ce2e7f1332583bcd`.
+
+The first full aggregate exposed a cross-game closure edge: TH05
+`mb_dft.cpp` includes the shared TH04 midboss-defeat fragment, which uses
+`PAT_ENEMY_KILL_last`. The original local `GAME == 5` calibration subset did
+not declare that value, so v906 stopped at compile time. Adding the actual
+TH05 stage-independent range (`PAT_ENEMY_KILL = 4`, last `= 11`) closes that
+shared consumer without importing TH05 stage-specific patterns. In final run
+v909, 68 occurrences across 67 staged TH04 files use the local pattern table;
+both cold builds preserve raw bytes, MAP extents, and relocations for all 275
+accepted units. The diagnostic MAIN candidates remain identical at SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
+Aggregate receipt SHA-256:
+`39830c44554d42b25933c113c5de32596e7e483cc5204a6e0475f94e32f22c4c`.
+This is compiler and regression evidence only, not a standalone MAIN build or
+runtime result.
+
 This include inventory is only the first frontier. The frame declaration and
-storage batch demonstrates the required pairing, while the sound batch closes
-a declaration-only dependency. The other 63 missing header paths still need
+storage batch demonstrates the required pairing, while the sound and pattern
+batches close declaration-only dependencies. The other 62 missing header
+paths still need
 product-owned declarations and, where applicable, their data/BSS owners.
 A native link manifest must account for those owners and not infer completeness
 from closing the include list alone.

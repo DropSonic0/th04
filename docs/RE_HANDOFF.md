@@ -151,6 +151,12 @@ The later v905 aggregate redirects all 77 staged `th04/snd/snd.h` include
 occurrences to the maintained shared sound API. Two cold builds again preserve
 all 275 accepted extents, MAP ownership, and relocations; receipt SHA-256
 `c5ed61a81376b3cf3873f688d78106f8adc6b17522cd194d8879539a2ac60124`.
+The v909 aggregate redirects 68 staged `th04/sprites/main_pat.h` occurrences
+to the TH04-owned pattern/cel tables. The first attempt caught a missing
+TH05-shared `PAT_ENEMY_KILL_last` declaration; after closing that cross-game
+consumer, both cold builds preserve all 275 accepted extents, MAP ownership,
+and relocations. Receipt SHA-256
+`39830c44554d42b25933c113c5de32596e7e483cc5204a6e0475f94e32f22c4c`.
 The scaffold-built MAIN.EXE is 152,974 bytes versus the 156,258-byte target;
 the complete MZ comparison rejects raw identity. All 1,136 relocation sites
 and site values match, but their entry order differs. This remains a
@@ -191,8 +197,8 @@ native OP has transferred control to `MAIN.EXE`. This does not establish
 original MAIN or MAINE execution. The strict shared CDG loader still gives
 raw-zero decoded modules and matching relocations for both OP and MAINE in
 two cold replay links. See the native OP note for receipts and limits. MAIN has no
-standalone build yet: its maintained sources refer to 100 missing quoted
-include paths: 63 declarations (592 references), 35 composite `.cpp`
+standalone build yet: its maintained sources refer to 99 missing quoted
+include paths: 62 declarations (528 references), 35 composite `.cpp`
 fragments, and two `.inl` fragments. See the
 [MAIN source-closure note](reconstruction/product/TH04_NATIVE_MAIN_SOURCE_CLOSURE_V882.md)
 for the eight affected composite producers and missing data/BSS owners.
@@ -210,6 +216,13 @@ passes, and the v905 aggregate cold-replays all accepted units while actually
 using that local API. The first aggregate attempt also caught and corrected
 the missing transitive `PF_FN_LEN` macro. This remains declaration closure,
 not standalone linking or full MAIN startup.
+The historical `th04/sprites/main_pat.h` path now resolves to complete local
+TH04 pattern/cel tables and closes 64 maintained-source references. A pinned
+TC4J reference/local probe gives identical link-semantic OMF for every TH04
+constant. The v909 aggregate rewrites 68 staged occurrences and preserves all
+275 accepted units in two cold builds; its first attempt caught the TH05
+midboss fragment's dependency on `PAT_ENEMY_KILL_last`. Pattern closure does
+not supply any of the remaining state owners or complete the MAIN link.
 
 The [native ZUN note](reconstruction/zun/TH04_ZUN_NATIVE_SOURCE_BUILD_V880.md)
 records a TH04-only 18-object Tiny resident COM, cold 13,356-byte flat launcher,
