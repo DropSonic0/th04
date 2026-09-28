@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the eighteenth MAIN declaration closure batch. This is the
+Updated 2026-09-29 after the twentieth MAIN declaration closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -288,6 +288,15 @@ The v957 aggregate preserves all 275 accepted extents in two cold builds while
 rewriting 11 staged occurrences. Null callback implementation ownership, the
 remaining 83-path source closure, standalone MAIN placement, and PC-98 startup
 remain open.
+
+The historical `th04/main/phase.hpp` path now resolves to artifact-local GAME 4
+phase constants through a product wrapper. The v959 TC4J probe matches
+reference/local link-semantic OMF
+(`212b0f77eb40972c801634cc27ea6f485ba8d0b74f21dd238aa8c608a315566c`), and
+the focused `midboss4_render` owner remains raw/MAP/relocation exact at 0x8D
+bytes. The v959 aggregate preserves all 275 accepted extents in two cold builds
+while rewriting 11 staged occurrences. Phase DATA/BSS ownership, the remaining
+82-path source closure, standalone MAIN placement, and PC-98 startup remain open.
 
 The historical `th04/main/gather.hpp` path now resolves to the artifact-local
 gather API through a product include wrapper. The v930 TC4J probe matches
