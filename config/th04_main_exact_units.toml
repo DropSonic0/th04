@@ -52,6 +52,13 @@ local_header = "src/main/bullet/bullet.hpp"
 minimum_count = 1
 
 [[scaffold_tree_include_rewrites]]
+id = "th04-gather-api-local"
+tree_root = "th04"
+old_include = "th04/main/gather.hpp"
+local_header = "src/main/gather.hpp"
+minimum_count = 1
+
+[[scaffold_tree_include_rewrites]]
 id = "th04-scroll-api-local"
 tree_root = "th04"
 old_include = "th04/main/scroll.hpp"
