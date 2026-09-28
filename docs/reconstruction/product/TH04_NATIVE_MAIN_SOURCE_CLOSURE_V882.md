@@ -5,20 +5,20 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v963 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v963-20260929/inventory.json`.
+The current v965 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v965-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 44 | 189 |
+| `.h` / `.hpp` declarations | 43 | 181 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **81** | **226** |
+| **Total** | **80** | **218** |
 
 The heaviest remaining header edge is `x86real.h` (13), followed by
 `platform.h` (11), `th04/common.h` (9), and the eight-reference edges
-`th04/playchar.h`, `th04/main/slowdown.hpp`, `th04/main/quit.hpp`,
-`th04/main/hud/hud.hpp`, and `th04/main/bullet/clearzap.hpp`. Five
+`th04/playchar.h`, `th04/main/hud/hud.hpp`, and
+`th04/main/bullet/clearzap.hpp`. Five
 other missing platform/header names
 have no `th04/` prefix: `platform.h`, `x86real.h`, `planar.h`, `decomp.hpp`,
 and `shiftjis.hpp`. These names denote needed declarations, not approval to
@@ -33,7 +33,7 @@ Related function bodies already exist as separate maintained `src/main`
 translation units, but their composition and near-call segment ownership must
 be reconciled before adding them to a native MAIN link manifest. Compiling
 both a composite and its included child as objects would duplicate publics.
-The local ReC98 reference has files at all 44 remaining missing header paths, but only
+The local ReC98 reference has files at all 43 remaining missing header paths, but only
 two of the 35 missing `.cpp` paths and neither missing `.inl` path. This is a
 source-location observation, not evidence that those headers are ready for a
 TH04-owned product build. The existing maintained function bodies must be
@@ -658,10 +658,40 @@ references), 35 `.cpp` fragments, and two `.inl` fragments; only
 `th04/dialog.cpp` remains unmapped. Target BSS ordering/offsets, standalone MAIN
 linking, and PC-98 startup remain open.
 
+## MAIN quit-state closure
+
+The twenty-second declaration/data batch routes the historical
+`th04/main/quit.hpp` edge through the product wrapper
+`src/main/include/th04/main/quit.hpp` and the artifact-local
+`src/main/quit.hpp`. The local surface preserves the one-byte `quit_t` enum
+(`Q_KEEP_RUNNING`, `Q_QUIT_TO_OP`, and `Q_NEXT_STAGE`) and
+`src/main/core/quit_state.asm` owns the one-byte `_quit` BSS symbol.
+
+The v964 TC4J/TASM/TLINK/DOS probe passes `QUIT_PASS` in two independent runs.
+Both runs validate the same one-byte state OMF and a valid 217-relocation MZ
+with linked SHA-256
+`caabf62cb0ba0bbfcde83381158f071663618f4765703945524291e936b6d28d`;
+the second receipt SHA-256 is
+`fa9577969537da71c251a559e813ce98443b27df2955b53b5f678f77ea7469c9`.
+The focused `stage_state_init` owner is raw/MAP/relocation exact at 0xCB bytes
+(receipt SHA-256
+`368116f82ef660a266ce17375affe635778a09c5d3348f349cf40bee0c558297`), with
+candidate and target slice SHA-256
+`f41ff21e0254ae8050f35b00c514db046b74b4ae2b02538dd7856715a15dfed7`.
+The v964 aggregate rewrites 8 staged occurrences and preserves all 275
+accepted extents in two cold builds with identical diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`;
+aggregate receipt SHA-256:
+`f8008e85333d7f291a9c3e019cd0ed2a14dec0a609725e8bd44e5a9577e946d9`.
+The v965 inventory is now 80 missing paths / 218 references: 43 headers (181
+references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped. Quit-state target BSS ordering/offsets,
+standalone MAIN linking, and PC-98 startup remain open.
+
 This include inventory is only the first frontier. The frame declaration and
 storage batch demonstrates the required pairing, the scroll batch adds a
 second declaration/storage split, and the sound, pattern, and vector batches
-close declaration-only dependencies. The remaining 44 missing header
+close declaration-only dependencies. The remaining 43 missing header
 paths still need
 product-owned declarations and, where applicable, their data/BSS owners.
 A native link manifest must account for those owners and not infer completeness

@@ -143,6 +143,13 @@ local_header = "src/main/slowdown.hpp"
 minimum_count = 1
 
 [[scaffold_tree_include_rewrites]]
+id = "th04-quit-api-local"
+tree_root = "th04"
+old_include = "th04/main/quit.hpp"
+local_header = "src/main/quit.hpp"
+minimum_count = 1
+
+[[scaffold_tree_include_rewrites]]
 id = "th04-scroll-api-local"
 tree_root = "th04"
 old_include = "th04/main/scroll.hpp"
