@@ -193,7 +193,10 @@ fragments, and two `.inl` fragments. See the
 [MAIN source-closure note](reconstruction/product/TH04_NATIVE_MAIN_SOURCE_CLOSURE_V882.md)
 for the eight affected composite producers and missing data/BSS owners.
 Recover TH04 declarations under the local product tree rather than importing
-ReC98 headers wholesale.
+ReC98 headers wholesale. The inventory joins the exact-unit replay ledger:
+32/37 missing body fragment paths already map to maintained source; five
+remain to reconcile (`dialog.cpp`, `gsinit.cpp`, `m4tail.inl`,
+`main/dialog/init_exit.inl`, `y5p2.cpp`).
 
 The [native ZUN note](reconstruction/zun/TH04_ZUN_NATIVE_SOURCE_BUILD_V880.md)
 records a TH04-only 18-object Tiny resident COM, cold 13,356-byte flat launcher,

@@ -5,6 +5,8 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
+The v898 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v898-20260928/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
@@ -34,6 +36,13 @@ two of the 35 missing `.cpp` paths and neither missing `.inl` path. This is a
 source-location observation, not evidence that those headers are ready for a
 TH04-owned product build. The existing maintained function bodies must be
 composed into their physical translation units and their state owners found.
+The inventory now joins historical include paths to the local exact-unit
+replay ledger. It identifies maintained source for 32 of 37 missing body
+fragment paths. Five have no direct replay mapping:
+`th04/dialog.cpp`, `th04/gsinit.cpp`, `th04/m4tail.inl`,
+`th04/main/dialog/init_exit.inl`, and `th04/y5p2.cpp`. Local files with
+plausible related names exist, but composition must be checked against the
+target producer and accepted replay before claiming ownership.
 
 This include inventory is only the first frontier. For example, the 62
 `th04/main/frames.h` references need declarations for frame counters, while
