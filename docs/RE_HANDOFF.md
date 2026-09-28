@@ -209,8 +209,8 @@ native OP has transferred control to `MAIN.EXE`. This does not establish
 original MAIN or MAINE execution. The strict shared CDG loader still gives
 raw-zero decoded modules and matching relocations for both OP and MAINE in
 two cold replay links. See the native OP note for receipts and limits. MAIN has no
-standalone build yet: its maintained sources refer to 89 missing quoted
-include paths: 52 declarations (283 references), 35 composite `.cpp`
+standalone build yet: its maintained sources refer to 88 missing quoted
+include paths: 51 declarations (268 references), 35 composite `.cpp`
 fragments, and two `.inl` fragments. See the
 [MAIN source-closure note](reconstruction/product/TH04_NATIVE_MAIN_SOURCE_CLOSURE_V882.md)
 for the eight affected composite producers and missing data/BSS owners.
@@ -329,6 +329,18 @@ accepted extents in two cold builds. Tile DATA/BSS ownership, the remaining
 89-path source closure, standalone MAIN placement, and PC-98 startup remain
 open.
 
+The historical `th04/main/playfld.hpp` path now resolves to the artifact-local
+playfield API through a product wrapper and a DOS-8.3-compatible
+`src/main/playfld.hpp` path. The v944 TC4J probe matches link-semantic OMF
+(`0c5117830fecd196fe5beebda0232068f823cce32206dc1f2943ccfae7750206`) for
+the inherited VRAM/TRAM extents, clipping/enclosure macros, point conversion,
+scroll linkage, motion ABI, and shake declarations. The focused
+`playfield_shake_update_and_render` owner is raw/MAP/relocation exact at 208
+bytes, and the strict aggregate rewrites 28 staged occurrences while
+preserving all 275 accepted extents in two cold builds. Playfield DATA/BSS
+ownership, the remaining 88-path source closure, standalone MAIN placement,
+and PC-98 startup remain open.
+
 The [native ZUN note](reconstruction/zun/TH04_ZUN_NATIVE_SOURCE_BUILD_V880.md)
 records a TH04-only 18-object Tiny resident COM, cold 13,356-byte flat launcher,
 and deterministic 7,723-byte DIET-packed MZ with zero relocations. The packed
@@ -421,7 +433,7 @@ diagnostic reaches OP only. The [runtime preparation note](reconstruction/produc
 has the private HDI commands. Continue the normal OP-to-MAIN-to-MAINE route
 before making a runtime acceptance claim.
 
-Whole-game product closure still needs MAIN's 97 distinct unresolved quoted
+Whole-game product closure still needs MAIN's 88 distinct unresolved quoted
 include paths and remaining data/BSS owners, its standalone source manifest and
 link, and a combined candidate PC-98 scenario. OP, ZUN, and MAINE each have
 source-only native build paths; the MAIN build is the controlling blocker.

@@ -416,6 +416,38 @@ aggregate receipt SHA-256:
 The v939 inventory is now 89 missing paths / 320 references. Tile BSS
 ownership, standalone MAIN linking, and PC-98 startup remain open.
 
+## MAIN playfield-header closure
+
+The fourteenth declaration batch routes the historical
+`th04/main/playfld.hpp` edge through the product wrapper
+`src/main/include/th04/main/playfld.hpp` and the short artifact-local
+`src/main/playfld.hpp` path. The existing long
+`src/main/playfield/motion.hpp` path remains a compatibility wrapper. The
+short spelling is required by the PC-98 IDE's DOS 8.3 include lookup; the
+long-directory projection failed before compilation, while the short path
+passed the same integrated build.
+
+The v944 TC4J reference/local probe produced identical link-semantic OMF
+(`0c5117830fecd196fe5beebda0232068f823cce32206dc1f2943ccfae7750206`);
+receipt SHA-256:
+`63e14234445b64262621d2469b11e337b3ca2f6183c1eb986d76d378e5015753`.
+The probe exercises the inherited VRAM/TRAM extents, clipping and enclosure
+macros, point-to-screen and scroll conversion, motion ABI, and shake
+declarations. The corrected focused `playfield_shake_update_and_render`
+owner is raw/MAP/relocation exact at 208 bytes (receipt
+`c89576fd5940dd34125e9bc3c7276d6a0ff1819a6010f8f5dc61346504dc5cf4`), with
+candidate and target slice SHA-256
+`37b91cc6809195f3b05b0303b571635f010d358d8fb4a5cbd02951f80091e591`.
+The v944 aggregate rewrites 28 staged occurrences and preserves all 275
+accepted extents in two cold builds with identical diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`;
+aggregate receipt SHA-256:
+`0eb9d94696a80cdfbc4e6ba42e93651a5f1f2d3aa965909b1801ad2a585caf6e`.
+The v944 inventory is now 88 missing paths / 305 references: 51 headers (268
+references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped. Playfield DATA/BSS ownership, standalone
+MAIN linking, and PC-98 startup remain open.
+
 This include inventory is only the first frontier. The frame declaration and
 storage batch demonstrates the required pairing, the scroll batch adds a
 second declaration/storage split, and the sound, pattern, and vector batches
