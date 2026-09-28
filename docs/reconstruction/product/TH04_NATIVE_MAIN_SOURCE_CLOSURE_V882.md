@@ -5,19 +5,19 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v913 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v913-20260928/inventory.json`.
+The current v915 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v915-20260928/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 61 | 503 |
+| `.h` / `.hpp` declarations | 60 | 481 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **98** | **540** |
+| **Total** | **97** | **518** |
 
 The heaviest remaining header edges are the player/bullet headers (41 each),
-`th04/main/gather.hpp` (24), and `th04/main/scroll.hpp` (22). Five other
-missing platform/header names
+`th04/main/gather.hpp` (24), `th04/main/circle.hpp` (20), and the score and
+custom headers (19 each). Five other missing platform/header names
 have no `th04/` prefix: `platform.h`, `x86real.h`, `planar.h`, `decomp.hpp`,
 and `shiftjis.hpp`. These names denote needed declarations, not approval to
 reuse cross-game product headers.
@@ -31,7 +31,7 @@ Related function bodies already exist as separate maintained `src/main`
 translation units, but their composition and near-call segment ownership must
 be reconciled before adding them to a native MAIN link manifest. Compiling
 both a composite and its included child as objects would duplicate publics.
-The local ReC98 reference has files at all 61 missing header paths, but only
+The local ReC98 reference has files at all 60 missing header paths, but only
 two of the 35 missing `.cpp` paths and neither missing `.inl` path. This is a
 source-location observation, not evidence that those headers are ready for a
 TH04-owned product build. The existing maintained function bodies must be
@@ -157,9 +157,49 @@ Aggregate receipt SHA-256:
 This closes 25 maintained-source references but remains declaration and replay
 evidence, not standalone linking or runtime acceptance.
 
+## MAIN scroll-header and state closure
+
+The fifth declaration batch preserves `th04/main/scroll.hpp` through a thin
+product include wrapper and `src/main/scroll/scroll.hpp`. The artifact-local
+header retains the inherited `scroll_line` declaration, the five TH04 scroll
+state declarations, both per-page lines, and all three near Pascal coordinate
+conversion entries. It depends only on the already localized subpixel and
+PC-98 type surfaces.
+
+The historical storage is not one contiguous ownership block. Five scroll
+state symbols occur in the playfield BSS fragment, while
+`scroll_line_on_page` occurs beside tile-invalidation state. The product tree
+therefore keeps `src/main/scroll/state.asm` and
+`src/main/scroll/page_state.asm` separate so a future standalone link manifest
+can preserve both physical positions. Both use uninitialized BSS, including
+TASM `evendata` rather than an initialized alignment byte.
+
+Two fresh v914 probes compile the reference and local APIs for both GAME 4 and
+GAME 5. Their non-COMENT OMF SHA-256 values agree at
+`dfc5f4bee6ddaf3d8e209db275c14ad95852dcc36a449920c458b8e60a9048d6`
+and
+`7d66e5bdb4310416079a96ed685d5fe50212d05f113f5949e5e7696b9d6c920a`,
+respectively. TASM produces stable five-public and one-public BSS objects, and
+the linked DOS storage test prints `SCROLL_PASS`. Both complete 217-relocation
+MZ files have SHA-256
+`d3d5f8c105b35a60e65f37f522e9f616c66133c662bdf6e6c64cef1ce7d80541`.
+Primary probe receipt SHA-256:
+`fad633d68a3d088f25b5da6195ea831b47c46a259d07981249dfffc8069e944f`.
+
+The v915 strict aggregate freezes the new scroll header and rewrites 29
+occurrences across 29 staged files. Both cold builds preserve raw bytes, MAP
+extents, and relocations for all 275 accepted units and produce identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
+Aggregate receipt SHA-256:
+`cf41672289dee812d46bb6fa15ad94201b506489d40ae71150fa9cb55766a532`.
+This closes 22 maintained-source references and supplies six split BSS owners.
+Their target offsets and integration into a standalone MAIN link remain open.
+
 This include inventory is only the first frontier. The frame declaration and
-storage batch demonstrates the required pairing, while the sound, pattern,
-and vector batches close declaration-only dependencies. The other 61 missing header
+storage batch demonstrates the required pairing, the scroll batch adds a
+second declaration/storage split, and the sound, pattern, and vector batches
+close declaration-only dependencies. The other 60 missing header
 paths still need
 product-owned declarations and, where applicable, their data/BSS owners.
 A native link manifest must account for those owners and not infer completeness

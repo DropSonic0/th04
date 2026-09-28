@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-28 after the second MAIN declaration closure batch. This is the
+Updated 2026-09-28 after the fifth MAIN declaration closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -165,6 +165,10 @@ extents, MAP ownership, and relocations. Receipt SHA-256
 An earlier v911 green aggregate omitted the configured rewrite because its
 new header was not frozen; it is retained only as replay-control negative
 evidence, not as vector closure.
+The v915 aggregate freezes the product-owned scroll API and redirects 29 staged
+`th04/main/scroll.hpp` occurrences. Both cold builds preserve all 275 accepted
+extents, MAP ownership, and relocations. Receipt SHA-256
+`cf41672289dee812d46bb6fa15ad94201b506489d40ae71150fa9cb55766a532`.
 The scaffold-built MAIN.EXE is 152,974 bytes versus the 156,258-byte target;
 the complete MZ comparison rejects raw identity. All 1,136 relocation sites
 and site values match, but their entry order differs. This remains a
@@ -205,8 +209,8 @@ native OP has transferred control to `MAIN.EXE`. This does not establish
 original MAIN or MAINE execution. The strict shared CDG loader still gives
 raw-zero decoded modules and matching relocations for both OP and MAINE in
 two cold replay links. See the native OP note for receipts and limits. MAIN has no
-standalone build yet: its maintained sources refer to 98 missing quoted
-include paths: 61 declarations (503 references), 35 composite `.cpp`
+standalone build yet: its maintained sources refer to 97 missing quoted
+include paths: 60 declarations (481 references), 35 composite `.cpp`
 fragments, and two `.inl` fragments. See the
 [MAIN source-closure note](reconstruction/product/TH04_NATIVE_MAIN_SOURCE_CLOSURE_V882.md)
 for the eight affected composite producers and missing data/BSS owners.
@@ -238,6 +242,13 @@ replay rewrites 27 staged occurrences while preserving all 275 accepted units.
 The replay driver now freezes headers introduced solely by tree rewrites; this
 fix prevents a configured rewrite from being silently skipped. Vector closure
 does not provide remaining MAIN data owners or a standalone link.
+The historical `th04/main/scroll.hpp` path now resolves to a complete
+artifact-local scroll API. Reference/local TC4J probes agree for both GAME 4
+and GAME 5, and two TASM/TLINK/DOS runs validate separate five-symbol
+playfield-scroll and one-symbol per-page BSS owners with one deterministic
+217-relocation MZ. The v915 aggregate actually rewrites 29 staged files and
+preserves all 275 accepted extents. The owners are not yet placed at their
+target BSS offsets or integrated into a standalone MAIN link.
 
 The [native ZUN note](reconstruction/zun/TH04_ZUN_NATIVE_SOURCE_BUILD_V880.md)
 records a TH04-only 18-object Tiny resident COM, cold 13,356-byte flat launcher,
@@ -331,8 +342,8 @@ diagnostic reaches OP only. The [runtime preparation note](reconstruction/produc
 has the private HDI commands. Continue the normal OP-to-MAIN-to-MAINE route
 before making a runtime acceptance claim.
 
-Whole-game product closure still needs MAIN's 101 distinct unresolved quoted
-include paths and absent data/BSS owners, its standalone source manifest and
+Whole-game product closure still needs MAIN's 97 distinct unresolved quoted
+include paths and remaining data/BSS owners, its standalone source manifest and
 link, and a combined candidate PC-98 scenario. OP, ZUN, and MAINE each have
 source-only native build paths; the MAIN build is the controlling blocker.
 The remaining two nonexact MAIN function slices are outside this build lane.
