@@ -78,8 +78,6 @@ reference_sources = [
 unmapped = [
   "th04/tile.cpp",
   "th04/stages.cpp",
-  "th04/boss_4r.cpp",
-  "th04/boss_x2.cpp",
 ]
 
 # Direct local physical owners. A source may be a replacement ASM owner when
@@ -136,6 +134,8 @@ unmapped = [
 "th04/bullet_u.cpp" = "src/main/bullet/update.cpp"
 "th04/bullet_a.cpp" = "src/main/bullet/add.cpp"
 "th04/boss.cpp" = "src/main/boss/boss.cpp"
+"th04/boss_4r.cpp" = "src/main/boss/reimu4_state.cpp"
+"th04/boss_x2.cpp" = "src/main/boss/gengetsu6_state.cpp"
 
 # Exact-unit build replacements preserve these physical owners under an ASM
 # basename; TASM derives a .code segment name from that historical input name.
