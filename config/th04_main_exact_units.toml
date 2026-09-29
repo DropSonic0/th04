@@ -269,6 +269,13 @@ local_header = "src/main/include/th04/main/stage/bonus.hpp"
 minimum_count = 1
 
 [[scaffold_tree_include_rewrites]]
+id = "th04-main-mpn-api-local"
+tree_root = "th04"
+old_include = "th04/formats/mpn.hpp"
+local_header = "src/main/include/th04/formats/mpn.hpp"
+minimum_count = 1
+
+[[scaffold_tree_include_rewrites]]
 id = "th04-main-cdg-api-local"
 tree_root = "th04"
 old_include = "th04/sprites/main_cdg.h"

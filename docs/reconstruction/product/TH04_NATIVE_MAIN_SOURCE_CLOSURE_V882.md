@@ -5,17 +5,17 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v1002 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v1002-bonus-20260929/inventory.json`.
+The current v1003 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v1003-mpn-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 9 | 11 |
+| `.h` / `.hpp` declarations | 8 | 9 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **46** | **48** |
+| **Total** | **45** | **46** |
 
-The next remaining header edge is now `th04/formats/mpn.hpp`, followed
+The next remaining header edge is now `th04/main/player/move.hpp`, followed
 by the remaining declaration and composite surfaces. These names denote needed
 declarations, not approval to reuse cross-game product headers.
 
@@ -1196,6 +1196,40 @@ th04/main/dialog/dialog.hpp. The reference th04/main/tile/inv[bss].asm still
 owns the callback words beside tile invalidation state. This is
 compiler-observed callback declaration closure, not BSS ownership, standalone
 MAIN placement, or PC-98 startup acceptance.
+
+## MAIN MPN format header closure
+
+The fifty-first format/layout batch routes the historical
+`th04/formats/mpn.hpp` edge through
+`src/main/include/th04/formats/mpn.hpp`, backed by the artifact-local
+`src/main/formats/mpn.hpp`. The local surface recovers the TH04 MPN plane,
+image, file-header, and 64-byte slot layouts, the eight-slot `mpn_slots`
+storage declaration, and the three `extern "C"` Pascal entry ABIs. It reuses
+the attested product planar, tile, PC-98, and graphics APIs instead of a direct
+`th02/formats/mpn.hpp` include.
+
+The v1003b TC4J GAME=4 reference/local probe passes with semantic OMF SHA-256
+`75366668c25e9f2dae70cd178ecb2d919809175dff435d89a47fadc0ae9738a2`
+(receipt SHA-256
+`58cc5efd27feba581a77128faa50a77e0fe24bf27aa3714dfe2dc5a9cfe54d94`).
+The first v1003 aggregate attempt failed in `mpn_load.cpp` because the local
+surface omitted the shared `palette_set_all`/`palette_show` graphics API; the
+failure is retained as negative compiler evidence and carries no exact credit.
+After adding that transitive API, the v1003 aggregate receipt
+`gpt-5-6-sol-main-mpn-header-aggregate-088-20260929/receipt.json` has SHA-256
+`dcb95717e1bfdc3b60c3080497297222456054cbda2fcdfb0df79bdf49cd975e` and
+preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
+The `th04/mpnend.cpp` owner remains raw/MAP/relocation exact at file
+`0xD15C`, size `0x75`, `END_TEXT:0x0E0C`, slice SHA-256
+`746d80268b65200ceee3667bee747c3c235a4baa5813bf8197761021453bf976`.
+Inventory v1003 is now 45 missing paths / 46 references: 8 headers (9
+references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped, and the next header edge is
+`th04/main/player/move.hpp`. This is compiler-observed MPN layout/API closure
+and affected-owner revalidation, not slot DATA/BSS placement, file semantics,
+standalone MAIN placement, or PC-98 startup acceptance.
 
 ## MAIN stage-bonus header closure
 

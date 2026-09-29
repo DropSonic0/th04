@@ -209,8 +209,8 @@ native OP has transferred control to `MAIN.EXE`. This does not establish
 original MAIN or MAINE execution. The strict shared CDG loader still gives
 raw-zero decoded modules and matching relocations for both OP and MAINE in
 two cold replay links. See the native OP note for receipts and limits. MAIN has no
-standalone build yet: its maintained sources still have 46 missing quoted
-include paths: 9 declaration headers (11 references), 35 composite `.cpp`
+standalone build yet: its maintained sources still have 45 missing quoted
+include paths: 8 declaration headers (9 references), 35 composite `.cpp`
 fragments, and two `.inl` fragments. See the
 [MAIN source-closure note](reconstruction/product/TH04_NATIVE_MAIN_SOURCE_CLOSURE_V882.md)
 for the eight affected composite producers and missing data/BSS owners.
@@ -902,6 +902,31 @@ references), 35 `.cpp` fragments, and two `.inl` fragments; only
 `th04/formats/mpn.hpp`. This closes the two stage-bonus declarations only;
 bonus DATA/BSS ownership, standalone MAIN placement, and PC-98 startup remain
 open.
+
+The historical `th04/formats/mpn.hpp` path now resolves to the product-owned
+MPN format/layout API through `src/main/include/th04/formats/mpn.hpp`, backed
+by `src/main/formats/mpn.hpp`. The v1003b TC4J GAME=4 reference/local probe
+matches semantic OMF SHA-256
+`75366668c25e9f2dae70cd178ecb2d919809175dff435d89a47fadc0ae9738a2`
+(receipt SHA-256
+`58cc5efd27feba581a77128faa50a77e0fe24bf27aa3714dfe2dc5a9cfe54d94`).
+The first v1003 aggregate attempt failed at `mpn_load.cpp` because the local
+surface omitted `palette_set_all`/`palette_show`; after adding the shared
+graphics API, the v1003 aggregate receipt
+`gpt-5-6-sol-main-mpn-header-aggregate-088-20260929/receipt.json` has SHA-256
+`dcb95717e1bfdc3b60c3080497297222456054cbda2fcdfb0df79bdf49cd975e` and
+preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
+The `th04/mpnend.cpp` owner remains raw/MAP/relocation exact at file
+`0xD15C`, size `0x75`, `END_TEXT:0x0E0C`, slice SHA-256
+`746d80268b65200ceee3667bee747c3c235a4baa5813bf8197761021453bf976`.
+Inventory v1003 is now 45 missing paths / 46 references: 8 headers (9
+references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped, and the next header edge is
+`th04/main/player/move.hpp`. This closes MPN layout/API declarations only;
+slot DATA/BSS ownership, file semantics, standalone MAIN placement, and
+PC-98 startup remain open.
 
 Inventory v996 is now 52 missing paths / 64 references: 15 headers (27
 references), 35 `.cpp` fragments, and two `.inl` fragments; only
