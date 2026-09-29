@@ -78,7 +78,6 @@ reference_sources = [
 unmapped = [
   "th04/tile.cpp",
   "th04/stages.cpp",
-  "th04/it_spl_u.cpp",
   "th04/boss_4r.cpp",
   "th04/boss_x2.cpp",
 ]
@@ -86,6 +85,7 @@ unmapped = [
 # Direct local physical owners. A source may be a replacement ASM owner when
 # the maintained unit deliberately preserves an original-style implementation.
 [direct_owners]
+"th04/it_spl_u.cpp" = "src/main/item/splash_u.cpp"
 "th04/slowdown.cpp" = "src/main/slowdown.cpp"
 "th04/demo.cpp" = "src/main/demo.cpp"
 "th04/ems.cpp" = "src/main/ems.cpp"

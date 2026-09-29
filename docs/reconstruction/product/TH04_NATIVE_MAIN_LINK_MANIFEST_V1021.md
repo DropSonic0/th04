@@ -11,13 +11,13 @@ On 2026-09-29 the manifest check passed without running Borland:
 ```text
 python3 scripts/probes/probe_th04_native_main_manifest.py \
   --check \
-  --output .analysis/reconstruction/probes/native-main-link-manifest-v1021h-20260929/manifest.json
+  --output .analysis/reconstruction/probes/native-main-link-manifest-v1021k-20260929/manifest.json
 ```
 
-It reports 55/60 reference inputs mapped and five unresolved historical owners:
-`tile.cpp`, `stages.cpp`, `it_spl_u.cpp`, `boss_4r.cpp`, and `boss_x2.cpp`. The
-local files all exist for the mapped entries, and the scaffold path is present.
-The result is therefore
+It reports 56/60 reference inputs mapped and four unresolved historical owners:
+`tile.cpp`, `stages.cpp`, `boss_4r.cpp`, and `boss_x2.cpp`. The local files all
+exist for the mapped entries, and the scaffold path is present. The result is
+therefore
 `ready_for_native_link = false`; no linker or runtime claim is made.
 
 The fused classifications are deliberate: `f_dialog.cpp` + `dialog.cpp` use
@@ -41,14 +41,17 @@ composition for `th04/snd_se.cpp`.
 
 ```text
 python3 scripts/probes/probe_th04_native_main_compile_frontier.py \
-  --output-dir .analysis/reconstruction/probes/native-main-compile-frontier-v1021h-20260929
+  --output-dir .analysis/reconstruction/probes/native-main-compile-frontier-v1021k-20260929
 ```
 
-It produced 52 unique direct/fused owners and 52 valid OMF objects. The
+It produced 53 unique direct/fused owners and 53 valid OMF objects. The
 historical `th04/bullet_u.cpp` route now uses the checked-in physical
 composition `src/main/bullet/update.cpp`, which includes the exact recovered
 `update_prefix.inl` and `update_body.inl` owners. In particular,
 `src/main/spark.asm` compiles as `th04/spark_a.asm`, so TASM emits
 the expected `SPARK_A_TEXT` segment without changing the maintained body. The
+historical `th04/it_spl_u.cpp` route likewise uses
+`src/main/item/splash_u.cpp`, composing the reviewed init and add/update
+fragments with the three reference-attested radius constants. The
 receipt records `link_performed=false` and `runtime_performed=false`; this is
 compiler-observed frontier evidence, not standalone MAIN readiness.
