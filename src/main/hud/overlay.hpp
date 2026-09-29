@@ -4,13 +4,8 @@
 #include "src/shared/platform/pc98.hpp"
 #include "src/shared/platform/types.hpp"
 
+#include "shiftjis.hpp"
 #include "src/main/gaiji/gaiji.hpp"
-
-// The pinned TH04 overlay header normally gets these from shiftjis.hpp. Keep
-// the narrow scalar aliases local until that common header is localized.
-typedef uint8_t shiftjis_t;
-typedef int shiftjis_kanji_amount_t;
-typedef unsigned int ushiftjis_kanji_amount_t;
 
 #pragma codeseg HUD_OVRL_TEXT main_01
 

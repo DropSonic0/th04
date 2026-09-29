@@ -5,17 +5,17 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v1008 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v1008-demo-20260929/inventory.json`.
+The current v1009 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v1009b-shiftjis-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 3 | 3 |
+| `.h` / `.hpp` declarations | 2 | 2 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **40** | **40** |
+| **Total** | **39** | **39** |
 
-The next remaining header edge is now `th04/shiftjis.hpp`, followed
+The next remaining header edge is now `th04/formats/scoredat/scoredat.hpp`, followed
 by the remaining declaration and composite surfaces. These names denote needed
 declarations, not approval to reuse cross-game product headers.
 
@@ -28,7 +28,7 @@ Related function bodies already exist as separate maintained `src/main`
 translation units, but their composition and near-call segment ownership must
 be reconciled before adding them to a native MAIN link manifest. Compiling
 both a composite and its included child as objects would duplicate publics.
-The local ReC98 reference has files at all 3 remaining missing header paths, but only
+The local ReC98 reference has files at both remaining missing header paths, but only
 two of the 35 missing `.cpp` paths and neither missing `.inl` path. This is a
 source-location observation, not evidence that those headers are ready for a
 TH04-owned product build. The existing maintained function bodies must be
@@ -1395,6 +1395,39 @@ unmapped, and the next header edge is `th04/shiftjis.hpp`. This is
 compiler-observed demo declaration closure and affected-owner revalidation,
 not replay DATA/BSS placement, standalone MAIN placement, or PC-98 startup
 acceptance.
+
+## MAIN Shift-JIS header closure
+
+The fifty-seventh declaration batch routes the historical bare
+`shiftjis.hpp` edge through the product-owned `src/main/include/shiftjis.hpp`.
+The local surface preserves the JIS/Shift-JIS scalar aliases, bytewise
+`ShiftJISKanji` and `ShiftJISKanjiBuffer` wrappers, `kanji_swap`, and
+`shiftjis_to_jis`; the MAIN HUD overlay header now consumes those declarations
+instead of carrying duplicate scalar typedefs.
+
+The v1009 TC4J GAME=4 reference/local probe passes with semantic OMF SHA-256
+`796649f7726500703aa2dbba7d2a31dca3fe3d34964f87e347f8d6883d741d25`
+(receipt SHA-256
+`50cbbf6ecf87d9aaba074225d6986f0b8fa24b583f54131a2a8d6161b9390b55`). The
+affected overlay-header probe remains semantic-OMF exact at
+`a26b77bd8663d61c764d0288110cd97b82c7a46614a0fdf3722ce00456dd793c`
+(receipt SHA-256
+`38cc0825257534480d6413a3d023d99fdc824503cb2154f3decc8b8353e432c2`).
+The v1009 aggregate receipt
+`gpt-5-6-sol-main-shiftjis-overlay-1009-20260929/receipt.json` has SHA-256
+`8e518a195895be209c269992ec74e233c3aba5e96b9b9fdfc525cc8e30c592ff` and
+preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`. The
+`th04/hud_ovrl.cpp` owner remains raw/MAP/relocation exact at file `0x1254B`,
+size `0x806`, `HUD_OVRL_TEXT:0x625B`, slice SHA-256
+`1d3214adf711bbcd4dd08d0ba0140ee9a2f4a2dddba4743937134b901c7f6c94`.
+Inventory v1009 is now 39 missing paths / 39 references: 2 headers,
+35 `.cpp` fragments, and two `.inl` fragments; only `th04/dialog.cpp` remains
+unmapped, and the next header edge is
+`th04/formats/scoredat/scoredat.hpp`. This is compiler-observed Shift-JIS
+declaration closure and affected-owner revalidation, not text DATA/BSS
+placement, standalone MAIN placement, or PC-98 startup acceptance.
 
 ## MAIN stage-bonus header closure
 

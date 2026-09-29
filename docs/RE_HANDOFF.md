@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the fifty-sixth MAIN declaration/helper closure batch. This is the
+Updated 2026-09-29 after the fifty-seventh MAIN declaration/helper closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -209,8 +209,8 @@ native OP has transferred control to `MAIN.EXE`. This does not establish
 original MAIN or MAINE execution. The strict shared CDG loader still gives
 raw-zero decoded modules and matching relocations for both OP and MAINE in
 two cold replay links. See the native OP note for receipts and limits. MAIN has no
-standalone build yet: its maintained sources still have 40 missing quoted
-include paths: 3 declaration headers (3 references), 35 composite `.cpp`
+standalone build yet: its maintained sources still have 39 missing quoted
+include paths: 2 declaration headers (2 references), 35 composite `.cpp`
 fragments, and two `.inl` fragments. See the
 [MAIN source-closure note](reconstruction/product/TH04_NATIVE_MAIN_SOURCE_CLOSURE_V882.md)
 for the eight affected composite producers and missing data/BSS owners.
@@ -1058,6 +1058,31 @@ fragments; only `th04/dialog.cpp` remains unmapped, and the next header edge is
 `th04/shiftjis.hpp`. This closes the demo declaration path and affected-owner
 revalidation only; replay DATA/BSS ownership, standalone MAIN placement, and
 PC-98 startup remain open.
+
+The historical bare `shiftjis.hpp` path now resolves to the product-owned
+`src/main/include/shiftjis.hpp`, and the MAIN overlay header consumes the same
+Shift-JIS declarations. The v1009 TC4J GAME=4 header probe matches semantic OMF
+SHA-256 `796649f7726500703aa2dbba7d2a31dca3fe3d34964f87e347f8d6883d741d25`
+(receipt SHA-256
+`50cbbf6ecf87d9aaba074225d6986f0b8fa24b583f54131a2a8d6161b9390b55`). The
+affected overlay-header probe remains semantic-OMF exact at
+`a26b77bd8663d61c764d0288110cd97b82c7a46614a0fdf3722ce00456dd793c`
+(receipt SHA-256
+`38cc0825257534480d6413a3d023d99fdc824503cb2154f3decc8b8353e432c2`). The
+v1009 aggregate receipt
+`gpt-5-6-sol-main-shiftjis-overlay-1009-20260929/receipt.json` has SHA-256
+`8e518a195895be209c269992ec74e233c3aba5e96b9b9fdfc525cc8e30c592ff` and
+preserves all 275 accepted extents in two cold builds with identical diagnostic
+MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`. The
+`th04/hud_ovrl.cpp` owner remains raw/MAP/relocation exact at file `0x1254B`,
+size `0x806`, `HUD_OVRL_TEXT:0x625B`, slice SHA-256
+`1d3214adf711bbcd4dd08d0ba0140ee9a2f4a2dddba4743937134b901c7f6c94`.
+Inventory v1009 is now 39 missing paths / 39 references: 2 headers, 35 `.cpp`
+fragments, and two `.inl` fragments; only `th04/dialog.cpp` remains unmapped,
+and the next header edge is `th04/formats/scoredat/scoredat.hpp`. This closes
+the Shift-JIS declaration path and affected-owner revalidation only; text
+DATA/BSS ownership, standalone MAIN placement, and PC-98 startup remain open.
 
 Inventory v996 is now 52 missing paths / 64 references: 15 headers (27
 references), 35 `.cpp` fragments, and two `.inl` fragments; only
