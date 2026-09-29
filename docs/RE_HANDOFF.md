@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the thirty-fourth MAIN declaration closure batch. This is the
+Updated 2026-09-29 after the thirty-fifth MAIN declaration closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -503,6 +503,33 @@ and two `.inl` fragments; the next header edge is `th04/main/tile/bb.hpp`
 (4 references), followed by `th04/main/playperf.hpp`. This closes the dialog
 declaration edge only; dialog DATA/BSS ownership, standalone MAIN placement, and
 PC-98 startup remain open.
+
+The historical `th04/main/tile/bb.hpp` path now resolves to the product-owned
+MAIN BB tile API through `src/main/include/th04/main/tile/bb.hpp`, backed by
+`src/main/tile/bb.hpp`. Unlike the existing `.BB` file-format surface, this
+header preserves the 512x512 animation-cell metrics, segmented animation
+storage, GRCG tile entry point, and `tiles_bb_put` / `tiles_bb_invalidate`
+macro ABIs. The v987 TC4J reference/local probe matches semantic OMF SHA-256
+`2af6fc5d7b45c1d0d358db712537bab9d249b74ccece104026ab14eeccb05490`
+(receipt SHA-256
+`145f83e3369332182f8d33a73b459b774ac05113098b6892a8c760ecbc385f18`).
+The focused `th04-main-mugetsu-gengetsu-bg-v102` replay again proves the
+0x91-byte `th04/mgbg.cpp` owner at file 0x14179 / BOSS_BG_TEXT:0x7E89, slice
+SHA-256 `92adca5d8d07674114f2b5a9c65a89a8a54cbef5f929eeb5c583e28c765cb683`,
+with raw bytes, MAP placement, and relocations exact in two cold builds. Its
+receipt SHA-256 is
+`3be3bfe18673cbb509b1bc40d30698b2d61ce04f78acaa460756df6d83599f82`.
+The v987 aggregate receipt
+`gpt-5-6-sol-main-bb-header-aggregate-065-20260929/receipt.json` has SHA-256
+`58f7118b54ad73888ba16d68f6fab83da2e2bcad143c5005641608f744b3c542` and
+preserves all 275 accepted extents in two cold builds with identical diagnostic
+MAIN SHA-256 `d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`;
+four tile-BB rewrites are staged per build. Inventory v987 is now 62 missing
+paths / 98 references: 25 headers (61 references), 35 `.cpp` fragments, and
+two `.inl` fragments; the next header edge is `th04/main/playperf.hpp`
+(4 references). This closes the BB tile declaration edge only; animation
+storage/DATA/BSS ownership, standalone MAIN placement, and PC-98 startup
+remain open.
 
 The historical `th04/main/drawp.hpp` path now resolves to the product-owned
 MAIN drawpoint declaration through `src/main/include/th04/main/drawp.hpp`,

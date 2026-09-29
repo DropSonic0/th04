@@ -5,18 +5,18 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v986 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v986-20260929/inventory.json`.
+The current v987 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v987-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 26 | 65 |
+| `.h` / `.hpp` declarations | 25 | 61 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **63** | **102** |
+| **Total** | **62** | **98** |
 
-The heaviest remaining header edge is now `th04/main/tile/bb.hpp` (4 references),
-followed by playperf, EMS, hiscore, end, std, and splash surfaces. These names denote needed
+The heaviest remaining header edge is now `th04/main/playperf.hpp` (4 references),
+followed by EMS, hiscore, end, std, and splash surfaces. These names denote needed
 declarations, not approval to reuse cross-game product headers.
 
 Eight maintained physical producers include `.cpp` fragments by historical
@@ -939,6 +939,39 @@ header keeps the historical `PLANAR_H` guard because the root-level rewrite
 also reaches legacy scaffold consumers. This is compiler-observed declaration
 closure and affected-unit revalidation, not target DATA/BSS ownership,
 standalone MAIN placement, or PC-98 startup acceptance.
+
+## MAIN tile-BB header closure
+
+The thirty-fifth declaration batch routes the historical
+`th04/main/tile/bb.hpp` edge through
+`src/main/include/th04/main/tile/bb.hpp`, backed by the semantic MAIN-local
+`src/main/tile/bb.hpp`. Unlike the existing `.BB` file-format interface, the
+local surface preserves the 512x512 animation-cell metrics, segmented animation
+storage, GRCG tile entry point, and `tiles_bb_put` / `tiles_bb_invalidate`
+macros. It declares the animation interface only; it does not allocate the BB
+storage or other DATA/BSS state.
+
+The v987 TC4J reference/local probe passes with semantic OMF SHA-256
+`2af6fc5d7b45c1d0d358db712537bab9d249b74ccece104026ab14eeccb05490`
+(receipt SHA-256
+`145f83e3369332182f8d33a73b459b774ac05113098b6892a8c760ecbc385f18`).
+The focused `th04-main-mugetsu-gengetsu-bg-v102` replay again proves the
+0x91-byte `th04/mgbg.cpp` owner at file 0x14179 / BOSS_BG_TEXT:0x7E89, slice
+SHA-256 `92adca5d8d07674114f2b5a9c65a89a8a54cbef5f929eeb5c583e28c765cb683`,
+with raw bytes, MAP placement, and relocations exact in two cold builds. Its
+focused receipt SHA-256 is
+`3be3bfe18673cbb509b1bc40d30698b2d61ce04f78acaa460756df6d83599f82`.
+The aggregate receipt
+`gpt-5-6-sol-main-bb-header-aggregate-065-20260929/receipt.json` has SHA-256
+`58f7118b54ad73888ba16d68f6fab83da2e2bcad143c5005641608f744b3c542` and
+preserves all 275 accepted extents in two cold builds with identical diagnostic
+MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`;
+four tile-BB rewrite occurrences are staged per build. Inventory v987 is 62
+missing paths / 98 references: 25 headers (61 references), 35 `.cpp` fragments,
+and two `.inl` fragments; only `th04/dialog.cpp` remains unmapped. This is
+compiler-observed declaration closure and affected-unit revalidation, not BB
+storage ownership, standalone MAIN placement, or PC-98 startup acceptance.
 
 ## MAIN dialog-format header closure
 
