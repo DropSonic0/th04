@@ -72,6 +72,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from lib.omf import describe_omf, parse_omf  # noqa: E402
 from lib.pc98 import parse_mz  # noqa: E402
 from probe_th04_native_main_manifest import audit  # noqa: E402
+from lib.th04_sprites import generate_sprite_sources  # noqa: E402
 
 
 def sha256_bytes(data: bytes) -> str:
@@ -255,7 +256,10 @@ def compile_cpp(source: Path, alias: str, index: int, work: Path,
 def assemble_asm(source: Path, index: int, work: Path, output: Path,
                  env: dict[str, str], subdir: str, log_prefix: str) -> dict[str, object]:
     source = source if source.is_absolute() else ROOT / source
-    relative = source.relative_to(ROOT).as_posix()
+    try:
+        relative = source.relative_to(work).as_posix()
+    except ValueError:
+        relative = source.relative_to(ROOT).as_posix()
     obj = work / "obj" / subdir / f"{index:03d}.obj"
     obj.parent.mkdir(parents=True, exist_ok=True)
     source_win = relative.replace("/", "\\")
@@ -383,6 +387,9 @@ def main() -> int:
     output.mkdir(parents=True)
     work = output / "source"
     shutil.copytree(ROOT / "src", work / "src")
+    sprite_sources, sprite_asset_records = generate_sprite_sources(
+        ROOT, work / "generated/sprites"
+    )
     env = os.environ.copy()
     env.update(WINEPREFIX=str(ROOT / ".analysis/toolchain/wineprefix"),
                WINEDEBUG="-all", MSDOS_PATH=r"C:\TC4\BIN;C:\TASM50\BIN")
@@ -402,6 +409,10 @@ def main() -> int:
         for index, source in enumerate(assembly_sources)
         if source.relative_to(ROOT).as_posix() not in state_source_names
     ]
+    sprite_records = [
+        assemble_asm(source, index, work, output, env, "sprite", "assemble-sprite")
+        for index, source in enumerate(sprite_sources)
+    ]
 
     valid_cpp = [record for record in root_records
                  if record["compile_exit"] == 0 and record["omf_valid"]]
@@ -409,6 +420,8 @@ def main() -> int:
                    if record["assemble_exit"] == 0 and record["omf_valid"]]
     valid_asm = [record for record in asm_records
                  if record["assemble_exit"] == 0 and record["omf_valid"]]
+    valid_sprites = [record for record in sprite_records
+                     if record["assemble_exit"] == 0 and record["omf_valid"]]
     # Keep each physical root once and order by group before TLINK.  This
     # prevents zero-length MAIN_03 state SEGDEFs from assigning later default
     # segments to the wrong group; it is a routing diagnostic, not exact order.
@@ -429,6 +442,7 @@ def main() -> int:
     object_paths.extend(work / str(item["objects"][0]) for item in ordered_records)
     object_paths.extend(work / str(item["object"]) for item in other_asm)
     object_paths.extend(work / str(item["object"]) for item in valid_state)
+    object_paths.extend(work / str(item["object"]) for item in valid_sprites)
     link_result = link(work, output, object_paths, env, args.without_support)
 
     receipt = {
@@ -457,6 +471,10 @@ def main() -> int:
         "asm_assemble_pass": len(valid_asm),
         "asm_assemble_fail": len(asm_records) - len(valid_asm),
         "asm_state_exclusions": sorted(state_source_names),
+        "sprite_asset_records": sprite_asset_records,
+        "sprite_sources": sprite_records,
+        "sprite_assemble_pass": len(valid_sprites),
+        "sprite_assemble_fail": len(sprite_records) - len(valid_sprites),
         "root_records": root_records,
         "state_records": state_records,
         "asm_records": asm_records,
@@ -464,7 +482,9 @@ def main() -> int:
         "limit": (
             "Diagnostic only: scaffold th04_main.asm, product ASM owners beyond "
             "the eight state owners, final MZ/layout, relocation agreement, and "
-            "PC-98 startup remain open. Support-library symbols are calibration."
+            "PC-98 startup remain open. Sprite inputs are locally supplied "
+            "reference BMPs replayed in a private tree; support-library symbols "
+            "are calibration."
         ),
     }
     (output / "receipt.json").write_text(
@@ -475,6 +495,7 @@ def main() -> int:
         "root_count": len(roots),
         "roots_compile_pass": len(valid_cpp),
         "state_assemble_pass": len(valid_state),
+        "sprite_assemble_pass": len(valid_sprites),
         "link_exit": link_result["exit"],
         "undefined": len(link_result["undefined_symbols"]),
         "duplicates": len(link_result["duplicate_errors"]),

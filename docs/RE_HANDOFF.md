@@ -103,15 +103,16 @@ relocations, and startup behavior remain open.
 
 The current maintained-source native TLINK diagnostic is recorded in
 `docs/reconstruction/product/TH04_NATIVE_MAIN_LINK_V1028.md` and
-`.analysis/reconstruction/probes/native-main-link-v1061-20260930/receipt.json`
+`.analysis/reconstruction/probes/native-main-link-v1062-20260930/receipt.json`
 (receipt SHA-256
-`c109296633fcafd6922395dcdb228f1a672b0fbd45d1d9a5d1d181ba1d974730`). It
+`d1280b65852b0ddf34732f1cba9fc43666c501cc86d06f693c88d13f23aa71ed`). It
 cold-compiles 192/192 C/C++ roots and assembles 8/8 state owners plus 125/125
-remaining ASM sources. TLINK reports no duplicate publics, group overflow, or
-fixup overflow; only four generated sprite owners remain unresolved:
-`_sPELLET`, `_sPELLET_BOTTOM`, `_sPOINTNUMS`, and `_sSPARKS`. The partial
-188,169-byte MZ is diagnostic only; complete asset ownership, raw equality,
-and startup remain blocked.
+remaining ASM sources, plus four private `bmp2arr`-compatible `_DATA` owners
+generated from hash-pinned local reference BMPs. TLINK now exits 0 with no
+duplicate publics, group overflow, fixup overflow, or unresolved symbol. The
+partial 190,921-byte MZ with 1,163 relocations is still diagnostic only: the
+reference BMP provenance is not an accepted product asset owner, and raw
+equality, complete layout, and startup remain blocked.
 
 The four source repairs in this batch are compiler-closure changes only:
 product-local stage/CDG declarations, the product HUD header path, and a
