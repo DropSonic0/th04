@@ -47,25 +47,27 @@ Original-ASM observations are outside the authored C/C++ counts.
 
 The native MAIN link frontier is now frozen in
 `config/native_main_sources.toml`. The pinned Tupfile order has 60 historical
-inputs; the manifest checker maps 54 to maintained direct or fused physical
-owners and keeps six routing umbrellas explicitly unresolved. Its current
+inputs; the manifest checker maps 55 to maintained direct or fused physical
+owners and keeps five routing umbrellas explicitly unresolved. Its current
 receipt is
-`.analysis/reconstruction/probes/native-main-link-manifest-v1021-20260929/manifest.json`.
+`.analysis/reconstruction/probes/native-main-link-manifest-v1021h-20260929/manifest.json`.
 This is a control-plane result only: `ready_for_native_link` is false because
 the unresolved inputs still need physical code/data owners, and the historical
 `th04_main.asm` remains scaffold-only. No standalone MAIN link or startup claim
 is made from this manifest.
 
-The compiler-only continuation stages the pinned scaffold and compiles 51
+The compiler-only continuation stages the pinned scaffold and compiles 52
 unique mapped direct/fused owners under their historical input basenames. All
-51 produce valid OMF objects; the two `.cpp`-named historical routes whose
+52 produce valid OMF objects; the `th04/bullet_u.cpp` route is now backed by
+the checked-in `src/main/bullet/update.cpp` composition of the exact recovered
+prefix and body. The two `.cpp`-named historical routes whose
 maintained owners are ASM use explicit `th04/vectorfar.asm` and
 `th04/cdgpna.asm` compiler aliases. The spark body likewise compiles as
 `th04/spark_a.asm`, letting TASM derive `SPARK_A_TEXT` without changing the
 maintained body. The sound routes now have local owners as well, including
 the explicit `src/main/sound/se.cpp` physical composition for play/update. The
 receipt is
-`.analysis/reconstruction/probes/native-main-compile-frontier-v1021g-20260929/receipt.json`.
+`.analysis/reconstruction/probes/native-main-compile-frontier-v1021h-20260929/receipt.json`.
 This remains compiler-only: no TLINK, MZ, or startup result is implied.
 
 OP and MAINE now both have closed authored-function queues; MAINE canonical v835 passes all 72/72 accepted slices raw-zero. v821 closes OP `scoredat_decode` and `scoredat_encode`

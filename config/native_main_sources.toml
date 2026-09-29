@@ -79,7 +79,6 @@ unmapped = [
   "th04/tile.cpp",
   "th04/stages.cpp",
   "th04/it_spl_u.cpp",
-  "th04/bullet_u.cpp",
   "th04/boss_4r.cpp",
   "th04/boss_x2.cpp",
 ]
@@ -134,6 +133,7 @@ unmapped = [
 "th04/spark_a.asm" = "src/main/spark.asm"
 "th04/grcg_3.cpp" = "src/main/hardware/grcg3.cpp"
 "th04/boss_4m.cpp" = "src/main/midboss/m4_update.cpp"
+"th04/bullet_u.cpp" = "src/main/bullet/update.cpp"
 "th04/bullet_a.cpp" = "src/main/bullet/add.cpp"
 "th04/boss.cpp" = "src/main/boss/boss.cpp"
 
