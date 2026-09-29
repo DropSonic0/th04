@@ -14,10 +14,10 @@ python3 scripts/probes/probe_th04_native_main_manifest.py \
   --output .analysis/reconstruction/probes/native-main-link-manifest-v1021-20260929/manifest.json
 ```
 
-It reports 52/60 reference inputs mapped and eight unresolved historical
-owners: `tile.cpp`, `stages.cpp`, `snd_se_r.cpp`, `snd_se.cpp`, `it_spl_u.cpp`,
-`bullet_u.cpp`, `boss_4r.cpp`, and `boss_x2.cpp`. The local files all exist for
-the mapped entries, and the scaffold path is present. The result is therefore
+It reports 54/60 reference inputs mapped and six unresolved historical owners:
+`tile.cpp`, `stages.cpp`, `it_spl_u.cpp`, `bullet_u.cpp`, `boss_4r.cpp`, and
+`boss_x2.cpp`. The local files all exist for the mapped entries, and the
+scaffold path is present. The result is therefore
 `ready_for_native_link = false`; no linker or runtime claim is made.
 
 The fused classifications are deliberate: `f_dialog.cpp` + `dialog.cpp` use
@@ -35,13 +35,16 @@ historical input basename. This basename matters to TASM: `.code` derives the
 default segment name from the filename. The manifest therefore records two
 exact-unit build aliases (`th04/vectorfar.asm` and `th04/cdgpna.asm`) for
 maintained ASM owners whose historical Tupfile entries are named `.cpp`.
+The sound-effect routes now also have explicit local owners: `se_reset.cpp`
+for `th02/snd_se_r.cpp` and the checked-in `src/main/sound/se.cpp` physical
+composition for `th04/snd_se.cpp`.
 
 ```text
 python3 scripts/probes/probe_th04_native_main_compile_frontier.py \
   --output-dir .analysis/reconstruction/probes/native-main-compile-frontier-v1021f-20260929
 ```
 
-It produced 49 unique direct/fused owners and 49 valid OMF objects. In
+It produced 51 unique direct/fused owners and 51 valid OMF objects. In
 particular, `src/main/spark.asm` compiles as `th04/spark_a.asm`, so TASM emits
 the expected `SPARK_A_TEXT` segment without changing the maintained body. The
 receipt records `link_performed=false` and `runtime_performed=false`; this is

@@ -78,8 +78,6 @@ reference_sources = [
 unmapped = [
   "th04/tile.cpp",
   "th04/stages.cpp",
-  "th02/snd_se_r.cpp",
-  "th04/snd_se.cpp",
   "th04/it_spl_u.cpp",
   "th04/bullet_u.cpp",
   "th04/boss_4r.cpp",
@@ -117,6 +115,8 @@ unmapped = [
 "th04/vector.cpp" = "src/main/math/vector.cpp"
 "th04/snd_pmdr.c" = "src/shared/sound/pmd_resident.c"
 "th04/snd_mmdr.c" = "src/shared/sound/mmd_resident.c"
+"th02/snd_se_r.cpp" = "src/shared/sound/se_reset.cpp"
+"th04/snd_se.cpp" = "src/main/sound/se.cpp"
 "th04/snd_kaja.cpp" = "src/shared/sound/kaja_interrupt.cpp"
 "th04/snd_mode.cpp" = "src/shared/sound/determine_modes.cpp"
 "th04/snd_load.cpp" = "src/shared/sound/load.cpp"
