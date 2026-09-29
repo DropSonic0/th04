@@ -5,18 +5,18 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v993 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v993-splash-20260929/inventory.json`.
+The current v994 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v994b-decomp-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 18 | 36 |
+| `.h` / `.hpp` declarations | 17 | 33 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **55** | **73** |
+| **Total** | **54** | **70** |
 
-The heaviest remaining header edge is now `decomp.hpp`, followed by background
-surfaces. These names denote needed
+The heaviest remaining header edge is now `th04/main/bg.hpp`, followed by
+background and composite surfaces. These names denote needed
 declarations, not approval to reuse cross-game product headers.
 
 Eight maintained physical producers include `.cpp` fragments by historical
@@ -1132,6 +1132,38 @@ and `_item_splash_last_id`; their target placement, standalone MAIN placement,
 and PC-98 startup acceptance remain open. This is compiler-observed declaration
 closure and affected-unit revalidation, not splash DATA/BSS ownership or
 runtime exactness.
+
+## MAIN decomp helper closure
+
+The forty-second declaration/helper batch routes the historical decomp.hpp
+edge through src/main/include/decomp.hpp. The local surface preserves the
+bytewise wrapper template, REP MOVSW register-order helpers, compiler-layout
+barriers, port/emit helpers, and GAME=4 copy ordering used by
+boss.cpp, boss_prefix.inl, and gather.cpp. These are source-level compiler
+helpers; the header does not allocate resident or gameplay DATA/BSS.
+
+The v994 TC4J reference/local probe passes with semantic OMF SHA-256
+693393aab5fde7545dc19a53392082310bd3f0c70c132b77ff471d0c2526a2eb
+(receipt SHA-256
+dfe3f72c838c72f67ac7edf76c957e1ae9d64a689a02b0caad3becd3f49eefdd).
+The aggregate receipt
+gpt-5-6-sol-main-decomp-header-aggregate-078-20260929/receipt.json has
+SHA-256 626e225f075df6f9bf130abe4088cc414a1c9bf1f582f60fcee89daf74a13bbd
+and preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb.
+The gather.cpp owner remains raw/MAP/relocation exact at file 0x1529C,
+size 0x24B, GATHER_TEXT:0x000C, slice SHA-256
+761972f8f1e1b92d48a447515f17b904ace1f184485174ac07063f31c6646c1c; the
+boss.cpp owner remains exact at file 0x1F761, size 0x9B6,
+MAIN_035_TEXT:0xA4D1, slice SHA-256
+14ac3390b67ec8ee06b25669e9f8a62b9da07a9a82d96e100864a9fbe24cad1f.
+The tree rewrite stages seven decomp.hpp occurrences. Inventory v994 is
+54 missing paths / 70 references: 17 headers (33 references), 35 .cpp
+fragments, and two .inl fragments; only th04/dialog.cpp remains unmapped,
+and the next header edge is th04/main/bg.hpp. This is compiler-observed
+helper-surface closure and affected-unit revalidation, not target low-level
+ownership, standalone MAIN placement, or PC-98 startup acceptance.
 
 ## MAIN tile-BB header closure
 

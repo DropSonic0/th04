@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the forty-first MAIN declaration closure batch. This is the
+Updated 2026-09-29 after the forty-second MAIN declaration/helper closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -685,6 +685,30 @@ owns `_item_splashes_unused`, `_item_splashes`, and `_item_splash_last_id`, so
 splash DATA/BSS placement, standalone MAIN placement, and PC-98 startup remain
 open.
 
+The historical `decomp.hpp` path now resolves to the product-owned MAIN
+decompilation helper surface through `src/main/include/decomp.hpp`. The v994
+TC4J reference/local probe matches semantic OMF SHA-256
+`693393aab5fde7545dc19a53392082310bd3f0c70c132b77ff471d0c2526a2eb`
+(receipt SHA-256
+`dfe3f72c838c72f67ac7edf76c957e1ae9d64a689a02b0caad3becd3f49eefdd`).
+The v994 aggregate receipt
+`gpt-5-6-sol-main-decomp-header-aggregate-078-20260929/receipt.json` has
+SHA-256 `626e225f075df6f9bf130abe4088cc414a1c9bf1f582f60fcee89daf74a13bbd`
+and preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
+The `gather.cpp` owner remains raw/MAP/relocation exact at file `0x1529C`,
+size `0x24B`, `GATHER_TEXT:0x000C`, slice SHA-256
+`761972f8f1e1b92d48a447515f17b904ace1f184485174ac07063f31c6646c1c`; the
+`boss.cpp` owner remains exact at file `0x1F761`, size `0x9B6`,
+`MAIN_035_TEXT:0xA4D1`, slice SHA-256
+`14ac3390b67ec8ee06b25669e9f8a62b9da07a9a82d96e100864a9fbe24cad1f`.
+Inventory v994 is now 54 missing paths / 70 references: 17 headers (33
+references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped, and the next header edge is
+`th04/main/bg.hpp`. This closes the decomp helper surface only; low-level
+ownership, standalone MAIN placement, and PC-98 startup remain open.
+
 The historical `th04/main/drawp.hpp` path now resolves to the product-owned
 MAIN drawpoint declaration through `src/main/include/th04/main/drawp.hpp`,
 backed by `src/main/player/drawp.hpp`. The v983 TC4J reference/local probe
@@ -894,7 +918,7 @@ diagnostic reaches OP only. The [runtime preparation note](reconstruction/produc
 has the private HDI commands. Continue the normal OP-to-MAIN-to-MAINE route
 before making a runtime acceptance claim.
 
-Whole-game product closure still needs MAIN's 55 distinct unresolved quoted
+Whole-game product closure still needs MAIN's 54 distinct unresolved quoted
 include paths and remaining data/BSS owners, its standalone source manifest and
 link, and a combined candidate PC-98 scenario. OP, ZUN, and MAINE each have
 source-only native build paths; the MAIN build is the controlling blocker.
