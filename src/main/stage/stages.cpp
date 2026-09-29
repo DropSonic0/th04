@@ -8,7 +8,7 @@
 #include "th04/main/frames.h"
 #include "th04/main/null.hpp"
 #include "th04/main/scroll.hpp"
-#include "th04/main/boss/boss.hpp"
+#include "src/main/boss/boss.hpp"
 #include "th04/main/stage/stage.hpp"
 #include "th04/main/stage/stages.hpp"
 #include "th04/main/tile/tile.hpp"

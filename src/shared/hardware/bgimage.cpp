@@ -4,6 +4,7 @@
 
 
 #define FLAGS_ZERO (_FLAGS & 0x40)
+#include "decomp.hpp"
 #include "src/shared/hardware/bgimage.hpp"
 #include "src/shared/memory/hmem.hpp"
 
@@ -30,11 +31,11 @@ enum {
     push word ptr [bgimage.B]; \
 }
 
-#define bgimage_copy_plane() { \
-    _SI = 0; \
-    _DI = 0; \
-    _CX = (BGIMAGE_PLANE_SIZE / sizeof(unsigned long)); \
-    asm { rep movsd; } \
+inline void bgimage_copy_plane(void) {
+    _SI = 0;
+    _DI = 0;
+    _CX = (BGIMAGE_PLANE_SIZE / sizeof(unsigned long));
+    REP MOVSD;
 }
 
 void bgimage_snap(void)
@@ -70,14 +71,6 @@ void bgimage_put(void)
         _DL--;
     } while(!FLAGS_ZERO);
     asm { pop ds; }
-}
-
-// Both TH04 and TH05 place bgimage_free() at the next even SHARED offset.
-// Express the historical assembler alignment symbolically; do not emit a byte.
-asm {
-    SHARED segment byte public use16 'CODE';
-    even;
-    SHARED ends;
 }
 
 void bgimage_free(void)

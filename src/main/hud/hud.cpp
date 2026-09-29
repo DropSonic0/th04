@@ -9,7 +9,7 @@
 #include "th04/main/bullet/clearzap.hpp"
 #include "th04/main/rank.hpp"
 #include "th04/playchar.h"
-#include "hud.hpp"
+#include "th04/main/hud/hud.hpp"
 #pragma option -a2
 
 #define HUD_LEFT 56

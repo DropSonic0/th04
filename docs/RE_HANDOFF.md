@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the MAIN tile/stages source-closure batch. This is the
+Updated 2026-09-29 after the MAIN product-source compiler frontier. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -78,7 +78,39 @@ REP-STOSD producer and Stage 4 carpet/checkerboard low-level residuals remain
 separately classified. This remains compiler-only: no TLINK, MZ, or startup
 result is implied.
 
-The latest v1022 two-cold aggregate replay was rerun after this routing batch:
+The refreshed product-only source closure is recorded at
+`.analysis/reconstruction/probes/native-main-product-sources-v1025-20260929/receipt.json`
+(receipt SHA-256
+`3deba2f34c79d9c53f3d319963d17fee348f05741a592dc3465fbc7fe191c068`). It
+cold-compiles all 235 maintained C/C++ files under `src/main/` and
+`src/shared/` to valid TC4J OMF objects (`compile_pass=235`, `compile_fail=0`)
+using short DOS 8.3 aliases while retaining original paths and source hashes.
+This is product include/source evidence only; it does not assemble ASM, invoke
+TLINK, produce an MZ, or validate startup. The current quoted-include inventory
+also reports zero missing paths in
+`.analysis/reconstruction/probes/native-main-inventory-v1025-20260929/inventory.json`
+(SHA-256
+`eeb97c5285333fac1426885984d471fc4640a8ceca2110d1f2c6e9575f2adfe4`).
+
+The eight physical MAIN DATA/BSS owners now have a dedicated TASM frontier at
+`.analysis/reconstruction/probes/native-main-state-owners-v1025-20260929/receipt.json`
+(receipt SHA-256
+`48801b24a188977c3d213ef929ccf8b024806eb2df8465ac5d1324bcae1bb806`):
+`frame_state`, `quit_state`, `slowdown_state`, dialog `data`/`script_state`/
+`state`, and scroll `page_state`/`state` all assemble to valid OMF
+(`assemble_pass=8`). Their final DGROUP/BSS offsets, native MAIN link order,
+relocations, and startup behavior remain open.
+
+The four source repairs in this batch are compiler-closure changes only:
+product-local stage/CDG declarations, the product HUD header path, and a
+TC4J-compatible BGIMAGE `REP MOVSD` helper. They are not byte-equality claims;
+affected shared units must be cold-replayed before any exact promotion.
+
+The expanded v1022 two-cold aggregate replay was a historical scaffold check
+after the routing batch. Its private worktree was pruned during the 2026-09-29
+artifact cleanup; the old figures are not a live receipt and do not replace the
+native link/startup gate. Re-run the checked-in command below if that historical
+Oracle is needed again:
 
 ```text
 python3 scripts/replay_th04_main_exact_units.py \
@@ -86,9 +118,8 @@ python3 scripts/replay_th04_main_exact_units.py \
   --stage all
 ```
 
-The receipt at
-`.analysis/reconstruction/exact-unit-replay/gpt-5-6-sol-main-native-aggregate-v1022-20260929/receipt.json`
-passes all 275 selected units, and both cold candidates have SHA-256
+Before pruning, that historical replay reported all 275 selected units passing
+and both cold candidates had SHA-256
 `d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
 Independent MZ comparison still reports raw exactness false: the candidate is
 152,974 bytes versus the target's 156,258, with 6,224 raw differences and
