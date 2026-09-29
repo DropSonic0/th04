@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the fifty-ninth MAIN declaration/helper closure batch. This is the
+Updated 2026-09-29 after the sixtieth MAIN dialog storage ownership batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -1126,6 +1126,22 @@ LOOP remains outside those exact extents and blocked. Inventory v1011 is now
 only `th04/dialog.cpp` remains unmapped. This closes the final declaration-header
 edge and affected-fragment revalidation only; checkerboard state DATA/BSS,
 standalone MAIN placement, and PC-98 startup remain open.
+
+The v1012 dialog storage batch adds maintained `src/main/dialog/data.asm` and
+`src/main/dialog/state.asm` owners plus the product-local state header. The
+reference `_BOX_TILES` DATA owner is 0x18 bytes; the pinned target contains the
+same unique slice at file `0x243B2`, SHA-256
+`b77ac7b9bf6ea78369d179285fd8059812f932f3d422c28f839565c0c820e32`. The state
+owner exports `_std_update`, `_dialog_p`, `_dialog_cursor`, and `_dialog_side`
+as a 0x0C-byte BSS block. Two fresh TC4J/TASM/TLINK/DOS probes pass
+`DIALOG_STORAGE_PASS` with semantic OMF SHA-256 values
+`5d9db78ea4325461a6b0f7c4d87590d145276d69a33319d23c2d6641d4c722ba` (state)
+and `5039e1a05805c523954eb200604c580b6231c511ba44176a291ab29c50381e32`
+(data), and identical linked MZ SHA-256
+`b09e7481937d1d4bada63edc3f07aa070aada14a8ab878b90e9a9ce2b3f431a2`.
+This is source-present/runtime-observed isolated storage evidence only: target
+BSS offsets, the physical `th04/dialog.cpp` composition, standalone MAIN
+placement, and PC-98 startup remain open.
 
 Inventory v996 is now 52 missing paths / 64 references: 15 headers (27
 references), 35 `.cpp` fragments, and two `.inl` fragments; only

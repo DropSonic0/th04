@@ -8,6 +8,10 @@ Replay the inventory with
 The current v1011 read-only result is retained at
 `.analysis/reconstruction/probes/native-main-inventory-v1011-checkerb-20260929/inventory.json`.
 
+The v1012 dialog storage batch below is a bounded DATA/BSS ownership addition;
+it does not change the v1011 source-closure count or claim a standalone MAIN
+link.
+
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
 | `.h` / `.hpp` declarations | 0 | 0 |
@@ -1489,6 +1493,33 @@ references: 35 `.cpp` fragments and two `.inl` fragments; only
 declaration closure and affected-fragment revalidation, not checkerboard state
 DATA/BSS placement, full function exactness, standalone MAIN placement, or
 PC-98 startup acceptance.
+
+## MAIN dialog DATA/BSS owner closure
+
+The reference dialog storage surface is now represented by two artifact-local
+TASM owners. `src/main/dialog/data.asm` exports `_BOX_TILES` as a 0x18-byte
+`_DATA` contribution, while `src/main/dialog/state.asm` exports
+`_std_update`, `_dialog_p`, `_dialog_cursor`, and `_dialog_side` in a 0x0C-byte
+`_BSS` contribution. `src/main/dialog/state.hpp` and its product include
+wrapper preserve the two-word GAME=4 cursor and forced 16-bit side enum without
+allocating a second copy in the existing dialog producer.
+
+The pinned TH04 MAIN contains the unique `_BOX_TILES` byte slice at file
+`0x243B2` (DGROUP `_DATA` offset `0x1872`), SHA-256
+`b77ac7b9bf6ea78369d179285fd8059812f932f3d422c28f839565c0c820e32`; the
+maintained DATA object emits the same 24 bytes. The v1012 probe compiles a
+TC4J consumer, validates both TASM OMF producers, links the objects with TLINK,
+and runs the resulting DOS program. Two fresh directories pass
+`DIALOG_STORAGE_PASS`, with stable semantic OMF SHA-256 values
+`5d9db78ea4325461a6b0f7c4d87590d145276d69a33319d23c2d6641d4c722ba` (state)
+and `5039e1a05805c523954eb200604c580b6231c511ba44176a291ab29c50381e32`
+(data), and identical linked MZ SHA-256
+`b09e7481937d1d4bada63edc3f07aa070aada14a8ab878b90e9a9ce2b3f431a2`.
+
+This closes a source-present storage surface only. The isolated BSS probe does
+not attest target BSS ordering/offsets, and the remaining physical
+`th04/dialog.cpp` composition, native MAIN link manifest, standalone placement,
+and PC-98 startup remain open.
 
 ## MAIN stage-bonus header closure
 
