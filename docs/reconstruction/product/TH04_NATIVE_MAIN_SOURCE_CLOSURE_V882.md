@@ -5,18 +5,18 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v990 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v990-20260929/inventory.json`.
+The current v991 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v991-end-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 21 | 48 |
+| `.h` / `.hpp` declarations | 20 | 44 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **58** | **85** |
+| **Total** | **57** | **81** |
 
-The heaviest remaining header edge is now `th04/end/end.h` (4 references),
-followed by std and splash surfaces. These names denote needed
+The heaviest remaining header edge is now `th04/formats/std.hpp` (4 references),
+followed by splash and decomp surfaces. These names denote needed
 declarations, not approval to reuse cross-game product headers.
 
 Eight maintained physical producers include `.cpp` fragments by historical
@@ -1035,6 +1035,37 @@ references), 35 `.cpp` fragments, and two `.inl` fragments; only
 `th04/end/end.h`. This is compiler-observed declaration closure and
 affected-unit revalidation, not score-table DATA/BSS ownership, standalone
 MAIN placement, or PC-98 startup acceptance.
+
+## MAIN end-sequence header closure
+
+The thirty-ninth declaration batch routes the historical
+`th04/end/end.h` edge through `src/main/include/th04/end/end.h`, backed by
+the product-owned `src/main/end/end.hpp`. The local surface preserves
+`end_sequence_t` and the five pinned enum values only; it does not allocate
+resident or ending-state DATA/BSS.
+
+The v991 TC4J reference/local probe passes with semantic OMF SHA-256
+`4933f81c01f4248c19809488c4fd9ca89cfcd58a6f2b646ac7b152ab0c046693`
+(receipt SHA-256
+`0806879008b6fa40621755fca2cb01d752c9f8cc16f748baf5dab3655fb8684c`).
+The aggregate receipt
+`gpt-5-6-sol-main-end-header-aggregate-075-20260929/receipt.json` has
+SHA-256 `186171fe1bbd712df330e4fee53c3467bfe6112520de3140cf4468c75190a21d`
+and preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
+The `th04/endmain.cpp` owner remains raw/MAP/relocation exact at file
+`0xCFB9`, size `0x7C`, `END_TEXT:0x0CC9`, slice SHA-256
+`0cc7e7f846ffba45efc6d49668da80370b4b12acc1752b20daa14f3d045afcbb`.
+Inventory v991 is 57 missing paths / 81 references: 20 headers (44
+references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped, and the next header edge is
+`th04/formats/std.hpp`. A focused replay attempt stops before compilation
+because the existing tile-BB rewrite has no occurrence in the minimal unit
+tree; it receives no exact credit. This is compiler-observed declaration
+closure and affected-unit revalidation, not ending control-flow or
+resident DATA/BSS ownership, standalone MAIN placement, or PC-98 startup
+acceptance.
 
 ## MAIN tile-BB header closure
 

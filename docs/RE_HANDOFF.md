@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the thirty-eighth MAIN declaration closure batch. This is the
+Updated 2026-09-29 after the thirty-ninth MAIN declaration closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -605,6 +605,33 @@ edge is `th04/end/end.h` (4 references). This closes the hiscore declaration
 edge only; score-table DATA/BSS ownership, standalone MAIN placement, and
 PC-98 startup remain open.
 
+The historical `th04/end/end.h` path now resolves to the product-owned
+end-sequence API through `src/main/include/th04/end/end.h`, backed by
+`src/main/end/end.hpp`. The local surface preserves `end_sequence_t` and
+the five pinned enum values without adding resident or ending-state storage.
+The v991 TC4J reference/local probe matches semantic OMF SHA-256
+`4933f81c01f4248c19809488c4fd9ca89cfcd58a6f2b646ac7b152ab0c046693`
+(receipt SHA-256
+`0806879008b6fa40621755fca2cb01d752c9f8cc16f748baf5dab3655fb8684c`).
+The v991 aggregate receipt
+`gpt-5-6-sol-main-end-header-aggregate-075-20260929/receipt.json` has
+SHA-256 `186171fe1bbd712df330e4fee53c3467bfe6112520de3140cf4468c75190a21d`
+and preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
+The `th04/endmain.cpp` owner remains raw/MAP/relocation exact at file
+`0xCFB9`, size `0x7C`, `END_TEXT:0x0CC9`, slice SHA-256
+`0cc7e7f846ffba45efc6d49668da80370b4b12acc1752b20daa14f3d045afcbb`.
+Inventory v991 is now 57 missing paths / 81 references: 20 headers (44
+references), 35 `.cpp` fragments, and two `.inl` fragments; the next header
+edge is `th04/formats/std.hpp` (4 references), and `th04/dialog.cpp`
+remains unmapped. This closes the end-sequence declaration edge only;
+resident/ending DATA/BSS ownership, standalone MAIN placement, and PC-98
+startup remain open. A focused replay attempt stopped before compilation
+because the existing tile-BB rewrite has no occurrence in the minimal unit
+tree; it receives no exact credit, while the aggregate is the acceptance
+replay.
+
 The historical `th04/main/drawp.hpp` path now resolves to the product-owned
 MAIN drawpoint declaration through `src/main/include/th04/main/drawp.hpp`,
 backed by `src/main/player/drawp.hpp`. The v983 TC4J reference/local probe
@@ -814,7 +841,7 @@ diagnostic reaches OP only. The [runtime preparation note](reconstruction/produc
 has the private HDI commands. Continue the normal OP-to-MAIN-to-MAINE route
 before making a runtime acceptance claim.
 
-Whole-game product closure still needs MAIN's 58 distinct unresolved quoted
+Whole-game product closure still needs MAIN's 57 distinct unresolved quoted
 include paths and remaining data/BSS owners, its standalone source manifest and
 link, and a combined candidate PC-98 scenario. OP, ZUN, and MAINE each have
 source-only native build paths; the MAIN build is the controlling blocker.
