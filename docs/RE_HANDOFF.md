@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the forty-ninth MAIN declaration/helper closure batch. This is the
+Updated 2026-09-29 after the fifty-fifth MAIN declaration/helper closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -1008,6 +1008,30 @@ Inventory v1006 is now 42 missing paths / 42 references: 5 headers,
 35 `.cpp` fragments, and two `.inl` fragments; only `th04/dialog.cpp` remains
 unmapped, and the next header edge is `th04/hardware/inputvar.h`. This closes
 pellet-render declarations and affected-owner revalidation only; pellet DATA/BSS
+ownership, standalone MAIN placement, and PC-98 startup remain open.
+
+The historical `th04/hardware/inputvar.h` path now resolves through the
+product wrapper `src/main/include/th04/hardware/inputvar.h`, backed by the
+existing artifact-local `src/main/hardware/input.hpp`. The v1007 TC4J GAME=4
+reference/local probe matches semantic OMF SHA-256
+`74e1141bfa3cf13cb4bbd85f5b4856a7e73dd8abc1185c66e9197273d67ac0f9`
+(receipt SHA-256
+`9c9e0b0d7e9ede4e4d1a7b4585c91c343c0b62b64a17d548ff306be33770ae7a`).
+The v1007 aggregate receipt
+`gpt-5-6-sol-main-inputvar-header-aggregate-094-20260929/receipt.json` has
+SHA-256
+`db83bd0a5c0141708cd49b03a348be739d217f3b44a0ce8bc541c22952210891` and
+preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb` while
+staging one inputvar wrapper rewrite. The `th04/demo.cpp` owner remains
+raw/MAP/relocation exact at file `0xCBEE`, size `0x9A`, `DEMO_TEXT:0x08FE`,
+slice SHA-256
+`b87d9f4e21d2b60129d1f1dea010f1c46eb7982efb0b7bed54c6be454112d740`.
+Inventory v1007 is now 41 missing paths / 41 references: 4 headers,
+35 `.cpp` fragments, and two `.inl` fragments; only `th04/dialog.cpp` remains
+unmapped, and the next header edge is `th04/main/demo.hpp`. This closes the
+inputvar declaration path and affected-owner revalidation only; input DATA/BSS
 ownership, standalone MAIN placement, and PC-98 startup remain open.
 
 Inventory v996 is now 52 missing paths / 64 references: 15 headers (27

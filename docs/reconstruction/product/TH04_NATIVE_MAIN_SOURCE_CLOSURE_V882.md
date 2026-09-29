@@ -5,17 +5,17 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v1006 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v1006-pellet-r-20260929/inventory.json`.
+The current v1007 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v1007-inputvar-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 5 | 5 |
+| `.h` / `.hpp` declarations | 4 | 4 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **42** | **42** |
+| **Total** | **41** | **41** |
 
-The next remaining header edge is now `th04/hardware/inputvar.h`, followed
+The next remaining header edge is now `th04/main/demo.hpp`, followed
 by the remaining declaration and composite surfaces. These names denote needed
 declarations, not approval to reuse cross-game product headers.
 
@@ -1329,6 +1329,38 @@ Inventory v1006 is now 42 missing paths / 42 references: 5 headers,
 unmapped, and the next header edge is `th04/hardware/inputvar.h`. This is
 compiler-observed pellet-render declaration closure and affected-owner
 revalidation, not pellet DATA/BSS placement, standalone MAIN placement, or
+PC-98 startup acceptance.
+
+## MAIN inputvar header closure
+
+The fifty-fifth declaration batch routes the historical
+`th04/hardware/inputvar.h` edge through
+`src/main/include/th04/hardware/inputvar.h`, backed by the existing
+artifact-local `src/main/hardware/input.hpp`. The wrapper preserves the
+`input_t`/`input_replay_t` widths, replay and movement constants, and
+`key_det`/`shiftkey` declarations consumed by the maintained demo owner without
+creating a second input declaration surface.
+
+The v1007 TC4J GAME=4 reference/local probe passes with semantic OMF SHA-256
+`74e1141bfa3cf13cb4bbd85f5b4856a7e73dd8abc1185c66e9197273d67ac0f9`
+(receipt SHA-256
+`9c9e0b0d7e9ede4e4d1a7b4585c91c343c0b62b64a17d548ff306be33770ae7a`).
+The v1007 aggregate receipt
+`gpt-5-6-sol-main-inputvar-header-aggregate-094-20260929/receipt.json` has
+SHA-256
+`db83bd0a5c0141708cd49b03a348be739d217f3b44a0ce8bc541c22952210891` and
+preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb` while
+staging one inputvar wrapper occurrence. The `th04/demo.cpp` owner remains
+raw/MAP/relocation exact at file `0xCBEE`, size `0x9A`, `DEMO_TEXT:0x08FE`,
+slice SHA-256
+`b87d9f4e21d2b60129d1f1dea010f1c46eb7982efb0b7bed54c6be454112d740`.
+Inventory v1007 is now 41 missing paths / 41 references: 4 headers,
+35 `.cpp` fragments, and two `.inl` fragments; only `th04/dialog.cpp` remains
+unmapped, and the next header edge is `th04/main/demo.hpp`. This is
+compiler-observed inputvar declaration closure and affected-owner
+revalidation, not input DATA/BSS placement, standalone MAIN placement, or
 PC-98 startup acceptance.
 
 ## MAIN stage-bonus header closure
