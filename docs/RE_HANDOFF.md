@@ -209,8 +209,8 @@ native OP has transferred control to `MAIN.EXE`. This does not establish
 original MAIN or MAINE execution. The strict shared CDG loader still gives
 raw-zero decoded modules and matching relocations for both OP and MAINE in
 two cold replay links. See the native OP note for receipts and limits. MAIN has no
-standalone build yet: its maintained sources still have 49 missing quoted
-include paths: 12 declaration headers (18 references), 35 composite `.cpp`
+standalone build yet: its maintained sources still have 48 missing quoted
+include paths: 11 declaration headers (15 references), 35 composite `.cpp`
 fragments, and two `.inl` fragments. See the
 [MAIN source-closure note](reconstruction/product/TH04_NATIVE_MAIN_SOURCE_CLOSURE_V882.md)
 for the eight affected composite producers and missing data/BSS owners.
@@ -824,6 +824,31 @@ references), 35 `.cpp` fragments, and two `.inl` fragments; only
 `th04/dialog.cpp` remains unmapped, and the next header edge is
 `th04/gaiji/gaiji.h`. This closes point-number declarations and layout only;
 point-number DATA/BSS ownership, standalone MAIN placement, and PC-98 startup
+remain open.
+
+The historical `th04/gaiji/gaiji.h` path now resolves to the product-owned
+MAIN gaiji declarations through `src/main/include/th04/gaiji/gaiji.h`, backed
+by `src/main/gaiji/gaiji.hpp`. The v1000 TC4J GAME=4 reference/local probe
+matches semantic OMF SHA-256
+`cd969c8c32739af59b7951643a934f4c4efad6702093604668ee529bc9b23fac`
+(receipt SHA-256
+`387a6b466ffbe2af17fb9dc3419b51f2e56f9e14702a57102bef21d14f16ce91`).
+Consolidating `overlay.hpp` onto this gaiji type leaves the affected overlay
+probe semantic-OMF identical at
+`a26b77bd8663d61c764d0288110cd97b82c7a46614a0fdf3722ce00456dd793c`
+(receipt SHA-256
+`7e4cf6b9ee8da7471c50cb7851f5c4442577e8a5a2e14d5191165cd3a5649e3b`).
+The v1000 aggregate receipt
+`gpt-5-6-sol-main-gaiji-header-aggregate-084-20260929/receipt.json` has
+SHA-256 `a00c9dc8338922ee16cf9df0f8cd66ed26a2d584fa01ad39e462df66ee96d58b`
+and preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
+Inventory v1000 is now 48 missing paths / 52 references: 11 headers (15
+references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped, and the next header edge is
+`th04/main/end.hpp`. This closes gaiji enum/macro declarations only; gaiji
+string DATA/BSS ownership, standalone MAIN placement, and PC-98 startup
 remain open.
 
 Inventory v996 is now 52 missing paths / 64 references: 15 headers (27

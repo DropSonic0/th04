@@ -4,76 +4,7 @@
 #include "src/shared/platform/pc98.hpp"
 #include "src/shared/platform/types.hpp"
 
-// This is the TH04 subset of the gaiji table used by the overlay producer.
-// Keeping the enum here makes the overlay translation unit independent from
-// the still-unlocalized th04/gaiji/gaiji.h include used by other MAIN owners.
-#ifndef TH04_MAIN_OVERLAY_GAIJI_TYPES_HPP
-#define TH04_MAIN_OVERLAY_GAIJI_TYPES_HPP
-
-#define TH04_MAIN_OVERLAY_GAIJI_BARS \
-	g_BAR_01W = 0x20, g_BAR_02W, g_BAR_03W, g_BAR_04W, \
-	g_BAR_05W, g_BAR_06W, g_BAR_07W, g_BAR_08W, \
-	g_BAR_09W, g_BAR_10W, g_BAR_11W, g_BAR_12W, \
-	g_BAR_13W, g_BAR_14W, g_BAR_15W, g_BAR_16W
-
-#define TH04_MAIN_OVERLAY_GAIJI_BOLDFONT \
-	gb_0 = 0xA0, gb_1, gb_2, gb_3, gb_4, gb_5, gb_6, gb_7, \
-	gb_8, gb_9, gb_A, gb_B, gb_C, gb_D, gb_E, gb_F, \
-	gb_G, gb_H, gb_I, gb_J, gb_K, gb_L, gb_M, gb_N, \
-	gb_O, gb_P, gb_Q, gb_R, gb_S, gb_T, gb_U, gb_V, \
-	gb_W, gb_X, gb_Y, gb_Z
-
-#define TH04_MAIN_OVERLAY_GAIJI_SYMBOLS \
-	gs_HEART = 0xC9, gs_SKULL, gs_GHOST, gs_SIDDHAM_HAM, \
-	gs_SPACE, gs_ARROW_LEFT, gs_ARROW_RIGHT
-
-typedef enum {
-	g_NULL = 0x00,
-	g_EMPTY = 0x02,
-	gs_NOTES,
-
-	gs_HEART_2 = 0x06,
-	gs_EXCLAMATION,
-	gs_QUESTION,
-	gs_SWEAT,
-	gs_DOUBLE_EXCLAMATION,
-	gs_EXCLAMATION_QUESTION,
-
-	TH04_MAIN_OVERLAY_GAIJI_BARS,
-
-	g_BAR_MAX_0,
-	g_BAR_MAX_1,
-	g_BAR_MAX_2,
-	g_BAR_MAX_3,
-	g_BAR_MAX_4,
-	g_BAR_MAX_5,
-	g_BAR_MAX_6,
-	g_BAR_MAX_7,
-
-	g_OVERLAY_FADE,
-	g_OVERLAY_FADE_last = (g_OVERLAY_FADE + 8 - 1),
-	TH04_MAIN_OVERLAY_GAIJI_BOLDFONT,
-	gs_DOT = 0xC4,
-	TH04_MAIN_OVERLAY_GAIJI_SYMBOLS,
-	gs_BOMB = 0xD3,
-	gs_YINYANG,
-	gs_END,
-	gs_TEN = 0xE6,
-	gs_YUME,
-	gs_TAMA,
-	gs_ALL,
-	g_HISCORE_STAGE_EMPTY = 0xEF,
-	g_NONE = 0xFF,
-} gaiji_th04_t;
-
-#undef TH04_MAIN_OVERLAY_GAIJI_BARS
-#undef TH04_MAIN_OVERLAY_GAIJI_BOLDFONT
-#undef TH04_MAIN_OVERLAY_GAIJI_SYMBOLS
-
-#define OVERLAY_FADE_CELS 8
-#define RETURN_KEY_CELS 4u
-
-#endif
+#include "src/main/gaiji/gaiji.hpp"
 
 // The pinned TH04 overlay header normally gets these from shiftjis.hpp. Keep
 // the narrow scalar aliases local until that common header is localized.

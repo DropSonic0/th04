@@ -5,17 +5,17 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v999 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v999-pointnum-20260929/inventory.json`.
+The current v1000 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v1000-gaiji-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 12 | 18 |
+| `.h` / `.hpp` declarations | 11 | 15 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **49** | **55** |
+| **Total** | **48** | **52** |
 
-The next remaining header edge is now `th04/gaiji/gaiji.h`, followed
+The next remaining header edge is now `th04/main/end.hpp`, followed
 by the remaining declaration and composite surfaces. These names denote needed
 declarations, not approval to reuse cross-game product headers.
 
@@ -1197,6 +1197,37 @@ owns the callback words beside tile invalidation state. This is
 compiler-observed callback declaration closure, not BSS ownership, standalone
 MAIN placement, or PC-98 startup acceptance.
 
+## MAIN gaiji header closure
+
+The forty-eighth declaration/macro batch routes the historical
+`th04/gaiji/gaiji.h` edge through `src/main/include/th04/gaiji/gaiji.h`,
+backed by the artifact-local `src/main/gaiji/gaiji.hpp`. The local surface
+preserves the shared TH02 bar, bold-font, and symbol expansion macros, the
+complete GAME=4 `gaiji_th04_t` enum, and the fade/return constants. The HUD,
+ranking, and stage-bonus consumers now share this table with overlay.hpp;
+gaiji string DATA/BSS remains separately owned and is not allocated here.
+
+The v1000 TC4J GAME=4 reference/local probe passes with semantic OMF SHA-256
+`cd969c8c32739af59b7951643a934f4c4efad6702093604668ee529bc9b23fac`
+(receipt SHA-256
+`387a6b466ffbe2af17fb9dc3419b51f2e56f9e14702a57102bef21d14f16ce91`).
+After consolidating overlay.hpp onto the same gaiji type, its affected probe
+remains semantic-OMF identical at
+`a26b77bd8663d61c764d0288110cd97b82c7a46614a0fdf3722ce00456dd793c`
+(receipt SHA-256
+`7e4cf6b9ee8da7471c50cb7851f5c4442577e8a5a2e14d5191165cd3a5649e3b`).
+The v1000 aggregate receipt
+`gpt-5-6-sol-main-gaiji-header-aggregate-084-20260929/receipt.json` has
+SHA-256 `a00c9dc8338922ee16cf9df0f8cd66ed26a2d584fa01ad39e462df66ee96d58b`
+and preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
+Inventory v1000 is now 48 missing paths / 52 references: 11 headers (15
+references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped, and the next header edge is
+`th04/main/end.hpp`. This is compiler-observed enum/macro closure, not gaiji
+DATA/BSS ownership, standalone MAIN placement, or PC-98 startup acceptance.
+
 ## MAIN point-number header closure
 
 The forty-seventh declaration/layout batch routes the historical
@@ -1232,8 +1263,9 @@ The forty-sixth declaration/helper batch routes the historical
 `src/main/include/th04/main/hud/overlay.hpp`, backed by the artifact-local
 `src/main/hud/overlay.hpp`. The local surface preserves the near overlay
 callbacks, fade constants, popup enum/entry points, title callbacks, and the
-inherited text-RAM fill macros. It also carries the gaiji enum needed by the
-existing overlay producer, but allocates no overlay or gaiji DATA/BSS.
+inherited text-RAM fill macros. Its gaiji enum is now supplied by the shared
+artifact-local gaiji header, and the overlay header allocates no overlay or
+gaiji DATA/BSS.
 
 The v998 TC4J GAME=4 reference/local probe passes with semantic OMF SHA-256
 `a26b77bd8663d61c764d0288110cd97b82c7a46614a0fdf3722ce00456dd793c`
