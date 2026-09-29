@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the thirty-fifth MAIN declaration closure batch. This is the
+Updated 2026-09-29 after the thirty-sixth MAIN declaration closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -530,6 +530,33 @@ two `.inl` fragments; the next header edge is `th04/main/playperf.hpp`
 (4 references). This closes the BB tile declaration edge only; animation
 storage/DATA/BSS ownership, standalone MAIN placement, and PC-98 startup
 remain open.
+
+The historical `th04/main/playperf.hpp` path now resolves to the product-owned
+MAIN playperf API through `src/main/include/th04/main/playperf.hpp`, backed by
+`src/main/playperf.hpp`. The local surface preserves the unsigned-byte
+`playperf`/`playperf_max` state, signed-byte `playperf_min`, and the default
+large-model Pascal `playperf_raise` / `playperf_lower` declarations without
+allocating their storage. The v988 TC4J reference/local probe matches semantic
+OMF SHA-256
+`2c8fb2d94fca2a62edb0b2c110fcb7cba9f82a13339c8e95a31d07087a2b0e7b`
+(receipt SHA-256
+`ce5e82c6d543f59da072390820230405b6d93d5383e665773a9c15b73ca25aa9`).
+The focused `th04-main-enemy-script-dispatch-v328` replay proves the 0x690-byte
+`th04/escript.cpp` owner at file 0x16DDD / B4M_UPDATE_TEXT:0x1B4D, slice
+SHA-256 `b38e0b210ee7e7d2abb08056d1bbb97396466925acc988de42a06bd67a4ea100`,
+with raw bytes, MAP placement, and relocations exact in two cold builds. Its
+receipt SHA-256 is
+`8e6826cb1a48af003292b285a4e97179dcea893185ee637752465e13eccd1c05`.
+The v988 aggregate receipt
+`gpt-5-6-sol-main-playperf-header-aggregate-067-20260929/receipt.json` has
+SHA-256 `219264ff348da1fcfebfb5ce3dd32252eef6584ae746be22b3d6f90bfde6b1a7`
+and preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256 `d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`;
+four playperf rewrites are staged per build. Inventory v988 is now 61 missing
+paths / 94 references: 24 headers (57 references), 35 `.cpp` fragments, and
+two `.inl` fragments; the next header edge is `th04/main/ems.hpp`
+(4 references). This closes the playperf declaration edge only; playperf
+DATA/BSS ownership, standalone MAIN placement, and PC-98 startup remain open.
 
 The historical `th04/main/drawp.hpp` path now resolves to the product-owned
 MAIN drawpoint declaration through `src/main/include/th04/main/drawp.hpp`,

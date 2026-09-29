@@ -5,18 +5,18 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v987 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v987-20260929/inventory.json`.
+The current v988 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v988-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 25 | 61 |
+| `.h` / `.hpp` declarations | 24 | 57 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **62** | **98** |
+| **Total** | **61** | **94** |
 
-The heaviest remaining header edge is now `th04/main/playperf.hpp` (4 references),
-followed by EMS, hiscore, end, std, and splash surfaces. These names denote needed
+The heaviest remaining header edge is now `th04/main/ems.hpp` (4 references),
+followed by hiscore, end, std, and splash surfaces. These names denote needed
 declarations, not approval to reuse cross-game product headers.
 
 Eight maintained physical producers include `.cpp` fragments by historical
@@ -939,6 +939,40 @@ header keeps the historical `PLANAR_H` guard because the root-level rewrite
 also reaches legacy scaffold consumers. This is compiler-observed declaration
 closure and affected-unit revalidation, not target DATA/BSS ownership,
 standalone MAIN placement, or PC-98 startup acceptance.
+
+## MAIN playperf header closure
+
+The thirty-sixth declaration batch routes the historical
+`th04/main/playperf.hpp` edge through
+`src/main/include/th04/main/playperf.hpp`, backed by the semantic MAIN-local
+`src/main/playperf.hpp`. The local surface preserves the unsigned-byte
+`playperf`/`playperf_max` state, signed-byte `playperf_min`, and the default
+large-model Pascal `playperf_raise` / `playperf_lower` declarations. Existing
+`src/main/playperf.asm` remains the code owner; this header does not allocate
+the playperf DATA/BSS state.
+
+The v988 TC4J reference/local probe passes with semantic OMF SHA-256
+`2c8fb2d94fca2a62edb0b2c110fcb7cba9f82a13339c8e95a31d07087a2b0e7b`
+(receipt SHA-256
+`ce5e82c6d543f59da072390820230405b6d93d5383e665773a9c15b73ca25aa9`).
+The focused `th04-main-enemy-script-dispatch-v328` replay proves the 0x690-byte
+`th04/escript.cpp` owner at file 0x16DDD / B4M_UPDATE_TEXT:0x1B4D, slice
+SHA-256 `b38e0b210ee7e7d2abb08056d1bbb97396466925acc988de42a06bd67a4ea100`,
+with raw bytes, MAP placement, and relocations exact in two cold builds. Its
+focused receipt SHA-256 is
+`8e6826cb1a48af003292b285a4e97179dcea893185ee637752465e13eccd1c05`.
+The aggregate receipt
+`gpt-5-6-sol-main-playperf-header-aggregate-067-20260929/receipt.json` has
+SHA-256 `219264ff348da1fcfebfb5ce3dd32252eef6584ae746be22b3d6f90bfde6b1a7`
+and preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`;
+four playperf rewrite occurrences are staged per build. Inventory v988 is 61
+missing paths / 94 references: 24 headers (57 references), 35 `.cpp` fragments,
+and two `.inl` fragments; only `th04/dialog.cpp` remains unmapped. This is
+compiler-observed declaration closure and affected-unit revalidation, not
+playperf DATA/BSS ownership, standalone MAIN placement, or PC-98 startup
+acceptance.
 
 ## MAIN tile-BB header closure
 
