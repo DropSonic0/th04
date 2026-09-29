@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the forty-second MAIN declaration/helper closure batch. This is the
+Updated 2026-09-29 after the forty-third MAIN declaration/helper closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -209,8 +209,8 @@ native OP has transferred control to `MAIN.EXE`. This does not establish
 original MAIN or MAINE execution. The strict shared CDG loader still gives
 raw-zero decoded modules and matching relocations for both OP and MAINE in
 two cold replay links. See the native OP note for receipts and limits. MAIN has no
-standalone build yet: its maintained sources refer to 73 missing quoted
-include paths: 36 declarations (117 references), 35 composite `.cpp`
+standalone build yet: its maintained sources still have 53 missing quoted
+include paths: 16 declaration headers (30 references), 35 composite `.cpp`
 fragments, and two `.inl` fragments. See the
 [MAIN source-closure note](reconstruction/product/TH04_NATIVE_MAIN_SOURCE_CLOSURE_V882.md)
 for the eight affected composite producers and missing data/BSS owners.
@@ -708,6 +708,33 @@ references), 35 `.cpp` fragments, and two `.inl` fragments; only
 `th04/dialog.cpp` remains unmapped, and the next header edge is
 `th04/main/bg.hpp`. This closes the decomp helper surface only; low-level
 ownership, standalone MAIN placement, and PC-98 startup remain open.
+
+The historical `th04/main/bg.hpp` path now resolves to the product-owned MAIN
+background callback declarations through `src/main/include/th04/main/bg.hpp`,
+backed by `src/main/bg.hpp`. The v995 TC4J reference/local probe matches
+semantic OMF SHA-256
+`5ae107e4e7593f62c024f04c52740f6fa0858711718451334c22355692ab34ee`
+(receipt SHA-256
+`f749fc960491c0ae6782d79d4a37830579fd65727c49b729190f3b99d01ad93a`).
+The v995 aggregate receipt
+`gpt-5-6-sol-main-bg-header-aggregate-079-20260929/receipt.json` has
+SHA-256 `1e86bfc8aa06ef636f8272eaa4134937e3efa09dc262391f4d2ea78bf0d19bb3`
+and preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
+The `boss.cpp` owner remains raw/MAP/relocation exact at file `0x1F761`,
+size `0x9B6`, `MAIN_035_TEXT:0xA4D1`, slice SHA-256
+`14ac3390b67ec8ee06b25669e9f8a62b9da07a9a82d96e100864a9fbe24cad1f`; the
+`bomb.cpp` owner remains exact at file `0x11734`, size `0x3D9`,
+`MAIN__TEXT:0x5444`, slice SHA-256
+`354fe2369fbbb605d8b1e7deea259afd64470f1d15927e8a66c6c4c0b220f640`.
+Inventory v995 is now 53 missing paths / 67 references: 16 headers (30
+references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped, and the next header edge is
+`th04/main/dialog/dialog.hpp`. This closes the callback declaration surface
+only. The reference `th04/main/tile/inv[bss].asm` still owns the callback
+words adjacent to tile invalidation state, so BSS ownership, standalone MAIN
+placement, and PC-98 startup remain open.
 
 The historical `th04/main/drawp.hpp` path now resolves to the product-owned
 MAIN drawpoint declaration through `src/main/include/th04/main/drawp.hpp`,

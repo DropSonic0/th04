@@ -5,18 +5,18 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v994 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v994b-decomp-20260929/inventory.json`.
+The current v995 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v995-bg-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 17 | 33 |
+| `.h` / `.hpp` declarations | 16 | 30 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **54** | **70** |
+| **Total** | **53** | **67** |
 
-The heaviest remaining header edge is now `th04/main/bg.hpp`, followed by
-background and composite surfaces. These names denote needed
+The next remaining header edge is now `th04/main/dialog/dialog.hpp`, followed
+by the remaining declaration and composite surfaces. These names denote needed
 declarations, not approval to reuse cross-game product headers.
 
 Eight maintained physical producers include `.cpp` fragments by historical
@@ -28,7 +28,7 @@ Related function bodies already exist as separate maintained `src/main`
 translation units, but their composition and near-call segment ownership must
 be reconciled before adding them to a native MAIN link manifest. Compiling
 both a composite and its included child as objects would duplicate publics.
-The local ReC98 reference has files at all 22 remaining missing header paths, but only
+The local ReC98 reference has files at all 16 remaining missing header paths, but only
 two of the 35 missing `.cpp` paths and neither missing `.inl` path. This is a
 source-location observation, not evidence that those headers are ready for a
 TH04-owned product build. The existing maintained function bodies must be
@@ -1164,6 +1164,38 @@ fragments, and two .inl fragments; only th04/dialog.cpp remains unmapped,
 and the next header edge is th04/main/bg.hpp. This is compiler-observed
 helper-surface closure and affected-unit revalidation, not target low-level
 ownership, standalone MAIN placement, or PC-98 startup acceptance.
+
+## MAIN background callback header closure
+
+The forty-third declaration batch routes the historical th04/main/bg.hpp edge
+through src/main/include/th04/main/bg.hpp, backed by src/main/bg.hpp. The local
+surface preserves the three nearfunc_t_near callback declarations
+(bg_render_not_bombing, bg_render_bombing, and bg_render_bombing_func) and
+remains declaration-only; it allocates no background or tile state.
+
+The v995 TC4J reference/local probe passes with semantic OMF SHA-256
+5ae107e4e7593f62c024f04c52740f6fa0858711718451334c22355692ab34ee
+(receipt SHA-256
+f749fc960491c0ae6782d79d4a37830579fd65727c49b729190f3b99d01ad93a).
+The aggregate receipt
+gpt-5-6-sol-main-bg-header-aggregate-079-20260929/receipt.json has
+SHA-256 1e86bfc8aa06ef636f8272eaa4134937e3efa09dc262391f4d2ea78bf0d19bb3
+and preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb.
+The boss.cpp owner remains raw/MAP/relocation exact at file 0x1F761, size
+0x9B6, MAIN_035_TEXT:0xA4D1, slice SHA-256
+14ac3390b67ec8ee06b25669e9f8a62b9da07a9a82d96e100864a9fbe24cad1f; the
+bomb.cpp owner remains exact at file 0x11734, size 0x3D9, MAIN__TEXT:0x5444,
+slice SHA-256
+354fe2369fbbb605d8b1e7deea259afd64470f1d15927e8a66c6c4c0b220f640.
+The v995 inventory is 53 missing paths / 67 references: 16 headers
+(30 references), 35 .cpp fragments, and two .inl fragments; only
+th04/dialog.cpp remains unmapped, and the next header edge is
+th04/main/dialog/dialog.hpp. The reference th04/main/tile/inv[bss].asm still
+owns the callback words beside tile invalidation state. This is
+compiler-observed callback declaration closure, not BSS ownership, standalone
+MAIN placement, or PC-98 startup acceptance.
 
 ## MAIN tile-BB header closure
 
