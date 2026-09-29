@@ -45,6 +45,17 @@ decoded-acceptance ledgers. None of these gives a packed-file byte denominator
 or whole-artifact exactness.
 Original-ASM observations are outside the authored C/C++ counts.
 
+The native MAIN link frontier is now frozen in
+`config/native_main_sources.toml`. The pinned Tupfile order has 60 historical
+inputs; the manifest checker maps 52 to maintained direct or fused physical
+owners and keeps eight routing umbrellas explicitly unresolved. Its current
+receipt is
+`.analysis/reconstruction/probes/native-main-link-manifest-v1021-20260929/manifest.json`.
+This is a control-plane result only: `ready_for_native_link` is false because
+the unresolved inputs still need physical code/data owners, and the historical
+`th04_main.asm` remains scaffold-only. No standalone MAIN link or startup claim
+is made from this manifest.
+
 OP and MAINE now both have closed authored-function queues; MAINE canonical v835 passes all 72/72 accepted slices raw-zero. v821 closes OP `scoredat_decode` and `scoredat_encode`
 with maintained hybrid source: all control/data flow stays C++, while the
 single 8-bit ROR primitive is independently corroborated by pre-decompilation

@@ -1,0 +1,150 @@
+schema_version = 1
+artifact = "th04-main"
+
+# This is the native MAIN link order from the pinned ReC98 Tupfile. It is a
+# routing manifest, not a claim that every historical input already has a
+# maintained physical owner. The checker reports the unresolved owner set
+# before any compiler or linker is run.
+reference_build_file = "_reference/ReC98/Tupfile.lua"
+reference_link_label = "th04:branch(MODEL_LARGE, { cflags = \"-DBINARY='M'\" }):link(\"main\", {"
+scaffold_sources = ["_reference/ReC98/th04_main.asm"]
+
+reference_sources = [
+  "th04/slowdown.cpp",
+  "th04/demo.cpp",
+  "th04/ems.cpp",
+  "th04/tile_set.cpp",
+  "th04/std.cpp",
+  "th04/circle.cpp",
+  "th04/tile.cpp",
+  "th04/playfld.cpp",
+  "th04/midboss4.cpp",
+  "th04/f_dialog.cpp",
+  "th04/dialog.cpp",
+  "th04/boss_exp.cpp",
+  "th04/stages.cpp",
+  "th04/player_m.cpp",
+  "th04/player_p.cpp",
+  "th04/scoreupd.asm",
+  "th04/hud_ovrl.cpp",
+  "th04/cfg_lres.cpp",
+  "th04/checkerb.cpp",
+  "th04/mb_inv.cpp",
+  "th04/boss_bd.cpp",
+  "th04/score_rm.cpp",
+  "th01/vplanset.cpp",
+  "th03/vector.cpp",
+  "th02/frmdely1.cpp",
+  "th03/hfliplut.asm",
+  "th04/mpn_free.cpp",
+  "th04/input_w.cpp",
+  "th04/mpn_l_i.cpp",
+  "th04/vector.cpp",
+  "th04/snd_pmdr.c",
+  "th04/snd_mmdr.c",
+  "th04/snd_kaja.cpp",
+  "th04/snd_mode.cpp",
+  "th04/snd_load.cpp",
+  "th04/cdg_put.asm",
+  "th04/exit.cpp",
+  "th04/initmain.cpp",
+  "th04/cdg_p_na.cpp",
+  "th04/cdg_p_pr.asm",
+  "th04/input_s.asm",
+  "th02/snd_se_r.cpp",
+  "th04/snd_se.cpp",
+  "th04/cdg_load.asm",
+  "th04/gather.cpp",
+  "th04/scrolly3.cpp",
+  "th04/motion_3.asm",
+  "th04/midboss.cpp",
+  "th04/hud_hp.cpp",
+  "th04/mb_dft.cpp",
+  "th04/vector2n.asm",
+  "th04/spark_a.asm",
+  "th04/grcg_3.cpp",
+  "th04/it_spl_u.cpp",
+  "th04/boss_4m.cpp",
+  "th04/bullet_u.cpp",
+  "th04/bullet_a.cpp",
+  "th04/boss.cpp",
+  "th04/boss_4r.cpp",
+  "th04/boss_x2.cpp",
+]
+
+# Historical routing umbrellas whose code/data is split across maintained
+# fragments, or whose target storage is still scaffold-owned. They stay
+# explicit so a future native linker cannot silently omit them.
+unmapped = [
+  "th04/tile.cpp",
+  "th04/stages.cpp",
+  "th02/snd_se_r.cpp",
+  "th04/snd_se.cpp",
+  "th04/it_spl_u.cpp",
+  "th04/bullet_u.cpp",
+  "th04/boss_4r.cpp",
+  "th04/boss_x2.cpp",
+]
+
+# Direct local physical owners. A source may be a replacement ASM owner when
+# the maintained unit deliberately preserves an original-style implementation.
+[direct_owners]
+"th04/slowdown.cpp" = "src/main/slowdown.cpp"
+"th04/demo.cpp" = "src/main/demo.cpp"
+"th04/ems.cpp" = "src/main/ems.cpp"
+"th04/tile_set.cpp" = "src/main/tile/set.cpp"
+"th04/std.cpp" = "src/main/stage/std.cpp"
+"th04/circle.cpp" = "src/main/circle.cpp"
+"th04/playfld.cpp" = "src/main/playfield.cpp"
+"th04/midboss4.cpp" = "src/main/midboss/m4.cpp"
+"th04/boss_exp.cpp" = "src/main/boss/explode.cpp"
+"th04/player_m.cpp" = "src/main/player/move.cpp"
+"th04/player_p.cpp" = "src/main/player/player.cpp"
+"th04/scoreupd.asm" = "src/main/score/update.asm"
+"th04/hud_ovrl.cpp" = "src/main/hud/overlay.cpp"
+"th04/cfg_lres.cpp" = "src/main/config/load_resident_ptr.cpp"
+"th04/checkerb.cpp" = "src/main/stage/checkerboard.cpp"
+"th04/mb_inv.cpp" = "src/main/midboss/invalidate.cpp"
+"th04/boss_bd.cpp" = "src/main/boss/backdrop.cpp"
+"th04/score_rm.cpp" = "src/main/score/ranking.cpp"
+"th01/vplanset.cpp" = "src/shared/hardware/vram_planes.cpp"
+"th03/vector.cpp" = "src/main/math/vector_far.asm"
+"th02/frmdely1.cpp" = "src/shared/hardware/frame_delay.cpp"
+"th03/hfliplut.asm" = "src/shared/hardware/hflip_lut.asm"
+"th04/mpn_free.cpp" = "src/main/formats/mpn_free.cpp"
+"th04/input_w.cpp" = "src/main/hardware/input_wait.cpp"
+"th04/mpn_l_i.cpp" = "src/main/formats/mpn_load.cpp"
+"th04/vector.cpp" = "src/main/math/vector.cpp"
+"th04/snd_pmdr.c" = "src/shared/sound/pmd_resident.c"
+"th04/snd_mmdr.c" = "src/shared/sound/mmd_resident.c"
+"th04/snd_kaja.cpp" = "src/shared/sound/kaja_interrupt.cpp"
+"th04/snd_mode.cpp" = "src/shared/sound/determine_modes.cpp"
+"th04/snd_load.cpp" = "src/shared/sound/load.cpp"
+"th04/cdg_put.asm" = "src/shared/formats/cdg_put.asm"
+"th04/exit.cpp" = "src/main/core/exit.cpp"
+"th04/initmain.cpp" = "src/main/core/init.cpp"
+"th04/cdg_p_na.cpp" = "src/shared/formats/cdg_put_noalpha_8.asm"
+"th04/cdg_p_pr.asm" = "src/main/formats/cdg_put_plane_roll.asm"
+"th04/input_s.asm" = "src/shared/hardware/input_s.asm"
+"th04/cdg_load.asm" = "src/shared/formats/cdg_load.asm"
+"th04/gather.cpp" = "src/main/gather.cpp"
+"th04/scrolly3.cpp" = "src/main/scroll/scroll_subpixel_y.cpp"
+"th04/motion_3.asm" = "src/main/math/motion.asm"
+"th04/vector2n.asm" = "src/main/math/vector2.asm"
+"th04/spark_a.asm" = "src/main/spark.asm"
+"th04/grcg_3.cpp" = "src/main/hardware/grcg3.cpp"
+"th04/boss_4m.cpp" = "src/main/midboss/m4_update.cpp"
+"th04/bullet_a.cpp" = "src/main/bullet/add.cpp"
+"th04/boss.cpp" = "src/main/boss/boss.cpp"
+
+# Two historical dialog modules are one maintained physical producer. The
+# midboss family has the same source-level fusion for its contiguous helpers.
+[fused_owners]
+"th04/f_dialog.cpp" = { physical_id = "main-dialog", local = "src/main/dialog/fused.cpp" }
+"th04/dialog.cpp" = { physical_id = "main-dialog", local = "src/main/dialog/fused.cpp" }
+"th04/midboss.cpp" = { physical_id = "main-midboss", local = "src/main/midboss/midboss.cpp" }
+"th04/hud_hp.cpp" = { physical_id = "main-midboss", local = "src/main/midboss/midboss.cpp" }
+"th04/mb_dft.cpp" = { physical_id = "main-midboss", local = "src/main/midboss/midboss.cpp" }
+
+[scaffold_only]
+"th04_main.asm" = "_reference/ReC98/th04_main.asm"
