@@ -241,6 +241,13 @@ local_header = "src/main/formats/std.hpp"
 minimum_count = 1
 
 [[scaffold_tree_include_rewrites]]
+id = "th04-main-item-splash-api-local"
+tree_root = "th04"
+old_include = "th04/main/item/splash.hpp"
+local_header = "src/main/item/splash.hpp"
+minimum_count = 1
+
+[[scaffold_tree_include_rewrites]]
 id = "th04-player-bomb-api-local"
 tree_root = "th04"
 old_include = "th04/main/player/bomb.hpp"

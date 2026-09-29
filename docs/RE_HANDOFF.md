@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the fortieth MAIN declaration closure batch. This is the
+Updated 2026-09-29 after the forty-first MAIN declaration closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -660,6 +660,31 @@ only; stage DATA/BSS ownership, loader contents, standalone MAIN placement,
 and PC-98 startup remain open. The existing independent legacy declarations
 in `tile_ring_update.cpp` require a separate ownership/type reconciliation.
 
+The historical `th04/main/item/splash.hpp` path now resolves to the product-owned
+MAIN item-splash declarations through `src/main/include/th04/main/item/splash.hpp`,
+backed by the existing `src/main/item/splash.hpp`. The v993 TC4J reference/local
+probe matches semantic OMF SHA-256
+`1acf41339bc13ce5ca328ecd620bcc90cd7600bee4bb3478c65e83c1dc3a3d5a`
+(receipt SHA-256
+`64a55d63ac0726d35ac1c30cadf4785cd97cc7587f75afb79aa6658de8ac2b8c`).
+The v993 aggregate receipt
+`gpt-5-6-sol-main-splash-header-aggregate-077-20260929/receipt.json` has
+SHA-256 `c31cee89b1b5756e34ac2e702b6bb08030113857c7009dfc65858bd02323060b`
+and preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
+The `items_invalidate` owner remains raw/MAP/relocation exact at file `0xD8FC`,
+size `0x4B`, `CIRCLE_TEXT:0x160C`, slice SHA-256
+`4c138c62ef87c53e2da2b73c6c8eaeb79c6eac59f41559982c578a9d191dfee7`; the
+`item_splashes_render`, `item_splashes_init`, and `items_update` owners also
+remain exact. Inventory v993 is now 55 missing paths / 73 references: 18
+headers (36 references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped, and the next header edge is `decomp.hpp`.
+This closes the item-splash declaration edge only. The reference BSS slice still
+owns `_item_splashes_unused`, `_item_splashes`, and `_item_splash_last_id`, so
+splash DATA/BSS placement, standalone MAIN placement, and PC-98 startup remain
+open.
+
 The historical `th04/main/drawp.hpp` path now resolves to the product-owned
 MAIN drawpoint declaration through `src/main/include/th04/main/drawp.hpp`,
 backed by `src/main/player/drawp.hpp`. The v983 TC4J reference/local probe
@@ -869,7 +894,7 @@ diagnostic reaches OP only. The [runtime preparation note](reconstruction/produc
 has the private HDI commands. Continue the normal OP-to-MAIN-to-MAINE route
 before making a runtime acceptance claim.
 
-Whole-game product closure still needs MAIN's 56 distinct unresolved quoted
+Whole-game product closure still needs MAIN's 55 distinct unresolved quoted
 include paths and remaining data/BSS owners, its standalone source manifest and
 link, and a combined candidate PC-98 scenario. OP, ZUN, and MAINE each have
 source-only native build paths; the MAIN build is the controlling blocker.

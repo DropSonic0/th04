@@ -5,18 +5,18 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v992 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v992-std-20260929/inventory.json`.
+The current v993 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v993-splash-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 19 | 40 |
+| `.h` / `.hpp` declarations | 18 | 36 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **56** | **77** |
+| **Total** | **55** | **73** |
 
-The heaviest remaining header edge is now `th04/main/item/splash.hpp` (4 references),
-followed by decomp and background surfaces. These names denote needed
+The heaviest remaining header edge is now `decomp.hpp`, followed by background
+surfaces. These names denote needed
 declarations, not approval to reuse cross-game product headers.
 
 Eight maintained physical producers include `.cpp` fragments by historical
@@ -1099,6 +1099,39 @@ remain exact. Inventory v992 is 56 missing paths / 77 references: 19 headers
 This is compiler-observed declaration closure and affected-unit revalidation,
 not stage DATA/BSS ownership, loader contents, standalone MAIN placement, or
 PC-98 startup acceptance.
+
+## MAIN item-splash header closure
+
+The forty-first declaration batch routes the historical
+`th04/main/item/splash.hpp` edge through
+`src/main/include/th04/main/item/splash.hpp`, backed by the existing
+product-owned `src/main/item/splash.hpp`. The local surface preserves
+`item_splash_t`, the eight-entry splash array, the GAME=4 dot count, and the
+fastcall/near/Pascal entry declarations. It declares the item-splash interface
+only; it does not allocate the splash DATA/BSS state.
+
+The v993 TC4J reference/local probe passes with semantic OMF SHA-256
+`1acf41339bc13ce5ca328ecd620bcc90cd7600bee4bb3478c65e83c1dc3a3d5a`
+(receipt SHA-256
+`64a55d63ac0726d35ac1c30cadf4785cd97cc7587f75afb79aa6658de8ac2b8c`).
+The aggregate receipt
+`gpt-5-6-sol-main-splash-header-aggregate-077-20260929/receipt.json` has
+SHA-256 `c31cee89b1b5756e34ac2e702b6bb08030113857c7009dfc65858bd02323060b`
+and preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
+The `items_invalidate` owner remains raw/MAP/relocation exact at file `0xD8FC`,
+size `0x4B`, `CIRCLE_TEXT:0x160C`, slice SHA-256
+`4c138c62ef87c53e2da2b73c6c8eaeb79c6eac59f41559982c578a9d191dfee7`; the
+`item_splashes_render`, `item_splashes_init`, and `items_update` owners also
+remain exact. Inventory v993 is 55 missing paths / 73 references: 18 headers
+(36 references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped, and the next header edge is `decomp.hpp`.
+The reference BSS slice still owns `_item_splashes_unused`, `_item_splashes`,
+and `_item_splash_last_id`; their target placement, standalone MAIN placement,
+and PC-98 startup acceptance remain open. This is compiler-observed declaration
+closure and affected-unit revalidation, not splash DATA/BSS ownership or
+runtime exactness.
 
 ## MAIN tile-BB header closure
 
