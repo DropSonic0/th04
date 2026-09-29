@@ -4,9 +4,36 @@
 ; EVEN byte between them belongs to this physical source owner but is not part
 ; of either logical function body.
 
+.386
+.model use16 large
+locals
+
+RES_Y = 400
+ROW_SIZE = 80
+PLANE_SIZE = 32000
+PELLET_H = 8
 PELLET_TOP_H = 6
 PELLET_BOTTOM_H = 4
 PELLET_BOTTOM_Y = (PELLET_H - PELLET_BOTTOM_H)
+
+pellet_render_t struc
+    PRT_left dw ?
+    PRT_top dw ?
+pellet_render_t ends
+PRB_vram_offset equ 0
+PRB_sprite_offset equ 2
+
+extrn _pellets_render_count:word
+extrn _pellets_render:byte
+extrn _sPELLET:word
+extrn _sPELLET_BOTTOM:word
+
+B4M_UPDATE_TEXT segment word public 'CODE' use16
+B4M_UPDATE_TEXT ends
+main_03 group B4M_UPDATE_TEXT
+
+B4M_UPDATE_TEXT segment word public 'CODE' use16
+assume cs:main_03
 
 public _pellets_render_top
 _pellets_render_top proc near
@@ -83,8 +110,8 @@ _pellets_render_top proc near
 
 @@set_bottom_data:
 	add	ax, offset _sPELLET_BOTTOM
-	mov	[bx+pellet_render_t.PRB_vram_offset], di
-	mov	[bx+pellet_render_t.PRB_sprite_offset], ax
+	mov	word ptr [bx+PRB_vram_offset], di
+	mov	word ptr [bx+PRB_sprite_offset], ax
 	add	bx, size pellet_render_t
 	dec	bp
 	jnz	short @@pellet_loop
@@ -112,8 +139,8 @@ _pellets_render_bottom proc near
 	mov	bx, offset _pellets_render
 
 @@pellet_loop:
-	mov	di, [bx+pellet_render_t.PRB_vram_offset]
-	mov	si, [bx+pellet_render_t.PRB_sprite_offset]
+	mov	di, word ptr [bx+PRB_vram_offset]
+	mov	si, word ptr [bx+PRB_sprite_offset]
 	xor	@@rows_after_roll, @@rows_after_roll
 	cmp	di, ((RES_Y - PELLET_BOTTOM_H - 1) * ROW_SIZE)
 	jnb	short @@roll_needed
@@ -170,3 +197,5 @@ _pellets_render_bottom proc near
 	pop	bp
 	retn
 _pellets_render_bottom endp
+B4M_UPDATE_TEXT ends
+end

@@ -2,14 +2,31 @@
 	.model use16 large SHARED
 	locals
 
-include pc98.inc
-include th03/formats/cdg.inc
+	ROW_SIZE = 80
+	PLANE_SIZE = 32000
+	CDG_SLOT_COUNT = 64
 
-	extrn _cdg_slots:cdg_t:CDG_SLOT_COUNT
+	cdg_t struc
+	CDG_plane_size dw ?
+	pixel_w dw ?
+	pixel_h dw ?
+	offset_at_bottom_left dw ?
+	vram_dword_w dw ?
+	image_count db ?
+	plane_layout db ?
+	seg_alpha dw ?
+	seg_colors dw ?
+	cdg_t ends
+
+	extrn _cdg_slots:byte
 
 	.code SHARED
 
 public @CDG_PUT_PLANE_ROLL_8$QIII12VRAM_PLANE_TURUC
+public CDG_PUT_PLANE_ROLL_8
+; The C declaration uses the undecorated C name.  Both labels must be real
+; PUBDEFs; an EQU alias is not exported by TASM's OMF writer.
+CDG_PUT_PLANE_ROLL_8 label far
 @cdg_put_plane_roll_8$qiii12vram_plane_turuc proc far
 	; (PASCAL calling convention, parameter list needs to be reversed here)
 	arg @@plane_dst:word, @@plane_src_id:word, @@slot:word, @@top:word, @@left:word
@@ -24,7 +41,11 @@ public @CDG_PUT_PLANE_ROLL_8$QIII12VRAM_PLANE_TURUC
 	mov	ax, @@plane_dst
 	mov	es, ax
 
-	cdg_slot_offset	si, @@slot
+	mov	si, offset _cdg_slots
+	mov	ax, @@slot
+	mov	bx, size cdg_t
+	mul	bx
+	add	si, ax
 
 	mov	di, @@left
 	sar	di, 3

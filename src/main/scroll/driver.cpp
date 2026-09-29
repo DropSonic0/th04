@@ -14,14 +14,14 @@ extern unsigned char scroll_subpixel_line;
 extern unsigned char scroll_speed;
 extern "C" unsigned char byte_25104;
 
-extern void pascal far graph_scrollup(int line);
-extern "C" void near sub_B835();
+extern "C" void pascal far graph_scrollup(unsigned line);
+extern void near scroll_tile_ring_update(void);
 
 void near scroll_driver()
 {
     scroll_line_on_page[page_back] = scroll_line;
     if(byte_250FE && scroll_active) {
-        graph_scrollup(scroll_line);
+        graph_scrollup(static_cast<unsigned>(scroll_line));
     }
 
     scroll_last_delta = 0;
@@ -40,5 +40,5 @@ void near scroll_driver()
         _AX <<= 4;
         scroll_last_delta = _AX;
     }
-    sub_B835();
+    scroll_tile_ring_update();
 }

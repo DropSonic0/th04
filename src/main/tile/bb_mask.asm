@@ -6,6 +6,49 @@
 ; records evidence-backed irreducible/original-style symbolic assembly without
 ; embedding target bytes.
 
+.386
+.model use16 large
+locals
+
+GRAM_400 = 0A800h
+RES_Y = 400
+PLAYFIELD_LEFT = 32
+PLAYFIELD_TOP = 16
+PLAYFIELD_W = 384
+PLAYFIELD_H = 368
+PLAYFIELD_BOTTOM = (PLAYFIELD_TOP + PLAYFIELD_H)
+TILE_W = 16
+TILE_H = 16
+TILES_X = 24
+GC_TDW = 80h
+
+Point struc
+	x dw ?
+	y dw ?
+Point ends
+
+extrn _tiles_bb_col:byte
+extrn _tiles_bb_seg:word
+extrn _bb_boss_seg:word
+extrn _tile_invalidate_box:byte
+extrn _scroll_active:byte
+extrn _scroll_line:word
+extrn @grcg_tile_bb_put_8:near
+TILES_INVALIDATE_AROUND procdesc pascal near center:dword
+GRCG_SETCOLOR procdesc pascal far mode:word, col:word
+
+GRCG_OFF_CLOBBERING macro reg:req
+	xor	al, al
+	mov	reg, 7Ch
+	out	reg, al
+endm
+
+CIRCLE_TEXT segment word public 'CODE' use16
+CIRCLE_TEXT ends
+main_01 group CIRCLE_TEXT
+CIRCLE_TEXT segment word public 'CODE' use16
+assume cs:main_01
+
 public @TILES_BB_PUT_RAW$QI
 @tiles_bb_put_raw$qi proc near
 bb_top = word ptr -6
@@ -20,7 +63,8 @@ bb_off equ <di>
 	push	GC_TDW
 	mov	al, _tiles_bb_col
 	mov	ah, 0
-	call	grcg_setcolor pascal, ax
+	push	ax
+	call	GRCG_SETCOLOR
 	mov	ax, _tiles_bb_seg
 	mov	bb_seg, ax
 	mov	bb_off, [bp+cel]
@@ -79,7 +123,7 @@ inv_seg equ <fs>
 inv_off equ <di>
 	enter	6, 0
 	push	di
-	mov	_tile_invalidate_box, (2 shl 16) or 2
+	mov	dword ptr _tile_invalidate_box, (2 shl 16) or 2
 	; Preserve the target's boss-segment read rather than substituting _tiles_bb_seg.
 	mov	ax, _bb_boss_seg
 	mov	inv_seg, ax
@@ -114,3 +158,5 @@ inv_row_next:
 	leave
 	retn	2
 @tiles_bb_invalidate_raw$qi endp
+CIRCLE_TEXT ends
+end

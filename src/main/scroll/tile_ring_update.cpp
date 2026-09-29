@@ -22,7 +22,7 @@ extern unsigned int tile_ring[][32];
 
 extern void near egc_start_copy_noframe();
 extern "C" void near sub_BAEE();
-extern void far egc_off();
+extern "C" void pascal far egc_off(void);
 
 void near scroll_tile_ring_update()
 {

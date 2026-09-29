@@ -56,6 +56,13 @@ SOURCE_EXCLUSIONS = {
     "src/shared/hardware/input_wait.cpp",
     "src/shared/math/vector.cpp",
 }
+# MAIN's large-model support library already owns the near `_TEXT` GRCG
+# entry points consumed by its `superzom`/`supercln` modules.  The maintained
+# far display-control owner is still used by OP/MAINE, but linking it here
+# shadows masters.lib and creates unavoidable near-call fixup overflows.
+ASM_EXCLUSIONS = {
+    "src/shared/hardware/display_control.asm",
+}
 FLAGS = (
     "-c", "-I.", "-Isrc/main/include", "-O", "-b-", "-3", "-Z", "-d",
     "-DGAME=4", "-DTH04P", "-ml", "-DBINARY='M'",
@@ -176,6 +183,7 @@ def asm_sources() -> list[Path]:
     return sorted(
         source for root in SOURCE_ROOTS for source in root.rglob("*.asm")
         if source.is_file()
+        and source.relative_to(ROOT).as_posix() not in ASM_EXCLUSIONS
     )
 
 
@@ -439,6 +447,7 @@ def main() -> int:
         "root_count": len(roots),
         "included_cpp_count": len(included),
         "source_exclusions": sorted(SOURCE_EXCLUSIONS),
+        "assembly_exclusions": sorted(ASM_EXCLUSIONS),
         "roots_compile_pass": len(valid_cpp),
         "roots_compile_fail": len(root_records) - len(valid_cpp),
         "state_count": len(STATE_SOURCES),

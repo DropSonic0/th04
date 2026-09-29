@@ -33,3 +33,31 @@ warnings as evidence of runtime readiness.
 The private v1027/v1028 object trees were pruned after the receipt and ledger
 updates; the checked-in probe is the replay input, while the receipt is the
 durable frontier summary.
+
+## v1061 frontier (2026-09-30)
+
+The same pinned probe now cold-compiles all 192/192 physical C/C++ roots,
+assembles all 8/8 state owners and all 125/125 remaining ASM sources. Receipt
+SHA-256: `c109296633fcafd6922395dcdb228f1a672b0fbd45d1d9a5d1d181ba1d974730`.
+The command was:
+
+```text
+python3 scripts/probes/probe_th04_native_main_link.py \
+  --output-dir .analysis/reconstruction/probes/native-main-link-v1061-20260930
+```
+
+TLINK still exits 1, but the previous segment/fixup frontier is closed:
+`duplicates=0`, `group_overflows=0`, and `fixup_overflows=0`. The four and only
+remaining unresolved owners are generated sprite resources:
+`_sPELLET`, `_sPELLET_BOTTOM`, `_sPOINTNUMS`, and `_sSPARKS`. Historical Tupfile
+routing identifies these as `bmp2arr` outputs from TH02/TH04 BMP inputs; the
+product tree has no checked-in asset owner, so no target-derived byte array is
+introduced. The receipt's partial MZ is 188,169 bytes with 1,163 relocations;
+it remains a link diagnostic, not a complete MAIN build or startup result.
+
+The MAIN probe explicitly excludes the portable far display-control owner
+`src/shared/hardware/display_control.asm` so masters.lib's near `_TEXT` GRCG
+entry points remain authoritative. `super_cancel_pat` is placed in `_TEXT`
+inside the portable BFNT owner to satisfy masters.lib's same-segment near call;
+the rest of that owner remains SHARED. These are link-routing observations,
+not exact-promotion claims.

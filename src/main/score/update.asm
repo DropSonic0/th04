@@ -1,11 +1,15 @@
 	.386
+	.model use16 large
 	locals
 
-include libs/master.lib/master.inc
-include th02/main/hud/hud.inc
-include th04/main/hud/overlay.inc
-include th02/score.inc
-include th02/gaiji/boldfont.inc
+SCORE_DIGITS = 8
+HUD_LEFT = 56
+GB_DIGITS = 0A0h
+TX_WHITE = 0E1h
+POPUP_ID_HISCORE_ENTRY = 0
+
+GAIJI_PUTSA procdesc pascal far \
+	x:word, y:word, strp_seg:word, strp_off:word, atrb:word
 
 SCORE_DIGIT_HIGHEST = SCORE_DIGITS - 1
 ; Also ignoring the last digit. (= 61,110 points)

@@ -8,12 +8,31 @@
 
 .386
 .model use16 large _TEXT
-include ReC98.inc
-include th04/th04.inc
-include th01/math/subpixel.inc
-include th04/main/tile/tile.inc
 
-TILES_MEMORY_X = 512 / TILE_W
+RES_Y = 400
+RES_X = 640
+ROW_SIZE = 80
+PLANE_SIZE = 32000
+GRAM_400 = 0A800h
+PLAYFIELD_LEFT = 32
+PLAYFIELD_TOP = 16
+PLAYFIELD_W = 384
+PLAYFIELD_H = 368
+PLAYFIELD_VRAM_LEFT = 4
+TILE_W = 16
+TILE_H = 16
+TILE_VRAM_W = 2
+TILES_X = 24
+TILES_Y = 25
+TILES_MEMORY_X = 32
+TILE_FLAG_H = 8
+TILE_FLAGS_Y = 50
+TILE_ROWS_PER_SECTION = 5
+
+Point struc
+	x dw ?
+	y dw ?
+Point ends
 
 extrn _tile_invalidate_box:Point
 extrn _invalidate_left_x_tile:word
@@ -26,12 +45,18 @@ extrn _std_seg:word
 extrn _map_seg:word
 extrn _TILE_SECTION_OFFSETS:word
 extrn _scroll_line:word
-extrn byte_25104:byte
-extrn word_25105:word
-extrn word_25107:word
-extrn word_25109:word
+extrn _byte_25104:byte
 extrn @egc_start_copy_noframe$qv:near
 extrn EGC_OFF:far
+
+_BSS segment word public 'BSS' use16
+word_25105 dw ?
+word_25107 dw ?
+word_25109 dw ?
+_BSS ends
+DGROUP group _BSS
+
+TILES_MEMORY_X = 512 / TILE_W
 
 CIRCLE_TEXT segment word public 'CODE' use16
 CIRCLE_TEXT ends
@@ -39,22 +64,27 @@ main_01 group CIRCLE_TEXT
 
 CIRCLE_TEXT segment word public 'CODE' use16
 assume cs:main_01
-public sub_BAEE
+assume ds:DGROUP
+public sub_BAEE, _sub_BAEE
+; C linkage spells this entry with a leading underscore.  An EQU does not
+; emit a second OMF PUBDEF, so keep two labels at the same code offset.
 ; void pascal near tiles_invalidate_around(Point center);
 public TILES_INVALIDATE_AROUND
 tiles_invalidate_around proc near
-arg_bx	near, @center:dword
+	mov	bx, sp
+	@center_x equ <word ptr ss:[bx+2]>
+	@center_y equ <word ptr ss:[bx+4]>
 
 	mov	dx, _tile_invalidate_box.x
 	shr	dx, 1
-	mov	ax, @center.x
+	mov	ax, @center_x
 	sar	ax, 4
 	sub	ax, dx
 	cmp	ax, PLAYFIELD_W
 	jl	short @@left_edge_left_of_playfield?
 
 @@outside_playfield:
-	ret_bx
+		ret	4
 ; ---------------------------------------------------------------------------
 
 @@left_edge_left_of_playfield?:
@@ -78,7 +108,7 @@ arg_bx	near, @center:dword
 	mov	cx, ax	; CX = number of horizontal tiles to invalidate
 	mov	dx, _tile_invalidate_box.y
 	sar	dx, 1
-	mov	ax, @center.y
+	mov	ax, @center_y
 	sar	ax, 4
 	add	ax, TILE_H
 	sub	ax, dx
@@ -146,7 +176,7 @@ arg_bx	near, @center:dword
 	jg	short @@set_nowrap
 	pop	di
 	pop	si
-	ret_bx
+	ret	4
 tiles_invalidate_around endp
 public TILES_FILL_INITIAL
 tiles_fill_initial	proc near
@@ -212,6 +242,7 @@ tiles_fill_initial	endp
 ; =============== S U B	R O U T	I N E =======================================
 
 
+_sub_BAEE label near
 sub_BAEE	proc near
 		push	bp
 		push	si
@@ -241,7 +272,7 @@ sub_BAEE	proc near
 		add	dx, cx
 		mov	word_25105, dx
 		xor	ch, ch
-		mov	cl, byte_25104
+		mov	cl, _byte_25104
 		mov	bh, bl
 		add	bl, cl
 		cmp	bl, 10h

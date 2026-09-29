@@ -5,6 +5,23 @@
 ; STOSD/LOOP. Defined natural TC4J dword-store loops expand those mechanisms,
 ; so keep this shared low-level producer as symbolic original-style assembly.
 
+	.386
+	.model use16 large
+	locals
+
+GRAM_400 = 0A800h
+ROW_SIZE = 80
+PLAYFIELD_TOP = 16
+PLAYFIELD_VRAM_LEFT = 4
+PLAYFIELD_VRAM_W = 40
+
+CIRCLE_TEXT segment word public 'CODE' use16
+CIRCLE_TEXT ends
+main_01 group CIRCLE_TEXT
+
+CIRCLE_TEXT segment word public 'CODE' use16
+assume cs:main_01
+
 public @REIMU_MARISA_BACKDROP_COLORFILL$QV
 public @MAI_YUKI_BACKDROP_COLORFILL$QV
 label @mai_yuki_backdrop_colorfill$qv near
@@ -42,3 +59,6 @@ label @mai_yuki_backdrop_colorfill$qv near
     retn
 @reimu_marisa_backdrop_colorfill$qv endp
     even
+
+CIRCLE_TEXT ends
+end

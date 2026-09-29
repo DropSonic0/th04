@@ -6,15 +6,53 @@
 
 .386
 .model use16 large _TEXT
-include ReC98.inc
-include th04/th04.inc
-include th04/main/tile/tile.inc
-include th01/hardware/egc.inc
 
-TILES_MEMORY_X = 512 / TILE_W
+RES_Y = 400
+ROW_SIZE = 80
+GRAM_400 = 0A800h
+PLAYFIELD_VRAM_LEFT = 4
+TILE_W = 16
+TILE_H = 16
+TILE_VRAM_W = 2
+TILES_X = 24
+TILES_Y = 25
+TILES_MEMORY_X = 32
 
 extrn _tile_ring:word
 extrn EGC_OFF:far
+
+EGC_START_COPY_INLINED macro
+	xor	al, al
+	out	7Ch, al
+	mov	al, 7
+	out	6Ah, al
+	mov	al, 5
+	out	6Ah, al
+	mov	al, 80h
+	out	7Ch, al
+	mov	al, 6
+	out	6Ah, al
+	mov	ax, 0FFF0h
+	mov	dx, 4A0h
+	out	dx, ax
+	mov	ax, 00FFh
+	mov	dx, 4A2h
+	out	dx, ax
+	mov	ax, 2300h
+	mov	dx, 4A4h
+	out	dx, ax
+	mov	ax, 0FFFFh
+	mov	dx, 4A8h
+	out	dx, ax
+	xor	ax, ax
+	mov	dx, 4ACh
+	out	dx, ax
+	mov	ax, 0Fh
+	mov	dx, 4AEh
+	out	dx, ax
+endm
+
+TILES_MEMORY_X = 512 / TILE_W
 
 MAI_TEXT segment word public 'CODE' use16
 MAI_TEXT ends

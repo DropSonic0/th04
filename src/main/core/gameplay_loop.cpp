@@ -47,16 +47,16 @@ void far midboss_activate_if_stage_frame_is_midboss_start_frame(void);
 extern "C" void pascal near pointnums_update(void);
 void near circles_update(void);
 extern "C" void near sparks_update(void);
-void near sub_10ABF(void);
-void near sub_104B6(void);
+void near player_update(void);
+void near shots_update(void);
 void far bullets_update(void);
 extern "C" void pascal far enemies_update(void);
-extern "C" void pascal far items_update(void);
+void far items_update(void);
 void far gather_update(void);
 void near bomb_update_and_render(void);
-extern "C" void pascal near enemies_render(void);
-void near SHOTS_RENDER(void);
-extern "C" void pascal near player_render(void);
+void pascal near enemies_render(void);
+void near shots_render(void);
+void pascal near player_render(void);
 void near grcg_setmode_rmw(void);
 void far gather_render(void);
 extern "C" void near sparks_render(void);
@@ -65,7 +65,7 @@ extern "C" void pascal near pointnums_render(void);
 extern "C" void pascal near bullets_render(void);
 void near circles_render(void);
 void near playfield_shake_update_and_render(void);
-void near sub_CCD6(void);
+void near scroll_driver(void);
 extern "C" void far snd_se_update(void);
 
 void near gameplay_loop(void)
@@ -97,8 +97,8 @@ void near gameplay_loop(void)
         pointnums_update();
         circles_update();
         sparks_update();
-        sub_10ABF();
-        sub_104B6();
+        player_update();
+        shots_update();
         bullets_update();
         enemies_update();
         midboss_update();
@@ -110,7 +110,7 @@ void near gameplay_loop(void)
         boss_fg_render();
         midboss_render();
         enemies_render();
-        SHOTS_RENDER();
+        shots_render();
         player_render();
         grcg_setmode_rmw();
         gather_render();
@@ -133,7 +133,7 @@ void near gameplay_loop(void)
             ? (void)(palette_show(), palette_changed = false)
             : (void)0;
 
-        sub_CCD6();
+        scroll_driver();
         graph_accesspage(page_front);
         graph_showpage(page_back);
         page_front = page_back;

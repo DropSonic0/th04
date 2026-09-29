@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the native MAIN link diagnostic frontier. This is the
+Updated 2026-09-30 after the native MAIN link diagnostic frontier. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -101,17 +101,17 @@ The eight physical MAIN DATA/BSS owners now have a dedicated TASM frontier at
 (`assemble_pass=8`). Their final DGROUP/BSS offsets, native MAIN link order,
 relocations, and startup behavior remain open.
 
-The first maintained-source native TLINK diagnostic is recorded in
+The current maintained-source native TLINK diagnostic is recorded in
 `docs/reconstruction/product/TH04_NATIVE_MAIN_LINK_V1028.md` and
-`.analysis/reconstruction/probes/native-main-link-v1028-20260929/receipt.json`
+`.analysis/reconstruction/probes/native-main-link-v1061-20260930/receipt.json`
 (receipt SHA-256
-`66a29b2da65e154eff25c92e49ba070fd1203a215a65dc5ea512d5d0fd4e7c80`). It
-cold-compiles 191/191 C/C++ roots, assembles 8/8 state owners and 64/84 other
-ASM owners, and records 20 scaffold-context/include failures. Placing the
-layout anchor first yields no duplicate publics or 64-KiB group overflow, but
-TLINK still reports 480 unresolved symbols and 3 support-library fixup
-overflows. The partial 148,860-byte MZ is diagnostic only; complete DATA/BSS
-ownership, raw equality, and startup remain blocked.
+`c109296633fcafd6922395dcdb228f1a672b0fbd45d1d9a5d1d181ba1d974730`). It
+cold-compiles 192/192 C/C++ roots and assembles 8/8 state owners plus 125/125
+remaining ASM sources. TLINK reports no duplicate publics, group overflow, or
+fixup overflow; only four generated sprite owners remain unresolved:
+`_sPELLET`, `_sPELLET_BOTTOM`, `_sPOINTNUMS`, and `_sSPARKS`. The partial
+188,169-byte MZ is diagnostic only; complete asset ownership, raw equality,
+and startup remain blocked.
 
 The four source repairs in this batch are compiler-closure changes only:
 product-local stage/CDG declarations, the product HUD header path, and a

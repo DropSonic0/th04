@@ -2,9 +2,14 @@
 	.model use16 large
 	locals
 
-include libs/master.lib/master.inc
+extrn _SinTable8:word:256
+extrn _CosTable8:word:256
 
-	.code
+VECTOR2N_TEXT segment word public 'CODE' use16
+VECTOR2N_TEXT ends
+main_03 group VECTOR2N_TEXT
+VECTOR2N_TEXT segment word public 'CODE' use16
+assume cs:main_03
 
 ; Just another dumb micro-optimized variation of vector2(), making full use of
 ; 32-bit registers. Since Turbo C++ 4.0J's inline assembler doesn't support
@@ -36,4 +41,5 @@ vector2_near proc near
 vector2_near endp
 	even
 
-	end
+VECTOR2N_TEXT ends
+end

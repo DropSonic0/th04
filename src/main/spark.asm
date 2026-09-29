@@ -5,8 +5,27 @@
 	.model use16 large
 	locals
 
-include th02/main/playfld.inc
-include th04/main/spark.inc
+F_FREE = 0
+F_ALIVE = 1
+SPARK_COUNT = 96
+PLAYFIELD_W = 384
+PLAYFIELD_H = 368
+
+Point struc
+	x dw ?
+	y dw ?
+Point ends
+motion_t struc
+	cur Point <?>
+	prev Point <?>
+	velocity Point <?>
+motion_t ends
+spark_t struc
+	flag db ?
+	age db ?
+	pos motion_t <?>
+	SPARK_ANGLE dw ?
+spark_t ends
 
 @RANDRING2_NEXT16_AND$QUI procdesc pascal near \
 	mask:word
@@ -16,9 +35,11 @@ VECTOR2_NEAR procdesc pascal near \
 extern _sparks:spark_t:SPARK_COUNT
 extern _spark_ring_offset:word
 
+SPARK_A_TEXT segment word public 'CODE' use16
+SPARK_A_TEXT ends
 main_03 group SPARK_A_TEXT
 
-	.code
+	SPARK_A_TEXT segment word public 'CODE' use16
 	assume cs:main_03
 
 clip macro center_x:req, center_y:req, label_if_clipped:req
@@ -155,7 +176,8 @@ public @SPARKS_ADD_CIRCLE$Q20%SUBPIXELBASE$TI$TI%T1II
 @@ret:
 	pop	bp
 	retn	8
-@sparks_add_circle$q20%SubpixelBase$ti$ti%t1ii endp
+	@sparks_add_circle$q20%SubpixelBase$ti$ti%t1ii endp
 	even
 
+	SPARK_A_TEXT ends
 	end

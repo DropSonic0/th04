@@ -33,7 +33,6 @@ extern nearfunc_t_near overlay1;
 extern nearfunc_t_near overlay2;
 extern unsigned int __cdecl PaletteTone;
 
-extern "C" void near demo_input_null(void);
 extern "C" void pascal near nullfunc_near(void);
 void near overlay_wipe(void);
 void near overlay_black(void);
@@ -138,7 +137,7 @@ void near stage_session_init(void)
     if((stage_id == 0) || (stage_id == 6)) {
         load_playchar_resources = 1;
         text_fillca(' ', TX_BLACK | TX_REVERSE);
-        fp_23D90 = demo_input_null;
+        fp_23D90 = (callback_cdecl_t)nullfunc_near;
         gameplay_session_init();
 
         if(resident->demo_num != 0) {

@@ -43,6 +43,7 @@ static void super_rollback(unsigned first)
 	}
 }
 
+#pragma codeseg _TEXT
 extern "C" int TH04_PASCAL super_cancel_pat(int num)
 {
 	if ((num < 0) || ((unsigned)num >= super_patnum) ||
@@ -57,6 +58,7 @@ extern "C" int TH04_PASCAL super_cancel_pat(int num)
 	}
 	return 0;
 }
+#pragma codeseg SHARED
 
 extern "C" void TH04_PASCAL super_free(void)
 {
