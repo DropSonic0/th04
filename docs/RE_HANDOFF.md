@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the MAIN composite-source localization batch. This is the
+Updated 2026-09-29 after the MAIN tile/stages source-closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -45,21 +45,20 @@ decoded-acceptance ledgers. None of these gives a packed-file byte denominator
 or whole-artifact exactness.
 Original-ASM observations are outside the authored C/C++ counts.
 
-The native MAIN link frontier is now frozen in
-`config/native_main_sources.toml`. The pinned Tupfile order has 60 historical
-inputs; the manifest checker maps 58 to maintained direct or fused physical
-owners and keeps two routing umbrellas explicitly unresolved (`tile.cpp` and
-`stages.cpp`). Its current
-receipt is
-`.analysis/reconstruction/probes/native-main-link-manifest-v1021l-20260929/manifest.json`.
-This is a control-plane result only: `ready_for_native_link` is false because
-the unresolved inputs still need physical code/data owners, and the historical
-`th04_main.asm` remains scaffold-only. No standalone MAIN link or startup claim
-is made from this manifest.
+The native MAIN link frontier is frozen in `config/native_main_sources.toml`.
+The current manifest receipt
+`.analysis/reconstruction/probes/native-main-link-manifest-v1021m-20260929/manifest.json`
+maps all 60/60 historical inputs to maintained direct or fused physical owners,
+including compiler-routing wrappers for `tile.cpp` and `stages.cpp`; its
+`unmapped = []` and `ready_for_native_link = true` fields are routing
+preconditions only. The historical `th04_main.asm` remains scaffold-only, so
+no standalone MAIN link or startup claim is made.
 
-The compiler-only continuation stages the pinned scaffold and compiles 55
-unique mapped direct/fused owners under their historical input basenames. All
-55 produce valid OMF objects; the `th04/bullet_u.cpp` route is backed by
+The current compiler-only receipt
+`.analysis/reconstruction/probes/native-main-compile-frontier-v1021n-20260929/receipt.json`
+stages the pinned scaffold and compiles 57 unique physical owners under their
+historical input basenames. All 57 produce valid OMF objects. The
+`th04/bullet_u.cpp` route is backed by
 the checked-in `src/main/bullet/update.cpp` composition of the exact recovered
 prefix and body, and `th04/it_spl_u.cpp` is backed by
 `src/main/item/splash_u.cpp` with the reviewed init/add/update fragments and
@@ -73,10 +72,11 @@ the explicit `src/main/sound/se.cpp` physical composition for play/update. The
 for the orb-template layout and Reimu state cells, and `th04/boss_x2.cpp` is
 backed by `src/main/boss/gengetsu6_state.cpp` for Gengetsu wave state. These
 state owners are compiler-routing evidence only; DATA/BSS placement remains
-unverified. The
-receipt is
-`.analysis/reconstruction/probes/native-main-compile-frontier-v1021l-20260929/receipt.json`.
-This remains compiler-only: no TLINK, MZ, or startup result is implied.
+unverified.
+The tile invalidation helper is natural C++ source closure only; the target
+REP-STOSD producer and Stage 4 carpet/checkerboard low-level residuals remain
+separately classified. This remains compiler-only: no TLINK, MZ, or startup
+result is implied.
 
 OP and MAINE now both have closed authored-function queues; MAINE canonical v835 passes all 72/72 accepted slices raw-zero. v821 closes OP `scoredat_decode` and `scoredat_encode`
 with maintained hybrid source: all control/data flow stays C++, while the

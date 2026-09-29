@@ -6,7 +6,35 @@ and classifies each input as a direct maintained owner, a fused physical owner,
 or an explicit unresolved routing umbrella. The checker is
 `scripts/probes/probe_th04_native_main_manifest.py`.
 
-On 2026-09-29 the manifest check passed without running Borland:
+The current compiler-routing continuation was run on 2026-09-29:
+
+```text
+python3 scripts/probes/probe_th04_native_main_manifest.py \
+  --check \
+  --output .analysis/reconstruction/probes/native-main-link-manifest-v1021m-20260929/manifest.json
+```
+
+It reports all 60/60 reference inputs mapped to maintained direct or fused
+physical owners, including the new `src/main/tile/tile.cpp` and
+`src/main/stage/stages.cpp` compiler-routing wrappers. The manifest now has
+`unmapped = []` and `ready_for_native_link = true`; this is only a routing
+precondition, not a link or exactness claim.
+
+The compiler-only continuation was then run with:
+
+```text
+python3 scripts/probes/probe_th04_native_main_compile_frontier.py \
+  --output-dir .analysis/reconstruction/probes/native-main-compile-frontier-v1021n-20260929 \
+  --require-all
+```
+
+It produced 57 unique physical owners and 57 valid OMF objects. The receipt
+records `compile_fail = 0`, `link_performed = false`, and
+`runtime_performed = false`. The tile invalidation helper is natural C++ for
+source closure only; the target REP-STOSD owner and Stage 4 carpet/checkerboard
+low-level residuals remain separately classified and are not promoted.
+
+The previous v1021l manifest was:
 
 ```text
 python3 scripts/probes/probe_th04_native_main_manifest.py \
@@ -14,7 +42,7 @@ python3 scripts/probes/probe_th04_native_main_manifest.py \
   --output .analysis/reconstruction/probes/native-main-link-manifest-v1021l-20260929/manifest.json
 ```
 
-It reports 58/60 reference inputs mapped and two unresolved historical owners:
+It reported 58/60 reference inputs mapped and two unresolved historical owners:
 `tile.cpp` and `stages.cpp`. The local files all exist for the mapped entries,
 and the scaffold path is present. The result is therefore
 `ready_for_native_link = false`; no linker or runtime claim is made.
@@ -26,7 +54,7 @@ materialize one physical object for each fused group and must account for the
 remaining DATA/BSS owners before replacing the scaffold. This manifest is a
 control-plane frontier, not exactness evidence.
 
-## Compiler frontier
+## Compiler frontier (historical v1021l snapshot)
 
 The follow-up compiler-only probe stages the pinned ReC98 revision, copies the
 current `src/` tree, and compiles each unique mapped physical owner under its

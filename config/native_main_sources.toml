@@ -73,12 +73,9 @@ reference_sources = [
 ]
 
 # Historical routing umbrellas whose code/data is split across maintained
-# fragments, or whose target storage is still scaffold-owned. They stay
-# explicit so a future native linker cannot silently omit them.
-unmapped = [
-  "th04/tile.cpp",
-  "th04/stages.cpp",
-]
+# fragments remain explicit physical owners.  They are compiler-routing
+# closures only; exactness is still tracked by the unit and evidence ledgers.
+unmapped = []
 
 # Direct local physical owners. A source may be a replacement ASM owner when
 # the maintained unit deliberately preserves an original-style implementation.
@@ -88,6 +85,7 @@ unmapped = [
 "th04/demo.cpp" = "src/main/demo.cpp"
 "th04/ems.cpp" = "src/main/ems.cpp"
 "th04/tile_set.cpp" = "src/main/tile/set.cpp"
+"th04/tile.cpp" = "src/main/tile/tile.cpp"
 "th04/std.cpp" = "src/main/stage/std.cpp"
 "th04/circle.cpp" = "src/main/circle.cpp"
 "th04/playfld.cpp" = "src/main/playfield.cpp"
@@ -99,6 +97,7 @@ unmapped = [
 "th04/hud_ovrl.cpp" = "src/main/hud/overlay.cpp"
 "th04/cfg_lres.cpp" = "src/main/config/load_resident_ptr.cpp"
 "th04/checkerb.cpp" = "src/main/stage/checkerboard.cpp"
+"th04/stages.cpp" = "src/main/stage/stages.cpp"
 "th04/mb_inv.cpp" = "src/main/midboss/invalidate.cpp"
 "th04/boss_bd.cpp" = "src/main/boss/backdrop.cpp"
 "th04/score_rm.cpp" = "src/main/score/ranking.cpp"
