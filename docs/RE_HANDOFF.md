@@ -78,6 +78,24 @@ REP-STOSD producer and Stage 4 carpet/checkerboard low-level residuals remain
 separately classified. This remains compiler-only: no TLINK, MZ, or startup
 result is implied.
 
+The latest v1022 two-cold aggregate replay was rerun after this routing batch:
+
+```text
+python3 scripts/replay_th04_main_exact_units.py \
+  --run-id gpt-5-6-sol-main-native-aggregate-v1022-20260929 \
+  --stage all
+```
+
+The receipt at
+`.analysis/reconstruction/exact-unit-replay/gpt-5-6-sol-main-native-aggregate-v1022-20260929/receipt.json`
+passes all 275 selected units, and both cold candidates have SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
+Independent MZ comparison still reports raw exactness false: the candidate is
+152,974 bytes versus the target's 156,258, with 6,224 raw differences and
+3,301 program bytes outside the union of relocation sites. This is a
+scaffold-overlay Oracle only; it does not replace `th04_main.asm`, establish
+target DATA/BSS placement, or verify complete PC-98 startup.
+
 OP and MAINE now both have closed authored-function queues; MAINE canonical v835 passes all 72/72 accepted slices raw-zero. v821 closes OP `scoredat_decode` and `scoredat_encode`
 with maintained hybrid source: all control/data flow stays C++, while the
 single 8-bit ROR primitive is independently corroborated by pre-decompilation

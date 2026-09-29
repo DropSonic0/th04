@@ -34,6 +34,29 @@ records `compile_fail = 0`, `link_performed = false`, and
 source closure only; the target REP-STOSD owner and Stage 4 carpet/checkerboard
 low-level residuals remain separately classified and are not promoted.
 
+## Aggregate replay v1022
+
+After the 60-input routing frontier closed, the full configured 275-owner
+aggregate was rerun twice from cold directories:
+
+```text
+python3 scripts/replay_th04_main_exact_units.py \
+  --run-id gpt-5-6-sol-main-native-aggregate-v1022-20260929 \
+  --stage all
+```
+
+The receipt is
+`.analysis/reconstruction/exact-unit-replay/gpt-5-6-sol-main-native-aggregate-v1022-20260929/receipt.json`.
+Both builds pass all selected units and produce the same candidate SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`. The
+candidate is a valid MZ and has the same relocation multiplicity, relocation
+site set, and relocation-site values as the target, but it is 152,974 bytes
+versus 156,258 target bytes. The independent comparator reports 6,224 raw
+differences, including 3,301 program bytes outside relocation sites; the
+largest missing run is 3,284 bytes. These numbers are diagnostic only. The
+aggregate still links around the historical `th04_main.asm` scaffold and is
+not a standalone native MAIN link or startup acceptance.
+
 The previous v1021l manifest was:
 
 ```text
