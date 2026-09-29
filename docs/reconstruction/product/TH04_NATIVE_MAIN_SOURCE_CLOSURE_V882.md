@@ -5,17 +5,17 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v1001 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v1001-end-20260929/inventory.json`.
+The current v1002 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v1002-bonus-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 10 | 13 |
+| `.h` / `.hpp` declarations | 9 | 11 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **47** | **50** |
+| **Total** | **46** | **48** |
 
-The next remaining header edge is now `th04/main/stage/bonus.hpp`, followed
+The next remaining header edge is now `th04/formats/mpn.hpp`, followed
 by the remaining declaration and composite surfaces. These names denote needed
 declarations, not approval to reuse cross-game product headers.
 
@@ -1196,6 +1196,35 @@ th04/main/dialog/dialog.hpp. The reference th04/main/tile/inv[bss].asm still
 owns the callback words beside tile invalidation state. This is
 compiler-observed callback declaration closure, not BSS ownership, standalone
 MAIN placement, or PC-98 startup acceptance.
+
+## MAIN stage-bonus header closure
+
+The fiftieth declaration batch routes the historical
+`th04/main/stage/bonus.hpp` edge through
+`src/main/include/th04/main/stage/bonus.hpp`, backed by the artifact-local
+`src/main/stage/bonus.hpp`. The local surface preserves the two pinned near
+entry declarations, `stage_clear_bonus()` and `stage_allclear_bonus()`, used by
+the maintained boss and stage owners; it allocates no bonus DATA/BSS.
+
+The v1002 TC4J GAME=4 reference/local probe passes with semantic OMF SHA-256
+`8b51b94cbe6f30739e3114073cd8a90d244758ee0ba78f9397ad4b5e2657bded`
+(receipt SHA-256
+`73ad978aeb242ce2b0204baec90cea5c3faf8be1bb75655d9d7bbaedcc8cba14`).
+The v1002 aggregate receipt
+`gpt-5-6-sol-main-stage-bonus-header-aggregate-086-20260929/receipt.json` has
+SHA-256 `1d6a07fbbb594661f2da87ce689e34b9ac6707555277b45d519f892245324995`
+and preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
+The `th04/sbonus.cpp` owner remains raw/MAP/relocation exact at file
+`0x1EC8E`, size `0x58D`, `MAIN_035_TEXT:0x99FE`, slice SHA-256
+`9d34b803f8675921e44088a82add869aa55c3fc4f337ad0d31c3e2289b24adda`.
+Inventory v1002 is now 46 missing paths / 48 references: 9 headers (11
+references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped, and the next header edge is
+`th04/formats/mpn.hpp`. This is compiler-observed declaration closure and
+affected-owner revalidation, not bonus DATA/BSS ownership, standalone MAIN
+placement, or PC-98 startup acceptance.
 
 ## MAIN end-entry header closure
 

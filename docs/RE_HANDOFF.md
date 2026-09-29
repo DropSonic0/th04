@@ -209,8 +209,8 @@ native OP has transferred control to `MAIN.EXE`. This does not establish
 original MAIN or MAINE execution. The strict shared CDG loader still gives
 raw-zero decoded modules and matching relocations for both OP and MAINE in
 two cold replay links. See the native OP note for receipts and limits. MAIN has no
-standalone build yet: its maintained sources still have 47 missing quoted
-include paths: 10 declaration headers (13 references), 35 composite `.cpp`
+standalone build yet: its maintained sources still have 46 missing quoted
+include paths: 9 declaration headers (11 references), 35 composite `.cpp`
 fragments, and two `.inl` fragments. See the
 [MAIN source-closure note](reconstruction/product/TH04_NATIVE_MAIN_SOURCE_CLOSURE_V882.md)
 for the eight affected composite producers and missing data/BSS owners.
@@ -877,6 +877,31 @@ references), 35 `.cpp` fragments, and two `.inl` fragments; only
 `th04/main/stage/bonus.hpp`. This closes end declarations and inline dispatch
 only; resident end-state DATA/BSS, standalone MAIN placement, and PC-98
 startup remain open.
+
+The historical `th04/main/stage/bonus.hpp` path now resolves to the
+product-owned stage-bonus declarations through
+`src/main/include/th04/main/stage/bonus.hpp`, backed by
+`src/main/stage/bonus.hpp`. The v1002 TC4J GAME=4 reference/local probe
+matches semantic OMF SHA-256
+`8b51b94cbe6f30739e3114073cd8a90d244758ee0ba78f9397ad4b5e2657bded`
+(receipt SHA-256
+`73ad978aeb242ce2b0204baec90cea5c3faf8be1bb75655d9d7bbaedcc8cba14`).
+The v1002 aggregate receipt
+`gpt-5-6-sol-main-stage-bonus-header-aggregate-086-20260929/receipt.json`
+has SHA-256
+`1d6a07fbbb594661f2da87ce689e34b9ac6707555277b45d519f892245324995` and
+preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
+The `th04/sbonus.cpp` owner remains raw/MAP/relocation exact at file
+`0x1EC8E`, size `0x58D`, `MAIN_035_TEXT:0x99FE`, slice SHA-256
+`9d34b803f8675921e44088a82add869aa55c3fc4f337ad0d31c3e2289b24adda`.
+Inventory v1002 is now 46 missing paths / 48 references: 9 headers (11
+references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped, and the next header edge is
+`th04/formats/mpn.hpp`. This closes the two stage-bonus declarations only;
+bonus DATA/BSS ownership, standalone MAIN placement, and PC-98 startup remain
+open.
 
 Inventory v996 is now 52 missing paths / 64 references: 15 headers (27
 references), 35 `.cpp` fragments, and two `.inl` fragments; only
