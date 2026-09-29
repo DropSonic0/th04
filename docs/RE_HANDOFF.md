@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the thirty-sixth MAIN declaration closure batch. This is the
+Updated 2026-09-29 after the thirty-seventh MAIN declaration closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -558,6 +558,30 @@ two `.inl` fragments; the next header edge is `th04/main/ems.hpp`
 (4 references). This closes the playperf declaration edge only; playperf
 DATA/BSS ownership, standalone MAIN placement, and PC-98 startup remain open.
 
+The historical `th04/main/ems.hpp` path now resolves to the product-owned EMS
+API through `src/main/include/th04/main/ems.hpp`, backed by `src/main/ems.hpp`.
+The local CDG surface is routed through `src/main/include/th04/formats/cdg.h`
+and `src/main/formats/cdg.hpp`; shared segment accessors reuse the pinned
+TH03 CDG declaration when that guard is already active, avoiding a global
+cross-artifact rewrite. The v989c TC4J reference/local probe matches semantic
+OMF SHA-256
+`031a8b81c73ee5e489d253ab108d7579943545c142ba4900c76d70ad868e3bf7`
+(receipt SHA-256
+`0a8ffc11dc81bed951493b05694e3a92673e79126d91164d54f6847cd9871284`).
+The v989 aggregate receipt
+`gpt-5-6-sol-main-ems-header-aggregate-071-20260929/receipt.json` has SHA-256
+`ccb6e8d02e02949b561ef96bcaa96bdc10a17d3bb0ec6d122ed242dd69123f6d` and
+preserves all 275 accepted extents in two cold builds with identical diagnostic
+MAIN SHA-256 `d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
+The `th04/ems.cpp` owner is raw/MAP/relocation exact at file `0xCC88`,
+size `0x1FA`, program/map start `0xB488` in `EMS_TEXT`, slice SHA-256
+`038ac29ca0095a32ac3594b3bb40fc35605acd8226e5d8518005c721f02c842f`.
+Inventory v989 is now 59 missing paths / 89 references: 22 headers (52
+references), 35 `.cpp` fragments, and two `.inl` fragments; the next header
+edge is `th04/main/hiscore.hpp` (4 references). This closes the EMS/CDG
+declaration edge only; EMS cache/data/BSS ownership, standalone MAIN placement,
+and PC-98 startup remain open.
+
 The historical `th04/main/drawp.hpp` path now resolves to the product-owned
 MAIN drawpoint declaration through `src/main/include/th04/main/drawp.hpp`,
 backed by `src/main/player/drawp.hpp`. The v983 TC4J reference/local probe
@@ -767,7 +791,7 @@ diagnostic reaches OP only. The [runtime preparation note](reconstruction/produc
 has the private HDI commands. Continue the normal OP-to-MAIN-to-MAINE route
 before making a runtime acceptance claim.
 
-Whole-game product closure still needs MAIN's 73 distinct unresolved quoted
+Whole-game product closure still needs MAIN's 59 distinct unresolved quoted
 include paths and remaining data/BSS owners, its standalone source manifest and
 link, and a combined candidate PC-98 scenario. OP, ZUN, and MAINE each have
 source-only native build paths; the MAIN build is the controlling blocker.

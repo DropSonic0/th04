@@ -5,18 +5,18 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v988 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v988-20260929/inventory.json`.
+The current v989 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v989-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 24 | 57 |
+| `.h` / `.hpp` declarations | 22 | 52 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **61** | **94** |
+| **Total** | **59** | **89** |
 
-The heaviest remaining header edge is now `th04/main/ems.hpp` (4 references),
-followed by hiscore, end, std, and splash surfaces. These names denote needed
+The heaviest remaining header edge is now `th04/main/hiscore.hpp` (4 references),
+followed by end, std, and splash surfaces. These names denote needed
 declarations, not approval to reuse cross-game product headers.
 
 Eight maintained physical producers include `.cpp` fragments by historical
@@ -28,7 +28,7 @@ Related function bodies already exist as separate maintained `src/main`
 translation units, but their composition and near-call segment ownership must
 be reconciled before adding them to a native MAIN link manifest. Compiling
 both a composite and its included child as objects would duplicate publics.
-The local ReC98 reference has files at all 36 remaining missing header paths, but only
+The local ReC98 reference has files at all 22 remaining missing header paths, but only
 two of the 35 missing `.cpp` paths and neither missing `.inl` path. This is a
 source-location observation, not evidence that those headers are ready for a
 TH04-owned product build. The existing maintained function bodies must be
@@ -973,6 +973,39 @@ and two `.inl` fragments; only `th04/dialog.cpp` remains unmapped. This is
 compiler-observed declaration closure and affected-unit revalidation, not
 playperf DATA/BSS ownership, standalone MAIN placement, or PC-98 startup
 acceptance.
+
+## MAIN EMS/CDG header closure
+
+The thirty-seventh declaration batch routes the historical
+`th04/main/ems.hpp` edge through `src/main/include/th04/main/ems.hpp`, backed
+by the product-owned `src/main/ems.hpp`. The local EMS surface preserves the
+GAME-dependent cache layout constants, preload declarations, and inline
+bomb-background load ABI without allocating EMS or CDG cache storage. Its CDG
+dependency is product-owned through `src/main/include/th04/formats/cdg.h` and
+`src/main/formats/cdg.hpp`; `src/shared/formats/cdg.hpp` supplies segment
+accessors while reusing the pinned TH03 declaration when its historical guard is
+already active. A global `th04/formats/cdg.h` rewrite is intentionally not used:
+the OP artifact shares that TH03 surface.
+
+The v989c TC4J reference/local probe passes with semantic OMF SHA-256
+`031a8b81c73ee5e489d253ab108d7579943545c142ba4900c76d70ad868e3bf7`
+(receipt SHA-256
+`0a8ffc11dc81bed951493b05694e3a92673e79126d91164d54f6847cd9871284`).
+The aggregate receipt
+`gpt-5-6-sol-main-ems-header-aggregate-071-20260929/receipt.json` has SHA-256
+`ccb6e8d02e02949b561ef96bcaa96bdc10a17d3bb0ec6d122ed242dd69123f6d` and
+preserves all 275 accepted extents in two cold builds with identical diagnostic
+MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
+The `th04/ems.cpp` owner is raw/MAP/relocation exact at file `0xCC88`, size
+`0x1FA`, program/map start `0xB488` in `EMS_TEXT`, with slice SHA-256
+`038ac29ca0095a32ac3594b3bb40fc35605acd8226e5d8518005c721f02c842f`.
+Inventory v989 is 59 missing paths / 89 references: 22 headers (52
+references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped, and the next header edge is
+`th04/main/hiscore.hpp`. This is compiler-observed declaration closure and
+affected-unit revalidation, not EMS cache DATA/BSS ownership, standalone MAIN
+placement, or PC-98 startup acceptance.
 
 ## MAIN tile-BB header closure
 
