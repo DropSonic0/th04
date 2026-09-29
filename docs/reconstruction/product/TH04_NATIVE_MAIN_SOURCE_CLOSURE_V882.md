@@ -5,18 +5,18 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v991 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v991-end-20260929/inventory.json`.
+The current v992 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v992-std-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 20 | 44 |
+| `.h` / `.hpp` declarations | 19 | 40 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **57** | **81** |
+| **Total** | **56** | **77** |
 
-The heaviest remaining header edge is now `th04/formats/std.hpp` (4 references),
-followed by splash and decomp surfaces. These names denote needed
+The heaviest remaining header edge is now `th04/main/item/splash.hpp` (4 references),
+followed by decomp and background surfaces. These names denote needed
 declarations, not approval to reuse cross-game product headers.
 
 Eight maintained physical producers include `.cpp` fragments by historical
@@ -1066,6 +1066,39 @@ tree; it receives no exact credit. This is compiler-observed declaration
 closure and affected-unit revalidation, not ending control-flow or
 resident DATA/BSS ownership, standalone MAIN placement, or PC-98 startup
 acceptance.
+
+## MAIN stage-format header closure
+
+The fortieth declaration batch routes the historical
+`th04/formats/std.hpp` edge through
+`src/main/include/th04/formats/std.hpp`, backed by the product-owned
+`src/main/formats/std.hpp`. The local surface preserves `std_seg`, the GAME=4
+map-section ID, scroll-speed pointer, 32 enemy-script slots, far `std_ip`,
+`stage_vm`, and the near/Pascal loader, free, and runner declarations. It
+declares the stage interface only; it does not allocate stage DATA/BSS state.
+
+The v992 TC4J reference/local probe passes with semantic OMF SHA-256
+`ed832abf907f0b0c7cab6e996e51710198deeab9da985b7f5e78324f24c25b06`
+(receipt SHA-256
+`32347aa6d6a156db44cea390716341fd5df5d4c7377d8dc7db56690a6ae47bd8`).
+The aggregate receipt
+`gpt-5-6-sol-main-std-header-aggregate-076-20260929/receipt.json` has
+SHA-256 `b30659e710644a95bb224e5f282120f483161fd5c8008731b9239990b1a07177`
+and preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
+The `th04/std.cpp` owner remains raw/MAP/relocation exact at file `0xCED1`,
+size `0xE8`, `STD_TEXT:0x0BE1`, slice SHA-256
+`6ab7989e03ddb80fdc8d288dc0ec7a18d964f5b74b705d0c5c82a16ac8000153`;
+the dependent `std_run`, enemy-script dispatch, and `enemies_add` owners also
+remain exact. Inventory v992 is 56 missing paths / 77 references: 19 headers
+(40 references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped, and the next header edge is
+`th04/main/item/splash.hpp`. Existing independent legacy declarations in
+`tile_ring_update.cpp` still require a separate ownership/type reconciliation.
+This is compiler-observed declaration closure and affected-unit revalidation,
+not stage DATA/BSS ownership, loader contents, standalone MAIN placement, or
+PC-98 startup acceptance.
 
 ## MAIN tile-BB header closure
 

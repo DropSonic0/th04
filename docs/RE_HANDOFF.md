@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the thirty-ninth MAIN declaration closure batch. This is the
+Updated 2026-09-29 after the fortieth MAIN declaration closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -632,6 +632,34 @@ because the existing tile-BB rewrite has no occurrence in the minimal unit
 tree; it receives no exact credit, while the aggregate is the acceptance
 replay.
 
+The historical `th04/formats/std.hpp` path now resolves to the product-owned
+MAIN stage-format API through `src/main/include/th04/formats/std.hpp`, backed by
+`src/main/formats/std.hpp`. The local surface preserves `std_seg`, the GAME=4
+map-section ID, scroll-speed pointer, 32 enemy-script slots, far `std_ip`,
+`stage_vm`, and the near/Pascal loader, free, and runner declarations without
+allocating stage DATA/BSS. The v992 TC4J reference/local probe matches semantic
+OMF SHA-256
+`ed832abf907f0b0c7cab6e996e51710198deeab9da985b7f5e78324f24c25b06`
+(receipt SHA-256
+`32347aa6d6a156db44cea390716341fd5df5d4c7377d8dc7db56690a6ae47bd8`).
+The v992 aggregate receipt
+`gpt-5-6-sol-main-std-header-aggregate-076-20260929/receipt.json` has SHA-256
+`b30659e710644a95bb224e5f282120f483161fd5c8008731b9239990b1a07177` and
+preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
+The `th04/std.cpp` owner remains raw/MAP/relocation exact at file `0xCED1`,
+size `0xE8`, `STD_TEXT:0x0BE1`, slice SHA-256
+`6ab7989e03ddb80fdc8d288dc0ec7a18d964f5b74b705d0c5c82a16ac8000153`;
+the dependent `std_run`, enemy-script dispatch, and `enemies_add` owners also
+remain exact. Inventory v992 is now 56 missing paths / 77 references: 19
+headers (40 references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped, and the next header edge is
+`th04/main/item/splash.hpp`. This closes the stage-format declaration edge
+only; stage DATA/BSS ownership, loader contents, standalone MAIN placement,
+and PC-98 startup remain open. The existing independent legacy declarations
+in `tile_ring_update.cpp` require a separate ownership/type reconciliation.
+
 The historical `th04/main/drawp.hpp` path now resolves to the product-owned
 MAIN drawpoint declaration through `src/main/include/th04/main/drawp.hpp`,
 backed by `src/main/player/drawp.hpp`. The v983 TC4J reference/local probe
@@ -841,7 +869,7 @@ diagnostic reaches OP only. The [runtime preparation note](reconstruction/produc
 has the private HDI commands. Continue the normal OP-to-MAIN-to-MAINE route
 before making a runtime acceptance claim.
 
-Whole-game product closure still needs MAIN's 57 distinct unresolved quoted
+Whole-game product closure still needs MAIN's 56 distinct unresolved quoted
 include paths and remaining data/BSS owners, its standalone source manifest and
 link, and a combined candidate PC-98 scenario. OP, ZUN, and MAINE each have
 source-only native build paths; the MAIN build is the controlling blocker.
