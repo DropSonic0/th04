@@ -209,8 +209,8 @@ native OP has transferred control to `MAIN.EXE`. This does not establish
 original MAIN or MAINE execution. The strict shared CDG loader still gives
 raw-zero decoded modules and matching relocations for both OP and MAINE in
 two cold replay links. See the native OP note for receipts and limits. MAIN has no
-standalone build yet: its maintained sources still have 45 missing quoted
-include paths: 8 declaration headers (9 references), 35 composite `.cpp`
+standalone build yet: its maintained sources still have 43 missing quoted
+include paths: 6 declaration headers (6 references), 35 composite `.cpp`
 fragments, and two `.inl` fragments. See the
 [MAIN source-closure note](reconstruction/product/TH04_NATIVE_MAIN_SOURCE_CLOSURE_V882.md)
 for the eight affected composite producers and missing data/BSS owners.
@@ -956,6 +956,34 @@ unmapped, and the next header edge is `th04/main/stage/stages.hpp`. This
 closes movement declarations and affected-owner revalidation only; player
 state DATA/BSS ownership, standalone MAIN placement, and PC-98 startup remain
 open.
+
+The historical `th04/main/stage/stages.hpp` path now resolves to the
+product-owned MAIN stage-render API through
+`src/main/include/th04/main/stage/stages.hpp`, backed by
+`src/main/stage/stages.hpp`. The v1005 TC4J GAME=4 reference/local probe
+matches semantic OMF SHA-256
+`69d8c1d651617dd0e5ce49fd34d758b665a8351336c681e3d4f95b00a3f590b1`
+(receipt SHA-256
+`4685801a3d7c36aa8ad6e74845ce3f12836e1da3f80f6d09705d2177c85425c6`).
+The first v1005 aggregate failed closed on nondeterministic normalized hashes
+for five pre-existing ASM-derived objects; the independent v1005 rerun passed.
+The passing aggregate receipt
+`gpt-5-6-sol-main-stage-stages-header-aggregate-092-20260929/receipt.json`
+has SHA-256
+`0d0f2ac4c0f9e20f9d5128017f2bfc0aa95e418a3e1baf8551fc0551aef198cd` and
+preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb` while
+staging two stage-stages rewrites. The `th04/stages.cpp` owner remains
+raw/MAP/relocation exact at file `0x102E4`, size `0x1AA`,
+`STAGES_TEXT:0x3FF4`, slice SHA-256
+`580e4ff70c60beb0578131095bddd52651dd712da9faf25d3f3cc75cf6df4324`.
+Inventory v1005 is now 43 missing paths / 43 references: 6 headers,
+35 `.cpp` fragments, and two `.inl` fragments; only `th04/dialog.cpp` remains
+unmapped, and the next header edge is `th04/main/bullet/pellet_r.hpp`. This
+closes stage-render declarations and affected-owner revalidation only; stage
+callback/star DATA/BSS ownership, standalone MAIN placement, and PC-98 startup
+remain open.
 
 Inventory v996 is now 52 missing paths / 64 references: 15 headers (27
 references), 35 `.cpp` fragments, and two `.inl` fragments; only

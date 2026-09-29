@@ -5,17 +5,17 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v1004 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v1004-move-20260929/inventory.json`.
+The current v1005 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v1005-stage-stages-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 7 | 7 |
+| `.h` / `.hpp` declarations | 6 | 6 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **44** | **44** |
+| **Total** | **43** | **43** |
 
-The next remaining header edge is now `th04/main/stage/stages.hpp`, followed
+The next remaining header edge is now `th04/main/bullet/pellet_r.hpp`, followed
 by the remaining declaration and composite surfaces. These names denote needed
 declarations, not approval to reuse cross-game product headers.
 
@@ -1265,6 +1265,39 @@ unmapped, and the next header edge is `th04/main/stage/stages.hpp`. This is
 compiler-observed movement declaration closure and affected-owner
 revalidation, not player-state DATA/BSS placement, standalone MAIN placement,
 or PC-98 startup acceptance.
+
+## MAIN stage-stages header closure
+
+The fifty-third declaration/implementation batch routes the historical
+`th04/main/stage/stages.hpp` edge through
+`src/main/include/th04/main/stage/stages.hpp`, backed by the artifact-local
+`src/main/stage/stages.hpp`. The local surface preserves the Stage 4/5 near
+entry declarations, `STAGE5_STAR_COUNT`, and the `Subpixel` star-center array
+used by the maintained boss and stage render owners.
+
+The v1005 TC4J GAME=4 reference/local probe passes with semantic OMF SHA-256
+`69d8c1d651617dd0e5ce49fd34d758b665a8351336c681e3d4f95b00a3f590b1`
+(receipt SHA-256
+`4685801a3d7c36aa8ad6e74845ce3f12836e1da3f80f6d09705d2177c85425c6`).
+The first v1005 aggregate attempt failed closed because five pre-existing
+ASM-derived objects had nondeterministic normalized hashes between cold
+rounds; it carries no exact credit. The independent v1005 rerun receipt
+`gpt-5-6-sol-main-stage-stages-header-aggregate-092-20260929/receipt.json`
+has SHA-256
+`0d0f2ac4c0f9e20f9d5128017f2bfc0aa95e418a3e1baf8551fc0551aef198cd` and
+preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb` while
+staging two stage-stages occurrences. The `th04/stages.cpp` owner remains
+raw/MAP/relocation exact at file `0x102E4`, size `0x1AA`,
+`STAGES_TEXT:0x3FF4`, slice SHA-256
+`580e4ff70c60beb0578131095bddd52651dd712da9faf25d3f3cc75cf6df4324`.
+Inventory v1005 is now 43 missing paths / 43 references: 6 headers,
+35 `.cpp` fragments, and two `.inl` fragments; only `th04/dialog.cpp` remains
+unmapped, and the next header edge is `th04/main/bullet/pellet_r.hpp`. This is
+compiler-observed stage declaration closure and affected-owner revalidation,
+not stage callback/star DATA/BSS placement, standalone MAIN placement, or
+PC-98 startup acceptance.
 
 ## MAIN stage-bonus header closure
 
