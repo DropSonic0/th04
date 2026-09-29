@@ -5,17 +5,17 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v996 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v996-dialog-20260929/inventory.json`.
+The current v997 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v997-shiftjis-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 15 | 27 |
+| `.h` / `.hpp` declarations | 14 | 24 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **52** | **64** |
+| **Total** | **51** | **61** |
 
-The next remaining header edge is now `th04/shiftjis/fns.hpp`, followed
+The next remaining header edge is now `th04/main/hud/overlay.hpp`, followed
 by the remaining declaration and composite surfaces. These names denote needed
 declarations, not approval to reuse cross-game product headers.
 
@@ -1196,6 +1196,36 @@ th04/main/dialog/dialog.hpp. The reference th04/main/tile/inv[bss].asm still
 owns the callback words beside tile invalidation state. This is
 compiler-observed callback declaration closure, not BSS ownership, standalone
 MAIN placement, or PC-98 startup acceptance.
+
+## MAIN Shift-JIS filename macro closure
+
+The forty-fifth declaration batch routes the historical
+`th04/shiftjis/fns.hpp` edge through
+`src/main/include/th04/shiftjis/fns.hpp`, backed by the artifact-local
+`src/main/shiftjis/fns.hpp`. The local surface preserves the TH04 packfile,
+eyecatch, faceset, boss BB/background, and redefined faceset-loader macros.
+The Shift-JIS packfile bytes are represented with escaped source bytes so the
+product header remains UTF-8-safe; no DATA/BSS storage is introduced.
+
+The v997 TC4J GAME=4 reference/local probe passes with semantic OMF SHA-256
+`91ff184b745fe3f5b493846d93ffca9628c272b5d7b6e2c49bdfd9720dd5c93e`
+(receipt SHA-256
+`15bbe3d7bd7dca8c5ae60004659157634761c233b456ca11c1927a0f4c479159`).
+The v997 aggregate receipt
+`gpt-5-6-sol-main-shiftjis-fns-aggregate-081-20260929/receipt.json` has
+SHA-256 `41f8d26cd52c1d94f92cb00e6f2781e6fe85e9f9e3ea7cbdd11dbf8c823331dc`
+and preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`;
+`boss.cpp` remains raw/MAP/relocation exact at file `0x1F761`, size `0x9B6`,
+`MAIN_035_TEXT:0xA4D1`, slice SHA-256
+`14ac3390b67ec8ee06b25669e9f8a62b9da07a9a82d96e100864a9fbe24cad1f`.
+Inventory v997 is now 51 missing paths / 61 references: 14 headers (24
+references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped, and the next header edge is
+`th04/main/hud/overlay.hpp`. This is compiler-observed macro closure and
+affected-unit revalidation, not target string-data ownership, standalone MAIN
+placement, or PC-98 startup acceptance.
 
 ## MAIN dialog header closure
 

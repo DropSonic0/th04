@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the forty-fourth MAIN declaration/helper closure batch. This is the
+Updated 2026-09-29 after the forty-fifth MAIN declaration/helper closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -209,8 +209,8 @@ native OP has transferred control to `MAIN.EXE`. This does not establish
 original MAIN or MAINE execution. The strict shared CDG loader still gives
 raw-zero decoded modules and matching relocations for both OP and MAINE in
 two cold replay links. See the native OP note for receipts and limits. MAIN has no
-standalone build yet: its maintained sources still have 52 missing quoted
-include paths: 15 declaration headers (27 references), 35 composite `.cpp`
+standalone build yet: its maintained sources still have 51 missing quoted
+include paths: 14 declaration headers (24 references), 35 composite `.cpp`
 fragments, and two `.inl` fragments. See the
 [MAIN source-closure note](reconstruction/product/TH04_NATIVE_MAIN_SOURCE_CLOSURE_V882.md)
 for the eight affected composite producers and missing data/BSS owners.
@@ -756,6 +756,31 @@ size `0x9B6`, `MAIN_035_TEXT:0xA4D1`, slice SHA-256
 `session_init.cpp` owner remains exact at file `0xC503`, size `0x1CD`,
 `DEMO_TEXT:0x08FC`, slice SHA-256
 `2e37dff3ee0d9933fc207c7157cc5bdb3a8dd582128a07089f4cac2538cf833b`.
+
+The historical `th04/shiftjis/fns.hpp` path now resolves to the product-owned
+TH04 filename macro surface through
+`src/main/include/th04/shiftjis/fns.hpp`, backed by
+`src/main/shiftjis/fns.hpp`. The v997 TC4J GAME=4 reference/local probe
+matches semantic OMF SHA-256
+`91ff184b745fe3f5b493846d93ffca9628c272b5d7b6e2c49bdfd9720dd5c93e`
+(receipt SHA-256
+`15bbe3d7bd7dca8c5ae60004659157634761c233b456ca11c1927a0f4c479159`).
+The v997 aggregate receipt
+`gpt-5-6-sol-main-shiftjis-fns-aggregate-081-20260929/receipt.json` has
+SHA-256 `41f8d26cd52c1d94f92cb00e6f2781e6fe85e9f9e3ea7cbdd11dbf8c823331dc`
+and preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
+`boss.cpp` remains raw/MAP/relocation exact at file `0x1F761`, size `0x9B6`,
+`MAIN_035_TEXT:0xA4D1`, slice SHA-256
+`14ac3390b67ec8ee06b25669e9f8a62b9da07a9a82d96e100864a9fbe24cad1f`.
+Inventory v997 is now 51 missing paths / 61 references: 14 headers (24
+references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped, and the next header edge is
+`th04/main/hud/overlay.hpp`. This closes the filename-macro surface only;
+target string-data ownership, standalone MAIN placement, and PC-98 startup
+remain open.
+
 Inventory v996 is now 52 missing paths / 64 references: 15 headers (27
 references), 35 `.cpp` fragments, and two `.inl` fragments; only
 `th04/dialog.cpp` remains unmapped, and the next header edge is
