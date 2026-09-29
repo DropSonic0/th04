@@ -5,17 +5,17 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v1005 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v1005-stage-stages-20260929/inventory.json`.
+The current v1006 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v1006-pellet-r-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 6 | 6 |
+| `.h` / `.hpp` declarations | 5 | 5 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **43** | **43** |
+| **Total** | **42** | **42** |
 
-The next remaining header edge is now `th04/main/bullet/pellet_r.hpp`, followed
+The next remaining header edge is now `th04/hardware/inputvar.h`, followed
 by the remaining declaration and composite surfaces. These names denote needed
 declarations, not approval to reuse cross-game product headers.
 
@@ -1297,6 +1297,38 @@ Inventory v1005 is now 43 missing paths / 43 references: 6 headers,
 unmapped, and the next header edge is `th04/main/bullet/pellet_r.hpp`. This is
 compiler-observed stage declaration closure and affected-owner revalidation,
 not stage callback/star DATA/BSS placement, standalone MAIN placement, or
+PC-98 startup acceptance.
+
+## MAIN pellet-render header closure
+
+The fifty-fourth declaration batch routes the historical
+`th04/main/bullet/pellet_r.hpp` edge through
+`src/main/include/th04/main/bullet/pellet_r.hpp`, backed by the artifact-local
+`src/main/bullet/pellet_r.hpp`. The local surface preserves the
+`pellet_render_t` top/bottom union, the `PELLET_COUNT`-sized render array and
+count, and the two near renderer entry declarations used by the maintained
+bullet update/render owners.
+
+The v1006 TC4J GAME=4 reference/local probe passes with semantic OMF SHA-256
+`92ca695c01691b3df567faabb541e465993ca32abfb7540341ae7085b4ffd72b`
+(receipt SHA-256
+`128d1ab527e840e704d015d67911fa9dd9472875f5254e2cfb28837dcc4d5e7b`).
+The v1006 aggregate receipt
+`gpt-5-6-sol-main-pellet-r-header-aggregate-093-20260929/receipt.json` has
+SHA-256
+`7c922f17383d79ae8785ebb605f45d5f59cf1f88289740f9b169a8329ab7c5a7` and
+preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb` while
+staging one pellet-render header occurrence. The existing symbolic ASM owner
+`th04-main-pellet-render-asm-v161` remains raw/MAP/relocation exact at file
+`0xE19C`, size `0xFC`, `TILE_TEXT:0x1EAC`, slice SHA-256
+`21006e191df5be13ca186eaee0787f681cddadc6a631c65679b2b46cdd7c77e3`.
+Inventory v1006 is now 42 missing paths / 42 references: 5 headers,
+35 `.cpp` fragments, and two `.inl` fragments; only `th04/dialog.cpp` remains
+unmapped, and the next header edge is `th04/hardware/inputvar.h`. This is
+compiler-observed pellet-render declaration closure and affected-owner
+revalidation, not pellet DATA/BSS placement, standalone MAIN placement, or
 PC-98 startup acceptance.
 
 ## MAIN stage-bonus header closure

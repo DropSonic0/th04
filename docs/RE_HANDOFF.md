@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the forty-seventh MAIN declaration/helper closure batch. This is the
+Updated 2026-09-29 after the forty-ninth MAIN declaration/helper closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -209,8 +209,8 @@ native OP has transferred control to `MAIN.EXE`. This does not establish
 original MAIN or MAINE execution. The strict shared CDG loader still gives
 raw-zero decoded modules and matching relocations for both OP and MAINE in
 two cold replay links. See the native OP note for receipts and limits. MAIN has no
-standalone build yet: its maintained sources still have 43 missing quoted
-include paths: 6 declaration headers (6 references), 35 composite `.cpp`
+standalone build yet: its maintained sources still have 42 missing quoted
+include paths: 5 declaration headers (5 references), 35 composite `.cpp`
 fragments, and two `.inl` fragments. See the
 [MAIN source-closure note](reconstruction/product/TH04_NATIVE_MAIN_SOURCE_CLOSURE_V882.md)
 for the eight affected composite producers and missing data/BSS owners.
@@ -984,6 +984,31 @@ unmapped, and the next header edge is `th04/main/bullet/pellet_r.hpp`. This
 closes stage-render declarations and affected-owner revalidation only; stage
 callback/star DATA/BSS ownership, standalone MAIN placement, and PC-98 startup
 remain open.
+
+The historical `th04/main/bullet/pellet_r.hpp` path now resolves to the
+product-owned MAIN pellet-render API through
+`src/main/include/th04/main/bullet/pellet_r.hpp`, backed by
+`src/main/bullet/pellet_r.hpp`. The v1006 TC4J GAME=4 reference/local probe
+matches semantic OMF SHA-256
+`92ca695c01691b3df567faabb541e465993ca32abfb7540341ae7085b4ffd72b`
+(receipt SHA-256
+`128d1ab527e840e704d015d67911fa9dd9472875f5254e2cfb28837dcc4d5e7b`).
+The v1006 aggregate receipt
+`gpt-5-6-sol-main-pellet-r-header-aggregate-093-20260929/receipt.json` has
+SHA-256
+`7c922f17383d79ae8785ebb605f45d5f59cf1f88289740f9b169a8329ab7c5a7` and
+preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb` while
+staging one pellet-render header rewrite. The existing symbolic ASM owner
+`th04-main-pellet-render-asm-v161` remains raw/MAP/relocation exact at file
+`0xE19C`, size `0xFC`, `TILE_TEXT:0x1EAC`, slice SHA-256
+`21006e191df5be13ca186eaee0787f681cddadc6a631c65679b2b46cdd7c77e3`.
+Inventory v1006 is now 42 missing paths / 42 references: 5 headers,
+35 `.cpp` fragments, and two `.inl` fragments; only `th04/dialog.cpp` remains
+unmapped, and the next header edge is `th04/hardware/inputvar.h`. This closes
+pellet-render declarations and affected-owner revalidation only; pellet DATA/BSS
+ownership, standalone MAIN placement, and PC-98 startup remain open.
 
 Inventory v996 is now 52 missing paths / 64 references: 15 headers (27
 references), 35 `.cpp` fragments, and two `.inl` fragments; only
