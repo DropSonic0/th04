@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the forty-third MAIN declaration/helper closure batch. This is the
+Updated 2026-09-29 after the forty-fourth MAIN declaration/helper closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -209,8 +209,8 @@ native OP has transferred control to `MAIN.EXE`. This does not establish
 original MAIN or MAINE execution. The strict shared CDG loader still gives
 raw-zero decoded modules and matching relocations for both OP and MAINE in
 two cold replay links. See the native OP note for receipts and limits. MAIN has no
-standalone build yet: its maintained sources still have 53 missing quoted
-include paths: 16 declaration headers (30 references), 35 composite `.cpp`
+standalone build yet: its maintained sources still have 52 missing quoted
+include paths: 15 declaration headers (27 references), 35 composite `.cpp`
 fragments, and two `.inl` fragments. See the
 [MAIN source-closure note](reconstruction/product/TH04_NATIVE_MAIN_SOURCE_CLOSURE_V882.md)
 for the eight affected composite producers and missing data/BSS owners.
@@ -735,6 +735,35 @@ references), 35 `.cpp` fragments, and two `.inl` fragments; only
 only. The reference `th04/main/tile/inv[bss].asm` still owns the callback
 words adjacent to tile invalidation state, so BSS ownership, standalone MAIN
 placement, and PC-98 startup remain open.
+
+The historical `th04/main/dialog/dialog.hpp` path now resolves to the
+product-owned MAIN dialog declarations through
+`src/main/include/th04/main/dialog/dialog.hpp`, backed by
+`src/main/dialog/dialog.hpp`. The v996 TC4J reference/local probe matches
+semantic OMF SHA-256
+`a426841032133841315a534943fcb80065df91e6700d02d460b0f0661f1bacdf`
+(receipt SHA-256
+`8dda346783b8f5e2f27447712d8c33c72dd6b226edd01825993e0d3091c770a1`).
+The v996 aggregate receipt
+`gpt-5-6-sol-main-dialog-header-aggregate-080-20260929/receipt.json` has
+SHA-256 `665606c3c0ef15d73334afd6f3addfd59fc655ca95a5609a67dec941c14680b2`
+and preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
+The `boss.cpp` owner remains raw/MAP/relocation exact at file `0x1F761`,
+size `0x9B6`, `MAIN_035_TEXT:0xA4D1`, slice SHA-256
+`14ac3390b67ec8ee06b25669e9f8a62b9da07a9a82d96e100864a9fbe24cad1f`; the
+`session_init.cpp` owner remains exact at file `0xC503`, size `0x1CD`,
+`DEMO_TEXT:0x08FC`, slice SHA-256
+`2e37dff3ee0d9933fc207c7157cc5bdb3a8dd582128a07089f4cac2538cf833b`.
+Inventory v996 is now 52 missing paths / 64 references: 15 headers (27
+references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped, and the next header edge is
+`th04/shiftjis/fns.hpp`. This closes the dialog declaration surface only.
+The reference `th04/main/dialog/dialog[bss].asm` still owns
+`_std_update`, `_dialog_p`, `_dialog_cursor`, and `_dialog_side`;
+their local ownership, standalone MAIN placement, and PC-98 startup remain
+open.
 
 The historical `th04/main/drawp.hpp` path now resolves to the product-owned
 MAIN drawpoint declaration through `src/main/include/th04/main/drawp.hpp`,
