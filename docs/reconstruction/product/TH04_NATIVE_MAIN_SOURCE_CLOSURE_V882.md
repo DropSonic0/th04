@@ -5,17 +5,17 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v997 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v997-shiftjis-20260929/inventory.json`.
+The current v998 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v998-overlay-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 14 | 24 |
+| `.h` / `.hpp` declarations | 13 | 21 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **51** | **61** |
+| **Total** | **50** | **58** |
 
-The next remaining header edge is now `th04/main/hud/overlay.hpp`, followed
+The next remaining header edge is now `th04/main/pointnum/pointnum.hpp`, followed
 by the remaining declaration and composite surfaces. These names denote needed
 declarations, not approval to reuse cross-game product headers.
 
@@ -1196,6 +1196,36 @@ th04/main/dialog/dialog.hpp. The reference th04/main/tile/inv[bss].asm still
 owns the callback words beside tile invalidation state. This is
 compiler-observed callback declaration closure, not BSS ownership, standalone
 MAIN placement, or PC-98 startup acceptance.
+
+## MAIN overlay header closure
+
+The forty-sixth declaration/helper batch routes the historical
+`th04/main/hud/overlay.hpp` edge through
+`src/main/include/th04/main/hud/overlay.hpp`, backed by the artifact-local
+`src/main/hud/overlay.hpp`. The local surface preserves the near overlay
+callbacks, fade constants, popup enum/entry points, title callbacks, and the
+inherited text-RAM fill macros. It also carries the gaiji enum needed by the
+existing overlay producer, but allocates no overlay or gaiji DATA/BSS.
+
+The v998 TC4J GAME=4 reference/local probe passes with semantic OMF SHA-256
+`a26b77bd8663d61c764d0288110cd97b82c7a46614a0fdf3722ce00456dd793c`
+(receipt SHA-256
+`1fc2aade4882af7e717d954aca8ca6bcbd5bfd620eb6b09e817f72b007f2f5ab`).
+The v998 aggregate receipt
+`gpt-5-6-sol-main-hud-overlay-aggregate-082-20260929/receipt.json` has
+SHA-256 `a41dcc3ec69751b2676f2e40047c51362ccafd2502517f42ed4cccb06cfc2e1f`
+and preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
+The maintained `overlay.cpp` owner remains raw/MAP/relocation exact at its
+accepted slice (source SHA-256
+`26254650e84d3e8c28d27b1e17f73623fa620a0844f93221684ecee59dfec850`).
+Inventory v998 is now 50 missing paths / 58 references: 13 headers
+(21 references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped, and the next header edge is
+`th04/main/pointnum/pointnum.hpp`. This is compiler-observed declaration and
+helper closure, not overlay/gaiji storage ownership, standalone MAIN
+placement, or PC-98 startup acceptance.
 
 ## MAIN Shift-JIS filename macro closure
 

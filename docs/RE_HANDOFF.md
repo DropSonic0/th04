@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the forty-fifth MAIN declaration/helper closure batch. This is the
+Updated 2026-09-29 after the forty-sixth MAIN declaration/helper closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -209,8 +209,8 @@ native OP has transferred control to `MAIN.EXE`. This does not establish
 original MAIN or MAINE execution. The strict shared CDG loader still gives
 raw-zero decoded modules and matching relocations for both OP and MAINE in
 two cold replay links. See the native OP note for receipts and limits. MAIN has no
-standalone build yet: its maintained sources still have 51 missing quoted
-include paths: 14 declaration headers (24 references), 35 composite `.cpp`
+standalone build yet: its maintained sources still have 50 missing quoted
+include paths: 13 declaration headers (21 references), 35 composite `.cpp`
 fragments, and two `.inl` fragments. See the
 [MAIN source-closure note](reconstruction/product/TH04_NATIVE_MAIN_SOURCE_CLOSURE_V882.md)
 for the eight affected composite producers and missing data/BSS owners.
@@ -780,6 +780,30 @@ references), 35 `.cpp` fragments, and two `.inl` fragments; only
 `th04/main/hud/overlay.hpp`. This closes the filename-macro surface only;
 target string-data ownership, standalone MAIN placement, and PC-98 startup
 remain open.
+
+The historical `th04/main/hud/overlay.hpp` path now resolves to the
+product-owned MAIN overlay declarations through
+`src/main/include/th04/main/hud/overlay.hpp`, backed by
+`src/main/hud/overlay.hpp`. The v998 TC4J GAME=4 reference/local probe matches
+semantic OMF SHA-256
+`a26b77bd8663d61c764d0288110cd97b82c7a46614a0fdf3722ce00456dd793c`
+(receipt SHA-256
+`1fc2aade4882af7e717d954aca8ca6bcbd5bfd620eb6b09e817f72b007f2f5ab`).
+The v998 aggregate receipt
+`gpt-5-6-sol-main-hud-overlay-aggregate-082-20260929/receipt.json` has
+SHA-256 `a41dcc3ec69751b2676f2e40047c51362ccafd2502517f42ed4cccb06cfc2e1f`
+and preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
+The maintained `overlay.cpp` owner remains raw/MAP/relocation exact at its
+accepted slice (source SHA-256
+`26254650e84d3e8c28d27b1e17f73623fa620a0844f93221684ecee59dfec850`).
+Inventory v998 is now 50 missing paths / 58 references: 13 headers (21
+references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped, and the next header edge is
+`th04/main/pointnum/pointnum.hpp`. This closes overlay declarations and
+compiler helpers only; overlay/gaiji DATA/BSS ownership, standalone MAIN
+placement, and PC-98 startup remain open.
 
 Inventory v996 is now 52 missing paths / 64 references: 15 headers (27
 references), 35 `.cpp` fragments, and two `.inl` fragments; only
