@@ -209,17 +209,16 @@ native OP has transferred control to `MAIN.EXE`. This does not establish
 original MAIN or MAINE execution. The strict shared CDG loader still gives
 raw-zero decoded modules and matching relocations for both OP and MAINE in
 two cold replay links. See the native OP note for receipts and limits. MAIN has no
-standalone build yet: its maintained sources now have one missing quoted
-include path, the physical `th04/dialog.cpp` composite. See the
+standalone build yet: v1020 now closes the maintained quoted-source inventory,
+including the physical dialog composition, but the native object/link manifest,
+target DATA/BSS placement, and startup path remain open. See the
 [MAIN source-closure note](reconstruction/product/TH04_NATIVE_MAIN_SOURCE_CLOSURE_V882.md)
-for the eight affected composite producers and remaining data/BSS owners.
+and [dialog composition note](reconstruction/product/TH04_NATIVE_MAIN_DIALOG_COMPOSITION_V1020.md).
 Recover TH04 declarations under the local product tree rather than importing
-ReC98 headers wholesale. The v1013 inventory joins unit overlays, build
-inserts, and splits: all 36 replay-visible body fragment paths map to
-maintained source; only the physical `th04/dialog.cpp` composition remains
-open. The v1013 exact-unit replay freezes local composite `.cpp`/`.asm` inputs
-and records cold-tree-only historical-include rewrites for the DEMO and
-Mugetsu physical producers. Its two cold builds pass all 275 selected units
+ReC98 headers wholesale. The v1020 inventory reports zero missing quoted paths
+and zero references. The exact-unit replay keeps the historical fused producer
+only in the cold scaffold through a manifest-bound include rewrite; maintained
+product source stays under `src/main/`. Its two cold builds pass all 275 selected units
 with identical diagnostic MAIN SHA-256
 `d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
 This remains scaffold-based replay evidence, not a standalone MAIN build or

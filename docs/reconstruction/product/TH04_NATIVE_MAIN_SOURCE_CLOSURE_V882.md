@@ -5,33 +5,32 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v1011 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v1011-checkerb-20260929/inventory.json`.
+The current v1020 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-dialog-compose-v1020-20260929/inventory.json`.
 
 The v1012 dialog storage batch below is a bounded DATA/BSS ownership addition;
-it does not change the v1011 source-closure count or claim a standalone MAIN
-link.
+the v1020 composition batch closes the maintained quoted-source inventory, but
+neither batch claims a standalone MAIN link.
 
 The v1013 composition batch localized the 36 historical composite body
-includes that already map to checked-in product sources. The replay driver now
-freezes those `.cpp`/`.asm` inputs and applies explicit cold-tree-only spelling
-rewrites for the DEMO composite and the PC-98 Mugetsu prebuild; maintained
-source is not rewritten. The fresh inventory at
-`.analysis/reconstruction/probes/native-main-inventory-v1013b-composition-20260929/inventory.json`
-reports one missing body path and one reference, `th04/dialog.cpp`, which is
-still intentionally unmapped. The full 275-owner exact replay passes twice;
-see [the v1013 composition note](TH04_NATIVE_MAIN_COMPOSITION_V1013.md).
+includes that already map to checked-in product sources. The v1020 dialog
+composition batch now adds a maintained physical `src/main/dialog/dialog.cpp`
+producer, a candidate script-parameter BSS owner, and the fused product input
+path. The fresh inventory reports zero missing quoted paths and zero
+references. Exact replay still uses a manifest-bound cold-tree-only rewrite
+for the historical fused spelling; maintained source is not rewritten. See
+[the v1020 dialog composition note](TH04_NATIVE_MAIN_DIALOG_COMPOSITION_V1020.md).
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
 | `.h` / `.hpp` declarations | 0 | 0 |
-| `.cpp` composite fragments | 1 | 1 |
+| `.cpp` composite fragments | 0 | 0 |
 | `.inl` composite fragments | 0 | 0 |
-| **Total** | **1** | **1** |
+| **Total** | **0** | **0** |
 
-No declaration-header edges remain; after v1013 the remaining missing path is
-one composite surface. These names denote needed
-declarations, not approval to reuse cross-game product headers.
+No declaration-header or quoted composite edges remain in the maintained
+inventory. These names denote needed declarations, not approval to reuse
+cross-game product headers.
 
 Eight maintained physical producers include `.cpp` fragments by historical
 `th04/` paths: `boss_bg_main01.cpp`, `yuuka6_main034.cpp`,
@@ -43,19 +42,18 @@ translation units, but their composition and near-call segment ownership must
 be reconciled before adding them to a native MAIN link manifest. Compiling
 both a composite and its included child as objects would duplicate publics.
 The local ReC98 reference has no remaining missing declaration header. The
-v1013 mapping is a source-location and replay-input observation, not evidence
-that the remaining dialog composition is ready for a TH04-owned product build.
-The existing maintained function bodies must still be composed into that
-physical translation unit and its state owners found.
+v1020 mapping and local producer are compiler-observed source closure only,
+not evidence that the dialog producer is byte-exact or ready for a TH04-owned
+product build. Target DATA/BSS ordering and standalone link placement remain
+unverified.
 The inventory now joins historical include paths to all three exact-replay
 composition surfaces: ordinary unit overlays, build inserts, and source
-splits. Maintained source maps all 36 replay-visible body fragment paths. The four
+splits. Maintained source maps all replay-visible body fragment paths. The four
 v898 false negatives are `th04/gsinit.cpp`, `th04/m4tail.inl`,
 `th04/main/dialog/init_exit.inl`, and `th04/y5p2.cpp`; their checked-in replay
-rules already bind them to maintained source. Only `th04/dialog.cpp` remains
-without a complete local physical composition. It is the historical root
-wrapper for the dialog producer, whose accepted bodies currently enter
-through several fragment and scaffold patch surfaces.
+rules already bind them to maintained source. The physical dialog wrapper is
+now locally composed, while its target byte ownership and native link
+placement remain separate open claims.
 
 ## MAIN frame-state closure
 
