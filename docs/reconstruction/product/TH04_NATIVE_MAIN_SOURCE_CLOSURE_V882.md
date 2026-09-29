@@ -5,17 +5,17 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v1007 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v1007-inputvar-20260929/inventory.json`.
+The current v1008 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v1008-demo-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 4 | 4 |
+| `.h` / `.hpp` declarations | 3 | 3 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **41** | **41** |
+| **Total** | **40** | **40** |
 
-The next remaining header edge is now `th04/main/demo.hpp`, followed
+The next remaining header edge is now `th04/shiftjis.hpp`, followed
 by the remaining declaration and composite surfaces. These names denote needed
 declarations, not approval to reuse cross-game product headers.
 
@@ -28,7 +28,7 @@ Related function bodies already exist as separate maintained `src/main`
 translation units, but their composition and near-call segment ownership must
 be reconciled before adding them to a native MAIN link manifest. Compiling
 both a composite and its included child as objects would duplicate publics.
-The local ReC98 reference has files at all 12 remaining missing header paths, but only
+The local ReC98 reference has files at all 3 remaining missing header paths, but only
 two of the 35 missing `.cpp` paths and neither missing `.inl` path. This is a
 source-location observation, not evidence that those headers are ready for a
 TH04-owned product build. The existing maintained function bodies must be
@@ -1362,6 +1362,39 @@ unmapped, and the next header edge is `th04/main/demo.hpp`. This is
 compiler-observed inputvar declaration closure and affected-owner
 revalidation, not input DATA/BSS placement, standalone MAIN placement, or
 PC-98 startup acceptance.
+
+## MAIN demo header closure
+
+The fifty-sixth declaration batch routes the historical
+`th04/main/demo.hpp` edge through the product wrapper
+`src/main/include/th04/main/demo.hpp`, backed by `src/main/demo.hpp`. The local
+surface preserves the `REC<Frames>` replay layout, GAME-specific `DEMO_N`
+constants, far `DemoBuf`, and near `DemoPlay` declaration. It also carries the
+bounded `demo_end()` free/fade/chain macro needed by the existing demo owner;
+the cross-code-segment `GameExecl` call remains an explicitly classified
+original-style ASM seam because the pinned compiler's natural call is a far
+CALL rather than the target's NOP/PUSH-CS/near-CALL sequence.
+
+The v1008 TC4J GAME=4 reference/local probe passes with semantic OMF SHA-256
+`da58132a85ef5996e965e9c33f4c3c85384c13fa882c36544e36acd8642a894a`
+(receipt SHA-256
+`6d1042bc46819237c9ad0e540be45e933eebbae2d584971d0b343144ce1ce0a4`).
+The v1008 aggregate receipt
+`gpt-5-6-sol-main-demo-header-1008-20260929/receipt.json` has SHA-256
+`1a7fac1c998b643f078f251191e494bbee7fbe72702b977b096474df6332bd32` and
+preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb` while
+staging one demo-header rewrite. The `th04/demo.cpp` owner remains
+raw/MAP/relocation exact at file `0xCBEE`, size `0x9A`, `DEMO_TEXT:0x08FE`,
+slice SHA-256
+`b87d9f4e21d2b60129d1f1dea010f1c46eb7982efb0b7bed54c6be454112d740`.
+Inventory v1008 is now 40 missing paths / 40 references: 3 headers,
+35 `.cpp` fragments, and two `.inl` fragments; only `th04/dialog.cpp` remains
+unmapped, and the next header edge is `th04/shiftjis.hpp`. This is
+compiler-observed demo declaration closure and affected-owner revalidation,
+not replay DATA/BSS placement, standalone MAIN placement, or PC-98 startup
+acceptance.
 
 ## MAIN stage-bonus header closure
 

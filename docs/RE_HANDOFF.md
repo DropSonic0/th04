@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the fifty-fifth MAIN declaration/helper closure batch. This is the
+Updated 2026-09-29 after the fifty-sixth MAIN declaration/helper closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -209,8 +209,8 @@ native OP has transferred control to `MAIN.EXE`. This does not establish
 original MAIN or MAINE execution. The strict shared CDG loader still gives
 raw-zero decoded modules and matching relocations for both OP and MAINE in
 two cold replay links. See the native OP note for receipts and limits. MAIN has no
-standalone build yet: its maintained sources still have 42 missing quoted
-include paths: 5 declaration headers (5 references), 35 composite `.cpp`
+standalone build yet: its maintained sources still have 40 missing quoted
+include paths: 3 declaration headers (3 references), 35 composite `.cpp`
 fragments, and two `.inl` fragments. See the
 [MAIN source-closure note](reconstruction/product/TH04_NATIVE_MAIN_SOURCE_CLOSURE_V882.md)
 for the eight affected composite producers and missing data/BSS owners.
@@ -1033,6 +1033,31 @@ Inventory v1007 is now 41 missing paths / 41 references: 4 headers,
 unmapped, and the next header edge is `th04/main/demo.hpp`. This closes the
 inputvar declaration path and affected-owner revalidation only; input DATA/BSS
 ownership, standalone MAIN placement, and PC-98 startup remain open.
+
+The historical `th04/main/demo.hpp` path now resolves through the product-owned
+wrapper `src/main/include/th04/main/demo.hpp`, backed by `src/main/demo.hpp`.
+The v1008 TC4J GAME=4 reference/local probe matches semantic OMF SHA-256
+`da58132a85ef5996e965e9c33f4c3c85384c13fa882c36544e36acd8642a894a`
+(receipt SHA-256
+`6d1042bc46819237c9ad0e540be45e933eebbae2d584971d0b343144ce1ce0a4`).
+The v1008 aggregate receipt
+`gpt-5-6-sol-main-demo-header-1008-20260929/receipt.json` has SHA-256
+`1a7fac1c998b643f078f251191e494bbee7fbe72702b977b096474df6332bd32` and
+preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb` while
+staging one demo-header rewrite. The `th04/demo.cpp` owner remains
+raw/MAP/relocation exact at file `0xCBEE`, size `0x9A`, `DEMO_TEXT:0x08FE`,
+slice SHA-256
+`b87d9f4e21d2b60129d1f1dea010f1c46eb7982efb0b7bed54c6be454112d740`.
+The cross-code-segment `GameExecl` seam remains a bounded original-style ASM
+surface because the pinned compiler's natural call is a far CALL; this does not
+promote the header to whole-runtime exactness. Inventory v1008 is now 40 missing
+paths / 40 references: 3 headers, 35 `.cpp` fragments, and two `.inl`
+fragments; only `th04/dialog.cpp` remains unmapped, and the next header edge is
+`th04/shiftjis.hpp`. This closes the demo declaration path and affected-owner
+revalidation only; replay DATA/BSS ownership, standalone MAIN placement, and
+PC-98 startup remain open.
 
 Inventory v996 is now 52 missing paths / 64 references: 15 headers (27
 references), 35 `.cpp` fragments, and two `.inl` fragments; only

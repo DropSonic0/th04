@@ -381,6 +381,13 @@ local_header = "src/main/include/th04/hardware/inputvar.h"
 minimum_count = 1
 
 [[scaffold_tree_include_rewrites]]
+id = "th04-main-demo-api-local"
+tree_root = "th04"
+old_include = "th04/main/demo.hpp"
+local_header = "src/main/include/th04/main/demo.hpp"
+minimum_count = 1
+
+[[scaffold_tree_include_rewrites]]
 id = "th04-planar-api-local"
 tree_root = "th04"
 old_include = "planar.h"
