@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the fifty-seventh MAIN declaration/helper closure batch. This is the
+Updated 2026-09-29 after the fifty-eighth MAIN declaration/helper closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -209,8 +209,8 @@ native OP has transferred control to `MAIN.EXE`. This does not establish
 original MAIN or MAINE execution. The strict shared CDG loader still gives
 raw-zero decoded modules and matching relocations for both OP and MAINE in
 two cold replay links. See the native OP note for receipts and limits. MAIN has no
-standalone build yet: its maintained sources still have 39 missing quoted
-include paths: 2 declaration headers (2 references), 35 composite `.cpp`
+standalone build yet: its maintained sources still have 38 missing quoted
+include paths: 1 declaration header (1 reference), 35 composite `.cpp`
 fragments, and two `.inl` fragments. See the
 [MAIN source-closure note](reconstruction/product/TH04_NATIVE_MAIN_SOURCE_CLOSURE_V882.md)
 for the eight affected composite producers and missing data/BSS owners.
@@ -1083,6 +1083,28 @@ fragments, and two `.inl` fragments; only `th04/dialog.cpp` remains unmapped,
 and the next header edge is `th04/formats/scoredat/scoredat.hpp`. This closes
 the Shift-JIS declaration path and affected-owner revalidation only; text
 DATA/BSS ownership, standalone MAIN placement, and PC-98 startup remain open.
+
+The historical `th04/formats/scoredat/scoredat.hpp` path now resolves through
+the product wrapper `src/main/include/th04/formats/scoredat/scoredat.hpp`, backed
+by `src/main/score/scoredat.hpp`. The v1010 GAME=4/BINARY=M TC4J probe matches
+semantic OMF SHA-256
+`65f80e25f4e04491ce454d44dec7493cf12bc98236da1e0f980fc665763a5c1d`
+(receipt SHA-256
+`7069c6747867c2ab64c137cda4f9350f89809da422060e0b1018dcd9c81082dd`). The
+v1010 aggregate receipt
+`gpt-5-6-sol-main-scoredat-header-1010-20260929/receipt.json` has SHA-256
+`4d4d6b4310dd9df22e706e7df802ab6fafd833a8cf764cb106cf7a01cd9a30e5`,
+preserves all 275 accepted extents in two cold builds with identical diagnostic
+MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`. The
+`th04/score_rm.cpp` owner remains raw/MAP/relocation exact at file `0x1420A`,
+size `0x2DB`, `SCORE_TEXT:0x7F1A`, slice SHA-256
+`41706ba632de7dc75b50a9f55bb88c3111dab1716f9074ae983867d43fafa001`.
+Inventory v1010 is now 38 missing paths / 38 references: 1 header, 35 `.cpp`
+fragments, and two `.inl` fragments; only `th04/dialog.cpp` remains unmapped,
+and the next header edge is `th04/main/checkerb.hpp`. This closes the scoredat
+declaration path and affected-owner revalidation only; score DATA/BSS ownership,
+standalone MAIN placement, and PC-98 startup remain open.
 
 Inventory v996 is now 52 missing paths / 64 references: 15 headers (27
 references), 35 `.cpp` fragments, and two `.inl` fragments; only

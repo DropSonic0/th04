@@ -5,17 +5,17 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v1009 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v1009b-shiftjis-20260929/inventory.json`.
+The current v1010 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v1010-scoredat-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 2 | 2 |
+| `.h` / `.hpp` declarations | 1 | 1 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **39** | **39** |
+| **Total** | **38** | **38** |
 
-The next remaining header edge is now `th04/formats/scoredat/scoredat.hpp`, followed
+The next remaining header edge is now `th04/main/checkerb.hpp`, followed
 by the remaining declaration and composite surfaces. These names denote needed
 declarations, not approval to reuse cross-game product headers.
 
@@ -28,7 +28,7 @@ Related function bodies already exist as separate maintained `src/main`
 translation units, but their composition and near-call segment ownership must
 be reconciled before adding them to a native MAIN link manifest. Compiling
 both a composite and its included child as objects would duplicate publics.
-The local ReC98 reference has files at both remaining missing header paths, but only
+The local ReC98 reference has a file at the one remaining missing header path, but only
 two of the 35 missing `.cpp` paths and neither missing `.inl` path. This is a
 source-location observation, not evidence that those headers are ready for a
 TH04-owned product build. The existing maintained function bodies must be
@@ -1427,6 +1427,37 @@ Inventory v1009 is now 39 missing paths / 39 references: 2 headers,
 unmapped, and the next header edge is
 `th04/formats/scoredat/scoredat.hpp`. This is compiler-observed Shift-JIS
 declaration closure and affected-owner revalidation, not text DATA/BSS
+placement, standalone MAIN placement, or PC-98 startup acceptance.
+
+## MAIN scoredat header closure
+
+The fifty-eighth declaration batch routes the historical
+`th04/formats/scoredat/scoredat.hpp` edge through the product wrapper
+`src/main/include/th04/formats/scoredat/scoredat.hpp`, backed by
+`src/main/score/scoredat.hpp`. The local surface preserves the GAME=4 scoredat
+record and section layouts, `GENSOU.SCR`, clear-state constants, resident
+`hi`/`hi2` declarations, and the GAME=4/BINARY=M near-pointer decode/encode
+signatures used by the maintained ranking owner. It allocates no score DATA/BSS;
+those storage owners remain an open control-plane surface.
+
+The v1010 TC4J GAME=4/BINARY=M reference/local probe passes with semantic OMF
+SHA-256
+`65f80e25f4e04491ce454d44dec7493cf12bc98236da1e0f980fc665763a5c1d`
+(receipt SHA-256
+`7069c6747867c2ab64c137cda4f9350f89809da422060e0b1018dcd9c81082dd`). The
+v1010 aggregate receipt
+`gpt-5-6-sol-main-scoredat-header-1010-20260929/receipt.json` has SHA-256
+`4d4d6b4310dd9df22e706e7df802ab6fafd833a8cf764cb106cf7a01cd9a30e5` and
+preserves all 275 accepted extents in two cold builds with identical diagnostic
+MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`. The
+`th04/score_rm.cpp` owner remains raw/MAP/relocation exact at file `0x1420A`,
+size `0x2DB`, `SCORE_TEXT:0x7F1A`, slice SHA-256
+`41706ba632de7dc75b50a9f55bb88c3111dab1716f9074ae983867d43fafa001`.
+Inventory v1010 is now 38 missing paths / 38 references: 1 header, 35 `.cpp`
+fragments, and two `.inl` fragments; only `th04/dialog.cpp` remains unmapped,
+and the next header edge is `th04/main/checkerb.hpp`. This is compiler-observed
+scoredat declaration closure and affected-owner revalidation, not score DATA/BSS
 placement, standalone MAIN placement, or PC-98 startup acceptance.
 
 ## MAIN stage-bonus header closure
