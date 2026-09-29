@@ -457,6 +457,16 @@ old_include = "th04/sprites/main_pat.h"
 local_header = "src/main/sprites/main_pat.hpp"
 minimum_count = 1
 
+[[scaffold_source_include_rewrites]]
+id = "th04-main-demo-session-local-composites"
+trigger_units = ["th04-main-demo-session-v166"]
+scaffold_path = "th04/demopre.cpp"
+pairs = [
+  ["th04/mainent.cpp", "src/main/core/main.cpp"],
+  ["th04/gloop.cpp", "src/main/core/gameplay_loop.cpp"],
+  ["th04/gsinit.cpp", "src/main/core/gameplay_session_init.cpp"],
+]
+
 [[scaffold_header_rewrites]]
 id = "th04-bb-format-local"
 scaffold_path = "th04/main/tile/bb.hpp"
@@ -7199,6 +7209,13 @@ source_path = "th04/m5all.cpp"
 output_path = "obj/th04/m5all.obj"
 receipt_path = "obj/th04/m5all.pc98-ide.json"
 game = 4
+source_include_rewrites = [
+  ["th04/m5pre.cpp", "src/main/boss/mugetsu_prefix.cpp"],
+  ["th04/m5tr0.cpp", "src/main/boss/mugetsu_180bb.cpp"],
+  ["th04/m5tr12.cpp", "src/main/boss/mugetsu_transitions.cpp"],
+  ["th04/m5p1.cpp", "src/main/boss/mugetsu_phase2_callbacks.cpp"],
+  ["th04/m5late.cpp", "src/main/boss/mugetsu_late.cpp"],
+]
 
 [[units]]
 id = "th04-main-mugetsu-dense-transitions-v144"

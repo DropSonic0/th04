@@ -21,16 +21,16 @@
 #include "th04/snd/snd.h"
 
 #pragma option -a2
-#include "th04/m5pre.cpp"
-#include "th04/m5tr0.cpp"
+#include "src/main/boss/mugetsu_prefix.cpp"
+#include "src/main/boss/mugetsu_180bb.cpp"
 
 #pragma option -a2
 #pragma option -O-
-#include "th04/m5tr12.cpp"
+#include "src/main/boss/mugetsu_transitions.cpp"
 
 #pragma option -a2
 #pragma option -O
-#include "th04/m5p1.cpp"
+#include "src/main/boss/mugetsu_phase2_callbacks.cpp"
 
 #pragma option -a2
-#include "th04/m5late.cpp"
+#include "src/main/boss/mugetsu_late.cpp"

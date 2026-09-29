@@ -6,8 +6,8 @@
 // gameplay_session_init() share one TC4J translation unit. The session source
 // enables word alignment only after all of its headers/declarations, allowing
 // TC4J to word-align its generated switch jump table naturally.
-#include "th04/mainent.cpp"
-#include "th04/gloop.cpp"
-#include "th04/gsinit.cpp"
+#include "src/main/core/main.cpp"
+#include "src/main/core/gameplay_loop.cpp"
+#include "src/main/core/gameplay_session_init.cpp"
 
 #undef TH04_DEMO_PREFIX_COMBINED

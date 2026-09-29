@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the sixtieth MAIN dialog storage ownership batch. This is the
+Updated 2026-09-29 after the MAIN composite-source localization batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -209,16 +209,22 @@ native OP has transferred control to `MAIN.EXE`. This does not establish
 original MAIN or MAINE execution. The strict shared CDG loader still gives
 raw-zero decoded modules and matching relocations for both OP and MAINE in
 two cold replay links. See the native OP note for receipts and limits. MAIN has no
-standalone build yet: its maintained sources still have 37 missing quoted
-include paths: no declaration headers, 35 composite `.cpp`
-fragments, and two `.inl` fragments. See the
+standalone build yet: its maintained sources now have one missing quoted
+include path, the physical `th04/dialog.cpp` composite. See the
 [MAIN source-closure note](reconstruction/product/TH04_NATIVE_MAIN_SOURCE_CLOSURE_V882.md)
-for the eight affected composite producers and missing data/BSS owners.
+for the eight affected composite producers and remaining data/BSS owners.
 Recover TH04 declarations under the local product tree rather than importing
-ReC98 headers wholesale. The corrected inventory joins unit overlays, build
-inserts, and splits: 36/37 missing body fragment paths map to maintained
-source; only the physical `th04/dialog.cpp` composition remains open. The new
-product-owned `frames.h` closes 62 include references, and a local ASM owner
+ReC98 headers wholesale. The v1013 inventory joins unit overlays, build
+inserts, and splits: all 36 replay-visible body fragment paths map to
+maintained source; only the physical `th04/dialog.cpp` composition remains
+open. The v1013 exact-unit replay freezes local composite `.cpp`/`.asm` inputs
+and records cold-tree-only historical-include rewrites for the DEMO and
+Mugetsu physical producers. Its two cold builds pass all 275 selected units
+with identical diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
+This remains scaffold-based replay evidence, not a standalone MAIN build or
+runtime startup claim. The new product-owned `frames.h` closes 62 include
+references, and a local ASM owner
 provides its ten frame/slowdown DATA/BSS symbols. Two isolated TC4J/TASM/TLINK
 DOS probes pass with identical frame OMF and final MZ; this does not yet place
 the owner in a standalone MAIN link or attest target DATA/BSS offsets.

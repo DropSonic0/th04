@@ -23,10 +23,10 @@
 #include "th04/main/rank.hpp"
 #include "src/main/bullet/laser_t.hpp"
 
-#include "th04/chase.cpp"
+#include "src/main/boss/chasecrosses_add.cpp"
 #pragma option -a
-#include "th04/anims.cpp"
-#include "th04/y6gath.cpp"
+#include "src/main/boss/yuuka6_animations.cpp"
+#include "src/main/boss/yuuka6_gather_patterns.cpp"
 
 extern unsigned char yuuka6_sprite_flag;
 

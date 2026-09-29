@@ -18,7 +18,7 @@
 #pragma codeseg B4M_UPDATE_TEXT main_03
 #pragma option -a
 
-#include "th04/y5p1.cpp"
-#include "th04/y5p2.cpp"
+#include "src/main/boss/yuuka5_patterns.cpp"
+#include "src/main/boss/yuuka5_tail.cpp"
 
 #undef TH04_YUUKA5_COMBINED

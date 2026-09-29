@@ -19,21 +19,21 @@
 
 #pragma option -a
 
-#include "th04/ellyscy.cpp"
-#include "th04/ellyini.cpp"
-#include "th04/ellyorb.cpp"
-#include "th04/ellyph1.cpp"
-#include "th04/ellyph2.cpp"
-#include "th04/ellygath.cpp"
-#include "th04/ellybrst.cpp"
-#include "th04/ellyswp.cpp"
-#include "th04/ellyring.cpp"
-#include "th04/ellycld.cpp"
-#include "th04/ellydual.cpp"
-#include "th04/ellycl2.cpp"
-#include "th04/ellyr16.cpp"
-#include "th04/elly4rng.cpp"
-#include "th04/ellyfin.cpp"
+#include "src/main/boss/elly_scythe.cpp"
+#include "src/main/boss/elly_scythe_init.cpp"
+#include "src/main/boss/elly_orbit.cpp"
+#include "src/main/boss/elly_phase_scythe.cpp"
+#include "src/main/boss/elly_phase_orbit.cpp"
+#include "src/main/boss/elly_gather.cpp"
+#include "src/main/boss/elly_phase_burst.cpp"
+#include "src/main/boss/elly_phase_sweep.cpp"
+#include "src/main/boss/elly_phase_ring.cpp"
+#include "src/main/boss/elly_phase_cloud.cpp"
+#include "src/main/boss/elly_phase_dual.cpp"
+#include "src/main/boss/elly_phase_cloud_reverse.cpp"
+#include "src/main/boss/elly_phase_ring16.cpp"
+#include "src/main/boss/elly_phase_four_rings.cpp"
+#include "src/main/boss/elly_phase_final.cpp"
 
 #ifndef TH04_ELLY_MAIN034_COMBINED
 #pragma option -zCMAIN_034_TEXT -zPmain_03

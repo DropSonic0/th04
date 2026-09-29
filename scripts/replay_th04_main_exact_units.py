@@ -121,10 +121,13 @@ def repo_input_paths(
     for entry in scaffold_tree_include_rewrites or []:
         if entry.get("local_header"):
             paths.add(Path(str(entry["local_header"])))
-    # Freeze product-owned headers reached by selected source, including their
-    # own local includes. The pinned ReC98 archive does not contain these files.
+    # Freeze product-owned inputs reached by selected source, including local
+    # composite .cpp/.c/.asm includes. The pinned ReC98 archive does not
+    # contain these files, so a source-local physical TU must carry its
+    # checked-in composition into the cold scaffold.
     pending = list(paths)
     include_pattern = re.compile(rb'^[ \t]*#[ \t]*include[ \t]+"(src/[^"\r\n]+)"', re.MULTILINE)
+    product_suffixes = {".c", ".cpp", ".asm", ".h", ".hpp", ".inl"}
     while pending:
         relative = pending.pop()
         if relative.parts[0] != "src":
@@ -136,7 +139,7 @@ def repo_input_paths(
             raise FileNotFoundError(source)
         for match in include_pattern.finditer(source.read_bytes()):
             header = Path(match.group(1).decode("ascii"))
-            if header.is_absolute() or ".." in header.parts or header.suffix not in {".h", ".hpp", ".inl"}:
+            if header.is_absolute() or ".." in header.parts or header.suffix not in product_suffixes:
                 raise RuntimeError(f"invalid product include in {relative}: {header}")
             if header not in paths:
                 paths.add(header)
@@ -166,6 +169,28 @@ def materialize_product_headers(
         shutil.copy2(frozen, destination)
         if digest_file(destination) != str(item["sha256"]):
             raise RuntimeError(f"product header changed in cold build: {relative}")
+        copied.append(item)
+    return copied
+
+
+def materialize_product_sources(
+    source_root: Path, snapshot_root: Path, receipt: list[dict[str, object]]
+) -> list[dict[str, object]]:
+    """Copy frozen local composite sources into the cold scaffold."""
+
+    copied: list[dict[str, object]] = []
+    for item in receipt:
+        relative = Path(str(item["path"]))
+        if relative.parts[0] != "src" or relative.suffix not in {".c", ".cpp", ".asm"}:
+            continue
+        frozen = snapshot_root / relative
+        destination = source_root / relative
+        if destination.exists() or destination.is_symlink():
+            raise RuntimeError(f"product source collides with scaffold: {relative}")
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(frozen, destination)
+        if digest_file(destination) != str(item["sha256"]):
+            raise RuntimeError(f"product source changed in cold build: {relative}")
         copied.append(item)
     return copied
 
@@ -627,6 +652,90 @@ def apply_scaffold_tree_include_rewrites(
                 "local_header": local_header,
                 "occurrences": occurrence_count,
                 "files": files,
+            }
+        )
+    return receipts
+
+
+def apply_scaffold_source_include_rewrites(
+    source_root: Path,
+    rewrites: list[dict[str, object]],
+    selected_ids: set[str],
+) -> list[dict[str, object]]:
+    """Adapt local composite includes to the pinned scaffold spelling.
+
+    Product-owned composite translation units intentionally include other
+    product sources by their checked-in ``src/`` paths.  The exact replay
+    scaffold still names those physical inputs with their historical
+    ``th04/`` paths, and some later hash-bound source transforms anchor on
+    that spelling.  This replay-only adapter changes include text in the
+    overlaid scaffold copy; it never edits the maintained product source.
+    """
+
+    receipts: list[dict[str, object]] = []
+    for entry in rewrites:
+        triggers = {str(value) for value in entry.get("trigger_units", [])}
+        active = sorted(triggers & selected_ids)
+        if not active:
+            continue
+        rewrite_id = str(entry["id"])
+        scaffold_path = str(entry["scaffold_path"])
+        if not scaffold_path.startswith("th04/"):
+            raise RuntimeError(
+                f"{rewrite_id}: scaffold source rewrite must stay within th04/"
+            )
+        destination = source_root / scaffold_path
+        if not destination.is_file() or destination.is_symlink():
+            raise FileNotFoundError(destination)
+        original = destination.read_bytes()
+        patched = original
+        pair_receipts: list[dict[str, object]] = []
+        pairs = entry.get("pairs", [])
+        if not pairs:
+            raise RuntimeError(f"{rewrite_id}: source include pair list is empty")
+        for index, pair in enumerate(pairs):
+            if not isinstance(pair, list) or len(pair) != 2:
+                raise RuntimeError(f"{rewrite_id}: pair {index} must be [scaffold, local]")
+            scaffold_include, local_include = (str(value) for value in pair)
+            for path in (scaffold_include, local_include):
+                parsed = Path(path)
+                if (
+                    not path
+                    or "\\" in path
+                    or parsed.is_absolute()
+                    or ".." in parsed.parts
+                    or "." in parsed.parts
+                ):
+                    raise RuntimeError(f"{rewrite_id}: invalid include path {path!r}")
+            old_line = f'#include "{local_include}"\n'.encode("ascii")
+            new_line = f'#include "{scaffold_include}"\n'.encode("ascii")
+            count = patched.count(old_line)
+            expected_count = int(entry.get("expected_count", 1))
+            if count != expected_count:
+                raise RuntimeError(
+                    f"{rewrite_id}/pair-{index}: expected {expected_count} local include(s), got {count}"
+                )
+            patched = patched.replace(old_line, new_line)
+            pair_receipts.append(
+                {
+                    "scaffold_include": scaffold_include,
+                    "local_include": local_include,
+                    "count": count,
+                    "local_line_sha256": digest_bytes(old_line),
+                    "scaffold_line_sha256": digest_bytes(new_line),
+                }
+            )
+        stat = destination.stat()
+        destination.write_bytes(patched)
+        os.utime(destination, ns=(stat.st_atime_ns, stat.st_mtime_ns))
+        receipts.append(
+            {
+                "id": rewrite_id,
+                "trigger_units": active,
+                "scaffold_path": scaffold_path,
+                "original_sha256": digest_bytes(original),
+                "patched_sha256": digest_bytes(patched),
+                "pairs": pair_receipts,
             }
         )
     return receipts
@@ -1142,6 +1251,20 @@ def apply_prebuild_objects(
             }
         if not source.is_file() or source.is_symlink():
             raise FileNotFoundError(source)
+        source_include_rewrite_receipts: list[dict[str, object]] = []
+        if entry.get("source_include_rewrites"):
+            source_include_rewrite_receipts = apply_scaffold_source_include_rewrites(
+                source_root,
+                [
+                    {
+                        "id": f"{prebuild_id}-source-includes",
+                        "trigger_units": active,
+                        "scaffold_path": source_rel.as_posix(),
+                        "pairs": entry["source_include_rewrites"],
+                    }
+                ],
+                set(active),
+            )
         output = source_root / output_rel
         driver_receipt = source_root / receipt_rel
         output.parent.mkdir(parents=True, exist_ok=True)
@@ -1198,6 +1321,7 @@ def apply_prebuild_objects(
             "repo_inputs": frozen_inputs,
             "source_path": source_rel.as_posix(),
             "source_sha256": digest_file(source),
+            "source_include_rewrites": source_include_rewrite_receipts,
             "output_path": output_rel.as_posix(),
             "object_sha256": digest_file(output),
             "object_normalized_sha256": omf["dependency_timestamp_normalized_sha256"],
@@ -1646,6 +1770,7 @@ def staged_materialize_build(
     source_transforms: list[dict[str, object]],
     scaffold_header_rewrites: list[dict[str, object]],
     scaffold_tree_include_rewrites: list[dict[str, object]],
+    scaffold_source_include_rewrites: list[dict[str, object]],
     prebuild_objects: list[dict[str, object]],
     snapshot_receipt: list[dict[str, object]],
 ) -> Path:
@@ -1660,6 +1785,7 @@ def staged_materialize_build(
     materialize(revision, source)
     compat_headers = materialize_rec98_compat(source, compat_root=snapshot_compat)
     product_headers = materialize_product_headers(source, snapshot_root, snapshot_receipt)
+    product_sources = materialize_product_sources(source, snapshot_root, snapshot_receipt)
     overlays = overlay_sources(
         source, entries, repo_root=snapshot_root, compat_root=snapshot_compat
     )
@@ -1675,6 +1801,9 @@ def staged_materialize_build(
     )
     build_replacement_receipts = apply_build_replacements(
         source, build_replacements, selected_ids
+    )
+    scaffold_source_include_rewrite_receipts = apply_scaffold_source_include_rewrites(
+        source, scaffold_source_include_rewrites, selected_ids
     )
     source_transform_receipts = apply_source_transforms(
         source, source_transforms, selected_ids
@@ -1693,9 +1822,11 @@ def staged_materialize_build(
         {
             "rec98_compat": compat_headers,
             "product_headers": product_headers,
+            "product_sources": product_sources,
             "overlays": overlays,
             "scaffold_header_rewrites": scaffold_header_rewrite_receipts,
             "scaffold_tree_include_rewrites": scaffold_tree_include_rewrite_receipts,
+            "scaffold_source_include_rewrites": scaffold_source_include_rewrite_receipts,
             "scaffold_extractions": scaffold_extraction_receipts,
             "source_splits": split_receipts,
             "build_inserts": build_insert_receipts,
@@ -1906,6 +2037,9 @@ def main() -> int:
     scaffold_tree_include_rewrites = list(
         config.get("scaffold_tree_include_rewrites", [])
     )
+    scaffold_source_include_rewrites = list(
+        config.get("scaffold_source_include_rewrites", [])
+    )
     prebuild_objects = list(config.get("prebuild_objects", []))
     if args.unit:
         wanted = set(args.unit)
@@ -1975,7 +2109,8 @@ def main() -> int:
             staged_materialize_build(
                 root, "a", revision, entries, splits, build_inserts, build_replacements,
                 scaffold_extractions, source_transforms, scaffold_header_rewrites,
-                scaffold_tree_include_rewrites, prebuild_objects, snapshot_receipt,
+                scaffold_tree_include_rewrites, scaffold_source_include_rewrites,
+                prebuild_objects, snapshot_receipt,
             )
             print("staged replay prepare a: COMPLETE")
             return 0
@@ -1995,7 +2130,8 @@ def main() -> int:
             staged_materialize_build(
                 root, "b", revision, entries, splits, build_inserts, build_replacements,
                 scaffold_extractions, source_transforms, scaffold_header_rewrites,
-                scaffold_tree_include_rewrites, prebuild_objects, snapshot_receipt,
+                scaffold_tree_include_rewrites, scaffold_source_include_rewrites,
+                prebuild_objects, snapshot_receipt,
             )
             print("staged replay prepare b: COMPLETE")
             return 0
@@ -2040,6 +2176,7 @@ def main() -> int:
         materialize(revision, source)
         compat_headers = materialize_rec98_compat(source, compat_root=snapshot_compat)
         product_headers = materialize_product_headers(source, snapshot_root, snapshot_receipt)
+        product_sources = materialize_product_sources(source, snapshot_root, snapshot_receipt)
         overlays = overlay_sources(
             source, entries, repo_root=snapshot_root, compat_root=snapshot_compat
         )
@@ -2055,6 +2192,9 @@ def main() -> int:
         )
         build_replacement_receipts = apply_build_replacements(
             source, build_replacements, selected_ids
+        )
+        scaffold_source_include_rewrite_receipts = apply_scaffold_source_include_rewrites(
+            source, scaffold_source_include_rewrites, selected_ids
         )
         source_transform_receipts = apply_source_transforms(
             source, source_transforms, selected_ids
@@ -2077,6 +2217,7 @@ def main() -> int:
                 "source": str(source.relative_to(ROOT)),
                 "rec98_compat": compat_headers,
                 "product_headers": product_headers,
+                "product_sources": product_sources,
                 "overlays": overlays,
                 "scaffold_header_rewrites": scaffold_header_rewrite_receipts,
                 "scaffold_tree_include_rewrites": scaffold_tree_include_rewrite_receipts,
@@ -2084,6 +2225,7 @@ def main() -> int:
                 "source_splits": split_receipts,
                 "build_inserts": build_insert_receipts,
                 "build_replacements": build_replacement_receipts,
+                "scaffold_source_include_rewrites": scaffold_source_include_rewrite_receipts,
                 "source_transforms": source_transform_receipts,
                 "prebuild_objects": prebuild_object_receipts,
                 "build_log_sha256": digest_file(log),

@@ -1,7 +1,7 @@
 #pragma option -zCM4_RENDER_TEXT -zPmain_01
 
 #define TH04_DIALOG_FUSED 1
-#include "th04/f_dialog.cpp"
+#include "src/main/dialog/file.cpp"
 
 // Create the historical empty DIALOG_TEXT contribution. Transitive dialog
 // headers restore the TU default segment, so the shared dialog producer is

@@ -510,4 +510,4 @@ update_common:
 }
 
 #define TH04_BOSS_BG_MAIN01_COMBINED 1
-#include "th04/y6bg.cpp"
+#include "src/main/boss/yuuka6_bg_render.cpp"

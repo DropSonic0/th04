@@ -18,7 +18,7 @@
 
 #pragma option -a
 
-#include "th04/kurrays.cpp"
+#include "src/main/boss/kurumi_spawnrays.cpp"
 
 extern "C" void near kurumi_orbit_step_forward(void)
 {
@@ -42,9 +42,9 @@ extern "C" void near kurumi_orbit_step_reverse(void)
     boss.angle--;
 }
 
-#include "th04/kphase.cpp"
-#include "th04/kphase2.cpp"
-#include "th04/kstack.cpp"
+#include "src/main/boss/kurumi_spawnray_phases.cpp"
+#include "src/main/boss/kurumi_late_phases.cpp"
+#include "src/main/boss/kurumi_bullet_stacks.cpp"
 
 extern bool palette_changed;
 extern nearfunc_t_near bg_render_bombing_func;

@@ -12,15 +12,25 @@ The v1012 dialog storage batch below is a bounded DATA/BSS ownership addition;
 it does not change the v1011 source-closure count or claim a standalone MAIN
 link.
 
+The v1013 composition batch localized the 36 historical composite body
+includes that already map to checked-in product sources. The replay driver now
+freezes those `.cpp`/`.asm` inputs and applies explicit cold-tree-only spelling
+rewrites for the DEMO composite and the PC-98 Mugetsu prebuild; maintained
+source is not rewritten. The fresh inventory at
+`.analysis/reconstruction/probes/native-main-inventory-v1013b-composition-20260929/inventory.json`
+reports one missing body path and one reference, `th04/dialog.cpp`, which is
+still intentionally unmapped. The full 275-owner exact replay passes twice;
+see [the v1013 composition note](TH04_NATIVE_MAIN_COMPOSITION_V1013.md).
+
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
 | `.h` / `.hpp` declarations | 0 | 0 |
-| `.cpp` composite fragments | 35 | 35 |
-| `.inl` composite fragments | 2 | 2 |
-| **Total** | **37** | **37** |
+| `.cpp` composite fragments | 1 | 1 |
+| `.inl` composite fragments | 0 | 0 |
+| **Total** | **1** | **1** |
 
-No declaration-header edges remain; the remaining missing paths are composite
-surfaces. These names denote needed
+No declaration-header edges remain; after v1013 the remaining missing path is
+one composite surface. These names denote needed
 declarations, not approval to reuse cross-game product headers.
 
 Eight maintained physical producers include `.cpp` fragments by historical
@@ -32,14 +42,14 @@ Related function bodies already exist as separate maintained `src/main`
 translation units, but their composition and near-call segment ownership must
 be reconciled before adding them to a native MAIN link manifest. Compiling
 both a composite and its included child as objects would duplicate publics.
-The local ReC98 reference has no remaining missing declaration header, but only
-two of the 35 missing `.cpp` paths and neither missing `.inl` path. This is a
-source-location observation, not evidence that those headers are ready for a
-TH04-owned product build. The existing maintained function bodies must be
-composed into their physical translation units and their state owners found.
+The local ReC98 reference has no remaining missing declaration header. The
+v1013 mapping is a source-location and replay-input observation, not evidence
+that the remaining dialog composition is ready for a TH04-owned product build.
+The existing maintained function bodies must still be composed into that
+physical translation unit and its state owners found.
 The inventory now joins historical include paths to all three exact-replay
 composition surfaces: ordinary unit overlays, build inserts, and source
-splits. Maintained source maps 36 of 37 missing body fragment paths. The four
+splits. Maintained source maps all 36 replay-visible body fragment paths. The four
 v898 false negatives are `th04/gsinit.cpp`, `th04/m4tail.inl`,
 `th04/main/dialog/init_exit.inl`, and `th04/y5p2.cpp`; their checked-in replay
 rules already bind them to maintained source. Only `th04/dialog.cpp` remains
