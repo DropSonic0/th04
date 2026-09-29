@@ -29,19 +29,20 @@ control-plane frontier, not exactness evidence.
 
 ## Compiler frontier
 
-The follow-up compiler-only probe stages the pinned ReC98 revision and copies
-the current `src/` tree before compiling each unique mapped physical owner:
+The follow-up compiler-only probe stages the pinned ReC98 revision, copies the
+current `src/` tree, and compiles each unique mapped physical owner under its
+historical input basename. This basename matters to TASM: `.code` derives the
+default segment name from the filename. The manifest therefore records two
+exact-unit build aliases (`th04/vectorfar.asm` and `th04/cdgpna.asm`) for
+maintained ASM owners whose historical Tupfile entries are named `.cpp`.
 
 ```text
 python3 scripts/probes/probe_th04_native_main_compile_frontier.py \
-  --output-dir .analysis/reconstruction/probes/native-main-compile-frontier-v1021c-20260929
+  --output-dir .analysis/reconstruction/probes/native-main-compile-frontier-v1021f-20260929
 ```
 
-It produced 49 unique direct/fused owners: 48 valid OMF objects and one
-assembly failure. `src/main/spark.asm` cannot be assembled as an independent
-object because it expects the scaffold-declared `SPARK_A_TEXT` segment; TASM
-reports one undefined segment followed by ten `CS unreachable` diagnostics.
-The native link must therefore materialize that owner through an explicit
-segment wrapper/include decision. The receipt records `link_performed=false`
-and `runtime_performed=false`; this is compiler-observed frontier evidence, not
-standalone MAIN readiness.
+It produced 49 unique direct/fused owners and 49 valid OMF objects. In
+particular, `src/main/spark.asm` compiles as `th04/spark_a.asm`, so TASM emits
+the expected `SPARK_A_TEXT` segment without changing the maintained body. The
+receipt records `link_performed=false` and `runtime_performed=false`; this is
+compiler-observed frontier evidence, not standalone MAIN readiness.

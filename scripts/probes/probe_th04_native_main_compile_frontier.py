@@ -3,8 +3,9 @@
 
 This is a compiler-only frontier. It materializes the pinned ReC98 headers and
 ``th04_main.asm`` environment, copies the maintained ``src`` tree, and builds
-one object per unique direct/fused owner. It does not patch the target, link an
-MZ, or treat a successful object compile as standalone MAIN readiness.
+one object per unique direct/fused owner under its historical input basename.
+It does not patch the target, link an MZ, or treat a successful object compile
+as standalone MAIN readiness.
 """
 
 from __future__ import annotations
@@ -62,6 +63,7 @@ def materialize_reference(work: Path, archive: Path) -> None:
 
 def unique_owners(data: dict[str, object]) -> list[dict[str, object]]:
     direct = data["direct_owners"]
+    compile_aliases = data["compile_aliases"]
     fused = data["fused_owners"]
     seen: dict[str, int] = {}
     owners: list[dict[str, object]] = []
@@ -83,6 +85,7 @@ def unique_owners(data: dict[str, object]) -> list[dict[str, object]]:
         seen[local] = len(owners)
         owners.append({
             "local": local,
+            "compile_as": compile_aliases.get(reference, reference),
             "mode": mode,
             "physical_id": physical_id,
             "references": [reference],
@@ -94,16 +97,25 @@ def compile_owner(owner: dict[str, object], index: int, work: Path, output: Path
                   environment: dict[str, str]) -> dict[str, object]:
     local = str(owner["local"])
     source = work / local
+    compile_as = str(owner["compile_as"])
+    compile_source = work / compile_as
     log = output / f"compile-{index:03d}.log"
     record = {**owner, "index": index, "source_present": source.is_file(),
+              "compile_as": compile_as,
               "log": log.relative_to(output).as_posix()}
     if not source.is_file() or source.is_symlink():
         record.update({"compile_exit": None, "objects": [], "omf_valid": False})
         return record
+    if compile_source.is_symlink():
+        raise RuntimeError(f"historical compile path is a symlink: {compile_as}")
+    compile_source.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(source, compile_source)
+    if digest(compile_source) != digest(source):
+        raise RuntimeError(f"historical compile path changed source bytes: {compile_as}")
     obj_dir = work / "obj/frontier" / f"{index:03d}"
     obj_dir.mkdir(parents=True)
-    relative = source.relative_to(work).as_posix()
-    if source.suffix.lower() == ".asm":
+    relative = compile_source.relative_to(work).as_posix()
+    if compile_source.suffix.lower() == ".asm":
         object_path = obj_dir / "unit.obj"
         source_win = relative.replace("/", "\\")
         object_win = str(object_path.relative_to(work)).replace("/", "\\")
@@ -129,6 +141,7 @@ def compile_owner(owner: dict[str, object], index: int, work: Path, output: Path
         "omf_valid": bool(omf and omf["valid"]),
         "object_sha256": digest(objects[0]) if len(objects) == 1 else None,
         "source_sha256": digest(source),
+        "compile_source_sha256": digest(compile_source),
     })
     return record
 

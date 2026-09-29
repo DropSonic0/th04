@@ -56,14 +56,15 @@ the unresolved inputs still need physical code/data owners, and the historical
 `th04_main.asm` remains scaffold-only. No standalone MAIN link or startup claim
 is made from this manifest.
 
-The compiler-only continuation then stages the pinned scaffold and compiles 49
-unique mapped direct/fused owners. It produces 48 valid OMF objects; the sole
-failure is `src/main/spark.asm`, which needs the scaffold-declared
-`SPARK_A_TEXT` segment and cannot be assembled as an independent object. The
-receipt is
-`.analysis/reconstruction/probes/native-main-compile-frontier-v1021c-20260929/receipt.json`.
-This narrows the next native-build change to an explicit segment-wrapper or
-inline-owner decision; no TLINK, MZ, or startup result is implied.
+The compiler-only continuation stages the pinned scaffold and compiles 49
+unique mapped direct/fused owners under their historical input basenames. All
+49 produce valid OMF objects; the two `.cpp`-named historical routes whose
+maintained owners are ASM use explicit `th04/vectorfar.asm` and
+`th04/cdgpna.asm` compiler aliases. The spark body likewise compiles as
+`th04/spark_a.asm`, letting TASM derive `SPARK_A_TEXT` without changing the
+maintained body. The receipt is
+`.analysis/reconstruction/probes/native-main-compile-frontier-v1021f-20260929/receipt.json`.
+This remains compiler-only: no TLINK, MZ, or startup result is implied.
 
 OP and MAINE now both have closed authored-function queues; MAINE canonical v835 passes all 72/72 accepted slices raw-zero. v821 closes OP `scoredat_decode` and `scoredat_encode`
 with maintained hybrid source: all control/data flow stays C++, while the

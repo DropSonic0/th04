@@ -56,6 +56,7 @@ def audit() -> dict[str, object]:
         "scaffold_sources",
         "reference_sources",
         "direct_owners",
+        "compile_aliases",
         "fused_owners",
         "unmapped",
         "scaffold_only",
@@ -71,10 +72,16 @@ def audit() -> dict[str, object]:
     if listed != observed:
         fail(f"Tupfile MAIN object order drift: manifest={len(listed)} observed={len(observed)}")
     direct = data["direct_owners"]
+    compile_aliases = data["compile_aliases"]
     fused = data["fused_owners"]
     unmapped = data["unmapped"]
     scaffold_only = data["scaffold_only"]
-    if not isinstance(direct, dict) or not isinstance(fused, dict) or not isinstance(unmapped, list):
+    if (
+        not isinstance(direct, dict)
+        or not isinstance(compile_aliases, dict)
+        or not isinstance(fused, dict)
+        or not isinstance(unmapped, list)
+    ):
         fail("owner sections have invalid types")
     if not isinstance(scaffold_only, dict):
         fail("scaffold_only must be a table")
@@ -89,6 +96,19 @@ def audit() -> dict[str, object]:
         fail("unmapped contains duplicates")
     if set(direct) & set(fused) or set(direct) & set(unmapped) or set(fused) & set(unmapped):
         fail("owner classifications overlap")
+    if set(compile_aliases) - (set(direct) | set(fused)):
+        fail("compile_aliases references an unmapped source")
+    if not all(
+        isinstance(reference, str)
+        and isinstance(alias, str)
+        and reference
+        and alias
+        and alias not in listed
+        for reference, alias in compile_aliases.items()
+    ):
+        fail("compile_aliases must name non-empty paths outside reference_sources")
+    if len(set(compile_aliases.values())) != len(compile_aliases):
+        fail("compile_aliases contains duplicate paths")
 
     owners: list[dict[str, object]] = []
     missing_local: list[str] = []
@@ -141,6 +161,7 @@ def audit() -> dict[str, object]:
         "direct_reference_sources": sum(item["mode"] == "direct" for item in owners),
         "fused_reference_sources": sum(item["mode"] == "fused" for item in owners),
         "unmapped": list(unmapped),
+        "compile_aliases": dict(compile_aliases),
         "missing_local": sorted(set(missing_local)),
         "invalid_scaffold": invalid_scaffold,
         "physical_producers": {key: value for key, value in physical.items()},

@@ -137,6 +137,14 @@ unmapped = [
 "th04/bullet_a.cpp" = "src/main/bullet/add.cpp"
 "th04/boss.cpp" = "src/main/boss/boss.cpp"
 
+# Exact-unit build replacements preserve these physical owners under an ASM
+# basename; TASM derives a .code segment name from that historical input name.
+# The maintained bytes remain local, while the compiler alias preserves the
+# replacement object identity (VECTORFAR and CDGPNA) in the native link.
+[compile_aliases]
+"th03/vector.cpp" = "th04/vectorfar.asm"
+"th04/cdg_p_na.cpp" = "th04/cdgpna.asm"
+
 # Two historical dialog modules are one maintained physical producer. The
 # midboss family has the same source-level fusion for its contiguous helpers.
 [fused_owners]
