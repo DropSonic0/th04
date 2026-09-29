@@ -220,6 +220,13 @@ local_header = "src/main/ems.hpp"
 minimum_count = 1
 
 [[scaffold_tree_include_rewrites]]
+id = "th04-main-hiscore-api-local"
+tree_root = "th04"
+old_include = "th04/main/hiscore.hpp"
+local_header = "src/main/hiscore.hpp"
+minimum_count = 1
+
+[[scaffold_tree_include_rewrites]]
 id = "th04-player-bomb-api-local"
 tree_root = "th04"
 old_include = "th04/main/player/bomb.hpp"

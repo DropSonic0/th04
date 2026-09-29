@@ -5,18 +5,18 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v989 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v989-20260929/inventory.json`.
+The current v990 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v990-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 22 | 52 |
+| `.h` / `.hpp` declarations | 21 | 48 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **59** | **89** |
+| **Total** | **58** | **85** |
 
-The heaviest remaining header edge is now `th04/main/hiscore.hpp` (4 references),
-followed by end, std, and splash surfaces. These names denote needed
+The heaviest remaining header edge is now `th04/end/end.h` (4 references),
+followed by std and splash surfaces. These names denote needed
 declarations, not approval to reuse cross-game product headers.
 
 Eight maintained physical producers include `.cpp` fragments by historical
@@ -1006,6 +1006,35 @@ references), 35 `.cpp` fragments, and two `.inl` fragments; only
 `th04/main/hiscore.hpp`. This is compiler-observed declaration closure and
 affected-unit revalidation, not EMS cache DATA/BSS ownership, standalone MAIN
 placement, or PC-98 startup acceptance.
+
+## MAIN hiscore header closure
+
+The thirty-eighth declaration batch routes the historical
+`th04/main/hiscore.hpp` edge through
+`src/main/include/th04/main/hiscore.hpp`, backed by the product-owned
+`src/main/hiscore.hpp`. The local surface preserves the two near high-score
+entry declarations without allocating score-table DATA/BSS storage; existing
+score-data ownership remains in the score implementation.
+
+The v990 TC4J reference/local probe passes with semantic OMF SHA-256
+`4be9978cbff7d6481af7732598dee1b17dc7b380e023bca2015f3c899eb16680`
+(receipt SHA-256
+`99b3e9ca2513ade6fb717d1ecc52ac08d381c2d8c846b26d6f522bf25ff84f59`).
+The aggregate receipt
+`gpt-5-6-sol-main-hiscore-header-aggregate-073-20260929/receipt.json` has
+SHA-256 `eb5683763626575bec6f3c9532858a6a26dca38723ca40343fa9fb0d9345e648`
+and preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
+The `th04/score_rm.cpp` owner remains raw/MAP/relocation exact at file
+`0x1420A`, size `0x2DB`, `SCORE_TEXT:0x7F1A`, slice SHA-256
+`41706ba632de7dc75b50a9f55bb88c3111dab1716f9074ae983867d43fafa001`.
+Inventory v990 is 58 missing paths / 85 references: 21 headers (48
+references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped, and the next header edge is
+`th04/end/end.h`. This is compiler-observed declaration closure and
+affected-unit revalidation, not score-table DATA/BSS ownership, standalone
+MAIN placement, or PC-98 startup acceptance.
 
 ## MAIN tile-BB header closure
 
