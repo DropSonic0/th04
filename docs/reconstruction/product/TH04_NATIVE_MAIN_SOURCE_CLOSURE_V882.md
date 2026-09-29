@@ -5,17 +5,17 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v1003 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v1003-mpn-20260929/inventory.json`.
+The current v1004 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v1004-move-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 8 | 9 |
+| `.h` / `.hpp` declarations | 7 | 7 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **45** | **46** |
+| **Total** | **44** | **44** |
 
-The next remaining header edge is now `th04/main/player/move.hpp`, followed
+The next remaining header edge is now `th04/main/stage/stages.hpp`, followed
 by the remaining declaration and composite surfaces. These names denote needed
 declarations, not approval to reuse cross-game product headers.
 
@@ -1230,6 +1230,41 @@ references), 35 `.cpp` fragments, and two `.inl` fragments; only
 `th04/main/player/move.hpp`. This is compiler-observed MPN layout/API closure
 and affected-owner revalidation, not slot DATA/BSS placement, file semantics,
 standalone MAIN placement, or PC-98 startup acceptance.
+
+## MAIN player-move header closure
+
+The fifty-second declaration/implementation batch routes the historical
+`th04/main/player/move.hpp` edge through
+`src/main/include/th04/main/player/move.hpp`, backed by the artifact-local
+`src/main/player/move.hpp`. The local surface preserves the signed GAME=4
+movement speeds, `MOVE_INVALID`/`MOVE_VALID`/`MOVE_NOINPUT`, and the Pascal
+near `player_move(input_t)` declaration while reusing the attested MAIN input
+and subpixel surfaces.
+
+The v1004 TC4J GAME=4 reference/local probe passes with semantic OMF SHA-256
+`5b68dafe50dbcb1424986c75787badb562674a073f43c35c75e74803d4d6447e`
+(receipt SHA-256
+`3278d5e3fe72873cda131641b1db92abe06a0d09486e83ef89a67b6c7244e447`).
+The v1004 aggregate receipt
+`gpt-5-6-sol-main-player-move-header-aggregate-090-20260929/receipt.json`
+has SHA-256
+`cd56f1c6f7089a7557a55ea3857f6a0ef0046c65014186dbf7c608b9e8774ebd` and
+preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb` while
+staging three movement-header occurrences. The `th04/player_m.cpp` owner
+remains raw/MAP/relocation exact at file `0x12098`, size `0xB8`,
+`PLAYER_M_TEXT:0x5DA8`, slice SHA-256
+`2b53caaff007003e4181ef5afd236dec6afbf04bdf201e6009c024432ae6e86b`; the
+`th04/pupdate.cpp` owner remains exact at file `0x12188`, size `0x275`,
+`MAIN_0_TEXT:0x5E98`, slice SHA-256
+`961208da263bee64965de2153b1d51175e8d1d2c2c157647f30506815aa9f6f7`.
+Inventory v1004 is now 44 missing paths / 44 references: 7 headers,
+35 `.cpp` fragments, and two `.inl` fragments; only `th04/dialog.cpp` remains
+unmapped, and the next header edge is `th04/main/stage/stages.hpp`. This is
+compiler-observed movement declaration closure and affected-owner
+revalidation, not player-state DATA/BSS placement, standalone MAIN placement,
+or PC-98 startup acceptance.
 
 ## MAIN stage-bonus header closure
 

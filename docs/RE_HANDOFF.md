@@ -928,6 +928,35 @@ references), 35 `.cpp` fragments, and two `.inl` fragments; only
 slot DATA/BSS ownership, file semantics, standalone MAIN placement, and
 PC-98 startup remain open.
 
+The historical `th04/main/player/move.hpp` path now resolves to the
+product-owned MAIN movement API through
+`src/main/include/th04/main/player/move.hpp`, backed by
+`src/main/player/move.hpp`. The v1004 TC4J GAME=4 reference/local probe
+matches semantic OMF SHA-256
+`5b68dafe50dbcb1424986c75787badb562674a073f43c35c75e74803d4d6447e`
+(receipt SHA-256
+`3278d5e3fe72873cda131641b1db92abe06a0d09486e83ef89a67b6c7244e447`).
+The v1004 aggregate receipt
+`gpt-5-6-sol-main-player-move-header-aggregate-090-20260929/receipt.json`
+has SHA-256
+`cd56f1c6f7089a7557a55ea3857f6a0ef0046c65014186dbf7c608b9e8774ebd` and
+preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb` while
+staging three movement-header rewrites. The `th04/player_m.cpp` owner remains
+raw/MAP/relocation exact at file `0x12098`, size `0xB8`,
+`PLAYER_M_TEXT:0x5DA8`, slice SHA-256
+`2b53caaff007003e4181ef5afd236dec6afbf04bdf201e6009c024432ae6e86b`; the
+`th04/pupdate.cpp` owner remains exact at file `0x12188`, size `0x275`,
+`MAIN_0_TEXT:0x5E98`, slice SHA-256
+`961208da263bee64965de2153b1d51175e8d1d2c2c157647f30506815aa9f6f7`.
+Inventory v1004 is now 44 missing paths / 44 references: 7 headers,
+35 `.cpp` fragments, and two `.inl` fragments; only `th04/dialog.cpp` remains
+unmapped, and the next header edge is `th04/main/stage/stages.hpp`. This
+closes movement declarations and affected-owner revalidation only; player
+state DATA/BSS ownership, standalone MAIN placement, and PC-98 startup remain
+open.
+
 Inventory v996 is now 52 missing paths / 64 references: 15 headers (27
 references), 35 `.cpp` fragments, and two `.inl` fragments; only
 `th04/dialog.cpp` remains unmapped, and the next header edge is
