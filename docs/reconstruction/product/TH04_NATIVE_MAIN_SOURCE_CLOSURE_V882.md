@@ -5,18 +5,18 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v1010 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v1010-scoredat-20260929/inventory.json`.
+The current v1011 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v1011-checkerb-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 1 | 1 |
+| `.h` / `.hpp` declarations | 0 | 0 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **38** | **38** |
+| **Total** | **37** | **37** |
 
-The next remaining header edge is now `th04/main/checkerb.hpp`, followed
-by the remaining declaration and composite surfaces. These names denote needed
+No declaration-header edges remain; the remaining missing paths are composite
+surfaces. These names denote needed
 declarations, not approval to reuse cross-game product headers.
 
 Eight maintained physical producers include `.cpp` fragments by historical
@@ -28,7 +28,7 @@ Related function bodies already exist as separate maintained `src/main`
 translation units, but their composition and near-call segment ownership must
 be reconciled before adding them to a native MAIN link manifest. Compiling
 both a composite and its included child as objects would duplicate publics.
-The local ReC98 reference has a file at the one remaining missing header path, but only
+The local ReC98 reference has no remaining missing declaration header, but only
 two of the 35 missing `.cpp` paths and neither missing `.inl` path. This is a
 source-location observation, not evidence that those headers are ready for a
 TH04-owned product build. The existing maintained function bodies must be
@@ -1459,6 +1459,36 @@ fragments, and two `.inl` fragments; only `th04/dialog.cpp` remains unmapped,
 and the next header edge is `th04/main/checkerb.hpp`. This is compiler-observed
 scoredat declaration closure and affected-owner revalidation, not score DATA/BSS
 placement, standalone MAIN placement, or PC-98 startup acceptance.
+
+## MAIN checkerb header closure
+
+The fifty-ninth declaration batch routes the historical
+`th04/main/checkerb.hpp` edge through the product wrapper
+`src/main/include/th04/main/checkerb.hpp`, backed by
+`src/main/stage/checkerb.hpp`. The local surface preserves the single GAME=4
+near entry declaration `playfield_checkerboard_grcg_tdw_update_and_render()`;
+it allocates no checkerboard state DATA/BSS.
+
+The v1011 TC4J GAME=4 reference/local near-entry probe passes with semantic OMF
+SHA-256
+`5d0e1f65904bc723f79cdf9c200224b6f81a7cce9095edaa7d7c355622207931`
+(receipt SHA-256
+`0c81f58a245086aff8a40d9f73ad9a3bd84ffcf259dc71499d72ed404f633cfe`). The
+v1011 aggregate receipt
+`gpt-5-6-sol-main-checkerb-header-1011-20260929/receipt.json` has SHA-256
+`b5cc309032ff1ea740892c8c7174a9db43f38942d51478869bf35a2891e7fc54` and
+preserves all 275 accepted extents in two cold builds with identical diagnostic
+MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`. The
+checkerboard prefix/store/suffix owners remain raw/MAP/relocation exact at
+`CHECKERB_TEXT:0x7586`, sizes `0x3E`, `0x7`, and `0x67`, covering 172 of the
+reviewed 174-byte function; the target-derived two-byte LOOP remains blocked
+outside those exact extents. Inventory v1011 is now 37 missing paths / 37
+references: 35 `.cpp` fragments and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped. This is compiler-observed checkerb
+declaration closure and affected-fragment revalidation, not checkerboard state
+DATA/BSS placement, full function exactness, standalone MAIN placement, or
+PC-98 startup acceptance.
 
 ## MAIN stage-bonus header closure
 

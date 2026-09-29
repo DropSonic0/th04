@@ -1,6 +1,6 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-29 after the fifty-eighth MAIN declaration/helper closure batch. This is the
+Updated 2026-09-29 after the fifty-ninth MAIN declaration/helper closure batch. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -209,8 +209,8 @@ native OP has transferred control to `MAIN.EXE`. This does not establish
 original MAIN or MAINE execution. The strict shared CDG loader still gives
 raw-zero decoded modules and matching relocations for both OP and MAINE in
 two cold replay links. See the native OP note for receipts and limits. MAIN has no
-standalone build yet: its maintained sources still have 38 missing quoted
-include paths: 1 declaration header (1 reference), 35 composite `.cpp`
+standalone build yet: its maintained sources still have 37 missing quoted
+include paths: no declaration headers, 35 composite `.cpp`
 fragments, and two `.inl` fragments. See the
 [MAIN source-closure note](reconstruction/product/TH04_NATIVE_MAIN_SOURCE_CLOSURE_V882.md)
 for the eight affected composite producers and missing data/BSS owners.
@@ -1104,6 +1104,27 @@ Inventory v1010 is now 38 missing paths / 38 references: 1 header, 35 `.cpp`
 fragments, and two `.inl` fragments; only `th04/dialog.cpp` remains unmapped,
 and the next header edge is `th04/main/checkerb.hpp`. This closes the scoredat
 declaration path and affected-owner revalidation only; score DATA/BSS ownership,
+standalone MAIN placement, and PC-98 startup remain open.
+
+The historical `th04/main/checkerb.hpp` path now resolves through the product
+wrapper `src/main/include/th04/main/checkerb.hpp`, backed by
+`src/main/stage/checkerb.hpp`. The v1011 GAME=4 TC4J near-entry probe matches
+semantic OMF SHA-256
+`5d0e1f65904bc723f79cdf9c200224b6f81a7cce9095edaa7d7c355622207931`
+(receipt SHA-256
+`0c81f58a245086aff8a40d9f73ad9a3bd84ffcf259dc71499d72ed404f633cfe`). The
+v1011 aggregate receipt
+`gpt-5-6-sol-main-checkerb-header-1011-20260929/receipt.json` has SHA-256
+`b5cc309032ff1ea740892c8c7174a9db43f38942d51478869bf35a2891e7fc54`,
+preserves all 275 accepted extents in two cold builds with identical diagnostic
+MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`. The
+checkerboard prefix/store/suffix owners remain raw/MAP/relocation exact at
+`CHECKERB_TEXT:0x7586`, sizes `0x3E`, `0x7`, and `0x67`; the reviewed two-byte
+LOOP remains outside those exact extents and blocked. Inventory v1011 is now
+37 missing paths / 37 references: 35 `.cpp` fragments and two `.inl` fragments;
+only `th04/dialog.cpp` remains unmapped. This closes the final declaration-header
+edge and affected-fragment revalidation only; checkerboard state DATA/BSS,
 standalone MAIN placement, and PC-98 startup remain open.
 
 Inventory v996 is now 52 missing paths / 64 references: 15 headers (27
