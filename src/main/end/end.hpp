@@ -1,7 +1,7 @@
 #ifndef TH04_MAIN_END_END_HPP
 #define TH04_MAIN_END_END_HPP
 
-// End-chain states shared by MAIN and the ending executable.
+// End-chain state shared by MAIN and the ending executable.
 typedef enum {
 	ES_GOOD = 0xFF,
 	ES_BAD = 0xFE,

@@ -209,8 +209,8 @@ native OP has transferred control to `MAIN.EXE`. This does not establish
 original MAIN or MAINE execution. The strict shared CDG loader still gives
 raw-zero decoded modules and matching relocations for both OP and MAINE in
 two cold replay links. See the native OP note for receipts and limits. MAIN has no
-standalone build yet: its maintained sources still have 48 missing quoted
-include paths: 11 declaration headers (15 references), 35 composite `.cpp`
+standalone build yet: its maintained sources still have 47 missing quoted
+include paths: 10 declaration headers (13 references), 35 composite `.cpp`
 fragments, and two `.inl` fragments. See the
 [MAIN source-closure note](reconstruction/product/TH04_NATIVE_MAIN_SOURCE_CLOSURE_V882.md)
 for the eight affected composite producers and missing data/BSS owners.
@@ -850,6 +850,33 @@ references), 35 `.cpp` fragments, and two `.inl` fragments; only
 `th04/main/end.hpp`. This closes gaiji enum/macro declarations only; gaiji
 string DATA/BSS ownership, standalone MAIN placement, and PC-98 startup
 remain open.
+
+The historical `th04/main/end.hpp` path now resolves to the product-owned
+MAIN end-entry declarations through `src/main/include/th04/main/end.hpp`,
+backed by `src/main/end/main.hpp`. The v1001 TC4J GAME=4 reference/local probe
+matches semantic OMF SHA-256
+`640a06f0edc0617d12460cd15ef797b0800cf3d1ec6b22e273902b8dab90df7a`
+(receipt SHA-256
+`4417b46e57ce1bbf4da48557112f17926bb4fe63555d57b665e33b2554977b6f`).
+The separate `th04/end/end.h` state enum remains backed by
+`src/main/end/end.hpp`. The v1001 aggregate receipt
+`gpt-5-6-sol-main-end-header-aggregate-085-20260929/receipt.json` has
+SHA-256 `1ac2f2cfbbdc84840c2ec3667d72ea4de9c48a95c8b65bd4f3474fc85f88f49a`
+and preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
+The `endmain.cpp` owner remains raw/MAP/relocation exact at file `0xCFB9`,
+size `0x7C`, `END_TEXT:0x0CC9`, slice SHA-256
+`0cc7e7f846ffba45efc6d49668da80370b4b12acc1752b20daa14f3d045afcbb`; the
+`mapend.cpp` owner remains exact at file `0xD16F`, size `0x65`,
+`END_TEXT:0x0E81`, slice SHA-256
+`3a2d617ee705077d9e58eccdb5fcd9ce7777b16f2db8abed5e8d6c304ac6a8f7`.
+Inventory v1001 is now 47 missing paths / 50 references: 10 headers (13
+references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped, and the next header edge is
+`th04/main/stage/bonus.hpp`. This closes end declarations and inline dispatch
+only; resident end-state DATA/BSS, standalone MAIN placement, and PC-98
+startup remain open.
 
 Inventory v996 is now 52 missing paths / 64 references: 15 headers (27
 references), 35 `.cpp` fragments, and two `.inl` fragments; only

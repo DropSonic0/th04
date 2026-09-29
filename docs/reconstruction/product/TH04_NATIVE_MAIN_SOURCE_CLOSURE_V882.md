@@ -5,17 +5,17 @@ inventory of maintained `src/main` C/C++ and `.inl` files, not a standalone
 build claim. It does not revisit the two deferred non-exact MAIN functions.
 Replay the inventory with
 `python3 scripts/probes/inventory_th04_native_main.py`.
-The current v1000 read-only result is retained at
-`.analysis/reconstruction/probes/native-main-inventory-v1000-gaiji-20260929/inventory.json`.
+The current v1001 read-only result is retained at
+`.analysis/reconstruction/probes/native-main-inventory-v1001-end-20260929/inventory.json`.
 
 | Missing quoted include class | Unique paths | References |
 | --- | ---: | ---: |
-| `.h` / `.hpp` declarations | 11 | 15 |
+| `.h` / `.hpp` declarations | 10 | 13 |
 | `.cpp` composite fragments | 35 | 35 |
 | `.inl` composite fragments | 2 | 2 |
-| **Total** | **48** | **52** |
+| **Total** | **47** | **50** |
 
-The next remaining header edge is now `th04/main/end.hpp`, followed
+The next remaining header edge is now `th04/main/stage/bonus.hpp`, followed
 by the remaining declaration and composite surfaces. These names denote needed
 declarations, not approval to reuse cross-game product headers.
 
@@ -1196,6 +1196,40 @@ th04/main/dialog/dialog.hpp. The reference th04/main/tile/inv[bss].asm still
 owns the callback words beside tile invalidation state. This is
 compiler-observed callback declaration closure, not BSS ownership, standalone
 MAIN placement, or PC-98 startup acceptance.
+
+## MAIN end-entry header closure
+
+The forty-ninth declaration/dispatch batch routes the historical
+`th04/main/end.hpp` edge through `src/main/include/th04/main/end.hpp`, backed
+by the artifact-local `src/main/end/main.hpp`. The local surface preserves the
+GAME=4 `end_game_good()`, `end_game_bad()`, `end_game()`, and `end_extra()`
+entry declarations plus the inline `end_game()` selector. The separate
+`th04/end/end.h` state enum remains owned by `src/main/end/end.hpp`; no resident
+end-state storage is allocated by this declaration header.
+
+The v1001 TC4J GAME=4 reference/local probe passes with semantic OMF SHA-256
+`640a06f0edc0617d12460cd15ef797b0800cf3d1ec6b22e273902b8dab90df7a`
+(receipt SHA-256
+`4417b46e57ce1bbf4da48557112f17926bb4fe63555d57b665e33b2554977b6f`).
+The v1001 aggregate receipt
+`gpt-5-6-sol-main-end-header-aggregate-085-20260929/receipt.json` has
+SHA-256 `1ac2f2cfbbdc84840c2ec3667d72ea4de9c48a95c8b65bd4f3474fc85f88f49a`
+and preserves all 275 accepted extents in two cold builds with identical
+diagnostic MAIN SHA-256
+`d51db833654d139b6e79c059a70be2859d4f83a3d6c9777e7fbc547f1d3c0bdb`.
+The `endmain.cpp` owner remains raw/MAP/relocation exact at file `0xCFB9`,
+size `0x7C`, `END_TEXT:0x0CC9`, slice SHA-256
+`0cc7e7f846ffba45efc6d49668da80370b4b12acc1752b20daa14f3d045afcbb`; the
+`mapend.cpp` owner remains exact at file `0xD16F`, size `0x65`,
+`END_TEXT:0x0E81`, slice SHA-256
+`3a2d617ee705077d9e58eccdb5fcd9ce7777b16f2db8abed5e8d6c304ac6a8f7`.
+Inventory v1001 is now 47 missing paths / 50 references: 10 headers (13
+references), 35 `.cpp` fragments, and two `.inl` fragments; only
+`th04/dialog.cpp` remains unmapped, and the next header edge is
+`th04/main/stage/bonus.hpp`. This is compiler-observed end declaration and
+dispatch closure, not resident DATA/BSS ownership, standalone MAIN placement,
+or PC-98 startup acceptance.
+
 
 ## MAIN gaiji header closure
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compare the product-owned TH04 MAIN end-sequence API with the pinned header."""
+"""Compare the product-owned TH04 MAIN end API with pinned headers."""
 
 from __future__ import annotations
 
@@ -22,39 +22,24 @@ from lib.omf import describe_omf  # noqa: E402
 PRIVATE = (ROOT / ".analysis/reconstruction/probes").resolve()
 RUNNER = ROOT / "_reference/ReC98/bin/msdos.exe"
 RUNNER_SHA256 = "f7f6cb0a3e816c5edb13112d327c1bddbf7463fe7bf9a005ca1eb5317751bd02"
-LOCAL_HEADER = ROOT / "src/main/end/end.hpp"
-LOCAL_WRAPPER = ROOT / "src/main/include/th04/end/end.h"
-REFERENCE_HEADER = ROOT / "_reference/ReC98/th04/end/end.h"
-REFERENCE_FILES = ("th04/end/end.h",)
+LOCAL_HEADER = ROOT / "src/main/end/main.hpp"
+LOCAL_WRAPPER = ROOT / "src/main/include/th04/main/end.hpp"
+REFERENCE_HEADER = ROOT / "_reference/ReC98/th04/main/end.hpp"
+REFERENCE_FILES = ("th04/main/end.hpp",)
 FLAGS = ("-c", "-O", "-b-", "-3", "-Z", "-d", "-DGAME=4", "-ml")
-TEST = r'''#include "th04/end/end.h"
+TEST = r'''#include "th04/main/end.hpp"
 
-int probe_end_enum_values(end_sequence_t value)
+void probe_end_api(void)
 {
-    switch(value) {
-    case ES_GOOD:
-        return ES_GOOD;
-    case ES_BAD:
-        return ES_BAD;
-    case ES_EXTRA:
-        return ES_EXTRA;
-    case ES_INGAME:
-        return ES_INGAME;
-    case ES_SCORE:
-        return ES_SCORE;
-    default:
-        return -1;
-    }
+    end_game_good();
+    end_game_bad();
+    end_game();
+    end_extra();
 }
 
-int probe_end_enum_layout(void)
+int probe_end_layout(void)
 {
-    return sizeof(end_sequence_t)
-        + ES_GOOD
-        + ES_BAD
-        + ES_EXTRA
-        + ES_INGAME
-        + ES_SCORE;
+    return 0;
 }
 '''
 
@@ -162,7 +147,7 @@ def main() -> int:
     receipt = {
         "schema_version": 1,
         "observed_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "scope": "TH04 MAIN product-owned end-sequence enum header ABI",
+        "scope": "TH04 MAIN end API header ABI",
         "runner_sha256": RUNNER_SHA256,
         "compiler_flags": FLAGS,
         "harness_sha256": hashlib.sha256(TEST.encode("ascii")).hexdigest(),
@@ -173,9 +158,10 @@ def main() -> int:
         "local": local_result,
         "passed": passed,
         "limit": (
-            "Compiler-observed end_sequence_t constants and enum width only; "
-            "ending control flow, resident DATA/BSS ownership, standalone MAIN "
-            "placement, and PC-98 startup remain outside this probe."
+            "Compiler-observed end entry declarations, inline dispatch, enum "
+            "values, and ABI only; resident end-state DATA/BSS, executable-chain "
+            "semantics, standalone MAIN placement, and PC-98 startup remain "
+            "outside this probe."
         ),
     }
     (output / "receipt.json").write_text(
