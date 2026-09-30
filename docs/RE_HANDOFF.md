@@ -142,9 +142,10 @@ smoke result only and not full menu/game startup acceptance. The log contains
 repeated unimplemented INT 1Bh SCSI BIOS diagnostics; preserve that as an
 emulator/runtime unknown.
 
-The latest cold scaffold aggregate is retained at
-`.analysis/reconstruction/exact-unit-replay/main-aggregate-body-bounded6-20260930/`.
-Its TH04 MAIN build reaches a valid linked MZ candidate before the all-product
+The latest cold scaffold aggregate's recorded evidence remains under
+`.analysis/reconstruction/exact-unit-replay/main-aggregate-body-bounded6-20260930/`;
+its disposable source/archive payload was pruned after the v1071 observation
+was recorded. Its TH04 MAIN build reached a valid linked MZ candidate before the all-product
 driver stops on the pre-existing TH05 `pointnum[bss]` duplicate `PN_WIDTH` /
 `PN_DIGITS_LEBCD` diagnostics. The candidate is 152,974 bytes with 1,136
 relocations and SHA-256
