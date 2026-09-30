@@ -278,8 +278,26 @@ static void native_main_trace(unsigned char marker)
         ("    mem_assign_paras = (320000 >> 4);\n", "    native_main_trace(1);\n    mem_assign_paras = (320000 >> 4);\n"),
         ("    game_init_main(main_pf_fn);\n", "    game_init_main(main_pf_fn);\n    native_main_trace(2);\n"),
         ("    ems_allocate_and_preload_eyecatch();\n", "    ems_allocate_and_preload_eyecatch();\n    native_main_trace(3);\n"),
-        ("    gaiji_entry_bfnt(gaiji_fn);\n", "    gaiji_entry_bfnt(gaiji_fn);\n    native_main_trace(4);\n"),
-        ("    snd_load(se_fn, SND_LOAD_SE);\n", "    snd_load(se_fn, SND_LOAD_SE);\n    native_main_trace(5);\n"),
+        ("    text_clear();\n", "    text_clear();\n    native_main_trace(0x31);\n"),
+        ("    gaiji_backup();\n", "    gaiji_backup();\n    native_main_trace(0x32);\n"),
+        (
+            "    gaiji_entry_bfnt(gaiji_fn);\n",
+            "    native_main_trace(0x33);\n"
+            "    gaiji_entry_bfnt(gaiji_fn);\n"
+            "    native_main_trace(4);\n",
+        ),
+        (
+            "    snd_determine_modes(resident->bgm_mode, resident->se_mode);\n",
+            "    native_main_trace(0x41);\n"
+            "    snd_determine_modes(resident->bgm_mode, resident->se_mode);\n"
+            "    native_main_trace(0x42);\n",
+        ),
+        (
+            "    snd_load(se_fn, SND_LOAD_SE);\n",
+            "    native_main_trace(0x43);\n"
+            "    snd_load(se_fn, SND_LOAD_SE);\n"
+            "    native_main_trace(5);\n",
+        ),
         ("    for(;;) {\n", "    native_main_trace(6);\n    for(;;) {\n"),
         ("        stage_session_init();\n", "        stage_session_init();\n        native_main_trace(7);\n"),
         ("        gameplay_loop();\n", "        native_main_trace(8);\n        gameplay_loop();\n        native_main_trace(9);\n"),
@@ -333,21 +351,115 @@ static void native_ems_trace(unsigned char marker)
             raise RuntimeError(f"EMS trace overlay anchor is not unique: {before!r}")
         ems_patched = ems_patched.replace(before, after, 1)
     ems_path.write_text(ems_patched, encoding="utf-8")
+    stage_path = work / "src/main/stage/session_init.cpp"
+    stage_original = stage_path.read_text(encoding="utf-8")
+    stage_anchor = "void near stage_session_init(void)\n{\n"
+    if stage_original.count(stage_anchor) != 1:
+        raise RuntimeError("stage trace overlay anchor is not unique")
+    stage_trace_function = r'''
+
+// Private diagnostic overlay; this block is never part of maintained source.
+static void native_stage_trace(unsigned char marker)
+{
+    const char trace_fn[] = "MAIN.BIN";
+    int handle;
+    unsigned done;
+    if(_dos_creat(trace_fn, 0, &handle) == 0) {
+        _dos_write(handle, &marker, 1, &done);
+        _dos_close(handle);
+    }
+}
+'''
+    stage_patched = stage_original.replace(
+        "#endif\n\n// TH04 stage/demo session setup",
+        "#endif\n#include <dos.h>\n\n// TH04 stage/demo session setup",
+        1,
+    )
+    stage_patched = stage_patched.replace(
+        stage_anchor,
+        stage_trace_function + "\n" + stage_anchor + "    native_stage_trace(0x60);\n",
+        1,
+    )
+    sub_anchor = "    sub_12024();\n"
+    if stage_patched.count(sub_anchor) != 2:
+        raise RuntimeError("stage sub_12024 trace anchors are not unique")
+    stage_patched = stage_patched.replace(
+        sub_anchor,
+        "    native_stage_trace(0x63);\n"
+        "    sub_12024();\n"
+        "    native_stage_trace(0x64);\n",
+        1,
+    )
+    stage_replacements = (
+        (
+            "    native_stage_trace(0x64);\n    graph_accesspage(0);\n",
+            "    native_stage_trace(0x64);\n"
+            "    graph_accesspage(0);\n"
+            "    native_stage_trace(0x65);\n",
+        ),
+        (
+            "    graph_accesspage(0);\n"
+            "    native_stage_trace(0x65);\n"
+            "    graph_showpage(0);\n",
+            "    graph_accesspage(0);\n"
+            "    native_stage_trace(0x65);\n"
+            "    graph_showpage(0);\n"
+            "    native_stage_trace(0x66);\n",
+        ),
+        (
+            "    graph_showpage(0);\n"
+            "    native_stage_trace(0x66);\n"
+            "    palette_entry_rgb(eye_rgb);\n",
+            "    graph_showpage(0);\n"
+            "    native_stage_trace(0x66);\n"
+            "    palette_entry_rgb(eye_rgb);\n"
+            "    native_stage_trace(0x67);\n",
+        ),
+        (
+            "    PaletteTone = 0;\n    palette_show();\n",
+            "    PaletteTone = 0;\n"
+            "    palette_show();\n"
+            "    native_stage_trace(0x68);\n",
+        ),
+        (
+            "    native_stage_trace(0x68);\n"
+            "    sub_12024();\n"
+            "    overlay_wipe();\n",
+            "    native_stage_trace(0x68);\n"
+            "    sub_12024();\n"
+            "    overlay_wipe();\n"
+            "    native_stage_trace(0x69);\n",
+        ),
+        (
+            "        gameplay_session_init();\n",
+            "        native_stage_trace(0x61);\n"
+            "        gameplay_session_init();\n"
+            "        native_stage_trace(0x62);\n",
+        ),
+    )
+    for before, after in stage_replacements:
+        if stage_patched.count(before) != 1:
+            raise RuntimeError(f"stage trace overlay anchor is not unique: {before!r}")
+        stage_patched = stage_patched.replace(before, after, 1)
+    stage_path.write_text(stage_patched, encoding="utf-8")
     return {
         "paths": [
             "src/main/core/gameplay_loop.cpp",
             "src/main/core/main.cpp",
             "src/main/ems.cpp",
+            "src/main/stage/session_init.cpp",
         ],
         "original_sha256": {
             "src/main/core/gameplay_loop.cpp": sha256_bytes(original.encode("utf-8")),
             "src/main/core/main.cpp": sha256_bytes(main_original.encode("utf-8")),
             "src/main/ems.cpp": sha256_bytes(ems_original.encode("utf-8")),
+            "src/main/stage/session_init.cpp": sha256_bytes(stage_original.encode("utf-8")),
         },
         "overlay_sha256": {
             "src/main/core/gameplay_loop.cpp": sha256(path),
             "src/main/core/main.cpp": sha256(main_path),
             "src/main/ems.cpp": sha256(ems_path),
+            "src/main/stage/session_init.cpp": sha256(stage_path),
         },
     }
 

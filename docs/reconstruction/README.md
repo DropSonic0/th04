@@ -37,6 +37,7 @@ notes explain the remaining source and container gaps:
 - [Native MAIN local header and composite-source closure](product/TH04_NATIVE_MAIN_SOURCE_CLOSURE_V882.md)
 - [Native MAIN product-source and DATA/BSS compiler frontier](product/TH04_NATIVE_MAIN_PRODUCT_FRONTIER_V1025.md)
 - [Native MAIN normal-route runtime differential and input-layout lead](product/TH04_NATIVE_MAIN_STARTUP_V1074.md)
+- [Native MAIN large-model far-runtime owners and v1131 frontier](product/TH04_NATIVE_MAIN_FAR_RUNTIME_V1131.md)
 - [Native ZUN resident and source-composed launcher](zun/TH04_ZUN_NATIVE_SOURCE_BUILD_V880.md)
 - [OP strict source blockers](op-maine/TH04_OP_STRICT_FRONTIER_V766.md)
 - [MAINE strict source blockers](op-maine/TH04_MAINE_STRICT_FRONTIER_V732.md)

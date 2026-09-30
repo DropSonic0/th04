@@ -11,6 +11,23 @@ notes, historical receipt paths, `config/evidence.csv`, and version-tagged
 When an old row says a function is blocked, check for later evidence before
 acting.
 
+The latest bounded MAIN build lane adds maintained large-model owners for
+`EMS_*`, `GRC_SETCLIP`, `TEXT_FILLCA`, `TEXT_PUTCA`, `palette_entry_rgb`, and
+`SUPER_CONVERT_TINY`; the OP/MAINE source manifests now include the shared
+providers. The clean v1136 diagnostic link (193 C/C++ roots, 130 ASM roots,
+eight state owners, four sprite owners) exits TLINK cleanly with a 191,935-byte,
+1,182-relocation MZ (`895fe2d5...`). The pre-owner v1130 runtime remains at
+marker B5 in the 100-call conversion preload; the v1136 far-owner run selects
+stage 3 and therefore skips the stage-0/6 resource loop. Segment/order
+placement and the resource-path runtime Oracle remain open; no MAIN exactness
+or complete startup claim follows. See
+[`TH04_NATIVE_MAIN_FAR_RUNTIME_V1131.md`](reconstruction/product/TH04_NATIVE_MAIN_FAR_RUNTIME_V1131.md).
+
+On 2026-09-30, expanded native-main probe/candidate source, object, MZ, HDI,
+and log trees were compacted to receipts, frames, and boot logs, releasing
+about 1.30 GiB. The pinned runtime image, toolchain, Ghidra database, targets,
+and retained evidence were not removed.
+
 ## Resume checks
 
 ```sh
