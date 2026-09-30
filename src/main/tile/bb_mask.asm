@@ -6,10 +6,6 @@
 ; records evidence-backed irreducible/original-style symbolic assembly without
 ; embedding target bytes.
 
-.386
-.model use16 large
-locals
-
 GRAM_400 = 0A800h
 RES_Y = 400
 PLAYFIELD_LEFT = 32
@@ -27,27 +23,11 @@ Point struc
 	y dw ?
 Point ends
 
-extrn _tiles_bb_col:byte
-extrn _tiles_bb_seg:word
-extrn _bb_boss_seg:word
-extrn _tile_invalidate_box:byte
-extrn _scroll_active:byte
-extrn _scroll_line:word
-extrn @grcg_tile_bb_put_8:near
-TILES_INVALIDATE_AROUND procdesc pascal near center:dword
-GRCG_SETCOLOR procdesc pascal far mode:word, col:word
-
 GRCG_OFF_CLOBBERING macro reg:req
 	xor	al, al
 	mov	reg, 7Ch
 	out	reg, al
 endm
-
-CIRCLE_TEXT segment word public 'CODE' use16
-CIRCLE_TEXT ends
-main_01 group CIRCLE_TEXT
-CIRCLE_TEXT segment word public 'CODE' use16
-assume cs:main_01
 
 public @TILES_BB_PUT_RAW$QI
 @tiles_bb_put_raw$qi proc near
@@ -158,5 +138,3 @@ inv_row_next:
 	leave
 	retn	2
 @tiles_bb_invalidate_raw$qi endp
-CIRCLE_TEXT ends
-end

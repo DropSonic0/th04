@@ -62,6 +62,10 @@ SOURCE_EXCLUSIONS = {
 # shadows masters.lib and creates unavoidable near-call fixup overflows.
 ASM_EXCLUSIONS = {
     "src/shared/hardware/display_control.asm",
+    # MAIN is large-model: its runtime declaration passes a far string.
+    # Keep the near implementation for ZUN/small-model consumers and link the
+    # MAIN-owned far ABI implementation instead.
+    "src/shared/dos/dos_puts2.asm",
 }
 FLAGS = (
     "-c", "-I.", "-Isrc/main/include", "-O", "-b-", "-3", "-Z", "-d",

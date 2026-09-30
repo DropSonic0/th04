@@ -5,18 +5,7 @@
 ; by a truthful typed TC4J function, so preserve the low-level producer as
 ; symbolic irreducible/original-style assembly.
 
-.386
-.model use16 large
-locals
-
 ROW_SIZE = 80
-extrn _super_patdata:word
-
-CIRCLE_TEXT segment word public 'CODE' use16
-CIRCLE_TEXT ends
-main_01 group CIRCLE_TEXT
-CIRCLE_TEXT segment word public 'CODE' use16
-assume cs:main_01
 
 public @Z_SUPER_PUT_16X16_MONO_RAW$QI
 @z_super_put_16x16_mono_raw$qi proc near
@@ -99,5 +88,3 @@ public @Z_SUPER_PUT_16X16_MONO_RAW$QI
 	ret	2
 @z_super_put_16x16_mono_raw$qi endp
 	even
-CIRCLE_TEXT ends
-end

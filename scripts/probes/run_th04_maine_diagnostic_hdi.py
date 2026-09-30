@@ -31,17 +31,52 @@ def main() -> int:
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--frame-second", type=int, default=10)
     parser.add_argument("--time-limit", type=int, default=20)
+    parser.add_argument(
+        "--input-key",
+        help="send one xdotool key to the DOSBox-X window before the frame",
+    )
+    parser.add_argument(
+        "--input-second",
+        type=float,
+        help="host-second offset for --input-key (requires --input-key)",
+    )
+    parser.add_argument(
+        "--input-event",
+        action="append",
+        default=[],
+        metavar="KEY@SECOND",
+        help="send a key at a host-second offset; repeat for a timeline",
+    )
     args = parser.parse_args()
+    input_specs = list(args.input_event)
+    if (args.input_key is not None) != (args.input_second is not None):
+        parser.error("--input-key and --input-second must be supplied together")
+    if args.input_key is not None:
+        input_specs.append(f"{args.input_key}@{args.input_second}")
+    parsed_inputs = []
+    for raw in input_specs:
+        if "@" not in raw:
+            parser.error("input events must use KEY@SECOND")
+        key, second_text = raw.rsplit("@", 1)
+        try:
+            second = float(second_text)
+        except ValueError:
+            parser.error(f"invalid input-event offset: {raw}")
+        if not key or second < 0 or second >= args.frame_second:
+            parser.error("input events must be nonempty and before the frame")
+        parsed_inputs.append((second, key))
+    parsed_inputs.sort()
     prepared = args.prepared_dir.resolve()
     output = args.output_dir.resolve()
     if (not prepared.is_relative_to(PRIVATE) or not output.is_relative_to(PRIVATE)
             or output.exists() or args.frame_second < 1
-            or args.time_limit <= args.frame_second + 2):
+            or args.time_limit <= args.frame_second + 2
+            or any(second >= args.frame_second for second, _ in parsed_inputs)):
         parser.error("use private dirs and a frame before the time limit")
     prep_receipt_path = prepared / "receipt.json"
     prep = json.loads(prep_receipt_path.read_text(encoding="utf-8"))
     artifact = prep.get("artifact", "th04-maine")
-    if artifact not in {"th04-maine", "th04-op", "th04-zun"}:
+    if artifact not in {"th04-main", "th04-maine", "th04-op", "th04-zun"}:
         raise ValueError(f"unsupported prepared artifact: {artifact}")
     source_image = prepared / "diagnostic.hdi"
     if sha(source_image.read_bytes()) != prep["diagnostic_hdi_sha256"]:
@@ -85,8 +120,40 @@ def main() -> int:
                                start_new_session=True)
     screenshot = output / "frame.png"
     host_timeout = False
+    input_events = []
+    next_input = 0
     try:
-        time.sleep(args.frame_second)
+        started = time.monotonic()
+        while True:
+            elapsed = time.monotonic() - started
+            if (next_input < len(parsed_inputs)
+                    and elapsed >= parsed_inputs[next_input][0]):
+                requested_second, input_key = parsed_inputs[next_input]
+                xdotool = shutil.which("xdotool")
+                if xdotool is None:
+                    raise ValueError("input events require xdotool")
+                windows = subprocess.run(
+                    [xdotool, "search", "--onlyvisible", "--name", "DOSBox-X"],
+                    check=False, capture_output=True, text=True,
+                ).stdout.split()
+                if not windows:
+                    raise ValueError("DOSBox-X window not found for --input-key")
+                for window in windows:
+                    subprocess.run(
+                        [xdotool, "key", "--window", window, input_key],
+                        check=True, capture_output=True, text=True,
+                    )
+                input_events.append({
+                    "key": input_key,
+                    "requested_second": requested_second,
+                    "observed_second": elapsed,
+                    "window_ids": windows,
+                })
+                next_input += 1
+            remaining = args.frame_second - elapsed
+            if remaining <= 0:
+                break
+            time.sleep(min(0.05, remaining))
         subprocess.run(["import", "-window", "root", str(screenshot)], check=True,
                        timeout=10, capture_output=True)
         try:
@@ -152,6 +219,7 @@ def main() -> int:
         "x11_config_sha256": sha(config.read_bytes()),
         "command": command,
         "frame_second": args.frame_second,
+        "input_events": input_events,
         "host_timeout": host_timeout,
         "returncode": process.returncode,
         "missing_boot_markers": [item for item in expected_boot if item not in log],

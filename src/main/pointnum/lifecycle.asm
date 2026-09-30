@@ -4,10 +4,6 @@
 ; two EVEN directives own layout bytes between logical function bodies; those
 ; bytes are physical source ownership, not function-body credit.
 
-	.186
-	.model use16 large
-	locals
-
 POINTNUM_H = 8
 POINTNUM_W = 8
 POINTNUM_TIMES_2_W = 16
@@ -42,22 +38,6 @@ pointnum_t struc
 	PN_times_2 db ?
 	db ?
 pointnum_t ends
-
-extrn _pointnum_white_p:byte
-extrn _pointnum_yellow_p:byte
-extrn _pointnum_first_yellow_alive:word
-extrn _pointnums:byte
-extrn _pointnums_alive:word
-extrn _pointnum_times_2:byte
-extrn _tile_invalidate_box:Point
-extrn TILES_INVALIDATE_AROUND:near
-
-CIRCLE_TEXT segment word public 'CODE' use16
-CIRCLE_TEXT ends
-main_01 group CIRCLE_TEXT
-
-CIRCLE_TEXT segment word public 'CODE' use16
-assume cs:main_01
 
 public POINTNUMS_INIT
 pointnums_init proc near
@@ -161,6 +141,3 @@ pointnums_update proc near
 	retn
 pointnums_update endp
 even
-
-CIRCLE_TEXT ends
-end

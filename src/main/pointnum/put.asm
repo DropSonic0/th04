@@ -3,17 +3,11 @@
 ; Inputs are carried in AX (top), DX (left), and CX (glyph number). The helper
 ; intentionally preserves AX/DX and returns the next glyph X coordinate in DX.
 
-	.386
-	.model use16 large
-	locals
-
 RES_Y = 400
 ROW_SIZE = 80
 PLANE_SIZE = 32000
 POINTNUM_H = 8
 POINTNUM_W = 8
-
-extrn _sPOINTNUMS:byte
 
 blit_dots16_empty2opt_emptyopt_roll macro @@top:req, @@h:req
 @@rows_after_roll equ <bx>
@@ -48,13 +42,6 @@ blit_dots16_empty2opt_emptyopt_roll macro @@top:req, @@h:req
 	jmp	short @@blit_loop
 @@blit_done:
 endm
-
-CIRCLE_TEXT segment word public 'CODE' use16
-CIRCLE_TEXT ends
-main_01 group CIRCLE_TEXT
-
-CIRCLE_TEXT segment word public 'CODE' use16
-assume cs:main_01
 
 public @pointnum_put
 @pointnum_put proc near
@@ -92,6 +79,3 @@ public @pointnum_put
 	pop	si
 	retn
 @pointnum_put endp
-
-CIRCLE_TEXT ends
-end

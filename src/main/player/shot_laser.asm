@@ -6,22 +6,10 @@
 ; but expands this register/string-loop architecture substantially, so this is
 ; maintained as evidence-backed irreducible/original-style symbolic assembly.
 
-.386
-.model use16 large
-locals
-
 GRAM_400 = 0A800h
 RES_Y = 400
 ROW_SIZE = 80
 PLANE_SIZE = 32000
-extrn _SHOT_LASER_DOTS:byte
-
-MAIN_01_TEXT segment word public 'CODE' use16
-MAIN_01_TEXT ends
-main_01 group MAIN_01_TEXT
-MAIN_01_TEXT segment word public 'CODE' use16
-assume cs:main_01
-
 public SHOT_LASER_PUT_RAW
 shot_laser_put_raw proc near
     @@left equ <ax>
@@ -91,5 +79,3 @@ shot_laser_put_raw proc near
     retn
 shot_laser_put_raw endp
     even
-MAIN_01_TEXT ends
-end

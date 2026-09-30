@@ -1,6 +1,7 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-30 after the native MAIN link diagnostic frontier. This is the
+Updated 2026-09-30 after the native MAIN link and CIRCLE aggregate diagnostic
+frontiers. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -113,6 +114,23 @@ duplicate publics, group overflow, fixup overflow, or unresolved symbol. The
 partial 190,921-byte MZ with 1,163 relocations is still diagnostic only: the
 reference BMP provenance is not an accepted product asset owner, and raw
 equality, complete layout, and startup remain blocked.
+
+The latest cold scaffold aggregate is retained at
+`.analysis/reconstruction/exact-unit-replay/main-aggregate-body-bounded6-20260930/`.
+Its TH04 MAIN build reaches a valid linked MZ candidate before the all-product
+driver stops on the pre-existing TH05 `pointnum[bss]` duplicate `PN_WIDTH` /
+`PN_DIGITS_LEBCD` diagnostics. The candidate is 152,974 bytes with 1,136
+relocations and SHA-256
+`fed680014b31d29a552cc74932cb8a5ac82839a1c23ca07c96befc410f8c3495`, versus
+the target's 156,258 bytes and SHA-256
+`077440a3c4e9ab52e72e9bae411276c47edc11995b5c2b83dfc83fbc039dc58b`. The
+body-only CIRCLE wrapper now assembles the maintained fill, BB, Yuuka,
+Z-super, and BB-text producers as one `cpost201.obj`; correcting
+`PLAYFIELD_VRAM_W` to 48 makes fill, Yuuka, BB-text, and Elly candidate slices
+pass raw/map/relocation checks. BB-mask and Z-super still expose only the
+unresolved DGROUP/BSS address displacement, so no exact promotion or startup
+claim follows. Older failed aggregate directories were pruned; this latest
+diagnostic source/build is the retained replay surface.
 
 The four source repairs in this batch are compiler-closure changes only:
 product-local stage/CDG declarations, the product HUD header path, and a

@@ -98,7 +98,9 @@ id = "th04-main-tile-bb-api-local"
 tree_root = "th04"
 old_include = "th04/main/tile/bb.hpp"
 local_header = "src/main/tile/bb.hpp"
-minimum_count = 1
+# Focused units may contain no BB consumer; the full aggregate still rewrites
+# every overlaid product source occurrence and records the count in its receipt.
+minimum_count = 0
 
 [[scaffold_tree_include_rewrites]]
 id = "th04-main-playperf-api-local"
@@ -4911,7 +4913,10 @@ text = "public _end_extra_binary\r\n_end_extra_binary label byte\r\n"
 [[units]]
 id = "th04-main-end-family-v99"
 default_enabled = true
-requires_units = ["th04-main-gengetsu-update-v98"]
+# endmain.cpp consumes _maine_binary, whose public is published by the
+# game-over/GameExecl assembler transform below; keep that owner in focused
+# replay closure instead of relying on the default aggregate.
+requires_units = ["th04-main-gengetsu-update-v98", "th04-main-gameexecl-v169"]
 repo_source = "src/main/end/ending.cpp"
 overlay_path = "th04/endmain.cpp"
 map_module = "th04/endmain.cpp"

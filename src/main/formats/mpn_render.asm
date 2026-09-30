@@ -7,10 +7,6 @@
 ; evidence-backed original-style symbolic assembly rather than manufacturing a
 ; C++ spelling for the target's DS/FS/GS/ES register allocation.
 
-	.386
-	.model use16 large
-	locals
-
 ROW_SIZE = 80
 TILE_H = 16
 SEG_PLANE_B = 0A800h
@@ -24,14 +20,6 @@ mpn_t struc
 	db 48 dup(?)
 	db 10 dup(?)
 mpn_t ends
-
-extrn _mpn_slots:byte
-
-_TEXT segment word public 'CODE' use16
-_TEXT ends
-
-_TEXT segment word public 'CODE' use16
-assume cs:_TEXT
 
 public SUB_3680
 sub_3680 proc far
@@ -110,6 +98,3 @@ mpn_render_done:
 	pop	bp
 	retf	8
 sub_3680 endp
-
-_TEXT ends
-end
