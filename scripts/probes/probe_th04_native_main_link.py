@@ -194,6 +194,164 @@ def materialize_body_wrappers(sources: list[Path], work: Path) -> dict[str, Path
     return wrappers
 
 
+def apply_input_trace_overlay(work: Path) -> dict[str, str]:
+    """Inject private MAIN/EMS/first-frame state recorders into the cold tree.
+
+    The recorders are deliberately overlays on copied translation units. They
+    never change the maintained source or the exact shared input_s module;
+    the receipt records both source hashes so this diagnostic cannot be
+    mistaken for a product build.
+    """
+
+    path = work / "src/main/core/gameplay_loop.cpp"
+    original = path.read_text(encoding="utf-8")
+    function_anchor = "void near gameplay_loop(void)\n{\n"
+    sense_anchor = "        input_sense();\n"
+    if original.count(function_anchor) != 1 or original.count(sense_anchor) != 1:
+        raise RuntimeError("input trace overlay anchors are not unique")
+    trace_function = r'''
+
+// Private diagnostic overlay; this block is never part of maintained source.
+static void native_input_trace_once(void)
+{
+    const char trace_fn[] = "INPUT.BIN";
+    unsigned char sample[8];
+    sample[0] = static_cast<unsigned char>(key_det & 0xFF);
+    sample[1] = static_cast<unsigned char>(key_det >> 8);
+    sample[2] = shiftkey ? 1 : 0;
+    sample[3] = static_cast<unsigned char>(js_bexist & 0xFF);
+    sample[4] = static_cast<unsigned char>(js_bexist >> 8);
+    sample[5] = static_cast<unsigned char>(js_stat[0] & 0xFF);
+    sample[6] = static_cast<unsigned char>(js_stat[0] >> 8);
+    sample[7] = static_cast<unsigned char>(stage_frame & 0xFF);
+    int handle = dos_create(trace_fn, 0);
+    if(handle >= 0) {
+        dos_write(handle, sample, sizeof(sample));
+        dos_close(handle);
+    }
+}
+'''
+    patched = original.replace(function_anchor, trace_function + "\n" + function_anchor, 1)
+    patched = patched.replace(
+        sense_anchor,
+        sense_anchor + "        if(stage_frame == 0) {\n"
+        "            native_input_trace_once();\n"
+        "        }\n",
+        1,
+    )
+    path.write_text(patched, encoding="utf-8")
+
+    main_path = work / "src/main/core/main.cpp"
+    main_original = main_path.read_text(encoding="utf-8")
+    main_anchor = "void main(void)\n{\n"
+    if main_original.count(main_anchor) != 1:
+        raise RuntimeError("MAIN trace overlay anchor is not unique")
+    main_trace_function = r'''
+
+// Private diagnostic overlay; this block is never part of maintained source.
+static void native_main_trace(unsigned char marker)
+{
+    const char trace_fn[] = "MAIN.BIN";
+    int handle;
+    unsigned done;
+    if(_dos_creat(trace_fn, 0, &handle) == 0) {
+        _dos_write(handle, &marker, 1, &done);
+        _dos_close(handle);
+    }
+}
+'''
+    main_patched = main_original.replace(
+        '#include "src/shared/config/resident.hpp"\n',
+        '#include "src/shared/config/resident.hpp"\n'
+        '#include <dos.h>\n'
+        '#include "src/shared/runtime/api.hpp"\n',
+        1,
+    )
+    main_patched = main_patched.replace(
+        main_anchor,
+        main_trace_function + "\n" + main_anchor + "    native_main_trace(0);\n",
+        1,
+    )
+    main_replacements = (
+        ("    if(!cfg_load_resident_ptr()) {\n", "    if(!cfg_load_resident_ptr()) {\n"),
+        ("        return;\n", "        native_main_trace(0xF0);\n        return;\n"),
+        ("    mem_assign_paras = (320000 >> 4);\n", "    native_main_trace(1);\n    mem_assign_paras = (320000 >> 4);\n"),
+        ("    game_init_main(main_pf_fn);\n", "    game_init_main(main_pf_fn);\n    native_main_trace(2);\n"),
+        ("    ems_allocate_and_preload_eyecatch();\n", "    ems_allocate_and_preload_eyecatch();\n    native_main_trace(3);\n"),
+        ("    gaiji_entry_bfnt(gaiji_fn);\n", "    gaiji_entry_bfnt(gaiji_fn);\n    native_main_trace(4);\n"),
+        ("    snd_load(se_fn, SND_LOAD_SE);\n", "    snd_load(se_fn, SND_LOAD_SE);\n    native_main_trace(5);\n"),
+        ("    for(;;) {\n", "    native_main_trace(6);\n    for(;;) {\n"),
+        ("        stage_session_init();\n", "        stage_session_init();\n        native_main_trace(7);\n"),
+        ("        gameplay_loop();\n", "        native_main_trace(8);\n        gameplay_loop();\n        native_main_trace(9);\n"),
+        ("    GameExecl(op_fn);\n", "    native_main_trace(0xA0);\n    GameExecl(op_fn);\n"),
+    )
+    for before, after in main_replacements:
+        if main_patched.count(before) != 1:
+            raise RuntimeError(f"MAIN trace overlay anchor is not unique: {before!r}")
+        main_patched = main_patched.replace(before, after, 1)
+    main_path.write_text(main_patched, encoding="utf-8")
+    ems_path = work / "src/main/ems.cpp"
+    ems_original = ems_path.read_text(encoding="utf-8")
+    ems_anchor = "void near ems_allocate_and_preload_eyecatch(void)\n{\n"
+    if ems_original.count(ems_anchor) != 1:
+        raise RuntimeError("EMS trace overlay anchor is not unique")
+    ems_trace_function = r'''
+
+// Private diagnostic overlay; this block is never part of maintained source.
+static void native_ems_trace(unsigned char marker)
+{
+    const char trace_fn[] = "EMS.BIN";
+    int handle;
+    unsigned done;
+    if(_dos_creat(trace_fn, 0, &handle) == 0) {
+        _dos_write(handle, &marker, 1, &done);
+        _dos_close(handle);
+    }
+}
+'''
+    ems_patched = ems_original.replace(
+        '#include "src/shared/hardware/graphics.hpp"\n',
+        '#include <dos.h>\n#include "src/shared/hardware/graphics.hpp"\n',
+        1,
+    )
+    ems_patched = ems_patched.replace(
+        ems_anchor,
+        ems_trace_function + "\n" + ems_anchor + "\tnative_ems_trace(0x10);\n",
+        1,
+    )
+    ems_replacements = (
+        ("\tEms = nullptr;\n", "\tEms = nullptr;\n\tnative_ems_trace(0x11);\n"),
+        ("\tif(!ems_exist() || (ems_space() < EMSSIZE)) {\n\t\treturn;\n\t}\n",
+         "\tnative_ems_trace(0x12);\n\tif(!ems_exist()) {\n\t\tnative_ems_trace(0x13);\n\t\treturn;\n\t}\n\tnative_ems_trace(0x14);\n\tif(ems_space() < EMSSIZE) {\n\t\tnative_ems_trace(0x15);\n\t\treturn;\n\t}\n\tnative_ems_trace(0x16);\n"),
+        ("\tEms = ems_allocate(EMSSIZE);\n", "\tnative_ems_trace(0x17);\n\tEms = ems_allocate(EMSSIZE);\n\tnative_ems_trace(0x18);\n"),
+        ("\tif(Ems) {\n\t\tems_setname(Ems, EMS_NAME);\n\t\tcdg_load_single_noalpha(CDG_EYECATCH, eyename, 0);\n", "\tnative_ems_trace(0x19);\n\tif(Ems) {\n\t\tems_setname(Ems, EMS_NAME);\n\t\tnative_ems_trace(0x1A);\n\t\tcdg_load_single_noalpha(CDG_EYECATCH, eyename, 0);\n\t\tnative_ems_trace(0x1B);\n"),
+        ("\t\tems_write_cdg_color_planes(Ems, EMS_EYECATCH_OFFSET, CDG_EYECATCH);\n", "\t\tems_write_cdg_color_planes(Ems, EMS_EYECATCH_OFFSET, CDG_EYECATCH);\n\t\tnative_ems_trace(0x1C);\n"),
+        ("\t\tcdg_free(CDG_EYECATCH);\n", "\t\tcdg_free(CDG_EYECATCH);\n\t\tnative_ems_trace(0x1D);\n"),
+    )
+    for before, after in ems_replacements:
+        if ems_patched.count(before) != 1:
+            raise RuntimeError(f"EMS trace overlay anchor is not unique: {before!r}")
+        ems_patched = ems_patched.replace(before, after, 1)
+    ems_path.write_text(ems_patched, encoding="utf-8")
+    return {
+        "paths": [
+            "src/main/core/gameplay_loop.cpp",
+            "src/main/core/main.cpp",
+            "src/main/ems.cpp",
+        ],
+        "original_sha256": {
+            "src/main/core/gameplay_loop.cpp": sha256_bytes(original.encode("utf-8")),
+            "src/main/core/main.cpp": sha256_bytes(main_original.encode("utf-8")),
+            "src/main/ems.cpp": sha256_bytes(ems_original.encode("utf-8")),
+        },
+        "overlay_sha256": {
+            "src/main/core/gameplay_loop.cpp": sha256(path),
+            "src/main/core/main.cpp": sha256(main_path),
+            "src/main/ems.cpp": sha256(ems_path),
+        },
+    }
+
+
 def index_value(data: bytes, cursor: int) -> tuple[int, int]:
     first = data[cursor]
     if first & 0x80:
@@ -462,6 +620,11 @@ def main() -> int:
                         help="audit the frozen MAIN routing manifest without building")
     parser.add_argument("--require-link", action="store_true",
                         help="return failure unless TLINK exits zero with no errors")
+    parser.add_argument(
+        "--input-trace",
+        action="store_true",
+        help="inject a private first-frame INPUT.BIN state recorder",
+    )
     args = parser.parse_args()
     if args.check_manifest:
         if args.output_dir or args.without_support or args.require_link:
@@ -490,6 +653,7 @@ def main() -> int:
     output.mkdir(parents=True)
     work = output / "source"
     shutil.copytree(ROOT / "src", work / "src")
+    input_trace = apply_input_trace_overlay(work) if args.input_trace else None
     sprite_sources, sprite_asset_records = generate_sprite_sources(
         ROOT, work / "generated/sprites"
     )
@@ -586,6 +750,7 @@ def main() -> int:
         "asm_state_exclusions": sorted(state_source_names),
         "body_only_context_revision": BODY_ONLY_CONTEXT_REVISION,
         "body_only_context_sources": sorted(BODY_ONLY_SOURCES),
+        "input_trace": input_trace,
         "sprite_asset_records": sprite_asset_records,
         "sprite_sources": sprite_records,
         "sprite_assemble_pass": len(valid_sprites),

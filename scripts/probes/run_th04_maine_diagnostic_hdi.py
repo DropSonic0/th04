@@ -204,6 +204,33 @@ def main() -> int:
                                 u32(fs.image, mainhit_entry + 28))
     except ValueError:
         mainhit = None
+    try:
+        game_dir = fs.find_entry([fs.root], b"GENSO      ")
+        game_offsets = [fs.cluster_offset(cluster) for cluster in
+                        fs.chain(u16(fs.image, game_dir + 26))]
+        input_entry = fs.find_entry(game_offsets, b"INPUT   BIN")
+        input_trace = fs.file_bytes(u16(fs.image, input_entry + 26),
+                                    u32(fs.image, input_entry + 28))
+    except ValueError:
+        input_trace = None
+    try:
+        game_dir = fs.find_entry([fs.root], b"GENSO      ")
+        game_offsets = [fs.cluster_offset(cluster) for cluster in
+                        fs.chain(u16(fs.image, game_dir + 26))]
+        main_trace_entry = fs.find_entry(game_offsets, b"MAIN    BIN")
+        main_trace = fs.file_bytes(u16(fs.image, main_trace_entry + 26),
+                                   u32(fs.image, main_trace_entry + 28))
+    except ValueError:
+        main_trace = None
+    try:
+        game_dir = fs.find_entry([fs.root], b"GENSO      ")
+        game_offsets = [fs.cluster_offset(cluster) for cluster in
+                        fs.chain(u16(fs.image, game_dir + 26))]
+        ems_trace_entry = fs.find_entry(game_offsets, b"EMS     BIN")
+        ems_trace = fs.file_bytes(u16(fs.image, ems_trace_entry + 26),
+                                  u32(fs.image, ems_trace_entry + 28))
+    except ValueError:
+        ems_trace = None
     expected_boot = runtime["primary"]["execution"]["boot_required_log_markers"]
     receipt = {
         "schema_version": 1,
@@ -227,6 +254,9 @@ def main() -> int:
         "op_trace_marker_hex": op_trace.hex() if op_trace is not None else None,
         "op_cdg_slots_hex": cdg_slots.hex() if cdg_slots is not None else None,
         "mainhit_marker_hex": mainhit.hex() if mainhit is not None else None,
+        "input_trace_hex": input_trace.hex() if input_trace is not None else None,
+        "main_trace_hex": main_trace.hex() if main_trace is not None else None,
+        "ems_trace_hex": ems_trace.hex() if ems_trace is not None else None,
         "boot_log_sha256": sha(log.encode()),
         "frame_sha256": sha(screenshot.read_bytes()),
     }

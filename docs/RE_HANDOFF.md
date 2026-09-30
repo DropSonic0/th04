@@ -1,7 +1,7 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-30 after the native MAIN link and normal GAME.BAT runtime
-differential. This is the
+Updated 2026-09-30 after the native MAIN link, normal GAME.BAT runtime
+differential, and EMS-stage startup probes. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -167,6 +167,19 @@ candidate static audit also records target `_key_det`/`_shiftkey` DS offsets
 resident initialization, and input-state trace remain open. The large
 diagnostic source/HDI payloads were pruned after these receipts and frames were
 hashed.
+
+The v1077–v1080 EMS-stage probes are recorded in
+`docs/reconstruction/product/TH04_NATIVE_MAIN_EMS_STARTUP_V1080.md`. Private
+MAIN markers show the v1077 normal route reaches `game_init_main()`
+(`MAIN.BIN=02`); the v1079 split EMS overlay then stops at marker `12`,
+immediately before `ems_exist()`, with an invalid INT D1h frame. The v1080
+skip-EMS control reaches marker `06` before `stage_session_init()` but ends on
+a DOS abnormal-termination screen, so it is diagnostic-only and not a startup
+workaround. The current bounded blocker is the EMS capability/interrupt path;
+full startup, input-state behavior, target DATA/BSS ownership, and exactness
+remain unverified. The link and runtime receipts remain under `.analysis/`;
+their large source, object, executable, HDI, and log payloads were pruned after
+hashing.
 
 The latest cold scaffold aggregate's recorded evidence remains under
 `.analysis/reconstruction/exact-unit-replay/main-aggregate-body-bounded6-20260930/`;
