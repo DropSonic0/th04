@@ -115,6 +115,33 @@ partial 190,921-byte MZ with 1,163 relocations is still diagnostic only: the
 reference BMP provenance is not an accepted product asset owner, and raw
 equality, complete layout, and startup remain blocked.
 
+The refreshed native MAIN diagnostic is recorded at
+`.analysis/reconstruction/probes/native-main-link-v1073-20260930/receipt.json`
+(receipt SHA-256
+`ec4add8da48e8c46d0981ba601205d24854463a501b53e76763e2e208fa09a0c`). It
+passes all 192/192 C/C++ roots, 8/8 state owners, 125/125 product ASM owners,
+and 4/4 private sprite-resource owners; TLINK exits 0 with no unresolved
+symbols, duplicate publics, group overflows, or fixup overflows. The 12
+body-only ASM roots are assembled through private wrappers that recover only
+historical declaration context from revision `0b398a0`, while the current
+checked-in body and its hash remain the logical source. The candidate is
+190,937 bytes with 1,163 relocations and SHA-256
+`81b694dee05807bc3a975e86bd9e83010f560102d22aed1af479f62371b117d1`; this is
+still a diagnostic link, not exactness or a complete product build.
+
+A disposable direct-MAIN HDI was prepared at
+`.analysis/runtime/candidates/native-main-v1073-20260930/` and executed with
+the recorded receipt
+`.analysis/runtime/candidates/native-main-v1073-20260930/run-direct-main/receipt.json`
+(SHA-256
+`865baf7b19e0b6193a79cc4318192fcd7268e9ea9c8ba5717f0a6dbf9d1aa17d`). The
+DOSBox-X run returned 0, reported no missing boot markers, and reached the
+diagnostic `START\r\n` marker. The captured frame is still the PC-98 DOS boot
+screen; no MAIN-hit or OP/CDG marker was observed, so this is a runtime boot
+smoke result only and not full menu/game startup acceptance. The log contains
+repeated unimplemented INT 1Bh SCSI BIOS diagnostics; preserve that as an
+emulator/runtime unknown.
+
 The latest cold scaffold aggregate is retained at
 `.analysis/reconstruction/exact-unit-replay/main-aggregate-body-bounded6-20260930/`.
 Its TH04 MAIN build reaches a valid linked MZ candidate before the all-product

@@ -67,6 +67,27 @@ ASM_EXCLUSIONS = {
     # MAIN-owned far ABI implementation instead.
     "src/shared/dos/dos_puts2.asm",
 }
+# These maintained ASM files are intentionally body-only: the CIRCLE aggregate
+# wrapper supplies their historical segment/extern/structure context.  The
+# native diagnostic assembles each physical owner separately, so materialize a
+# private context wrapper while keeping the current checked-in body as the
+# source of emitted bytes.  The historical prefix/suffix are context only and
+# never enter product source or exactness credit.
+BODY_ONLY_CONTEXT_REVISION = "0b398a0"
+BODY_ONLY_SOURCES = frozenset({
+    "src/main/boss/yuuka5_backdrop.asm",
+    "src/main/bullet/invalidate.asm",
+    "src/main/bullet/pellet_render.asm",
+    "src/main/formats/bb_txt_put.asm",
+    "src/main/formats/mpn_render.asm",
+    "src/main/formats/z_super_put_16x16_mono.asm",
+    "src/main/hardware/fillm64_56_256_256.asm",
+    "src/main/player/shot_laser.asm",
+    "src/main/pointnum/lifecycle.asm",
+    "src/main/pointnum/put.asm",
+    "src/main/pointnum/render.asm",
+    "src/main/tile/bb_mask.asm",
+})
 FLAGS = (
     "-c", "-I.", "-Isrc/main/include", "-O", "-b-", "-3", "-Z", "-d",
     "-DGAME=4", "-DTH04P", "-ml", "-DBINARY='M'",
@@ -102,6 +123,75 @@ def source_tree_digest(sources: list[Path]) -> str:
         digest.update(b"\0")
         digest.update(bytes.fromhex(sha256(source)))
     return digest.hexdigest()
+
+
+def body_wrapper(source: Path, work: Path, index: int) -> Path:
+    """Make a private context wrapper around one current body-only source."""
+
+    relative = source.relative_to(ROOT).as_posix()
+    if relative not in BODY_ONLY_SOURCES:
+        return source
+    current = source.read_text(encoding="utf-8")
+    try:
+        historical = subprocess.check_output(
+            ["git", "show", f"{BODY_ONLY_CONTEXT_REVISION}:{relative}"],
+            cwd=ROOT,
+            text=True,
+        )
+    except subprocess.CalledProcessError as exc:
+        raise RuntimeError(
+            f"cannot recover diagnostic context for body-only source {relative}"
+        ) from exc
+    current_public = re.search(r"(?m)^public\s+", current)
+    historical_public = re.search(r"(?m)^public\s+", historical)
+    if current_public is None or historical_public is None:
+        raise RuntimeError(f"body-only source has no public boundary: {relative}")
+
+    historical_lines = historical.splitlines(keepends=True)
+    suffix_start = None
+    cursor = 0
+    for line in historical_lines:
+        if re.match(r"^\s*[^;\s].*\bendp\s*$", line, re.IGNORECASE):
+            suffix_start = cursor + len(line)
+        cursor += len(line)
+    if suffix_start is None:
+        raise RuntimeError(f"historical wrapper has no endp boundary: {relative}")
+
+    # Keep current symbolic constants (notably PLAYFIELD_VRAM_W=48) while
+    # recovering only the removed historical context declarations.
+    prefix = historical[:historical_public.start()]
+    current_prefix = current[:current_public.start()]
+    for line in current_prefix.splitlines():
+        match = re.match(r"^\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*.*$", line)
+        if not match:
+            continue
+        name = match.group(1)
+        assignment = re.compile(
+            rf"(?m)^\s*{re.escape(name)}\s*=\s*[^\r\n]*$"
+        )
+        prefix, count = assignment.subn(line, prefix, count=1)
+        if count != 1:
+            raise RuntimeError(
+                f"diagnostic context lost current constant {name} in {relative}"
+            )
+    wrapper_text = prefix + current[current_public.start():] + historical[suffix_start:]
+    # TASM's .MODEL derives an implicit segment name from the basename; keep
+    # the generated basename alphabetic so a numeric index is not parsed as a
+    # label prefix (for example, ``006_YUUK_TEXT``).
+    wrapper = work / "diagnostic_wrappers" / f"body{index:03d}_{source.name}"
+    wrapper.parent.mkdir(parents=True, exist_ok=True)
+    wrapper.write_text(wrapper_text, encoding="utf-8")
+    return wrapper
+
+
+def materialize_body_wrappers(sources: list[Path], work: Path) -> dict[str, Path]:
+    wrappers: dict[str, Path] = {}
+    for index, source in enumerate(sources):
+        relative = source.relative_to(ROOT).as_posix()
+        wrapper = body_wrapper(source, work, index)
+        if wrapper != source:
+            wrappers[relative] = wrapper
+    return wrappers
 
 
 def index_value(data: bytes, cursor: int) -> tuple[int, int]:
@@ -258,8 +348,10 @@ def compile_cpp(source: Path, alias: str, index: int, work: Path,
 
 
 def assemble_asm(source: Path, index: int, work: Path, output: Path,
-                 env: dict[str, str], subdir: str, log_prefix: str) -> dict[str, object]:
+                 env: dict[str, str], subdir: str, log_prefix: str,
+                 logical_source: Path | None = None) -> dict[str, object]:
     source = source if source.is_absolute() else ROOT / source
+    logical_source = logical_source or source
     try:
         relative = source.relative_to(work).as_posix()
     except ValueError:
@@ -277,10 +369,16 @@ def assemble_asm(source: Path, index: int, work: Path, output: Path,
     log = output / f"{log_prefix}-{index:03d}.log"
     result = run(command, work, env, log)
     omf = describe_omf(obj.read_bytes()) if obj.is_file() else None
-    return {
+    try:
+        logical_relative = logical_source.relative_to(ROOT).as_posix()
+    except ValueError:
+        logical_relative = logical_source.relative_to(work).as_posix()
+    result = {
         "index": index,
-        "source": relative,
-        "source_sha256": sha256(source),
+        "source": logical_relative,
+        "assembly_source": relative,
+        "source_sha256": sha256(logical_source),
+        "assembly_source_sha256": sha256(source),
         "object": obj.relative_to(work).as_posix() if obj.is_file() else None,
         "object_sha256": sha256(obj) if obj.is_file() else None,
         "assemble_exit": result.returncode,
@@ -288,6 +386,7 @@ def assemble_asm(source: Path, index: int, work: Path, output: Path,
         "translator_comments": omf["translator_comments"] if omf else [],
         "log": log.relative_to(output).as_posix(),
     }
+    return result
 
 
 def assemble_state(source: Path, index: int, work: Path, output: Path,
@@ -408,8 +507,18 @@ def main() -> int:
         root_records.append(compile_cpp(source, alias, index, work, output, env))
     state_records = [assemble_state(source, index, work, output, env)
                      for index, source in enumerate(STATE_SOURCES)]
+    body_wrappers = materialize_body_wrappers(assembly_sources, work)
     asm_records = [
-        assemble_asm(source, index, work, output, env, "asm", "assemble-asm")
+        assemble_asm(
+            body_wrappers.get(source.relative_to(ROOT).as_posix(), source),
+            index,
+            work,
+            output,
+            env,
+            "asm",
+            "assemble-asm",
+            logical_source=source,
+        )
         for index, source in enumerate(assembly_sources)
         if source.relative_to(ROOT).as_posix() not in state_source_names
     ]
@@ -475,6 +584,8 @@ def main() -> int:
         "asm_assemble_pass": len(valid_asm),
         "asm_assemble_fail": len(asm_records) - len(valid_asm),
         "asm_state_exclusions": sorted(state_source_names),
+        "body_only_context_revision": BODY_ONLY_CONTEXT_REVISION,
+        "body_only_context_sources": sorted(BODY_ONLY_SOURCES),
         "sprite_asset_records": sprite_asset_records,
         "sprite_sources": sprite_records,
         "sprite_assemble_pass": len(valid_sprites),
@@ -482,13 +593,18 @@ def main() -> int:
         "root_records": root_records,
         "state_records": state_records,
         "asm_records": asm_records,
+        "body_only_wrappers": {
+            key: value.relative_to(work).as_posix()
+            for key, value in body_wrappers.items()
+        },
         "link": link_result,
         "limit": (
-            "Diagnostic only: scaffold th04_main.asm, product ASM owners beyond "
-            "the eight state owners, final MZ/layout, relocation agreement, and "
-            "PC-98 startup remain open. Sprite inputs are locally supplied "
-            "reference BMPs replayed in a private tree; support-library symbols "
-            "are calibration."
+            "Diagnostic only: scaffold th04_main.asm, final MZ/layout, relocation "
+            "agreement, and PC-98 startup remain open. Twelve body-only ASM "
+            "owners use private historical context wrappers; the checked-in "
+            "current bodies remain the emitted source and wrappers earn no "
+            "exactness credit. Sprite inputs are locally supplied reference BMPs "
+            "replayed in a private tree; support-library symbols are calibration."
         ),
     }
     (output / "receipt.json").write_text(
