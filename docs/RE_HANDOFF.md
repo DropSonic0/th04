@@ -1,7 +1,7 @@
 # TH04 reconstruction handoff
 
-Updated 2026-09-30 after the native MAIN link and CIRCLE aggregate diagnostic
-frontiers. This is the
+Updated 2026-09-30 after the native MAIN link and normal GAME.BAT runtime
+differential. This is the
 current resume index; use
 `python3 scripts/status.py`, `config/units.csv`, and the function-boundary and
 decoded-acceptance ledgers for live counts. `docs/RE_ROADMAP.md` gives the next
@@ -141,6 +141,32 @@ screen; no MAIN-hit or OP/CDG marker was observed, so this is a runtime boot
 smoke result only and not full menu/game startup acceptance. The log contains
 repeated unimplemented INT 1Bh SCSI BIOS diagnostics; preserve that as an
 emulator/runtime unknown.
+
+The v1074 native MAIN link and normal-route checkpoint are recorded in
+`docs/reconstruction/product/TH04_NATIVE_MAIN_STARTUP_V1074.md`. The link
+receipt `.analysis/reconstruction/probes/native-main-link-v1074-20260930/receipt.json`
+has SHA-256
+`08927a64fa285feecedd88ebfe92445a5b8d682b6949e3a1bbb65431289493ae` and
+repeats the clean 192/192 C++ + 8/8 state + 125/125 ASM + 4/4 sprite-owner
+frontier with TLINK exit 0, no unresolved symbols, duplicate publics, group
+overflows, or fixup overflows. Its diagnostic MZ is 190,937 bytes, 1,163
+relocations, SHA-256
+`81b694dee05807bc3a975e86bd9e83010f560102d22aed1af479f62371b117d1`.
+
+Through the normal `GAME.BAT` route, the candidate run at 60 seconds passes
+the DOS boot markers but shows the red STOP-key help screen; receipt
+`.analysis/runtime/candidates/native-main-v1074-20260930/run-game-bat-60/receipt.json`
+has SHA-256
+`23f92a1266f5a4324b99b20c2a28979e4c84dcba51d0091f574631f1307a56b6`. The
+same pinned route with the original image shows gameplay at 60 seconds (control
+receipt SHA-256
+`0a08fc95e7154bb75a68823fa1d3a194bf2001dd140727a1e615a3b96509fd38`). This
+is a runtime-observed differential, not full startup acceptance. A target-vs-
+candidate static audit also records target `_key_det`/`_shiftkey` DS offsets
+`0x3974`/`0x3976` versus candidate `DGROUP:224E:C4B4`/`C4B6`; DATA/BSS order,
+resident initialization, and input-state trace remain open. The large
+diagnostic source/HDI payloads were pruned after these receipts and frames were
+hashed.
 
 The latest cold scaffold aggregate's recorded evidence remains under
 `.analysis/reconstruction/exact-unit-replay/main-aggregate-body-bounded6-20260930/`;
