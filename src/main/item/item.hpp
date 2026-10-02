@@ -48,12 +48,12 @@ extern unsigned int item_point_score_at_full_dream;
 #endif
 
 #define ITEM_MISS_COUNT 5
-typedef enum {
+typedef enum miss_field_t {
 	MISS_FIELD_LEFT = 0,
 	MISS_FIELD_CENTER = 1,
 	MISS_FIELD_RIGHT = 2,
 	MISS_FIELD_COUNT,
-};
+} miss_field_t;
 
 extern const Subpixel ITEM_MISS_VELOCITIES[MISS_FIELD_COUNT][2][ITEM_MISS_COUNT];
 

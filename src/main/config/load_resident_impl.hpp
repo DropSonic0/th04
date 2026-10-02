@@ -43,7 +43,11 @@ static inline resident_t __seg* cfg_load_and_set_resident(
 	file_close();
 
 	resident_t __seg *resident_seg = cfg.resident;
-	resident = resident_seg;
+	if (!resident_seg) {
+		resident_seg = resident;
+	} else {
+		resident = resident_seg;
+	}
 	return resident_seg;
 }
 

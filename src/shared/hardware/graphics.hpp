@@ -192,9 +192,9 @@ void TH04_PASCAL grcg_circlefill(int x, int y, unsigned r);
 // Palette
 // -------
 
-inline char tone_black() { return   0; }
-inline char tone_100()   { return 100; }
-inline char tone_white() { return 200; }
+inline int tone_black() { return 0; }
+inline int tone_100() { return 100; }
+inline int tone_white() { return 200; }
 
 void TH04_PASCAL palette_show(void);
 

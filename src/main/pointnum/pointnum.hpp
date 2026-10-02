@@ -54,16 +54,22 @@ void pascal near pointnum_digits_set(
 );
 #endif
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 void pascal near pointnums_add_white(
 	subpixel_t center_x, subpixel_t center_y, uint16_t points
 );
 void pascal near pointnums_add_yellow(
 	subpixel_t center_x, subpixel_t center_y, uint16_t points
 );
-
 void pascal near pointnums_init(void);
-void near pointnums_invalidate(void);
 void pascal near pointnums_update(void);
+void pascal near pointnums_render(void);
+#ifdef __cplusplus
+}
+#endif
+void near pointnums_invalidate(void);
 
 // Pointers collected for the current frame. The first yellow pointer marks
 // the boundary between the white and yellow portions of the ring.
@@ -74,7 +80,5 @@ extern pointnum_t near *pointnum_first_yellow_alive;
 	_CX = numeral; \
 	pointnum_put_raw(top, left);
 void __fastcall near pointnum_put_raw(vram_y_t top, screen_x_t left);
-
-void pascal near pointnums_render(void);
 
 #endif

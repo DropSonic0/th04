@@ -56,20 +56,39 @@ inline void __emit__(unsigned char b, ...) {}
 inline void __int__(short i) {}
 
 inline unsigned _dos_open(const char* filename, unsigned flags, int* handle) {
+	printf("[TH04 PS3 DOS] _dos_open: %s\n", filename ? filename : "NULL");
 	FILE* f = fopen(filename, "rb");
-	if (!f) return 1;
+	if (!f && filename) {
+		char path[512];
+		snprintf(path, sizeof(path), "/app_home/%s", filename);
+		printf("[TH04 PS3 DOS] Relative _dos_open failed, trying fallback: %s\n", path);
+		f = fopen(path, "rb");
+	}
+	if (!f) {
+		printf("[TH04 PS3 DOS] ERROR: _dos_open failed for %s\n", filename ? filename : "NULL");
+		return 1;
+	}
 	*handle = (int)(intptr_t)f;
+	printf("[TH04 PS3 DOS] _dos_open SUCCESS: %s\n", filename ? filename : "NULL");
 	return 0;
 }
 
 inline unsigned _dos_close(int handle) {
-	if (handle) fclose((FILE*)(intptr_t)handle);
+	if (handle) {
+		printf("[TH04 PS3 DOS] _dos_close\n");
+		fclose((FILE*)(intptr_t)handle);
+	}
 	return 0;
 }
 
 inline unsigned _dos_read(int handle, void* buf, unsigned count, unsigned* bytes_read) {
-	if (!handle) { *bytes_read = 0; return 1; }
+	if (!handle) {
+		printf("[TH04 PS3 DOS] _dos_read failed: invalid handle\n");
+		*bytes_read = 0;
+		return 1;
+	}
 	*bytes_read = (unsigned)fread(buf, 1, count, (FILE*)(intptr_t)handle);
+	printf("[TH04 PS3 DOS] _dos_read requested %u bytes, read %u bytes\n", count, *bytes_read);
 	return 0;
 }
 

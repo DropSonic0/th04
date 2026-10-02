@@ -41,7 +41,8 @@ struct Shot {
 	}
 
 	void set_random_angle_forwards(
-		unsigned char min = -0x48, unsigned char max = -0x38
+		unsigned char min = static_cast<unsigned char>(-0x48),
+		unsigned char max = static_cast<unsigned char>(-0x38)
 	) {
 		shot_velocity_set(
 			(SPPoint near *)&this->pos.velocity,
