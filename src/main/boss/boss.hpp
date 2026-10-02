@@ -102,6 +102,21 @@ void near boss_hittest_shots_invincible(void);
 // Explosions
 // ----------
 
+struct Explosion {
+	bool alive;
+	unsigned char age;
+	SPPoint center;
+	SPPoint radius_cur;
+	SPPoint radius_delta;
+	int8_t unused; // ZUN bloat
+
+	unsigned char angle_offset;
+
+	unsigned char angle_y(const unsigned char& angle_base) {
+		return (angle_offset + angle_base);
+	}
+};
+
 enum explosion_type_t {
 	ET_NONE = -1,
 	ET_CIRCLE = 0,

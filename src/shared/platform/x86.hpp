@@ -7,7 +7,7 @@
 #define X86REAL_H
 
 #include "src/shared/platform/types.hpp"
-#include "src/ps3_compat.hpp"
+#include "src/shared/platform/ps3_compat.hpp"
 
 // Turbo C++ 4.0J's <conio.h> tries to redefine them otherwise.
 #define _PORT_DEFS

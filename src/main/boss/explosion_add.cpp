@@ -10,16 +10,6 @@
 
 #define EXPLOSION_SMALL_COUNT 2
 
-struct Explosion {
-    bool alive;
-    unsigned char age;
-    SPPoint center;
-    SPPoint radius_cur;
-    SPPoint radius_delta;
-    signed char unused;
-    unsigned char angle_offset;
-};
-
 extern Explosion explosions_small[EXPLOSION_SMALL_COUNT];
 extern Explosion explosions_big;
 

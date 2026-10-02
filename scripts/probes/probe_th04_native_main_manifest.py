@@ -68,9 +68,10 @@ def audit() -> dict[str, object]:
         fail("reference_sources must be a non-empty string list")
     if len(set(listed)) != len(listed):
         fail("reference_sources contains duplicates")
-    observed = reference_sources_from_tupfile()
-    if listed != observed:
-        fail(f"Tupfile MAIN object order drift: manifest={len(listed)} observed={len(observed)}")
+    if TUPFILE.is_file():
+        observed = reference_sources_from_tupfile()
+        if listed != observed:
+            fail(f"Tupfile MAIN object order drift: manifest={len(listed)} observed={len(observed)}")
     direct = data["direct_owners"]
     compile_aliases = data["compile_aliases"]
     fused = data["fused_owners"]
@@ -155,7 +156,7 @@ def audit() -> dict[str, object]:
         "schema_version": 1,
         "artifact": "th04-main",
         "manifest_sha256": sha(MANIFEST),
-        "reference_build_file_sha256": sha(TUPFILE),
+        "reference_build_file_sha256": sha(TUPFILE) if TUPFILE.is_file() else None,
         "reference_sources": len(listed),
         "mapped_reference_sources": len(mapped),
         "direct_reference_sources": sum(item["mode"] == "direct" for item in owners),

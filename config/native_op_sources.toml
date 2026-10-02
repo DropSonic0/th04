@@ -101,6 +101,7 @@ c_sources = [
   "src/shared/hardware/vsync_wait.cpp",
   "src/shared/memory/heap.cpp",
   "src/shared/math/vector.cpp",
+  "src/shared/platform/ps3_compat.cpp",
   "src/shared/runtime/random.cpp",
   "src/shared/runtime/palette_entry_rgb_large.cpp",
   "src/shared/sound/delay_until_measure.cpp",

@@ -1,27 +1,11 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="..\..\src\main\boss\backdrop.cpp" />
     <ClCompile Include="..\..\src\main\boss\boss.cpp" />
     <ClCompile Include="..\..\src\main\boss\boss_bg_main01.cpp" />
-    <ClCompile Include="..\..\src\main\boss\chasecrosses_add.cpp" />
     <ClCompile Include="..\..\src\main\boss\elly_backdrop.cpp" />
     <ClCompile Include="..\..\src\main\boss\elly_fg_render.cpp" />
-    <ClCompile Include="..\..\src\main\boss\elly_gather.cpp" />
-    <ClCompile Include="..\..\src\main\boss\elly_orbit.cpp" />
-    <ClCompile Include="..\..\src\main\boss\elly_phase_burst.cpp" />
-    <ClCompile Include="..\..\src\main\boss\elly_phase_cloud.cpp" />
-    <ClCompile Include="..\..\src\main\boss\elly_phase_cloud_reverse.cpp" />
-    <ClCompile Include="..\..\src\main\boss\elly_phase_dual.cpp" />
-    <ClCompile Include="..\..\src\main\boss\elly_phase_final.cpp" />
-    <ClCompile Include="..\..\src\main\boss\elly_phase_four_rings.cpp" />
-    <ClCompile Include="..\..\src\main\boss\elly_phase_orbit.cpp" />
-    <ClCompile Include="..\..\src\main\boss\elly_phase_ring.cpp" />
-    <ClCompile Include="..\..\src\main\boss\elly_phase_ring16.cpp" />
-    <ClCompile Include="..\..\src\main\boss\elly_phase_scythe.cpp" />
-    <ClCompile Include="..\..\src\main\boss\elly_phase_sweep.cpp" />
-    <ClCompile Include="..\..\src\main\boss\elly_scythe.cpp" />
-    <ClCompile Include="..\..\src\main\boss\elly_scythe_init.cpp" />
     <ClCompile Include="..\..\src\main\boss\elly_update.cpp" />
     <ClCompile Include="..\..\src\main\boss\explode.cpp" />
     <ClCompile Include="..\..\src\main\boss\explosion_add.cpp" />
@@ -40,11 +24,7 @@
     <ClCompile Include="..\..\src\main\boss\gengetsu6_wave_bounce.cpp" />
     <ClCompile Include="..\..\src\main\boss\gengetsu_bomb_inv_render.cpp" />
     <ClCompile Include="..\..\src\main\boss\kurumi_backdrop.cpp" />
-    <ClCompile Include="..\..\src\main\boss\kurumi_bullet_stacks.cpp" />
     <ClCompile Include="..\..\src\main\boss\kurumi_fg_render.cpp" />
-    <ClCompile Include="..\..\src\main\boss\kurumi_late_phases.cpp" />
-    <ClCompile Include="..\..\src\main\boss\kurumi_spawnrays.cpp" />
-    <ClCompile Include="..\..\src\main\boss\kurumi_spawnray_phases.cpp" />
     <ClCompile Include="..\..\src\main\boss\kurumi_update.cpp" />
     <ClCompile Include="..\..\src\main\boss\marisa.cpp" />
     <ClCompile Include="..\..\src\main\boss\marisa4_bits_init.cpp" />
@@ -52,16 +32,10 @@
     <ClCompile Include="..\..\src\main\boss\marisa4_main033.cpp" />
     <ClCompile Include="..\..\src\main\boss\marisa4_phase.cpp" />
     <ClCompile Include="..\..\src\main\boss\marisa4_render.cpp" />
-    <ClCompile Include="..\..\src\main\boss\marisa4_tail.cpp" />
-    <ClCompile Include="..\..\src\main\boss\mugetsu_180bb.cpp" />
     <ClCompile Include="..\..\src\main\boss\mugetsu_fg_render.cpp" />
     <ClCompile Include="..\..\src\main\boss\mugetsu_gengetsu_backdrop.cpp" />
     <ClCompile Include="..\..\src\main\boss\mugetsu_gengetsu_bg_render.cpp" />
-    <ClCompile Include="..\..\src\main\boss\mugetsu_late.cpp" />
     <ClCompile Include="..\..\src\main\boss\mugetsu_main033.cpp" />
-    <ClCompile Include="..\..\src\main\boss\mugetsu_phase2_callbacks.cpp" />
-    <ClCompile Include="..\..\src\main\boss\mugetsu_prefix.cpp" />
-    <ClCompile Include="..\..\src\main\boss\mugetsu_transitions.cpp" />
     <ClCompile Include="..\..\src\main\boss\orange_backdrop.cpp" />
     <ClCompile Include="..\..\src\main\boss\orange_fg_render.cpp" />
     <ClCompile Include="..\..\src\main\boss\orange_mode_phases.cpp" />
@@ -91,13 +65,8 @@
     <ClCompile Include="..\..\src\main\boss\reimu_orbs_render.cpp" />
     <ClCompile Include="..\..\src\main\boss\yuuka5.cpp" />
     <ClCompile Include="..\..\src\main\boss\yuuka5_fg_render.cpp" />
-    <ClCompile Include="..\..\src\main\boss\yuuka5_patterns.cpp" />
-    <ClCompile Include="..\..\src\main\boss\yuuka5_tail.cpp" />
-    <ClCompile Include="..\..\src\main\boss\yuuka6_animations.cpp" />
-    <ClCompile Include="..\..\src\main\boss\yuuka6_bg_render.cpp" />
     <ClCompile Include="..\..\src\main\boss\yuuka6_entities_render.cpp" />
     <ClCompile Include="..\..\src\main\boss\yuuka6_fg_render.cpp" />
-    <ClCompile Include="..\..\src\main\boss\yuuka6_gather_patterns.cpp" />
     <ClCompile Include="..\..\src\main\boss\yuuka6_main034.cpp" />
     <ClCompile Include="..\..\src\main\bullet\add.cpp" />
     <ClCompile Include="..\..\src\main\bullet\render.cpp" />
@@ -110,15 +79,10 @@
     <ClCompile Include="..\..\src\main\core\exit.cpp" />
     <ClCompile Include="..\..\src\main\core\gameexecl.cpp" />
     <ClCompile Include="..\..\src\main\core\gameover.cpp" />
-    <ClCompile Include="..\..\src\main\core\gameplay_loop.cpp" />
-    <ClCompile Include="..\..\src\main\core\gameplay_session_init.cpp" />
     <ClCompile Include="..\..\src\main\core\init.cpp" />
-    <ClCompile Include="..\..\src\main\core\main.cpp" />
     <ClCompile Include="..\..\src\main\core\nullfunc_far.cpp" />
     <ClCompile Include="..\..\src\main\core\nullfunc_near.cpp" />
     <ClCompile Include="..\..\src\main\demo.cpp" />
-    <ClCompile Include="..\..\src\main\dialog\dialog.cpp" />
-    <ClCompile Include="..\..\src\main\dialog\file.cpp" />
     <ClCompile Include="..\..\src\main\dialog\fused.cpp" />
     <ClCompile Include="..\..\src\main\dialog\init_exit.cpp" />
     <ClCompile Include="..\..\src\main\ems.cpp" />
@@ -142,7 +106,6 @@
     <ClCompile Include="..\..\src\main\item\invalidate.cpp" />
     <ClCompile Include="..\..\src\main\item\items_render.cpp" />
     <ClCompile Include="..\..\src\main\item\items_update.cpp" />
-    <ClCompile Include="..\..\src\main\item\splashes_init.cpp" />
     <ClCompile Include="..\..\src\main\item\splashes_render.cpp" />
     <ClCompile Include="..\..\src\main\item\splash_u.cpp" />
     <ClCompile Include="..\..\src\main\math\randring1_next16.cpp" />
@@ -171,7 +134,6 @@
     <ClCompile Include="..\..\src\main\player\move.cpp" />
     <ClCompile Include="..\..\src\main\player\player.cpp" />
     <ClCompile Include="..\..\src\main\player\reimu_shot.cpp" />
-    <ClCompile Include="..\..\src\main\player\reimu_shot_b.cpp" />
     <ClCompile Include="..\..\src\main\player\render.cpp" />
     <ClCompile Include="..\..\src\main\player\shots.cpp" />
     <ClCompile Include="..\..\src\main\player\shots_add.cpp" />
@@ -196,7 +158,6 @@
     <ClCompile Include="..\..\src\main\stage_state_init.cpp" />
     <ClCompile Include="..\..\src\main\tile\set.cpp" />
     <ClCompile Include="..\..\src\main\tile\tile.cpp" />
-    <ClCompile Include="..\..\src\ps3_compat.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\main\bg.hpp" />
@@ -351,7 +312,8 @@
     <ClInclude Include="..\..\src\main\stage\stages.hpp" />
     <ClInclude Include="..\..\src\main\tile\bb.hpp" />
     <ClInclude Include="..\..\src\main\tile\tile.hpp" />
-    <ClInclude Include="..\..\src\ps3_compat.hpp" />
+    <ClInclude Include="..\..\src\shared\platform\dos.h" />
+    <ClInclude Include="..\..\src\shared\platform\ps3_compat.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\main\boss\bg_state.asm" />

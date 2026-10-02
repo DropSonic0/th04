@@ -33,7 +33,7 @@ def audit(root: Path) -> dict[str, object]:
             continue
         relative = path.relative_to(root).as_posix()
         for line_number, line in enumerate(
-            path.read_text(encoding="utf-8").splitlines(), start=1
+            path.read_text(encoding="utf-8", errors="replace").splitlines(), start=1
         ):
             match = INCLUDE.match(line)
             if not match:
@@ -57,7 +57,7 @@ def audit(root: Path) -> dict[str, object]:
             relative = path.relative_to(compat_root).as_posix()
             forwarders[relative] = path
             expected = f'#include "{relative}"\n'
-            if path.is_symlink() or path.read_text(encoding="utf-8") != expected:
+            if path.is_symlink() or path.read_text(encoding="utf-8", errors="replace") != expected:
                 invalid_forwarders.append(
                     {"header": relative, "expected": expected.rstrip("\n")}
                 )

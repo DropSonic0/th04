@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|PS3">
@@ -51,8 +51,9 @@
       <PreprocessorDefinitions>_DEBUG;__CELL_ASSERT__;far=;near=;pascal=;__seg=;TH04_FAR;GAME=4;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <AdditionalIncludeDirectories>C:\th04;C:\th04\src\main\include;C:\th04\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>-include src/ps3_compat.hpp %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>C:\th04;C:\th04\src\main\include;C:\th04\src;C:\th04\src\shared\platform;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-include src/shared/platform/ps3_compat.hpp %(AdditionalOptions)</AdditionalOptions>
+      <ObjectFileName>$(IntDir)%(RelativeDir)</ObjectFileName>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|PS3'">
@@ -63,7 +64,8 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\ps3_compat.hpp" />
+    <ClInclude Include="..\..\src\shared\platform\dos.h" />
+    <ClInclude Include="..\..\src\shared\platform\ps3_compat.hpp" />
     <ClInclude Include="..\..\src\shared\config\cfg.hpp" />
     <ClInclude Include="..\..\src\shared\config\resident.hpp" />
     <ClInclude Include="..\..\src\shared\config\score.hpp" />
@@ -193,6 +195,7 @@
     <ClCompile Include="..\..\src\shared\sound\se_play.cpp" />
     <ClCompile Include="..\..\src\shared\sound\se_reset.cpp" />
     <ClCompile Include="..\..\src\shared\sound\se_update.cpp" />
+    <ClCompile Include="..\..\src\shared\platform\ps3_compat.cpp" />
     <ClCompile Include="..\..\src\shared\sound\state.cpp" />
   </ItemGroup>
   <Import Condition="'$(ConfigurationType)' == 'Makefile' and Exists('$(VCTargetsPath)\Platforms\$(Platform)\SCE.Makefile.$(Platform).targets')" Project="$(VCTargetsPath)\Platforms\$(Platform)\SCE.Makefile.$(Platform).targets" />

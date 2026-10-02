@@ -114,7 +114,7 @@ extern bullet_t bullets[BULLET_COUNT];
 #define pellets (&bullets[0])
 #define bullets16 (&bullets[PELLET_COUNT])
 
-extern union {
+extern union bullet_special_u {
 	unsigned char turns_max;
 	SubpixelLength8 speed_delta;
 } bullet_special;

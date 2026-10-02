@@ -1,4 +1,4 @@
-#include "src/ps3_compat.hpp"
+#include "src/shared/platform/ps3_compat.hpp"
 
 #include <ctype.h>
 
