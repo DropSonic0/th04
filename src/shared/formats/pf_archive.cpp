@@ -215,7 +215,9 @@ extern "C" int TH04_PASCAL pf_dispatch(PfFrame far *f)
 			if (!name_equal(path, entry + 3)) {
 				continue;
 			}
+			printf("[TH04 PS3 PF] Opening archive member: %s\n", path ? path : "NULL");
 			if (_dos_open(archive_path, 0, &handle)) {
+				printf("[TH04 PS3 PF] Failed _dos_open backing archive %s for member %s\n", archive_path, path);
 				failure(f, 2);
 				return 1;
 			}
@@ -229,10 +231,12 @@ extern "C" int TH04_PASCAL pf_dispatch(PfFrame far *f)
 			vf.capacity = bbufsiz ? bbufsiz : 512;
 			vf.buffer = (unsigned char __seg *)hmem_allocbyte(vf.capacity);
 			if (!vf.buffer || !seek_payload()) {
+				printf("[TH04 PS3 PF] Failed buffer alloc or seek_payload for member %s\n", path);
 				close_virtual();
 				failure(f, 8);
 				return 1;
 			}
+			printf("[TH04 PS3 PF] Member %s ready (decl_size=%u, packed_size=%u, handle=%d)\n", path, vf.declared_size, vf.packed_size, handle);
 			success(f, handle);
 			return 1;
 		}
@@ -314,6 +318,7 @@ extern "C" void TH04_PASCAL pfstart(const unsigned char far *path)
 	unsigned got, count, bytes, key, i;
 	unsigned char header[16];
 	unsigned char far *entries;
+	printf("[TH04 PS3 PF] pfstart called: %s\n", path ? (const char*)path : "NULL");
 	pfend();
 	pferrno = 0;
 	for (i = 0; i + 1 < sizeof(archive_path) && path[i]; i++) {
@@ -322,22 +327,27 @@ extern "C" void TH04_PASCAL pfstart(const unsigned char far *path)
 	archive_path[i] = 0;
 	if (path[i]) {
 		pferrno = 1;
+		printf("[TH04 PS3 PF] Path too long\n");
 		return;
 	}
 	if (_dos_open(archive_path, 0, &handle)) {
 		pferrno = 2;
+		printf("[TH04 PS3 PF] ERROR: Failed _dos_open archive %s\n", archive_path);
 		return;
 	}
 	if (_dos_read(handle, header, sizeof(header), &got) || got != sizeof(header)) {
 		pferrno = 3;
+		printf("[TH04 PS3 PF] ERROR: Failed reading header\n");
 		_dos_close(handle);
 		return;
 	}
 	bytes = get16(header);
 	count = get16(header + 4);
 	key = get16(header + 6);
+	printf("[TH04 PS3 PF] Archive header parsed: count=%u, bytes=%u, key=%u\n", count, bytes, key);
 	if ((count > 1023) || (bytes != (count + 1u) * 32u) || (key > 255)) {
 		pferrno = 3;
+		printf("[TH04 PS3 PF] ERROR: Invalid archive header params\n");
 		_dos_close(handle);
 		return;
 	}
@@ -345,11 +355,13 @@ extern "C" void TH04_PASCAL pfstart(const unsigned char far *path)
 	directory = (unsigned char __seg *)hmem_allocbyte(bytes);
 	if (!directory) {
 		pferrno = 8;
+		printf("[TH04 PS3 PF] ERROR: Directory hmem_allocbyte failed\n");
 		_dos_close(handle);
 		return;
 	}
 	if (_dos_read(handle, (void far *)directory, bytes, &got) || got != bytes) {
 		pferrno = 3;
+		printf("[TH04 PS3 PF] ERROR: Directory read failed\n");
 		_dos_close(handle);
 		pfend();
 		return;
@@ -364,10 +376,12 @@ extern "C" void TH04_PASCAL pfstart(const unsigned char far *path)
 	for (i = count * 32u; i < bytes; i++) {
 		if (entries[i]) {
 			pferrno = 3;
+			printf("[TH04 PS3 PF] ERROR: Non-zero padding in directory\n");
 			pfend();
 			return;
 		}
 	}
 	directory_count = count;
 	archive_active = (unsigned)pf_hook_install();
+	printf("[TH04 PS3 PF] pfstart SUCCESS: %u directory entries loaded from %s\n", directory_count, archive_path);
 }

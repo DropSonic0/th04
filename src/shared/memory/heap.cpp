@@ -147,7 +147,12 @@ extern "C" int TH04_PASCAL mem_unassign(void)
 
 extern "C" void __seg *TH04_PASCAL hmem_alloc(unsigned parasize)
 {
-	return (void __seg *)heap_allocate(parasize);
+	unsigned seg = heap_allocate(parasize);
+#if !defined(__TURBOC__) && !defined(__MSDOS__)
+	return (void __seg *)(uintptr_t)MK_FP(seg, 0);
+#else
+	return (void __seg *)seg;
+#endif
 }
 
 extern "C" void __seg *TH04_PASCAL hmem_allocbyte(unsigned bytesize)
@@ -156,7 +161,12 @@ extern "C" void __seg *TH04_PASCAL hmem_allocbyte(unsigned bytesize)
 	if(bytesize & 0xF) {
 		paragraphs++;
 	}
-	return (void __seg *)heap_allocate(paragraphs);
+	unsigned seg = heap_allocate(paragraphs);
+#if !defined(__TURBOC__) && !defined(__MSDOS__)
+	return (void __seg *)(uintptr_t)MK_FP(seg, 0);
+#else
+	return (void __seg *)seg;
+#endif
 }
 
 extern "C" void TH04_PASCAL hmem_free(void __seg *memseg)
@@ -164,7 +174,11 @@ extern "C" void TH04_PASCAL hmem_free(void __seg *memseg)
 	if(!heap_base || !memseg) {
 		return;
 	}
+#if !defined(__TURBOC__) && !defined(__MSDOS__)
+	const unsigned data_segment = (unsigned)(((uintptr_t)memseg) >> 4);
+#else
 	const unsigned data_segment = (unsigned)memseg;
+#endif
 	if(data_segment <= heap_top || data_segment > heap_limit) {
 		return;
 	}

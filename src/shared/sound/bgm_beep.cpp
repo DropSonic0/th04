@@ -2,6 +2,7 @@
 #pragma option -zCSHARED -3
 
 #include <dos.h>
+#include <stdio.h>
 
 #include "src/shared/runtime/api.hpp"
 
@@ -74,26 +75,34 @@ static void bgm_release(void)
 extern "C" int TH04_PASCAL bgm_init(int bufsiz)
 {
 	unsigned i;
+	printf("[TH04 PS3 Sound] bgm_init called (bufsiz=%d)\n", bufsiz);
 	if (initialized) {
+		printf("[TH04 PS3 Sound] bgm_init: already initialized\n");
 		return 0;
 	}
 	unsigned music_size = bufsiz > 0 ? (unsigned)bufsiz : 4096u;
 	for (i = 0; i < 3u; i++) {
-		music_segments[i] = (unsigned)hmem_allocbyte(music_size);
+		music_segments[i] = (unsigned)(uintptr_t)hmem_allocbyte(music_size);
 		if (!music_segments[i]) {
+			printf("[TH04 PS3 Sound] ERROR: music_segments[%u] alloc failed\n", i);
 			bgm_release();
 			return -8;
 		}
 	}
 	for (i = 0; i < 16u; i++) {
 		// 256 decimal samples plus a terminating zero word.
-		sound_segments[i] = (unsigned)hmem_allocbyte(514u);
+		sound_segments[i] = (unsigned)(uintptr_t)hmem_allocbyte(514u);
 		if (!sound_segments[i]) {
+			printf("[TH04 PS3 Sound] ERROR: sound_segments[%u] alloc failed\n", i);
 			bgm_release();
 			return -8;
 		}
 	}
+#if !defined(__TURBOC__) && !defined(__MSDOS__)
+	clock_8mhz = 0;
+#else
 	clock_8mhz = (*(unsigned char far *)MK_FP(0, 0x501) & 0x80u) != 0;
+#endif
 	// The historical 8 MHz clock base is rounded down to an even PIT count.
 	bgm_timer_divisor = clock_8mhz ? 1996u : 2458u;
 	sound_count = 0;
@@ -103,11 +112,13 @@ extern "C" int TH04_PASCAL bgm_init(int bufsiz)
 	beep_off();
 	bgm_timer_start();
 	initialized = 1;
+	printf("[TH04 PS3 Sound] bgm_init SUCCESS (timer_divisor=%u)\n", bgm_timer_divisor);
 	return 0;
 }
 
 extern "C" void TH04_PASCAL bgm_finish(void)
 {
+	printf("[TH04 PS3 Sound] bgm_finish called\n");
 	effect_active = 0;
 	if (initialized) {
 		bgm_timer_stop();
@@ -184,10 +195,13 @@ static int efs_parse(void)
 extern "C" int TH04_PASCAL bgm_read_sdata(const char far *filename)
 {
 	int handle;
+	printf("[TH04 PS3 Sound] bgm_read_sdata called (filename=%s)\n", filename ? (const char*)filename : "NULL");
 	if (!initialized) {
+		printf("[TH04 PS3 Sound] bgm_read_sdata ERROR: not initialized\n");
 		return -8;
 	}
 	if (!filename || _dos_open(filename, 0, &handle)) {
+		printf("[TH04 PS3 Sound] bgm_read_sdata ERROR: _dos_open failed for %s\n", filename ? (const char*)filename : "NULL");
 		return -2;
 	}
 	effect_active = 0;
@@ -198,11 +212,13 @@ extern "C" int TH04_PASCAL bgm_read_sdata(const char far *filename)
 	efs.failed = 0;
 	int result = efs_parse();
 	_dos_close(handle);
+	printf("[TH04 PS3 Sound] bgm_read_sdata result=%d (sound_count=%u)\n", result, sound_count);
 	return result;
 }
 
 extern "C" int TH04_PASCAL bgm_sound(int num)
 {
+	printf("[TH04 PS3 Sound] bgm_sound called (num=%d)\n", num);
 	if (!initialized || (num < 1) || ((unsigned)num > sound_count)) {
 		return -13;
 	}

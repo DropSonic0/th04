@@ -93,17 +93,34 @@ inline unsigned _dos_read(int handle, void* buf, unsigned count, unsigned* bytes
 }
 
 inline unsigned _dos_allocmem(unsigned size_in_paragraphs, unsigned* segp) {
-	void* ptr = malloc((size_t)size_in_paragraphs * 16);
-	if (!ptr) return 8; // ENOMEM
-	if (segp) {
-		*segp = (unsigned)(((uintptr_t)ptr) >> 4);
+	if (size_in_paragraphs == 0xFFFFu) {
+		printf("[TH04 PS3 DOS] _dos_allocmem query max available memory\n");
+		if (segp) {
+			*segp = 0x8000u; // 512 KB available in paragraphs
+		}
+		return 8; // ENOMEM error code in DOS when requesting impossible size
 	}
+	size_t size_bytes = (size_t)size_in_paragraphs * 16;
+	void* raw = malloc(size_bytes + 32);
+	if (!raw) {
+		printf("[TH04 PS3 DOS] _dos_allocmem failed to allocate %u paragraphs (%zu bytes)\n", size_in_paragraphs, size_bytes);
+		return 8; // ENOMEM
+	}
+	uintptr_t aligned = ((uintptr_t)raw + sizeof(void*) + 15) & ~((uintptr_t)15);
+	((void**)aligned)[-1] = raw;
+	if (segp) {
+		*segp = (unsigned)(aligned >> 4);
+	}
+	printf("[TH04 PS3 DOS] _dos_allocmem allocated %u paragraphs at seg 0x%04X (ptr %p)\n", size_in_paragraphs, segp ? *segp : 0, (void*)aligned);
 	return 0;
 }
 
 inline unsigned _dos_freemem(unsigned seg) {
-	void* ptr = (void*)(uintptr_t)((uint32_t)seg << 4);
-	if (ptr) free(ptr);
+	if (!seg) return 0;
+	uintptr_t aligned = (uintptr_t)seg << 4;
+	void* raw = ((void**)aligned)[-1];
+	printf("[TH04 PS3 DOS] _dos_freemem seg 0x%04X (raw ptr %p)\n", seg, raw);
+	if (raw) free(raw);
 	return 0;
 }
 

@@ -1,10 +1,12 @@
 #pragma option -zCSHARED
 
+#include <stdio.h>
 #include "src/shared/platform/x86.hpp"
 #include "src/shared/sound/api.hpp"
 
 int pascal snd_determine_modes(int req_bgm_mode, int req_se_mode)
 {
+	printf("[TH04 PS3 Sound] snd_determine_modes req_bgm=%d, req_se=%d\n", req_bgm_mode, req_se_mode);
 	snd_pmd_resident();
 	if(req_bgm_mode == SND_BGM_MIDI) {
 		snd_mmd_resident();
@@ -39,5 +41,6 @@ int pascal snd_determine_modes(int req_bgm_mode, int req_se_mode)
 		snd_bgm_mode = SND_BGM_FM26;
 	}
 
+	printf("[TH04 PS3 Sound] snd_determine_modes result: bgm_mode=%d, se_mode=%d\n", snd_bgm_mode, snd_se_mode);
 	return snd_bgm_mode;
 }

@@ -1,5 +1,6 @@
 void near zunsoft_animate(void)
 {
+	printf("[TH04 PS3 Main] zunsoft_animate start\n");
 	unsigned char page;
 	bool skip;
 	unsigned char fade_in;

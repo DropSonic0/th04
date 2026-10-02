@@ -1,5 +1,6 @@
 void pascal snd_load(const char fn[PF_FN_LEN], snd_load_func_t func)
 {
+	printf("[TH04 PS3 Sound] snd_load called (fn=%s, func=%d)\n", fn ? fn : "NULL", (int)func);
 	int i;
 
 	for(i = 0; i < PF_FN_LEN; i++) {

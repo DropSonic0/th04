@@ -1,5 +1,7 @@
 #if defined(__TURBOC__) || defined(__MSDOS__)
 # include <dos.h>
+#else
+# include <stdio.h>
 #endif
 
 #include "src/shared/hardware/graphics.hpp"
@@ -9,25 +11,30 @@
 
 void TH04_PASCAL egc_on(void)
 {
+#if defined(__TURBOC__) || defined(__MSDOS__)
 	outportb(0x7C, 0x00); // GRCG off while changing EGC mode
 	outportb(0x6A, 0x07); // Enable EGC register writes
 	outportb(0x6A, 0x05); // Extended mode
 	outportb(0x7C, 0x80); // GRCG active
 	outportb(0x6A, 0x06); // Disable EGC register writes
+#endif
 }
 
 void TH04_PASCAL egc_off(void)
 {
+#if defined(__TURBOC__) || defined(__MSDOS__)
 	outport(0x4A0, 0xFFF0); // All four active planes
 	outport(0x4A8, 0xFFFF); // Full bit mask
 	outportb(0x6A, 0x07);
 	outportb(0x6A, 0x04); // GRCG-compatible mode
 	outportb(0x7C, 0x00);
 	outportb(0x6A, 0x06);
+#endif
 }
 
 void TH04_PASCAL egc_start(void)
 {
+#if defined(__TURBOC__) || defined(__MSDOS__)
 	egc_on();
 	outport(0x4A0, 0xFFF0); // Active planes
 	outport(0x4A2, 0x00FF); // Read planes
@@ -35,4 +42,7 @@ void TH04_PASCAL egc_start(void)
 	outport(0x4AC, 0x0000); // Address
 	outport(0x4AE, 0x000F); // 16-bit transfer
 	egc_off();
+#else
+	printf("[TH04 PS3 EGC] egc_start() called\n");
+#endif
 }

@@ -13,6 +13,9 @@
 #include <PSGL/psgl.h>
 #include <PSGL/psglu.h>
 #include <sys/sys_time.h>
+#include <cell/audio.h>
+#include <sys/ppu_thread.h>
+#include <sys/timer.h>
 #endif
 
 #include "src/shared/runtime/api.hpp"
@@ -82,6 +85,46 @@ extern "C" {
 
     volatile unsigned int vsync_Count1 = 0;
     volatile unsigned int vsync_Count2 = 0;
+
+    // CellAudio PS3 State
+    static int g_ps3_audio_initialized = 0;
+    static uint32_t g_ps3_audio_port = 0xFFFFFFFF;
+
+    void ps3_audio_init(void) {
+        if (g_ps3_audio_initialized) return;
+        printf("[TH04 PS3 Audio] Initializing CellAudio...\n");
+#if defined(__PS3__) || defined(CELL_SDK) || defined(__CELLOS_LV2__) || defined(SN_TARGET_PS3)
+        int res = cellAudioInit();
+        if (res == CELL_OK || res == CELL_AUDIO_ERROR_ALREADY_INIT) {
+            CellAudioPortParam portParam;
+            memset(&portParam, 0, sizeof(portParam));
+            portParam.nChannel = CELL_AUDIO_PORT_2CH;
+            portParam.nBlock = 32;
+            portParam.attr = CELL_AUDIO_PORTATTR_INITLEVEL;
+            portParam.level = 1.0f;
+            if (cellAudioPortOpen(&portParam, &g_ps3_audio_port) == CELL_OK) {
+                cellAudioPortStart(g_ps3_audio_port);
+                cellAudioSetPortLevel(g_ps3_audio_port, 1.0f);
+                printf("[TH04 PS3 Audio] CellAudio port %u opened & started\n", g_ps3_audio_port);
+            }
+        }
+#endif
+        g_ps3_audio_initialized = 1;
+    }
+
+    void ps3_audio_finish(void) {
+#if defined(__PS3__) || defined(CELL_SDK) || defined(__CELLOS_LV2__) || defined(SN_TARGET_PS3)
+        if (g_ps3_audio_initialized) {
+            if (g_ps3_audio_port != 0xFFFFFFFF) {
+                cellAudioPortStop(g_ps3_audio_port);
+                cellAudioPortClose(g_ps3_audio_port);
+                g_ps3_audio_port = 0xFFFFFFFF;
+            }
+            cellAudioQuit();
+            g_ps3_audio_initialized = 0;
+        }
+#endif
+    }
 
     // PSGL State
     static int g_psgl_initialized = 0;
@@ -300,6 +343,7 @@ extern "C" {
     void TH04_PASCAL graph_start(void) {
         printf("[TH04 PS3 Graphics] graph_start() called\n");
         ps3_psgl_init();
+        ps3_audio_init();
     }
 
     int TH04_PASCAL js_start() {
@@ -348,6 +392,16 @@ extern "C" {
     }
     void TH04_PASCAL text_putca(unsigned x, unsigned y, unsigned ch, unsigned atrb) {}
     void TH04_PASCAL text_fillca(unsigned ch, unsigned atrb) {}
+
+    void TH04_PASCAL key_beep_off(void) {
+        printf("[TH04 PS3 Input] key_beep_off() called\n");
+    }
+    void TH04_PASCAL text_systemline_hide(void) {
+        printf("[TH04 PS3 Text] text_systemline_hide() called\n");
+    }
+    void TH04_PASCAL text_cursor_hide(void) {
+        printf("[TH04 PS3 Text] text_cursor_hide() called\n");
+    }
 
     int TH04_PASCAL select_for_rank(int for_easy, int for_normal, int for_hard, int for_lunatic) { return for_normal; }
 
@@ -821,10 +875,10 @@ int shiftkey = 0;
 int DEMOPLAY_BINARY_OP = 0;
 bool gDEMO_PLAY = false;
 
-char eyename[] = "";
+char eyename[] = "eye0.cdg";
 void* Ems = 0;
-char EMS_NAME[] = "";
-char bbname[] = "";
+char EMS_NAME[] = "TH04EMS";
+char bbname[] = "bb0.cdg";
 char FACESET_REIMU_FN_0[] = "";
 char FACESET_MARISA_FN_0[] = "";
 cdg_slot_t cdg_slots[64] = {};
