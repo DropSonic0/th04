@@ -612,9 +612,15 @@ void near boss_defeat_update(void)
 				end_game_bad();
 			}
 			if(stage_id == STAGE_EXTRA) {
-				#define gengetsu_started static_cast<bool>( \
-					boss_statebyte[0] \
-				)
+#ifdef __TURBOC__
+#define gengetsu_started static_cast<bool>( \
+	boss_statebyte[0] \
+	)
+#else
+#define gengetsu_started reinterpret_cast<bool &>( \
+	boss_statebyte[0] \
+	)
+#endif
 
 				// Lol, *now* ZUN hardcoded what's effectively a call to the
 				// dialog script 'c' command?
@@ -708,8 +714,8 @@ void near boss_defeat_update(void)
 #if (GAME == 5)
 void near boss_hittest_player(void)
 {
-	#define delta_x	static_cast<subpixel_t>(_AX)
-	#define delta_y	static_cast<subpixel_t>(_DX)
+#define delta_x	reinterpret_cast<subpixel_t &>(_AX)
+#define delta_y	reinterpret_cast<subpixel_t &>(_DX)
 
 	delta_x = boss.pos.cur.x.v;
 	delta_y = boss.pos.cur.y.v;
@@ -719,11 +725,11 @@ void near boss_hittest_player(void)
 	// You probably wouldn't swap X and Y in sane code.
 	if(overlap_wh_inplace_fast(
 		delta_y, delta_x, to_sp(BOSS_H / 2), to_sp(BOSS_W / 2)
-	)) {
+		)) {
 		player_is_hit = true;
 	}
 
-	#undef delta_y
-	#undef delta_x
+#undef delta_y
+#undef delta_x
 }
 #endif

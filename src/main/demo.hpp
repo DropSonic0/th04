@@ -25,18 +25,26 @@ template <size_t Frames> struct REC {
 extern uint8_t far *DemoBuf;
 
 // Playback ends by freeing the replay, fading the palette, and chaining to OP.
+#ifdef __TURBOC__
 #define demo_end() { \
 	HMem<uint8_t>::free(DemoBuf); \
 	palette_black_out((GAME == 5) ? 8 : 10); \
 	/* Cross-segment GameExecl needs the target's far argument plus a near call. */ \
 	_asm { \
-		push ds; \
-		push offset BINARY_OP; \
-		nop; \
-		push cs; \
-		call near ptr GameExecl; \
-	} \
+	push ds; \
+	push offset BINARY_OP; \
+	nop; \
+	push cs; \
+	call near ptr GameExecl; \
+} \
 }
+#else
+#define demo_end() { \
+	HMem<uint8_t>::free(DemoBuf); \
+	palette_black_out((GAME == 5) ? 8 : 10); \
+	GameExecl(BINARY_OP); \
+}
+#endif
 
 void near DemoPlay(void);
 

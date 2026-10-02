@@ -66,6 +66,7 @@ extern checkerboard_t checkerboard;
 
 void near playfield_checkerboard_grcg_tdw_update_and_render(void)
 {
+#ifdef __TURBOC__
 	#define loops_and_vo_x	_BX
 	#define loops         	_BH
 	#define vo_x          	_BL
@@ -139,11 +140,6 @@ void near playfield_checkerboard_grcg_tdw_update_and_render(void)
 	if(checkerboard.seg_bottom < grcg_segment_(
 		0, (PLAYFIELD_BOTTOM - CHECKERBOARD_H)
 	)) {
-		// The bottom row would be (CHECKERBOARD_H + CHECKERBOARD_SPEED) pixels
-		// high on the next frame, which means that we've fully scrolled the
-		// bottommost square onto the playfield during this frame. Start the
-		// new frame at the CHECKERBOARD_SPEED offset, and flip the colors
-		// accordingly.
 		checkerboard.seg_bottom = grcg_segment(
 			0, (PLAYFIELD_BOTTOM - CHECKERBOARD_SPEED)
 		);
@@ -152,10 +148,6 @@ void near playfield_checkerboard_grcg_tdw_update_and_render(void)
 	}
 	checkerboard.off_top -= CHECKERBOARD_VO_SPEED;
 	if(FLAGS_SIGN) {
-		// Scrolled the top row off the playfield, so we start a new one at the
-		// bottom of a full square in the next frame. No color flip necessary
-		// here, since we render from bottom to top. (There's also always a
-		// half-scrolled square at the bottom whenever we get here.)
 		checkerboard.off_top = ((CHECKERBOARD_H - 1) * ROW_SIZE);
 	}
 
@@ -164,4 +156,25 @@ void near playfield_checkerboard_grcg_tdw_update_and_render(void)
 	#undef vo_x
 	#undef loops
 	#undef loops_and_vo_x
+#else
+	grcg_setcolor_direct_constant(0);
+
+	checkerboard.seg_bottom -= (CHECKERBOARD_VO_SPEED / 16);
+	checkerboard.off_bottom += CHECKERBOARD_VO_SPEED;
+	if(checkerboard.seg_bottom < grcg_segment_(
+		0, (PLAYFIELD_BOTTOM - CHECKERBOARD_H)
+	)) {
+		checkerboard.seg_bottom = grcg_segment(
+			0, (PLAYFIELD_BOTTOM - CHECKERBOARD_SPEED)
+		);
+		checkerboard.off_bottom = CHECKERBOARD_VO_SPEED;
+		checkerboard_vo_x_flip(checkerboard.u1.var.vo_x_of_dark);
+	}
+	checkerboard.off_top -= CHECKERBOARD_VO_SPEED;
+	if(checkerboard.off_top < 0) {
+		checkerboard.off_top = ((CHECKERBOARD_H - 1) * ROW_SIZE);
+	}
+
+	grcg_off();
+#endif
 }

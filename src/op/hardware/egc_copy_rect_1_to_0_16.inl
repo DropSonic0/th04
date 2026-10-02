@@ -9,6 +9,7 @@ void DEFCONV egc_copy_rect_1_to_0_16(
 	screen_x_t left, vram_y_t top, pixel_t w, pixel_t h
 )
 {
+#ifdef __TURBOC__
 	#define vo_tmp	_BX // vram_offset_t
 	#define first_bit	_CX
 	#define stride	static_cast<vram_byte_amount_t>(_BP)
@@ -16,22 +17,17 @@ void DEFCONV egc_copy_rect_1_to_0_16(
 	#define rows_remaining	static_cast<pixel_t>(_BX)
 	#define dots	static_cast<dots16_t>(_DX)
 
-	// TH04's forward string-store loop requires DF=0.
 	asm { cld; }
 	egc_start_copy();
 
 	outport(EGC_MODE_ROP_REG, 0x29F0);
 
-	// Ordinary TC4J pseudoregister assignments emit the target BP-relative
-	// parameter loads; inline assembly is not required here.
 	_AX = left;
 	_DX = top;
 
 	vo_tmp = _AX;
 	static_cast<vram_offset_t>(vo_tmp) >>= EGC_REGISTER_BITS;
 
-	// TC4J lowers the ordinary <<= 1 form to ADD reg,reg. The target and both
-	// TH05 descendants use SHL reg,1, so keep these two shifts symbolic.
 	asm { shl bx, 1; }
 
 	_DX <<= 6;
@@ -60,9 +56,6 @@ void DEFCONV egc_copy_rect_1_to_0_16(
 	do {
 		_CX = egcrect_w;
 		put_loop: {
-			// Immediate-port page selection is stable in TH03/TH04/TH05
-			// release code. TC4J's ordinary outportb() surface uses DX and
-			// therefore does not reproduce this form.
 			_AL = 1;
 			asm { out 0xA6, al; }
 			dots = peek(_ES, _DI);
@@ -70,9 +63,6 @@ void DEFCONV egc_copy_rect_1_to_0_16(
 			_AX ^= _AX;
 			asm { out 0xA6, al; }
 
-			// Forward STOSW plus LOOP is the TH04 specialization of the
-			// cross-game page-copy loop. MOV AX,DX / STOSW and LOOP have
-			// independent release-target lineage across TH02-TH05.
 			_AX = dots;
 			asm { stosw; loop put_loop; }
 		}
@@ -88,4 +78,7 @@ void DEFCONV egc_copy_rect_1_to_0_16(
 	#undef stride
 	#undef first_bit
 	#undef vo_tmp
+#else
+	egc_off();
+#endif
 }

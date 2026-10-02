@@ -88,7 +88,7 @@ extern "C" void near yuuka6_entities_render(void)
             }
         } else {
             super_put(x, y, (p->flag / CHASECROSS_KILL_FRAMES_PER_CEL));
-            p->flag++;
+			p->flag = static_cast<chasecross_flag_t>(p->flag + 1);
             if(p->flag >= CCF_KILL_ANIM_END) {
                 p->flag = CCF_FREE;
             }

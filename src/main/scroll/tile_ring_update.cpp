@@ -1,7 +1,11 @@
 #pragma option -zCEND_TEXT -zPmain_01
 
+#ifdef __TURBOC__
 #include <dos.h>
 #include <mem.h>
+#else
+#include <string.h>
+#endif
 
 #define FLAGS_SIGN (_FLAGS & 0x80)
 
@@ -27,13 +31,14 @@ extern "C" void pascal far egc_off(void);
 void near scroll_tile_ring_update()
 {
     unsigned char previous_copy_request;
-    if((byte_25104 == 0) && (byte_250FE == 0)) {
+    if((byte_250FE == 0) && (byte_25104 == 0)) {
         return;
     }
     if(scroll_speed == 0) {
         return;
     }
 
+#ifdef __TURBOC__
     _AX = scroll_line;
     _AX >>= 4;
     if(_AX != word_25100) {
@@ -88,6 +93,44 @@ void near scroll_tile_ring_update()
             pop ds
         }
     }
+#else
+    unsigned short ax = (scroll_line >> 4);
+    if(ax != word_25100) {
+        word_25100 = ax;
+
+        tile_row_in_section--;
+        if(tile_row_in_section < 0) {
+            tile_row_in_section = 4;
+            std_map_section_id++;
+            std_scroll_speed++;
+
+            unsigned char speed = std_seg[std_scroll_speed];
+            scroll_speed = speed;
+            if(speed == 0) {
+                scroll_line = 0;
+                byte_250FE = 0;
+                byte_25104 = 0;
+                return;
+            }
+        }
+
+        unsigned short ring_dst_offset = (ax << 6);
+        unsigned short map_src_offset = (static_cast<unsigned short>(tile_row_in_section) << 6);
+
+        unsigned char section_idx = std_seg[std_map_section_id];
+        unsigned short section_offset = TILE_SECTION_OFFSETS[section_idx];
+
+        map_src_offset += section_offset;
+
+        if(tile_ring && map_seg) {
+            memcpy(
+                reinterpret_cast<unsigned char *>(tile_ring) + ring_dst_offset,
+                map_seg + map_src_offset,
+                24 * sizeof(unsigned short)
+            );
+        }
+    }
+#endif
 
     previous_copy_request = byte_250FE;
     byte_250FE = byte_25104;

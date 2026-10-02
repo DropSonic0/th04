@@ -12,13 +12,15 @@ struct bgimage_planes_t {
     unsigned char __seg *E;
 };
 
+#ifdef __TURBOC__
 typedef char bgimage_layout_check[
-    (sizeof(bgimage_planes_t) == 8) &&
-    (offsetof(bgimage_planes_t, B) == 0) &&
-    (offsetof(bgimage_planes_t, R) == 2) &&
-    (offsetof(bgimage_planes_t, G) == 4) &&
-    (offsetof(bgimage_planes_t, E) == 6) ? 1 : -1
+	(sizeof(bgimage_planes_t) == 8) &&
+		(offsetof(bgimage_planes_t, B) == 0) &&
+		(offsetof(bgimage_planes_t, R) == 2) &&
+		(offsetof(bgimage_planes_t, G) == 4) &&
+		(offsetof(bgimage_planes_t, E) == 6) ? 1 : -1
 ];
+#endif
 
 extern bgimage_planes_t bgimage;
 

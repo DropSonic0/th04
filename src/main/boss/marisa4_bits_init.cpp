@@ -27,7 +27,9 @@ struct marisa_bit_t {
     char unused_2;
     signed char angle_speed;
 };
+#ifdef __TURBOC__
 typedef char marisa_bit_size_must_be_26[(sizeof(marisa_bit_t) == 26) ? 1 : -1];
+#endif
 
 struct marisa_bit_hp_t {
     int value[4];

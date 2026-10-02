@@ -3,7 +3,17 @@
 // TH04 game-over, continue, and score-save path.
 // Target relocation topology binds these five near functions to one TC4J producer.
 
+#if defined(_WIN32) || defined(__MSDOS__) || defined(__TURBOC__)
 #include <process.h>
+#else
+#include <unistd.h>
+#ifndef NULL
+#define NULL 0
+#endif
+inline int execl(const char *, const char *, ...) {
+	return 0;
+}
+#endif
 #include "platform.h"
 #include "src/shared/runtime/api.hpp"
 #include "src/shared/hardware/graphics.hpp"

@@ -127,8 +127,8 @@ void near dialog_box_fade_in_animate(void);
 
 inline void dialog_text_put(shiftjis_t* const& text) {
 	text_putsa(
-		to_tram_x(dialog_cursor.x), to_tram_y(dialog_cursor.y), text, TX_WHITE
-	);
+		to_tram_x(dialog_cursor.x), to_tram_y(dialog_cursor.y), (const char *)text, TX_WHITE
+		);
 	dialog_cursor.x += to_dialog_x(GLYPH_FULL_W);
 }
 
@@ -221,10 +221,9 @@ extern int script_param_number_default;
 	} else if(temp_c == ',') { \
 		script_p++; \
 		script_param_read_fn(temp_fn, temp_len, temp_c); \
-		(stop_before_load \
-			? snd_kaja_func(KAJA_SONG_STOP, 0) \
-			: optimization_barrier() \
-		); \
+		if(stop_before_load) { \
+			snd_kaja_func(KAJA_SONG_STOP, 0); \
+		} \
 		snd_load(temp_fn, SND_LOAD_SONG); \
 		snd_kaja_func(KAJA_SONG_PLAY, 0); \
 	} \

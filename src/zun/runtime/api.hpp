@@ -5,10 +5,15 @@
 // support body. Maintained ZUN translation units use these scoped declarations
 // when compiled on their own.
 #ifndef MASTER_HPP
+#ifndef __cplusplus
 typedef unsigned char bool;
-typedef unsigned char uint8_t;
 #define false 0
 #define true 1
+#endif
+
+#if !defined(_STDINT_H) && !defined(_STDINT_H_) && !defined(__uint8_t_defined) && !defined(_UINT8_T)
+typedef unsigned char uint8_t;
+#endif
 
 extern "C" {
 void near pascal dos_puts2(const char near *text);

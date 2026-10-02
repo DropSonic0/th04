@@ -1,0 +1,567 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|PS3">
+      <Configuration>Debug</Configuration>
+      <Platform>PS3</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|PS3">
+      <Configuration>Release</Configuration>
+      <Platform>PS3</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCTargetsPath Condition="'$(VCTargetsPath12)' != '' and '$(VSVersion)' == '' and '$(VisualStudioVersion)' == ''">$(VCTargetsPath12)</VCTargetsPath>
+    <ProjectGuid>{9763F789-8457-404D-BA47-E31831A8D967}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|PS3'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>SNC</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|PS3'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>SNC</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <PropertyGroup Condition="'$(DebuggerFlavor)'=='PS3Debugger'" Label="OverrideDebuggerDefaults">
+    <!--LocalDebuggerCommand>$(TargetPath)</LocalDebuggerCommand-->
+    <!--LocalDebuggerCommandArguments></LocalDebuggerCommandArguments-->
+    <!--LocalDebuggerCommandLine>-r -e -m</LocalDebuggerCommandLine-->
+    <!--LocalRunCommandLine>-r</LocalRunCommandLine-->
+    <!--LocalTunerCommandLine></LocalTunerCommandLine-->
+    <!--LocalDebuggerFileServingDirectory>$(ProjectDir)</LocalDebuggerFileServingDirectory-->
+    <!--LocalDebuggerHomeDirectory>$(ProjectDir)</LocalDebuggerHomeDirectory-->
+    <!--LocalDebuggerProjectFile></LocalDebuggerProjectFile-->
+    <!--LocalDebuggerResetType>Soft</LocalDebuggerResetType-->
+    <!--LocalDebuggerClearTty>False</LocalDebuggerClearTty-->
+  </PropertyGroup>
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|PS3'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|PS3'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|PS3'">
+    <ClCompile>
+      <PreprocessorDefinitions>_DEBUG;__CELL_ASSERT__;far=;near=;pascal=;__seg=;TH04_FAR;GAME=4;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <AdditionalIncludeDirectories>C:\th04;C:\th04\src\main\include;C:\th04\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ForcedIncludeFiles>
+      </ForcedIncludeFiles>
+      <AdditionalOptions>-include src/ps3_compat.hpp %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>op.a;maine.a;shared.a;libPSGL.a;libPSGLU.a;libPSGLcgc.a;libcgc.a;libgcm_cmd.a;libgcm_sys_stub.a;libresc_stub.a;libsysutil_game_stub.a;libsysutil_stub.a;libsysmodule_stub.a;libio_stub.a;libaudio_stub.a;libfs_stub.a;libnet_stub.a;libpthread.a;libm.a;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Link>
+      <AdditionalLibraryDirectories>C:\usr\local\cell\target\ppu\lib\PSGL\RSX\ultra-opt;C:\th04\th04\PS3_Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>-Wl,--allow-multiple-definition %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|PS3'">
+    <ClCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions);</PreprocessorDefinitions>
+      <OptimizationLevel>Level2</OptimizationLevel>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\main\bg.hpp" />
+    <ClInclude Include="..\..\src\main\boss\backdrop.hpp" />
+    <ClInclude Include="..\..\src\main\boss\boss.hpp" />
+    <ClInclude Include="..\..\src\main\boss\bosses.hpp" />
+    <ClInclude Include="..\..\src\main\bullet\add_impl.hpp" />
+    <ClInclude Include="..\..\src\main\bullet\bullet.hpp" />
+    <ClInclude Include="..\..\src\main\bullet\clearzap.hpp" />
+    <ClInclude Include="..\..\src\main\bullet\laser_t.hpp" />
+    <ClInclude Include="..\..\src\main\bullet\pellet_r.hpp" />
+    <ClInclude Include="..\..\src\main\bullet\sizes.hpp" />
+    <ClInclude Include="..\..\src\main\bullet\types.hpp" />
+    <ClInclude Include="..\..\src\main\circle.hpp" />
+    <ClInclude Include="..\..\src\main\common.hpp" />
+    <ClInclude Include="..\..\src\main\config\load_resident_impl.hpp" />
+    <ClInclude Include="..\..\src\main\core\entity.hpp" />
+    <ClInclude Include="..\..\src\main\core\gameexecl.hpp" />
+    <ClInclude Include="..\..\src\main\core\initexit.hpp" />
+    <ClInclude Include="..\..\src\main\custom.hpp" />
+    <ClInclude Include="..\..\src\main\demo.hpp" />
+    <ClInclude Include="..\..\src\main\dialog\dialog.hpp" />
+    <ClInclude Include="..\..\src\main\dialog\state.hpp" />
+    <ClInclude Include="..\..\src\main\ems.hpp" />
+    <ClInclude Include="..\..\src\main\end\end.hpp" />
+    <ClInclude Include="..\..\src\main\end\main.hpp" />
+    <ClInclude Include="..\..\src\main\enemy\enemy.hpp" />
+    <ClInclude Include="..\..\src\main\enemy\size.hpp" />
+    <ClInclude Include="..\..\src\main\formats\bb.hpp" />
+    <ClInclude Include="..\..\src\main\formats\cdg.hpp" />
+    <ClInclude Include="..\..\src\main\formats\dialog.hpp" />
+    <ClInclude Include="..\..\src\main\formats\map.hpp" />
+    <ClInclude Include="..\..\src\main\formats\mpn.hpp" />
+    <ClInclude Include="..\..\src\main\formats\std.hpp" />
+    <ClInclude Include="..\..\src\main\formats\super.hpp" />
+    <ClInclude Include="..\..\src\main\gaiji\gaiji.hpp" />
+    <ClInclude Include="..\..\src\main\gather.hpp" />
+    <ClInclude Include="..\..\src\main\hardware\grcg.hpp" />
+    <ClInclude Include="..\..\src\main\hardware\input.hpp" />
+    <ClInclude Include="..\..\src\main\hardware\palette.hpp" />
+    <ClInclude Include="..\..\src\main\hardware\planar.hpp" />
+    <ClInclude Include="..\..\src\main\hiscore.hpp" />
+    <ClInclude Include="..\..\src\main\homing.hpp" />
+    <ClInclude Include="..\..\src\main\hud\hud.hpp" />
+    <ClInclude Include="..\..\src\main\hud\metrics.hpp" />
+    <ClInclude Include="..\..\src\main\hud\overlay.hpp" />
+    <ClInclude Include="..\..\src\main\include\decomp.hpp" />
+    <ClInclude Include="..\..\src\main\include\planar.h" />
+    <ClInclude Include="..\..\src\main\include\platform.h" />
+    <ClInclude Include="..\..\src\main\include\shiftjis.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\common.h" />
+    <ClInclude Include="..\..\src\main\include\th04\end\end.h" />
+    <ClInclude Include="..\..\src\main\include\th04\formats\cdg.h" />
+    <ClInclude Include="..\..\src\main\include\th04\formats\dialog.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\formats\mpn.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\formats\scoredat\scoredat.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\formats\std.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\formats\super.h" />
+    <ClInclude Include="..\..\src\main\include\th04\gaiji\gaiji.h" />
+    <ClInclude Include="..\..\src\main\include\th04\hardware\input.h" />
+    <ClInclude Include="..\..\src\main\include\th04\hardware\inputvar.h" />
+    <ClInclude Include="..\..\src\main\include\th04\main\bg.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\boss\backdrop.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\boss\bosses.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\bullet\bullet.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\bullet\clearzap.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\bullet\pellet_r.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\checkerb.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\circle.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\custom.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\demo.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\dialog\dialog.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\dialog\state.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\drawp.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\ems.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\end.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\enemy\enemy.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\frames.h" />
+    <ClInclude Include="..\..\src\main\include\th04\main\gather.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\hiscore.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\hud\hud.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\hud\overlay.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\item\item.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\item\splash.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\midboss\midboss.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\null.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\phase.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\player\bomb.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\player\move.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\player\player.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\player\shot.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\playfld.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\playperf.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\pointnum\pointnum.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\quit.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\rank.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\score.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\scroll.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\slowdown.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\spark.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\stage\bonus.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\stage\stage.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\stage\stages.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\tile\bb.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\main\tile\tile.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\math\vector.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\playchar.h" />
+    <ClInclude Include="..\..\src\main\include\th04\shiftjis\fns.hpp" />
+    <ClInclude Include="..\..\src\main\include\th04\snd\snd.h" />
+    <ClInclude Include="..\..\src\main\include\th04\sprites\main_cdg.h" />
+    <ClInclude Include="..\..\src\main\include\th04\sprites\main_pat.h" />
+    <ClInclude Include="..\..\src\main\include\x86real.h" />
+    <ClInclude Include="..\..\src\main\item\item.hpp" />
+    <ClInclude Include="..\..\src\main\item\power_overflow.hpp" />
+    <ClInclude Include="..\..\src\main\item\splash.hpp" />
+    <ClInclude Include="..\..\src\main\math\motion.hpp" />
+    <ClInclude Include="..\..\src\main\math\overlap.hpp" />
+    <ClInclude Include="..\..\src\main\math\polar.hpp" />
+    <ClInclude Include="..\..\src\main\math\randring.hpp" />
+    <ClInclude Include="..\..\src\main\math\randring_ranges.hpp" />
+    <ClInclude Include="..\..\src\main\math\subpixel.hpp" />
+    <ClInclude Include="..\..\src\main\math\vector.hpp" />
+    <ClInclude Include="..\..\src\main\midboss\midboss.hpp" />
+    <ClInclude Include="..\..\src\main\midboss\state.hpp" />
+    <ClInclude Include="..\..\src\main\null.hpp" />
+    <ClInclude Include="..\..\src\main\phase.hpp" />
+    <ClInclude Include="..\..\src\main\playchar.hpp" />
+    <ClInclude Include="..\..\src\main\player\bomb.hpp" />
+    <ClInclude Include="..\..\src\main\player\drawp.hpp" />
+    <ClInclude Include="..\..\src\main\player\move.hpp" />
+    <ClInclude Include="..\..\src\main\player\player.hpp" />
+    <ClInclude Include="..\..\src\main\player\shot.hpp" />
+    <ClInclude Include="..\..\src\main\playfield\motion.hpp" />
+    <ClInclude Include="..\..\src\main\playfld.hpp" />
+    <ClInclude Include="..\..\src\main\playperf.hpp" />
+    <ClInclude Include="..\..\src\main\pointnum\pointnum.hpp" />
+    <ClInclude Include="..\..\src\main\quit.hpp" />
+    <ClInclude Include="..\..\src\main\rank.hpp" />
+    <ClInclude Include="..\..\src\main\score.hpp" />
+    <ClInclude Include="..\..\src\main\score\scoredat.hpp" />
+    <ClInclude Include="..\..\src\main\scroll\scroll.hpp" />
+    <ClInclude Include="..\..\src\main\scroll\state.hpp" />
+    <ClInclude Include="..\..\src\main\shiftjis\fns.hpp" />
+    <ClInclude Include="..\..\src\main\slowdown.hpp" />
+    <ClInclude Include="..\..\src\main\spark\spark.hpp" />
+    <ClInclude Include="..\..\src\main\sprites\cels.hpp" />
+    <ClInclude Include="..\..\src\main\sprites\main_cdg.hpp" />
+    <ClInclude Include="..\..\src\main\sprites\main_pat.hpp" />
+    <ClInclude Include="..\..\src\main\stage\bonus.hpp" />
+    <ClInclude Include="..\..\src\main\stage\checkerb.hpp" />
+    <ClInclude Include="..\..\src\main\stage\stage.hpp" />
+    <ClInclude Include="..\..\src\main\stage\stages.hpp" />
+    <ClInclude Include="..\..\src\main\tile\bb.hpp" />
+    <ClInclude Include="..\..\src\main\tile\tile.hpp" />
+    <ClInclude Include="..\..\src\ps3_compat.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\src\main\boss\bg_state.asm" />
+    <None Include="..\..\src\main\boss\boss_prefix.inl" />
+    <None Include="..\..\src\main\boss\custom_state.asm" />
+    <None Include="..\..\src\main\boss\explosion_state.asm" />
+    <None Include="..\..\src\main\boss\legacy_state.asm" />
+    <None Include="..\..\src\main\boss\runtime_state.asm" />
+    <None Include="..\..\src\main\boss\state.asm" />
+    <None Include="..\..\src\main\boss\yuuka5_backdrop.asm" />
+    <None Include="..\..\src\main\bullet\invalidate.asm" />
+    <None Include="..\..\src\main\bullet\pellet_render.asm" />
+    <None Include="..\..\src\main\bullet\state.asm" />
+    <None Include="..\..\src\main\bullet\update_body.inl" />
+    <None Include="..\..\src\main\bullet\update_post.inl" />
+    <None Include="..\..\src\main\bullet\update_pre.inl" />
+    <None Include="..\..\src\main\bullet\update_prefix.inl" />
+    <None Include="..\..\src\main\bullet\update_spark_args.inl" />
+    <None Include="..\..\src\main\checkerb_state.asm" />
+    <None Include="..\..\src\main\circle_state.asm" />
+    <None Include="..\..\src\main\core\clear_dwords.asm" />
+    <None Include="..\..\src\main\core\demo_state.asm" />
+    <None Include="..\..\src\main\core\frame_state.asm" />
+    <None Include="..\..\src\main\core\gameover_data.asm" />
+    <None Include="..\..\src\main\core\play_state.asm" />
+    <None Include="..\..\src\main\core\quit_state.asm" />
+    <None Include="..\..\src\main\core\slowdown_state.asm" />
+    <None Include="..\..\src\main\dialog\animate.inl" />
+    <None Include="..\..\src\main\dialog\data.asm" />
+    <None Include="..\..\src\main\dialog\exit.inl" />
+    <None Include="..\..\src\main\dialog\fade_in.inl" />
+    <None Include="..\..\src\main\dialog\init.inl" />
+    <None Include="..\..\src\main\dialog\init_exit.inl" />
+    <None Include="..\..\src\main\dialog\op.inl" />
+    <None Include="..\..\src\main\dialog\render_primitives.inl" />
+    <None Include="..\..\src\main\dialog\resource_state.asm" />
+    <None Include="..\..\src\main\dialog\run.inl" />
+    <None Include="..\..\src\main\dialog\script_params.inl" />
+    <None Include="..\..\src\main\dialog\script_state.asm" />
+    <None Include="..\..\src\main\dialog\stage_transition.inl" />
+    <None Include="..\..\src\main\dialog\state.asm" />
+    <None Include="..\..\src\main\dos\dos_puts2.asm" />
+    <None Include="..\..\src\main\drawpoint_state.asm" />
+    <None Include="..\..\src\main\ems_state.asm" />
+    <None Include="..\..\src\main\enemy\bullet_template_push.asm" />
+    <None Include="..\..\src\main\enemy\state.asm" />
+    <None Include="..\..\src\main\formats\bb_playchar_state.asm" />
+    <None Include="..\..\src\main\formats\bb_txt_put.asm" />
+    <None Include="..\..\src\main\formats\bb_txt_state.asm" />
+    <None Include="..\..\src\main\formats\cdg_put_plane_roll.asm" />
+    <None Include="..\..\src\main\formats\map_state.asm" />
+    <None Include="..\..\src\main\formats\mpn_render.asm" />
+    <None Include="..\..\src\main\formats\mpn_state.asm" />
+    <None Include="..\..\src\main\formats\std_state.asm" />
+    <None Include="..\..\src\main\formats\z_super_put_16x16_mono.asm" />
+    <None Include="..\..\src\main\formats\z_super_roll_put_tiny.asm" />
+    <None Include="..\..\src\main\gather\point_render.asm" />
+    <None Include="..\..\src\main\gather\state.asm" />
+    <None Include="..\..\src\main\hardware\fillm64_56_256_256.asm" />
+    <None Include="..\..\src\main\hardware\grcg_modecolor.asm" />
+    <None Include="..\..\src\main\hardware\pages_state.asm" />
+    <None Include="..\..\src\main\hardware\playfield_grcg.asm" />
+    <None Include="..\..\src\main\homing_state.asm" />
+    <None Include="..\..\src\main\hud\hud_data.asm" />
+    <None Include="..\..\src\main\hud\hud_state.asm" />
+    <None Include="..\..\src\main\hud\overlay_state.asm" />
+    <None Include="..\..\src\main\item\splashes.inl" />
+    <None Include="..\..\src\main\item\splashes_init.inl" />
+    <None Include="..\..\src\main\item\splash_dot_render.asm" />
+    <None Include="..\..\src\main\item\state.asm" />
+    <None Include="..\..\src\main\layout\main_code_order_anchor.asm" />
+    <None Include="..\..\src\main\math\motion.asm" />
+    <None Include="..\..\src\main\math\motion_seg1.asm" />
+    <None Include="..\..\src\main\math\randring1_next16_mod.asm" />
+    <None Include="..\..\src\main\math\randring2_next16_mod.asm" />
+    <None Include="..\..\src\main\math\randring_state.asm" />
+    <None Include="..\..\src\main\math\vector2.asm" />
+    <None Include="..\..\src\main\math\vector_far.asm" />
+    <None Include="..\..\src\main\midboss\state.asm" />
+    <None Include="..\..\src\main\player\bombanim_state.asm" />
+    <None Include="..\..\src\main\player\bomb_state.asm" />
+    <None Include="..\..\src\main\player\shot_laser.asm" />
+    <None Include="..\..\src\main\player\shot_tables.asm" />
+    <None Include="..\..\src\main\player\shot_velocity.asm" />
+    <None Include="..\..\src\main\player\state.asm" />
+    <None Include="..\..\src\main\playfld_state.asm" />
+    <None Include="..\..\src\main\playperf.asm" />
+    <None Include="..\..\src\main\pointnum\add.asm" />
+    <None Include="..\..\src\main\pointnum\digits.asm" />
+    <None Include="..\..\src\main\pointnum\lifecycle.asm" />
+    <None Include="..\..\src\main\pointnum\put.asm" />
+    <None Include="..\..\src\main\pointnum\render.asm" />
+    <None Include="..\..\src\main\pointnum\state.asm" />
+    <None Include="..\..\src\main\score\scoredat_code.asm" />
+    <None Include="..\..\src\main\score\state.asm" />
+    <None Include="..\..\src\main\score\update.asm" />
+    <None Include="..\..\src\main\scroll\page_state.asm" />
+    <None Include="..\..\src\main\scroll\state.asm" />
+    <None Include="..\..\src\main\scroll_y.inl" />
+    <None Include="..\..\src\main\select_for_rank.asm" />
+    <None Include="..\..\src\main\sound\pmd_resident_prefix.inl" />
+    <None Include="..\..\src\main\sound\pmd_resident_suffix.inl" />
+    <None Include="..\..\src\main\sound\se_play.inl" />
+    <None Include="..\..\src\main\sound\se_reset.inl" />
+    <None Include="..\..\src\main\sound\se_update.inl" />
+    <None Include="..\..\src\main\spark.asm" />
+    <None Include="..\..\src\main\spark\render.asm" />
+    <None Include="..\..\src\main\spark\state.asm" />
+    <None Include="..\..\src\main\spark\update_render.asm" />
+    <None Include="..\..\src\main\stage\bonus_state.asm" />
+    <None Include="..\..\src\main\stage\carpet_active_test.inl" />
+    <None Include="..\..\src\main\stage\carpet_anim_row_level.inl" />
+    <None Include="..\..\src\main\stage\carpet_column_count.inl" />
+    <None Include="..\..\src\main\stage\carpet_dirty_advance.inl" />
+    <None Include="..\..\src\main\stage\carpet_function_entry.inl" />
+    <None Include="..\..\src\main\stage\carpet_function_exit.inl" />
+    <None Include="..\..\src\main\stage\carpet_image_base.inl" />
+    <None Include="..\..\src\main\stage\carpet_lighting.inl" />
+    <None Include="..\..\src\main\stage\carpet_setup_indices.inl" />
+    <None Include="..\..\src\main\stage\carpet_state.asm" />
+    <None Include="..\..\src\main\stage\carpet_tile_store.inl" />
+    <None Include="..\..\src\main\stage\checkerboard_prefix.inl" />
+    <None Include="..\..\src\main\stage\checkerboard_store.inl" />
+    <None Include="..\..\src\main\stage\checkerboard_suffix.inl" />
+    <None Include="..\..\src\main\stage\render.inl" />
+    <None Include="..\..\src\main\stage\resource_state.asm" />
+    <None Include="..\..\src\main\tile\bb_mask.asm" />
+    <None Include="..\..\src\main\tile\circle_core.asm" />
+    <None Include="..\..\src\main\tile\invalidate_reset.inl" />
+    <None Include="..\..\src\main\tile\invalidate_set_all.inl" />
+    <None Include="..\..\src\main\tile\render.inl" />
+    <None Include="..\..\src\main\tile\render_all.asm" />
+    <None Include="..\..\src\main\tile\state.asm" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\main\boss\backdrop.cpp" />
+    <ClCompile Include="..\..\src\main\boss\boss.cpp" />
+    <ClCompile Include="..\..\src\main\boss\boss_bg_main01.cpp" />
+    <ClCompile Include="..\..\src\main\boss\chasecrosses_add.cpp" />
+    <ClCompile Include="..\..\src\main\boss\elly_backdrop.cpp" />
+    <ClCompile Include="..\..\src\main\boss\elly_fg_render.cpp" />
+    <ClCompile Include="..\..\src\main\boss\elly_gather.cpp" />
+    <ClCompile Include="..\..\src\main\boss\elly_orbit.cpp" />
+    <ClCompile Include="..\..\src\main\boss\elly_phase_burst.cpp" />
+    <ClCompile Include="..\..\src\main\boss\elly_phase_cloud.cpp" />
+    <ClCompile Include="..\..\src\main\boss\elly_phase_cloud_reverse.cpp" />
+    <ClCompile Include="..\..\src\main\boss\elly_phase_dual.cpp" />
+    <ClCompile Include="..\..\src\main\boss\elly_phase_final.cpp" />
+    <ClCompile Include="..\..\src\main\boss\elly_phase_four_rings.cpp" />
+    <ClCompile Include="..\..\src\main\boss\elly_phase_orbit.cpp" />
+    <ClCompile Include="..\..\src\main\boss\elly_phase_ring.cpp" />
+    <ClCompile Include="..\..\src\main\boss\elly_phase_ring16.cpp" />
+    <ClCompile Include="..\..\src\main\boss\elly_phase_scythe.cpp" />
+    <ClCompile Include="..\..\src\main\boss\elly_phase_sweep.cpp" />
+    <ClCompile Include="..\..\src\main\boss\elly_scythe.cpp" />
+    <ClCompile Include="..\..\src\main\boss\elly_scythe_init.cpp" />
+    <ClCompile Include="..\..\src\main\boss\elly_update.cpp" />
+    <ClCompile Include="..\..\src\main\boss\explode.cpp" />
+    <ClCompile Include="..\..\src\main\boss\explosion_add.cpp" />
+    <ClCompile Include="..\..\src\main\boss\gengetsu6_anim_ring.cpp" />
+    <ClCompile Include="..\..\src\main\boss\gengetsu6_columns.cpp" />
+    <ClCompile Include="..\..\src\main\boss\gengetsu6_cycle.cpp" />
+    <ClCompile Include="..\..\src\main\boss\gengetsu6_fg_render.cpp" />
+    <ClCompile Include="..\..\src\main\boss\gengetsu6_helpers.cpp" />
+    <ClCompile Include="..\..\src\main\boss\gengetsu6_patterns1.cpp" />
+    <ClCompile Include="..\..\src\main\boss\gengetsu6_patterns3.cpp" />
+    <ClCompile Include="..\..\src\main\boss\gengetsu6_prefix.cpp" />
+    <ClCompile Include="..\..\src\main\boss\gengetsu6_random_ring.cpp" />
+    <ClCompile Include="..\..\src\main\boss\gengetsu6_state.cpp" />
+    <ClCompile Include="..\..\src\main\boss\gengetsu6_turn_gather.cpp" />
+    <ClCompile Include="..\..\src\main\boss\gengetsu6_update.cpp" />
+    <ClCompile Include="..\..\src\main\boss\gengetsu6_wave_bounce.cpp" />
+    <ClCompile Include="..\..\src\main\boss\gengetsu_bomb_inv_render.cpp" />
+    <ClCompile Include="..\..\src\main\boss\kurumi_backdrop.cpp" />
+    <ClCompile Include="..\..\src\main\boss\kurumi_bullet_stacks.cpp" />
+    <ClCompile Include="..\..\src\main\boss\kurumi_fg_render.cpp" />
+    <ClCompile Include="..\..\src\main\boss\kurumi_late_phases.cpp" />
+    <ClCompile Include="..\..\src\main\boss\kurumi_spawnrays.cpp" />
+    <ClCompile Include="..\..\src\main\boss\kurumi_spawnray_phases.cpp" />
+    <ClCompile Include="..\..\src\main\boss\kurumi_update.cpp" />
+    <ClCompile Include="..\..\src\main\boss\marisa.cpp" />
+    <ClCompile Include="..\..\src\main\boss\marisa4_bits_init.cpp" />
+    <ClCompile Include="..\..\src\main\boss\marisa4_late.cpp" />
+    <ClCompile Include="..\..\src\main\boss\marisa4_main033.cpp" />
+    <ClCompile Include="..\..\src\main\boss\marisa4_phase.cpp" />
+    <ClCompile Include="..\..\src\main\boss\marisa4_render.cpp" />
+    <ClCompile Include="..\..\src\main\boss\marisa4_tail.cpp" />
+    <ClCompile Include="..\..\src\main\boss\mugetsu_180bb.cpp" />
+    <ClCompile Include="..\..\src\main\boss\mugetsu_fg_render.cpp" />
+    <ClCompile Include="..\..\src\main\boss\mugetsu_gengetsu_backdrop.cpp" />
+    <ClCompile Include="..\..\src\main\boss\mugetsu_gengetsu_bg_render.cpp" />
+    <ClCompile Include="..\..\src\main\boss\mugetsu_late.cpp" />
+    <ClCompile Include="..\..\src\main\boss\mugetsu_main033.cpp" />
+    <ClCompile Include="..\..\src\main\boss\mugetsu_phase2_callbacks.cpp" />
+    <ClCompile Include="..\..\src\main\boss\mugetsu_prefix.cpp" />
+    <ClCompile Include="..\..\src\main\boss\mugetsu_transitions.cpp" />
+    <ClCompile Include="..\..\src\main\boss\orange_backdrop.cpp" />
+    <ClCompile Include="..\..\src\main\boss\orange_fg_render.cpp" />
+    <ClCompile Include="..\..\src\main\boss\orange_mode_phases.cpp" />
+    <ClCompile Include="..\..\src\main\boss\orange_phase_bounce_random.cpp" />
+    <ClCompile Include="..\..\src\main\boss\orange_phase_entry.cpp" />
+    <ClCompile Include="..\..\src\main\boss\orange_update.cpp" />
+    <ClCompile Include="..\..\src\main\boss\reimu4_bg_pulse.cpp" />
+    <ClCompile Include="..\..\src\main\boss\reimu4_gather_intro.cpp" />
+    <ClCompile Include="..\..\src\main\boss\reimu4_main036.cpp" />
+    <ClCompile Include="..\..\src\main\boss\reimu4_main036_b.cpp" />
+    <ClCompile Include="..\..\src\main\boss\reimu4_orbs_update.cpp" />
+    <ClCompile Include="..\..\src\main\boss\reimu4_orb_add.cpp" />
+    <ClCompile Include="..\..\src\main\boss\reimu4_orb_spin.cpp" />
+    <ClCompile Include="..\..\src\main\boss\reimu4_phase_cloud_ring_stack.cpp" />
+    <ClCompile Include="..\..\src\main\boss\reimu4_phase_dual_special.cpp" />
+    <ClCompile Include="..\..\src\main\boss\reimu4_phase_orb_spawn.cpp" />
+    <ClCompile Include="..\..\src\main\boss\reimu4_phase_orb_stream.cpp" />
+    <ClCompile Include="..\..\src\main\boss\reimu4_phase_pellet_cloud.cpp" />
+    <ClCompile Include="..\..\src\main\boss\reimu4_phase_random_aimed.cpp" />
+    <ClCompile Include="..\..\src\main\boss\reimu4_phase_special_blue.cpp" />
+    <ClCompile Include="..\..\src\main\boss\reimu4_phase_spread_yellow.cpp" />
+    <ClCompile Include="..\..\src\main\boss\reimu4_phase_stack_fan.cpp" />
+    <ClCompile Include="..\..\src\main\boss\reimu4_phase_stack_octet.cpp" />
+    <ClCompile Include="..\..\src\main\boss\reimu4_state.cpp" />
+    <ClCompile Include="..\..\src\main\boss\reimu4_update.cpp" />
+    <ClCompile Include="..\..\src\main\boss\reimu_fg_render.cpp" />
+    <ClCompile Include="..\..\src\main\boss\reimu_orbs_render.cpp" />
+    <ClCompile Include="..\..\src\main\boss\yuuka5.cpp" />
+    <ClCompile Include="..\..\src\main\boss\yuuka5_fg_render.cpp" />
+    <ClCompile Include="..\..\src\main\boss\yuuka5_patterns.cpp" />
+    <ClCompile Include="..\..\src\main\boss\yuuka5_tail.cpp" />
+    <ClCompile Include="..\..\src\main\boss\yuuka6_animations.cpp" />
+    <ClCompile Include="..\..\src\main\boss\yuuka6_bg_render.cpp" />
+    <ClCompile Include="..\..\src\main\boss\yuuka6_entities_render.cpp" />
+    <ClCompile Include="..\..\src\main\boss\yuuka6_fg_render.cpp" />
+    <ClCompile Include="..\..\src\main\boss\yuuka6_gather_patterns.cpp" />
+    <ClCompile Include="..\..\src\main\boss\yuuka6_main034.cpp" />
+    <ClCompile Include="..\..\src\main\bullet\add.cpp" />
+    <ClCompile Include="..\..\src\main\bullet\render.cpp" />
+    <ClCompile Include="..\..\src\main\bullet\thicklaser_render.cpp" />
+    <ClCompile Include="..\..\src\main\bullet\thicklaser_update.cpp" />
+    <ClCompile Include="..\..\src\main\bullet\update.cpp" />
+    <ClCompile Include="..\..\src\main\circle.cpp" />
+    <ClCompile Include="..\..\src\main\config\load_resident_ptr.cpp" />
+    <ClCompile Include="..\..\src\main\core\demo_prefix.cpp" />
+    <ClCompile Include="..\..\src\main\core\exit.cpp" />
+    <ClCompile Include="..\..\src\main\core\gameexecl.cpp" />
+    <ClCompile Include="..\..\src\main\core\gameover.cpp" />
+    <ClCompile Include="..\..\src\main\core\gameplay_loop.cpp" />
+    <ClCompile Include="..\..\src\main\core\gameplay_session_init.cpp" />
+    <ClCompile Include="..\..\src\main\core\init.cpp" />
+    <ClCompile Include="..\..\src\main\core\main.cpp" />
+    <ClCompile Include="..\..\src\main\core\nullfunc_far.cpp" />
+    <ClCompile Include="..\..\src\main\core\nullfunc_near.cpp" />
+    <ClCompile Include="..\..\src\main\demo.cpp" />
+    <ClCompile Include="..\..\src\main\dialog\dialog.cpp" />
+    <ClCompile Include="..\..\src\main\dialog\file.cpp" />
+    <ClCompile Include="..\..\src\main\dialog\fused.cpp" />
+    <ClCompile Include="..\..\src\main\dialog\init_exit.cpp" />
+    <ClCompile Include="..\..\src\main\ems.cpp" />
+    <ClCompile Include="..\..\src\main\end\ending.cpp" />
+    <ClCompile Include="..\..\src\main\enemy\enemies_add.cpp" />
+    <ClCompile Include="..\..\src\main\enemy\enemies_invalidate.cpp" />
+    <ClCompile Include="..\..\src\main\enemy\enemies_render.cpp" />
+    <ClCompile Include="..\..\src\main\enemy\enemies_update.cpp" />
+    <ClCompile Include="..\..\src\main\enemy\script_helpers.cpp" />
+    <ClCompile Include="..\..\src\main\enemy\script_update.cpp" />
+    <ClCompile Include="..\..\src\main\formats\bb_txt.cpp" />
+    <ClCompile Include="..\..\src\main\formats\map.cpp" />
+    <ClCompile Include="..\..\src\main\formats\mpn_free.cpp" />
+    <ClCompile Include="..\..\src\main\formats\mpn_load.cpp" />
+    <ClCompile Include="..\..\src\main\formats\mpn_upload.cpp" />
+    <ClCompile Include="..\..\src\main\gather.cpp" />
+    <ClCompile Include="..\..\src\main\hardware\grcg3.cpp" />
+    <ClCompile Include="..\..\src\main\hardware\input_wait.cpp" />
+    <ClCompile Include="..\..\src\main\hud\hud.cpp" />
+    <ClCompile Include="..\..\src\main\hud\overlay.cpp" />
+    <ClCompile Include="..\..\src\main\item\invalidate.cpp" />
+    <ClCompile Include="..\..\src\main\item\items_render.cpp" />
+    <ClCompile Include="..\..\src\main\item\items_update.cpp" />
+    <ClCompile Include="..\..\src\main\item\splashes_init.cpp" />
+    <ClCompile Include="..\..\src\main\item\splashes_render.cpp" />
+    <ClCompile Include="..\..\src\main\item\splash_u.cpp" />
+    <ClCompile Include="..\..\src\main\math\randring1_next16.cpp" />
+    <ClCompile Include="..\..\src\main\math\randring1_next16_and.cpp" />
+    <ClCompile Include="..\..\src\main\math\randring2_next16.cpp" />
+    <ClCompile Include="..\..\src\main\math\randring2_next16_and.cpp" />
+    <ClCompile Include="..\..\src\main\math\randring_fill.cpp" />
+    <ClCompile Include="..\..\src\main\math\vector.cpp" />
+    <ClCompile Include="..\..\src\main\midboss\defeat_render.cpp" />
+    <ClCompile Include="..\..\src\main\midboss\invalidate.cpp" />
+    <ClCompile Include="..\..\src\main\midboss\m1_render.cpp" />
+    <ClCompile Include="..\..\src\main\midboss\m1_update.cpp" />
+    <ClCompile Include="..\..\src\main\midboss\m2_render.cpp" />
+    <ClCompile Include="..\..\src\main\midboss\m2_update.cpp" />
+    <ClCompile Include="..\..\src\main\midboss\m3_render.cpp" />
+    <ClCompile Include="..\..\src\main\midboss\m3_update.cpp" />
+    <ClCompile Include="..\..\src\main\midboss\m4.cpp" />
+    <ClCompile Include="..\..\src\main\midboss\m4_update.cpp" />
+    <ClCompile Include="..\..\src\main\midboss\midboss.cpp" />
+    <ClCompile Include="..\..\src\main\midboss\mx_render.cpp" />
+    <ClCompile Include="..\..\src\main\midboss\mx_update.cpp" />
+    <ClCompile Include="..\..\src\main\player\bomb.cpp" />
+    <ClCompile Include="..\..\src\main\player\bomb_stars.cpp" />
+    <ClCompile Include="..\..\src\main\player\invalidate.cpp" />
+    <ClCompile Include="..\..\src\main\player\marisa_shot.cpp" />
+    <ClCompile Include="..\..\src\main\player\move.cpp" />
+    <ClCompile Include="..\..\src\main\player\player.cpp" />
+    <ClCompile Include="..\..\src\main\player\reimu_shot.cpp" />
+    <ClCompile Include="..\..\src\main\player\reimu_shot_b.cpp" />
+    <ClCompile Include="..\..\src\main\player\render.cpp" />
+    <ClCompile Include="..\..\src\main\player\shots.cpp" />
+    <ClCompile Include="..\..\src\main\player\shots_add.cpp" />
+    <ClCompile Include="..\..\src\main\player\update.cpp" />
+    <ClCompile Include="..\..\src\main\playfield.cpp" />
+    <ClCompile Include="..\..\src\main\score\ranking.cpp" />
+    <ClCompile Include="..\..\src\main\scroll\driver.cpp" />
+    <ClCompile Include="..\..\src\main\scroll\scroll_subpixel_y.cpp" />
+    <ClCompile Include="..\..\src\main\scroll\scroll_subpixel_y_seg3.cpp" />
+    <ClCompile Include="..\..\src\main\scroll\tile_ring_update.cpp" />
+    <ClCompile Include="..\..\src\main\slowdown.cpp" />
+    <ClCompile Include="..\..\src\main\sound\mmd_align.c" />
+    <ClCompile Include="..\..\src\main\sound\se.cpp" />
+    <ClCompile Include="..\..\src\main\spark\init.cpp" />
+    <ClCompile Include="..\..\src\main\spark\invalidate.cpp" />
+    <ClCompile Include="..\..\src\main\stage\bonus.cpp" />
+    <ClCompile Include="..\..\src\main\stage\checkerboard.cpp" />
+    <ClCompile Include="..\..\src\main\stage\session_init.cpp" />
+    <ClCompile Include="..\..\src\main\stage\stages.cpp" />
+    <ClCompile Include="..\..\src\main\stage\std.cpp" />
+    <ClCompile Include="..\..\src\main\stage\std_run.cpp" />
+    <ClCompile Include="..\..\src\main\stage_state_init.cpp" />
+    <ClCompile Include="..\..\src\main\tile\set.cpp" />
+    <ClCompile Include="..\..\src\main\tile\tile.cpp" />
+    <ClCompile Include="..\..\src\ps3_compat.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\src\zun\launcher\usage.txt" />
+  </ItemGroup>
+  <Import Condition="'$(ConfigurationType)' == 'Makefile' and Exists('$(VCTargetsPath)\Platforms\$(Platform)\SCE.Makefile.$(Platform).targets')" Project="$(VCTargetsPath)\Platforms\$(Platform)\SCE.Makefile.$(Platform).targets" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

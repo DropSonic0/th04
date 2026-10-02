@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|PS3">
+      <Configuration>Debug</Configuration>
+      <Platform>PS3</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|PS3">
+      <Configuration>Release</Configuration>
+      <Platform>PS3</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCTargetsPath Condition="'$(VCTargetsPath12)' != '' and '$(VSVersion)' == '' and '$(VisualStudioVersion)' == ''">$(VCTargetsPath12)</VCTargetsPath>
+    <ProjectGuid>{1D0B8E15-71CD-4D72-9C70-E49660FF647A}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|PS3'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>SNC</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|PS3'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>SNC</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <PropertyGroup Condition="'$(DebuggerFlavor)'=='PS3Debugger'" Label="OverrideDebuggerDefaults">
+    <!--LocalDebuggerCommand>$(TargetPath)</LocalDebuggerCommand-->
+    <!--LocalDebuggerCommandArguments></LocalDebuggerCommandArguments-->
+    <!--LocalDebuggerCommandLine>-r -e -m</LocalDebuggerCommandLine-->
+    <!--LocalRunCommandLine>-r</LocalRunCommandLine-->
+    <!--LocalTunerCommandLine></LocalTunerCommandLine-->
+    <!--LocalDebuggerFileServingDirectory>$(ProjectDir)</LocalDebuggerFileServingDirectory-->
+    <!--LocalDebuggerHomeDirectory>$(ProjectDir)</LocalDebuggerHomeDirectory-->
+    <!--LocalDebuggerProjectFile></LocalDebuggerProjectFile-->
+    <!--LocalDebuggerResetType>Soft</LocalDebuggerResetType-->
+    <!--LocalDebuggerClearTty>False</LocalDebuggerClearTty-->
+  </PropertyGroup>
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|PS3'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|PS3'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|PS3'">
+    <ClCompile>
+      <PreprocessorDefinitions>_DEBUG;__CELL_ASSERT__;far=;near=;pascal=;__seg=;TH04_FAR;GAME=4;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <AdditionalIncludeDirectories>C:\th04;C:\th04\src\main\include;C:\th04\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-include src/ps3_compat.hpp %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|PS3'">
+    <ClCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions);</PreprocessorDefinitions>
+      <OptimizationLevel>Level2</OptimizationLevel>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\maine\cutscene\box_mask.hpp" />
+    <ClInclude Include="..\..\src\maine\cutscene\state.hpp" />
+    <ClInclude Include="..\..\src\maine\score\playchar.hpp" />
+    <ClInclude Include="..\..\src\maine\score\scoredat.hpp" />
+    <ClInclude Include="..\..\src\ps3_compat.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\src\maine\core\cfg_load_resident_ptr.inl" />
+    <None Include="..\..\src\maine\core\game_exit_and_exec.inl" />
+    <None Include="..\..\src\maine\cutscene\box_1_to_0_masked.inl" />
+    <None Include="..\..\src\maine\cutscene\box_animate.inl" />
+    <None Include="..\..\src\maine\cutscene\box_bg_free.inl" />
+    <None Include="..\..\src\maine\cutscene\box_bg_put.inl" />
+    <None Include="..\..\src\maine\cutscene\box_bg_snap.inl" />
+    <None Include="..\..\src\maine\cutscene\cursor_advance.inl" />
+    <None Include="..\..\src\maine\cutscene\cutscene_animate.inl" />
+    <None Include="..\..\src\maine\cutscene\egc_start_copy.inl" />
+    <None Include="..\..\src\maine\cutscene\pic_copy_to_other.inl" />
+    <None Include="..\..\src\maine\cutscene\pic_put_both_masked.inl" />
+    <None Include="..\..\src\maine\cutscene\script_free.inl" />
+    <None Include="..\..\src\maine\cutscene\script_load.inl" />
+    <None Include="..\..\src\maine\cutscene\script_op.inl" />
+    <None Include="..\..\src\maine\cutscene\script_param_first.inl" />
+    <None Include="..\..\src\maine\cutscene\script_param_second.inl" />
+    <None Include="..\..\src\maine\end\end_animate.inl" />
+    <None Include="..\..\src\maine\end\graph_3_digit_put.inl" />
+    <None Include="..\..\src\maine\end\graph_fraction_of_million_put.inl" />
+    <None Include="..\..\src\maine\end\main.inl" />
+    <None Include="..\..\src\maine\end\skill_apply_and_graph_percentage_put.inl" />
+    <None Include="..\..\src\maine\end\staffroll_animate.inl" />
+    <None Include="..\..\src\maine\end\staffroll_dissolve_axis_put.inl" />
+    <None Include="..\..\src\maine\end\staffroll_dissolve_diagonal_put.inl" />
+    <None Include="..\..\src\maine\end\staffroll_dissolve_in.inl" />
+    <None Include="..\..\src\maine\end\staffroll_dissolve_out.inl" />
+    <None Include="..\..\src\maine\end\staffroll_dissolve_radial_put.inl" />
+    <None Include="..\..\src\maine\end\staffroll_dissolve_two.inl" />
+    <None Include="..\..\src\maine\end\staff_bgimage_expand_put.inl" />
+    <None Include="..\..\src\maine\end\sub_B81D.inl" />
+    <None Include="..\..\src\maine\end\sub_B9F2.inl" />
+    <None Include="..\..\src\maine\end\sub_BB81.inl" />
+    <None Include="..\..\src\maine\end\verdict_animate.inl" />
+    <None Include="..\..\src\maine\formats\cdg_mask.asm" />
+    <None Include="..\..\src\maine\formats\cdg_put_plane.asm" />
+    <None Include="..\..\src\maine\score\alphabet_cursor.inl" />
+    <None Include="..\..\src\maine\score\hisave.inl" />
+    <None Include="..\..\src\maine\score\load_for.inl" />
+    <None Include="..\..\src\maine\score\name_cursor.inl" />
+    <None Include="..\..\src\maine\score\places_put.inl" />
+    <None Include="..\..\src\maine\score\place_row_put.inl" />
+    <None Include="..\..\src\maine\score\regist_menu.inl" />
+    <None Include="..\..\src\maine\score\scoredec.inl" />
+    <None Include="..\..\src\maine\score\scoreenc.inl" />
+    <None Include="..\..\src\maine\score\scoregen.inl" />
+    <None Include="..\..\src\maine\score\score_egc_start_copy.inl" />
+    <None Include="..\..\src\maine\score\score_insert.inl" />
+    <None Include="..\..\src\maine\score\score_put.inl" />
+    <None Include="..\..\src\maine\score\score_rect_copy.inl" />
+    <None Include="..\..\src\maine\score\stage_put.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\maine\core\cfg_load_resident_ptr.cpp" />
+    <ClCompile Include="..\..\src\maine\core\game_exit_and_exec.cpp" />
+    <ClCompile Include="..\..\src\maine\cutscene\box_1_to_0_masked.cpp" />
+    <ClCompile Include="..\..\src\maine\cutscene\box_animate.cpp" />
+    <ClCompile Include="..\..\src\maine\cutscene\box_bg_free.cpp" />
+    <ClCompile Include="..\..\src\maine\cutscene\box_bg_put.cpp" />
+    <ClCompile Include="..\..\src\maine\cutscene\box_bg_snap.cpp" />
+    <ClCompile Include="..\..\src\maine\cutscene\cursor_advance.cpp" />
+    <ClCompile Include="..\..\src\maine\cutscene\cutscene_animate.cpp" />
+    <ClCompile Include="..\..\src\maine\cutscene\egc_start_copy.cpp" />
+    <ClCompile Include="..\..\src\maine\cutscene\pic_copy_to_other.cpp" />
+    <ClCompile Include="..\..\src\maine\cutscene\pic_put_both_masked.cpp" />
+    <ClCompile Include="..\..\src\maine\cutscene\pi_masks.cpp" />
+    <ClCompile Include="..\..\src\maine\cutscene\script_free.cpp" />
+    <ClCompile Include="..\..\src\maine\cutscene\script_load.cpp" />
+    <ClCompile Include="..\..\src\maine\cutscene\script_op.cpp" />
+    <ClCompile Include="..\..\src\maine\cutscene\script_param_first.cpp" />
+    <ClCompile Include="..\..\src\maine\cutscene\script_param_second.cpp" />
+    <ClCompile Include="..\..\src\maine\cutscene\state.cpp" />
+    <ClCompile Include="..\..\src\maine\end\end_animate.cpp" />
+    <ClCompile Include="..\..\src\maine\end\entry.cpp" />
+    <ClCompile Include="..\..\src\maine\end\staff.cpp" />
+    <ClCompile Include="..\..\src\maine\end\staff_resources.cpp" />
+    <ClCompile Include="..\..\src\maine\end\verdict.cpp" />
+    <ClCompile Include="..\..\src\maine\end\verdict_resources.cpp" />
+    <ClCompile Include="..\..\src\maine\end\verdict_state.cpp" />
+    <ClCompile Include="..\..\src\maine\score\alpha.cpp" />
+    <ClCompile Include="..\..\src\maine\score\cursor.cpp" />
+    <ClCompile Include="..\..\src\maine\score\egc_copy.cpp" />
+    <ClCompile Include="..\..\src\maine\score\hisave.cpp" />
+    <ClCompile Include="..\..\src\maine\score\insert.cpp" />
+    <ClCompile Include="..\..\src\maine\score\load_for.cpp" />
+    <ClCompile Include="..\..\src\maine\score\place.cpp" />
+    <ClCompile Include="..\..\src\maine\score\places.cpp" />
+    <ClCompile Include="..\..\src\maine\score\put.cpp" />
+    <ClCompile Include="..\..\src\maine\score\regist.cpp" />
+    <ClCompile Include="..\..\src\maine\score\regist_resources.cpp" />
+    <ClCompile Include="..\..\src\maine\score\scoredec.cpp" />
+    <ClCompile Include="..\..\src\maine\score\scoreenc.cpp" />
+    <ClCompile Include="..\..\src\maine\score\scoregen.cpp" />
+    <ClCompile Include="..\..\src\maine\score\stage.cpp" />
+    <ClCompile Include="..\..\src\maine\score\state.cpp" />
+  </ItemGroup>
+  <Import Condition="'$(ConfigurationType)' == 'Makefile' and Exists('$(VCTargetsPath)\Platforms\$(Platform)\SCE.Makefile.$(Platform).targets')" Project="$(VCTargetsPath)\Platforms\$(Platform)\SCE.Makefile.$(Platform).targets" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

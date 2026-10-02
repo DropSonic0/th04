@@ -44,7 +44,7 @@ void near shots_update(void) {
             shot->flag = SF_REMOVE; continue;
         }
         if(shot->flag > SF_ALIVE) {
-            shot->flag++;
+			shot->flag = static_cast<shot_flag_t>(shot->flag + 1);
             if((shot->flag & (HITSHOT_FRAMES_PER_CEL - 1)) == SF_HIT) shot->patnum_base++;
         } else {
             alive->pos.x.v = _AX; alive->pos.y.v = _DX; alive->shot = shot; alive++; shots_alive_count++; shot->age++;

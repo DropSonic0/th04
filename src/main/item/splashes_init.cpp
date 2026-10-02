@@ -1,6 +1,11 @@
 #pragma option -zCIT_SPL_U_TEXT -zPmain_03
 
+#ifdef __TURBOC__
 #include <mem.h>
+#else
+#include <string.h>
+#endif
+
 #include "th04/main/item/splash.hpp"
 
 extern unsigned char item_splash_last_id;

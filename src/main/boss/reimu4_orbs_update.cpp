@@ -64,7 +64,7 @@ extern "C" void near reimu_orbs_update(void)
                     orb->angle += -0x40;
                 }
                 vector2_near(orb->velocity, orb->angle, orb->move_speed.v);
-                orb->flag++;
+				orb->flag = static_cast<reimu_orb_flag_t>(orb->flag + 1);
             }
         } else if(orb->flag == OF_MOVE) {
             orb->spin_time++;

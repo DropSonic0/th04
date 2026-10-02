@@ -1,3 +1,5 @@
+#include "src/ps3_compat.hpp"
+
 #include <ctype.h>
 
 #include "src/maine/cutscene/state.hpp"
@@ -18,11 +20,24 @@ static const pixel_t CUTSCENE_PIC_W = 320;
 static const pixel_t CUTSCENE_PIC_H = 200;
 static const int CUTSCENE_PIC_SLOT = 0;
 static const int TEXT_INTERVAL_DEFAULT = 1;
+
+#ifdef PF_FN_LEN
+#undef PF_FN_LEN
+#endif
 static const int PF_FN_LEN = 13;
+
 static const int PI_MASK_COUNT = 4;
 static const int WEIGHT_BOLD = 2;
 
 typedef unsigned int graph_putsa_fx_func_t;
+
+#ifdef CONTINUE
+#undef CONTINUE
+#endif
+#ifdef STOP
+#undef STOP
+#endif
+
 enum script_ret_t { CONTINUE = 0, STOP = -1 };
 
 #define box_wait_animate(frames) input_wait_for_change(frames)

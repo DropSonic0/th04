@@ -2,10 +2,15 @@
 // returned pointer skips the two reference rows at the front of that block.
 #pragma option -zCSHARED -3
 
-#include <dos.h>
+#if defined(__TURBOC__) || defined(__MSDOS__)
+# include <dos.h>
+#endif
 
 #include "src/shared/hardware/graphics.hpp"
 #include "src/shared/runtime/api.hpp"
+
+#include <stdio.h>
+#include <stdint.h>
 
 struct PiInput {
 	int handle;

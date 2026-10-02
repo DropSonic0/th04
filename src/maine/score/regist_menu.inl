@@ -20,7 +20,9 @@ void near regist_menu(void)
 	super_entry_bfnt(aScnum2_bft);
 
 	rank = ((resident->stage == STAGE_EXTRA) ? RANK_EXTRA : resident->rank);
-	playchar = (resident->playchar_ascii == ('0' + PLAYCHAR_MARISA));
+
+	playchar = static_cast<playchar_t>(resident->playchar_ascii == ('0' + PLAYCHAR_MARISA));
+
 	hiscore_scoredat_load_for(playchar_other(playchar));
 	places_put(1 - static_cast<unsigned char>(playchar));
 	hiscore_scoredat_load_for(playchar);

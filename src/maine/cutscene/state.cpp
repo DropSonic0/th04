@@ -1,7 +1,9 @@
 #include "src/maine/cutscene/state.hpp"
 
+#ifdef __TURBOC__
 typedef char cursor_size_check[(sizeof(cursor_t) == 4) ? 1 : -1];
 typedef char planar16_size_check[(sizeof(planar16_t) == 8) ? 1 : -1];
+#endif
 
 // The five EGC masks occupy the unique 40-byte table at MAINE's decoded load
 // offset 0xEB5C (candidate MAP 0E53:062C). Words describe copy behavior;

@@ -1,4 +1,6 @@
-#include <dos.h>
+#if defined(__TURBOC__) || defined(__MSDOS__)
+# include <dos.h>
+#endif
 
 #include "src/shared/hardware/graphics.hpp"
 

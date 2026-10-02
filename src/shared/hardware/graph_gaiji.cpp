@@ -1,6 +1,8 @@
 #pragma option -zCSHARED -3
 
-#include <dos.h>
+#if defined(__TURBOC__) || defined(__MSDOS__)
+# include <dos.h>
+#endif
 
 #include "src/shared/hardware/graphics.hpp"
 
@@ -9,6 +11,7 @@ extern "C" unsigned __cdecl graph_VramSeg;
 static void gaiji_graph_begin(vc2 color)
 {
 	// Preserve the caller's interrupt flag while selecting GRCG RMW mode.
+#ifdef __TURBOC__
 	asm {
 		pushf
 		cli
@@ -16,6 +19,9 @@ static void gaiji_graph_begin(vc2 color)
 		out 07Ch, al
 		popf
 	}
+#else
+	outportb(0x7C, 0xC0);
+#endif
 	for(unsigned plane = 0; plane < 4; plane++) {
 		outportb(0x7E, (color & (1u << plane)) ? 0xFF : 0);
 	}
@@ -45,10 +51,12 @@ static void gaiji_graph_draw_one(unsigned x, unsigned y, unsigned c)
 		const unsigned second = inportb(0xA9);
 		const unsigned aligned = ((first << 8) | second) >> shift;
 		const unsigned spill = (second << 8) >> shift;
-		dest[0] = (unsigned char)(aligned >> 8);
-		dest[1] = (unsigned char)aligned;
-		dest[2] = (unsigned char)spill;
-		dest += 80;
+		if (dest) {
+			dest[0] = (unsigned char)(aligned >> 8);
+			dest[1] = (unsigned char)aligned;
+			dest[2] = (unsigned char)spill;
+			dest += 80;
+		}
 	}
 }
 

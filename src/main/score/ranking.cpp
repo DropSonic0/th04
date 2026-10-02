@@ -324,7 +324,9 @@ shift:
 		hi.score.g_stage[i + 1] = hi.score.g_stage[i];
 	}
 
+#ifdef __TURBOC__
 	static_assert(sizeof(gCONTINUE) == SCOREDAT_NAME_LEN);
+#endif
 	for(c = (SCOREDAT_NAME_LEN - 1); c >= 0; c--) {
 		hi.score.g_name[entered_place][c] = gCONTINUE.x[c];
 	}

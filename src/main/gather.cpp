@@ -1,5 +1,9 @@
 #include <stddef.h>
+#ifdef __TURBOC__
 #include <mem.h>
+#else
+#include <string.h>
+#endif
 #include "decomp.hpp"
 #include "src/main/hardware/grcg.hpp"
 #include "th04/math/vector.hpp"
@@ -23,7 +27,7 @@
 
 void pascal near set_gather_template_to_bullet_template(gather_t near &gather)
 {
-	// ZUN bloat: gather.bullet_template = bullet_template;
+#ifdef __TURBOC__
 	copy_near_struct_member(
 		gather,
 		offsetof(gather_t, bullet_template),
@@ -31,15 +35,18 @@ void pascal near set_gather_template_to_bullet_template(gather_t near &gather)
 		0,
 		sizeof(BulletTemplate),
 		prepare_si_di
-	);
+		);
+#else
+	gather.bullet_template = bullet_template;
+#endif
 }
 
 void near gather_add_bullets(void)
 {
 	gather_t near *gather;
 	int i;
-	for((gather = gather_circles, i = 0); i < GATHER_CAP; (i++, gather++)) {
-		if(gather->flag != F_FREE) {
+	for ((gather = gather_circles, i = 0); i < GATHER_CAP; (i++, gather++)) {
+		if (gather->flag != F_FREE) {
 			continue;
 		}
 		gather->flag = F_ALIVE;
@@ -53,8 +60,8 @@ void near gather_add_only(void)
 {
 	gather_t near *gather;
 	int i;
-	for((gather = gather_circles, i = 0); i < GATHER_CAP; (i++, gather++)) {
-		if(gather->flag != F_FREE) {
+	for ((gather = gather_circles, i = 0); i < GATHER_CAP; (i++, gather++)) {
+		if (gather->flag != F_FREE) {
 			continue;
 		}
 		gather->flag = F_ALIVE;
@@ -66,9 +73,9 @@ void near gather_add_only(void)
 
 void pascal near gather_add_only_3stack(
 	int frame, vc2 col_for_0, vc2 col_for_2_and_4
-)
+	)
 {
-	switch(frame) {
+	switch (frame) {
 	case 0:
 		gather_template.col = col_for_0;
 		gather_add_only();
@@ -84,7 +91,7 @@ void pascal near gather_add_only_3stack(
 
 void pascal near set_bullet_template_to_gather_template(gather_t near &gather)
 {
-	// ZUN bloat: bullet_template = gather.bullet_template;
+#ifdef __TURBOC__
 	copy_near_struct_member(
 		bullet_template,
 		0,
@@ -92,17 +99,21 @@ void pascal near set_bullet_template_to_gather_template(gather_t near &gather)
 		offsetof(gather_t, bullet_template),
 		sizeof(BulletTemplate),
 		prepare_di_si
-	);
+		);
+#else
+	bullet_template = gather.bullet_template;
+#endif
 }
 
 void gather_update(void)
 {
 	gather_t near *gather;
 	int i;
-	for((gather = gather_circles, i = 0); i < GATHER_CAP; (i++, gather++)) {
-		if(gather->flag == F_FREE) {
+	for ((gather = gather_circles, i = 0); i < GATHER_CAP; (i++, gather++)) {
+		if (gather->flag == F_FREE) {
 			continue;
-		} else if(gather->flag >= F_REMOVE) {
+		}
+		else if (gather->flag >= F_REMOVE) {
 			gather->flag = F_FREE;
 			continue;
 		}
@@ -110,18 +121,19 @@ void gather_update(void)
 		gather->radius_prev = gather->radius_cur;
 		gather->radius_cur.v -= gather->radius_delta.v;
 		gather->angle_cur += gather->angle_delta;
-		if(gather->radius_cur.v < GATHER_RADIUS_END) {
+		if (gather->radius_cur.v < GATHER_RADIUS_END) {
 			gather->flag = F_REMOVE;
-			if(gather->bullet_template.spawn_type != BST_GATHER_ONLY) {
+			if (gather->bullet_template.spawn_type != BST_GATHER_ONLY) {
 				set_bullet_template_to_gather_template(*gather);
 				bullet_template.origin.x = gather->center.cur.x;
 				bullet_template.origin.y = gather->center.cur.y;
 #if (GAME == 5)
-				if(
+				if (
 					bullet_template.spawn_type < BST_GATHER_NORMAL_SPECIAL_MOVE
-				) {
+					) {
 					bullets_add_regular();
-				} else {
+				}
+				else {
 					bullet_template.spawn_type = BST_NORMAL;
 					bullets_add_special();
 				}
@@ -150,29 +162,29 @@ void gather_render(void)
 	col_cur = -1;
 	gather = gather_circles;
 
-	for(circle_i = 0; circle_i < GATHER_CAP; circle_i++, gather++) {
-		if(gather->flag != F_ALIVE) {
+	for (circle_i = 0; circle_i < GATHER_CAP; circle_i++, gather++) {
+		if (gather->flag != F_ALIVE) {
 			continue;
 		}
-		if(gather->col != col_cur) {
+		if (gather->col != col_cur) {
 			col_cur = gather->col;
 			_AH = col_cur;
 			// MODDERS: Replace with grcg_setcolor_direct_inlined(), and remove
 			// the translation unit that defines this function.
 			grcg_setcolor_direct_seg3_raw();
 		}
-		for(int point_i = 0; gather->ring_points > point_i; point_i++) {
+		for (int point_i = 0; gather->ring_points > point_i; point_i++) {
 			angle = (
 				((point_i * 0x100) / gather->ring_points) + gather->angle_cur
-			);
+				);
 			vector2_at(
 				drawpoint,
 				gather->center.cur.x,
 				gather->center.cur.y,
 				gather->radius_cur,
 				angle
-			);
-			if(!gather_point_on_playfield()) {
+				);
+			if (!gather_point_on_playfield()) {
 				continue;
 			}
 			_DX = drawpoint.to_vram_top_scrolled_seg3(GATHER_POINT_H);

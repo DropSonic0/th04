@@ -116,8 +116,14 @@ void near explosions_big_update_and_render(void)
 
 	// ZUN bloat: Should be a separate PlayfieldPoint and screen_point_t.
 	subpixel_t x;
-	#define x_center	x
-	#define x_left  	static_cast<screen_x_t>(x)
+#define x_center	x
+
+#ifdef __TURBOC__
+#define x_left  	static_cast<screen_x_t>(x)
+#else
+#define x_left  	reinterpret_cast<screen_x_t &>(x)
+#endif
+
 	union { Subpixel center; screen_y_t top; } y;
 
 	if(p.alive) {

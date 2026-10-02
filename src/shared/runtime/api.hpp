@@ -249,16 +249,18 @@ template<class T> struct HMem {
 	static T __seg* alloc(unsigned int size_in_elements) {
 		return reinterpret_cast<T __seg *>(hmem_allocbyte(
 			size_in_elements * sizeof(T)
-		));
+			));
 	}
 
 	static void free(T far *&block) {
 		hmem_free(reinterpret_cast<void __seg *>(block));
 	}
 
+#ifdef __TURBOC__
 	static void free(T __seg *&block) {
 		hmem_free(reinterpret_cast<void __seg *>(block));
 	}
+#endif
 };
 
 // Type-safe resident structure allocation and retrieval

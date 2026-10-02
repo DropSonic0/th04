@@ -300,11 +300,11 @@ extern "C" void near yuuka6_bg_update_render(void)
             bg_shape_flyout_speed.v = TO_SP(4);
             goto update_common;
         }
-        if(yuuka6_bg_fade != 255) {
-            goto update_common;
-        }
-        bg_shape_patnum++;
-        yuuka6_bg_state++;
+		if (yuuka6_bg_fade != 255) {
+			goto update_common;
+		}
+		bg_shape_patnum = static_cast<main_patnum_t>(static_cast<int>(bg_shape_patnum)+1);
+		yuuka6_bg_state++;
         if(yuuka6_bg_state >= 4) {
             yuuka6_bg_state = 0;
             bg_shape_patnum = static_cast<main_patnum_t>(120);

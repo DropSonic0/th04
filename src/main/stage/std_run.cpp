@@ -29,9 +29,11 @@ struct std_enemy_spawn_record_t {
 };
 #pragma pack(pop)
 
+#ifdef __TURBOC__
 typedef char std_enemy_spawn_record_size_must_be_8[
-    (sizeof(std_enemy_spawn_record_t) == 8) ? 1 : -1
+	(sizeof(std_enemy_spawn_record_t) == 8) ? 1 : -1
 ];
+#endif
 
 #define std_ip_offset (reinterpret_cast<farptr_words_t near *>(&std_ip)->offset)
 

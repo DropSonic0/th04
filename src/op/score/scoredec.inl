@@ -1,3 +1,4 @@
+#ifdef __TURBOC__
 #define OP_DECODE_SCOREDAT_SECTION(section, sum, i) \
     for((i) = offsetof(op_scoredat_section_t, score); \
             (i) < (sizeof(op_scoredat_section_t) - 1); (i)++) { \
@@ -16,6 +17,24 @@
             (i) < sizeof(op_scoredat_section_t); (i)++) { \
         (sum) += ((unsigned char *)&(section))[(i)]; \
     }
+#else
+#define OP_DECODE_SCOREDAT_SECTION(section, sum, i) \
+    for((i) = offsetof(op_scoredat_section_t, score); \
+            (i) < (sizeof(op_scoredat_section_t) - 1); (i)++) { \
+        unsigned char tmp; \
+        tmp = ((unsigned char *)&(section))[(i) + 1]; \
+        tmp = static_cast<unsigned char>((tmp >> 3) | (tmp << 5)); \
+        tmp ^= static_cast<unsigned char>((section).key2); \
+        ((unsigned char *)&(section))[(i)] = \
+                (section).key1 + tmp + ((unsigned char *)&(section))[(i)]; \
+    } \
+    ((unsigned char *)&(section))[(i)] += (section).key1; \
+    (sum) = 0; \
+    for((i) = offsetof(op_scoredat_section_t, score); \
+            (i) < sizeof(op_scoredat_section_t); (i)++) { \
+        (sum) += ((unsigned char *)&(section))[(i)]; \
+    }
+#endif
 
 {
     int i;

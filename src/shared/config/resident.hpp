@@ -51,11 +51,13 @@ struct resident_t {
     signed char unused_5[182];
 };
 
+#ifdef __TURBOC__
 // Compile-time ABI checks under the pinned 16-bit TC4J profile.
 typedef char th04_resident_size_check[(sizeof(resident_t) == 0x100) ? 1 : -1];
 typedef char th04_resident_lives_check[(offsetof(resident_t, rem_lives) == 0x0B) ? 1 : -1];
 typedef char th04_resident_debug_check[(offsetof(resident_t, debug) == 0x1A) ? 1 : -1];
 typedef char th04_resident_frames_check[(offsetof(resident_t, frames) == 0x44) ? 1 : -1];
+#endif
 
 extern resident_t far *resident;
 

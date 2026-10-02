@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|PS3">
+      <Configuration>Debug</Configuration>
+      <Platform>PS3</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|PS3">
+      <Configuration>Release</Configuration>
+      <Platform>PS3</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCTargetsPath Condition="'$(VCTargetsPath12)' != '' and '$(VSVersion)' == '' and '$(VisualStudioVersion)' == ''">$(VCTargetsPath12)</VCTargetsPath>
+    <ProjectGuid>{BA0B703C-F517-4C86-A762-B356B53CD1C2}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|PS3'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>SNC</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|PS3'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>SNC</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <PropertyGroup Condition="'$(DebuggerFlavor)'=='PS3Debugger'" Label="OverrideDebuggerDefaults">
+    <!--LocalDebuggerCommand>$(TargetPath)</LocalDebuggerCommand-->
+    <!--LocalDebuggerCommandArguments></LocalDebuggerCommandArguments-->
+    <!--LocalDebuggerCommandLine>-r -e -m</LocalDebuggerCommandLine-->
+    <!--LocalRunCommandLine>-r</LocalRunCommandLine-->
+    <!--LocalTunerCommandLine></LocalTunerCommandLine-->
+    <!--LocalDebuggerFileServingDirectory>$(ProjectDir)</LocalDebuggerFileServingDirectory-->
+    <!--LocalDebuggerHomeDirectory>$(ProjectDir)</LocalDebuggerHomeDirectory-->
+    <!--LocalDebuggerProjectFile></LocalDebuggerProjectFile-->
+    <!--LocalDebuggerResetType>Soft</LocalDebuggerResetType-->
+    <!--LocalDebuggerClearTty>False</LocalDebuggerClearTty-->
+  </PropertyGroup>
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|PS3'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|PS3'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|PS3'">
+    <ClCompile>
+      <PreprocessorDefinitions>_DEBUG;__CELL_ASSERT__;far=;near=;pascal=;__seg=;TH04_FAR;GAME=4;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <AdditionalIncludeDirectories>C:\th04;C:\th04\src\main\include;C:\th04\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-include src/ps3_compat.hpp %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|PS3'">
+    <ClCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions);</PreprocessorDefinitions>
+      <OptimizationLevel>Level2</OptimizationLevel>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\op\score\scoredat.hpp" />
+    <ClInclude Include="..\..\src\op\title\cdg_slots.hpp" />
+    <ClInclude Include="..\..\src\ps3_compat.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\src\op\config\cfg_load.inl" />
+    <None Include="..\..\src\op\config\cfg_save.inl" />
+    <None Include="..\..\src\op\config\cfg_save_exit.inl" />
+    <None Include="..\..\src\op\dos\dos_puts2.asm" />
+    <None Include="..\..\src\op\formats\cdg_p_nc.asm" />
+    <None Include="..\..\src\op\hardware\egc_copy_rect_1_to_0_16.inl" />
+    <None Include="..\..\src\op\hardware\egc_start_copy.inl" />
+    <None Include="..\..\src\op\main\main.inl" />
+    <None Include="..\..\src\op\main\main_unput_and_put.inl" />
+    <None Include="..\..\src\op\main\main_update_and_render.inl" />
+    <None Include="..\..\src\op\main\menu_sel_update.inl" />
+    <None Include="..\..\src\op\main\option_unput_and_put.inl" />
+    <None Include="..\..\src\op\main\option_update_and_render.inl" />
+    <None Include="..\..\src\op\main\start_demo.inl" />
+    <None Include="..\..\src\op\menu\pic_darken.inl" />
+    <None Include="..\..\src\op\menu\pic_put.inl" />
+    <None Include="..\..\src\op\menu\playchar_menu.inl" />
+    <None Include="..\..\src\op\menu\playchar_menu_initial.inl" />
+    <None Include="..\..\src\op\menu\playchar_titles_put.inl" />
+    <None Include="..\..\src\op\menu\playchar_title_box_put.inl" />
+    <None Include="..\..\src\op\menu\raise_bg_allocate_and_snap.inl" />
+    <None Include="..\..\src\op\menu\raise_bg_free.inl" />
+    <None Include="..\..\src\op\menu\raise_bg_put.inl" />
+    <None Include="..\..\src\op\menu\shottype_menu_initial.inl" />
+    <None Include="..\..\src\op\menu\shottype_titles_put.inl" />
+    <None Include="..\..\src\op\menu\shottype_title_box_put.inl" />
+    <None Include="..\..\src\op\music\cmt_fadein_both_animate.inl" />
+    <None Include="..\..\src\op\music\cmt_load.inl" />
+    <None Include="..\..\src\op\music\cmt_load_unput_and_put_both_animate.inl" />
+    <None Include="..\..\src\op\music\cmt_put.inl" />
+    <None Include="..\..\src\op\music\cmt_unput_both_animate.inl" />
+    <None Include="..\..\src\op\music\musicroom_menu.inl" />
+    <None Include="..\..\src\op\music\music_update_render_and_flip.inl" />
+    <None Include="..\..\src\op\music\nopoly_free.inl" />
+    <None Include="..\..\src\op\music\nopoly_put.inl" />
+    <None Include="..\..\src\op\music\nopoly_snap.inl" />
+    <None Include="..\..\src\op\music\polygons_update_and_render.inl" />
+    <None Include="..\..\src\op\music\polygon_build.inl" />
+    <None Include="..\..\src\op\music\tracklist_put_both.inl" />
+    <None Include="..\..\src\op\music\track_put_both.inl" />
+    <None Include="..\..\src\op\music\zunsoft_animate.inl" />
+    <None Include="..\..\src\op\music\zunsoft_palette_update_and_show.inl" />
+    <None Include="..\..\src\op\music\zunsoft_pyro_new.inl" />
+    <None Include="..\..\src\op\music\zunsoft_update_and_render.inl" />
+    <None Include="..\..\src\op\score\clear_sprites_load.inl" />
+    <None Include="..\..\src\op\score\load_both.inl" />
+    <None Include="..\..\src\op\score\place_put.inl" />
+    <None Include="..\..\src\op\score\rank_render.inl" />
+    <None Include="..\..\src\op\score\regist_view_menu.inl" />
+    <None Include="..\..\src\op\score\scoredec.inl" />
+    <None Include="..\..\src\op\score\scoreenc.inl" />
+    <None Include="..\..\src\op\score\scoregen.inl" />
+    <None Include="..\..\src\op\score\scores_put.inl" />
+    <None Include="..\..\src\op\score\stage_put.inl" />
+    <None Include="..\..\src\op\setup\bgm_choice_put.inl" />
+    <None Include="..\..\src\op\setup\dropdown.inl" />
+    <None Include="..\..\src\op\setup\help_put.inl" />
+    <None Include="..\..\src\op\setup\rollup.inl" />
+    <None Include="..\..\src\op\setup\setup_bgm_menu.inl" />
+    <None Include="..\..\src\op\setup\setup_menu.inl" />
+    <None Include="..\..\src\op\setup\setup_se_menu.inl" />
+    <None Include="..\..\src\op\setup\se_choice_put.inl" />
+    <None Include="..\..\src\op\setup\singleline.inl" />
+    <None Include="..\..\src\op\setup\window_dropdown_put.inl" />
+    <None Include="..\..\src\op\setup\window_rollup_put.inl" />
+    <None Include="..\..\src\op\sound\se_update.inl" />
+    <None Include="..\..\src\op\start\start_extra.inl" />
+    <None Include="..\..\src\op\start\start_game.inl" />
+    <None Include="..\..\src\op\title\main_cdg_free.inl" />
+    <None Include="..\..\src\op\title\main_cdg_load.inl" />
+    <None Include="..\..\src\op\title\op_animate.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\op\config\cfg_load.cpp" />
+    <ClCompile Include="..\..\src\op\config\cfg_save.cpp" />
+    <ClCompile Include="..\..\src\op\config\cfg_save_exit.cpp" />
+    <ClCompile Include="..\..\src\op\core\game_exit_to_dos.cpp" />
+    <ClCompile Include="..\..\src\op\core\respal.cpp" />
+    <ClCompile Include="..\..\src\op\hardware\egc_copy_rect.cpp" />
+    <ClCompile Include="..\..\src\op\hardware\frame_delay_2.cpp" />
+    <ClCompile Include="..\..\src\op\hardware\grcg_polygon.cpp" />
+    <ClCompile Include="..\..\src\op\hardware\grcg_primitives.cpp" />
+    <ClCompile Include="..\..\src\op\hardware\grcg_round_boxfill.cpp" />
+    <ClCompile Include="..\..\src\op\hardware\super_put_rect.cpp" />
+    <ClCompile Include="..\..\src\op\main\entry.cpp" />
+    <ClCompile Include="..\..\src\op\main\menu.cpp" />
+    <ClCompile Include="..\..\src\op\main\menu_sel_update.cpp" />
+    <ClCompile Include="..\..\src\op\main\text.cpp" />
+    <ClCompile Include="..\..\src\op\menu\pic_darken.cpp" />
+    <ClCompile Include="..\..\src\op\menu\playchar_menu_initial.cpp" />
+    <ClCompile Include="..\..\src\op\menu\playchar_titles_put.cpp" />
+    <ClCompile Include="..\..\src\op\menu\playchar_title_box_put.cpp" />
+    <ClCompile Include="..\..\src\op\menu\raise_bg_free.cpp" />
+    <ClCompile Include="..\..\src\op\menu\selection.cpp" />
+    <ClCompile Include="..\..\src\op\menu\shottype_menu_initial.cpp" />
+    <ClCompile Include="..\..\src\op\menu\state.cpp" />
+    <ClCompile Include="..\..\src\op\menu\text.cpp" />
+    <ClCompile Include="..\..\src\op\music\cmt_fadein_both_animate.cpp" />
+    <ClCompile Include="..\..\src\op\music\cmt_load.cpp" />
+    <ClCompile Include="..\..\src\op\music\cmt_load_unput_and_put_both_animate.cpp" />
+    <ClCompile Include="..\..\src\op\music\cmt_put.cpp" />
+    <ClCompile Include="..\..\src\op\music\cmt_unput_both_animate.cpp" />
+    <ClCompile Include="..\..\src\op\music\music_update_render_and_flip.cpp" />
+    <ClCompile Include="..\..\src\op\music\nopoly_free.cpp" />
+    <ClCompile Include="..\..\src\op\music\nopoly_put.cpp" />
+    <ClCompile Include="..\..\src\op\music\nopoly_snap.cpp" />
+    <ClCompile Include="..\..\src\op\music\polygon_build.cpp" />
+    <ClCompile Include="..\..\src\op\music\room.cpp" />
+    <ClCompile Include="..\..\src\op\music\room_menu.cpp" />
+    <ClCompile Include="..\..\src\op\music\text.cpp" />
+    <ClCompile Include="..\..\src\op\music\tracklist_put_both.cpp" />
+    <ClCompile Include="..\..\src\op\music\track_put_both.cpp" />
+    <ClCompile Include="..\..\src\op\music\zunsoft.cpp" />
+    <ClCompile Include="..\..\src\op\score\clear.cpp" />
+    <ClCompile Include="..\..\src\op\score\loadboth.cpp" />
+    <ClCompile Include="..\..\src\op\score\menu.cpp" />
+    <ClCompile Include="..\..\src\op\score\place.cpp" />
+    <ClCompile Include="..\..\src\op\score\rank.cpp" />
+    <ClCompile Include="..\..\src\op\score\scoredec.cpp" />
+    <ClCompile Include="..\..\src\op\score\scoreenc.cpp" />
+    <ClCompile Include="..\..\src\op\score\scoregen.cpp" />
+    <ClCompile Include="..\..\src\op\score\scoreput.cpp" />
+    <ClCompile Include="..\..\src\op\score\stage.cpp" />
+    <ClCompile Include="..\..\src\op\score\state.cpp" />
+    <ClCompile Include="..\..\src\op\setup\bgm_choice_put.cpp" />
+    <ClCompile Include="..\..\src\op\setup\dropdown.cpp" />
+    <ClCompile Include="..\..\src\op\setup\help_put.cpp" />
+    <ClCompile Include="..\..\src\op\setup\rollup.cpp" />
+    <ClCompile Include="..\..\src\op\setup\setup_menu.cpp" />
+    <ClCompile Include="..\..\src\op\setup\se_choice_put.cpp" />
+    <ClCompile Include="..\..\src\op\setup\singleline.cpp" />
+    <ClCompile Include="..\..\src\op\setup\submenus.cpp" />
+    <ClCompile Include="..\..\src\op\setup\text.cpp" />
+    <ClCompile Include="..\..\src\op\setup\window_dropdown_put.cpp" />
+    <ClCompile Include="..\..\src\op\setup\window_rollup_put.cpp" />
+    <ClCompile Include="..\..\src\op\setup\window_state.cpp" />
+    <ClCompile Include="..\..\src\op\sound\se_update.cpp" />
+    <ClCompile Include="..\..\src\op\start\start_demo.cpp" />
+    <ClCompile Include="..\..\src\op\start\start_extra.cpp" />
+    <ClCompile Include="..\..\src\op\start\start_game.cpp" />
+    <ClCompile Include="..\..\src\op\title\main_cdg_free.cpp" />
+    <ClCompile Include="..\..\src\op\title\main_cdg_load.cpp" />
+    <ClCompile Include="..\..\src\op\title\op_animate.cpp" />
+  </ItemGroup>
+  <Import Condition="'$(ConfigurationType)' == 'Makefile' and Exists('$(VCTargetsPath)\Platforms\$(Platform)\SCE.Makefile.$(Platform).targets')" Project="$(VCTargetsPath)\Platforms\$(Platform)\SCE.Makefile.$(Platform).targets" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

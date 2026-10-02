@@ -1,6 +1,10 @@
 #pragma option -zCSHARED
 
+#ifdef __TURBOC__
 #include <mem.h>
+#else
+#include <string.h>
+#endif
 #include "src/shared/runtime/api.hpp"
 #include "src/shared/formats/tile.hpp"
 #include "th04/formats/mpn.hpp"

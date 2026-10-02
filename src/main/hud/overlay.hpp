@@ -22,7 +22,7 @@ void near overlay_black(void);
 // expansion local so overlay.cpp does not depend on an upstream header.
 #define overlay_line_fill(y, atrb) { \
 	extern const shiftjis_t* PLAYFIELD_BLANK_ROW; \
-	text_putsa(PLAYFIELD_TRAM_LEFT, y, PLAYFIELD_BLANK_ROW, atrb); \
+	text_putsa(PLAYFIELD_TRAM_LEFT, y, reinterpret_cast<const char *>(PLAYFIELD_BLANK_ROW), atrb); \
 }
 
 #if (GAME == 5)

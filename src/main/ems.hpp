@@ -59,10 +59,17 @@ void near eyecatch_animate(void);
 // Helper functions
 // ----------------
 
+#ifdef __TURBOC__
 #define allocate_and_load_from_ems(dst_seg, src_off, size) { \
-    reinterpret_cast<void __seg *>(dst_seg) = hmem_allocbyte(size); \
-    ems_read(Ems, src_off, dst_seg, size); \
+	reinterpret_cast<void __seg *>(dst_seg) = hmem_allocbyte(size); \
+	ems_read(Ems, src_off, dst_seg, size); \
 }
+#else
+#define allocate_and_load_from_ems(dst_seg, src_off, size) { \
+	(void *&)dst_seg = hmem_allocbyte(size); \
+	ems_read(Ems, src_off, dst_seg, size); \
+}
+#endif
 
 // Assumes [Ems] to be non-null.
 inline void playchar_bomb_bg_load_from_ems(void) {

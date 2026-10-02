@@ -1,4 +1,7 @@
+#if defined(_WIN32) || defined(__MSDOS__) || defined(__TURBOC__)
 #include <conio.h>
+#endif
+
 #include <stddef.h>
 
 #include "src/shared/platform/types.hpp"

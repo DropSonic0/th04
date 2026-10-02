@@ -8,6 +8,7 @@ extern bool scroll_active;
 
 extern "C" vram_y_t pascal near scroll_subpixel_y_to_vram_seg1(subpixel_t y)
 {
+#ifdef __TURBOC__
     #define ret static_cast<vram_y_t>(_AX)
 
     _BX = _SP;
@@ -24,6 +25,18 @@ extern "C" vram_y_t pascal near scroll_subpixel_y_to_vram_seg1(subpixel_t y)
     return ret;
 
     #undef ret
+#else
+    vram_y_t ret = TO_PIXEL(y);
+    if(scroll_active) {
+        ret += scroll_line;
+    }
+    if(ret < 0) {
+        ret += RES_Y;
+    } else if(ret >= RES_Y) {
+        ret -= RES_Y;
+    }
+    return ret;
+#endif
 }
 
 #pragma option -k.

@@ -1,3 +1,5 @@
+#include "src/ps3_compat.hpp"
+
 static const unsigned char DIGIT_MASK = 2;
 
 void pascal near script_param_read_number_first(int& ret)

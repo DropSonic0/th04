@@ -41,14 +41,18 @@ extern "C" void near enemy_velocity_set(void)
 
 extern "C" void near enemy_aim_at_player(void)
 {
-    register enemy_t near *enemy = enemy_cur;
-    // Handwritten ABI preservation. The dispatcher keeps its instruction
-    // pointer in ES:DI, and this helper must return with the incoming ES.
-    asm { push es; }
-    enemy->angle += iatan2(
-        player_pos.cur.y.v - enemy->pos.cur.y.v,
-        player_pos.cur.x.v - enemy->pos.cur.x.v
-    );
-    vector2_near(enemy->pos.velocity, enemy->angle, enemy->speed.v);
-    asm { pop es; }
+	register enemy_t near *enemy = enemy_cur;
+	// Handwritten ABI preservation. The dispatcher keeps its instruction
+	// pointer in ES:DI, and this helper must return with the incoming ES.
+#ifdef __TURBOC__
+	asm{ push es; }
+#endif
+	enemy->angle += iatan2(
+		player_pos.cur.y.v - enemy->pos.cur.y.v,
+		player_pos.cur.x.v - enemy->pos.cur.x.v
+		);
+	vector2_near(enemy->pos.velocity, enemy->angle, enemy->speed.v);
+#ifdef __TURBOC__
+	asm{ pop es; }
+#endif
 }

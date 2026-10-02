@@ -132,14 +132,14 @@ struct PlayfieldPoint : public SPPoint {
 
 	vram_y_t to_vram_top_scrolled_seg1(pixel_t sprite_h_if_centered) const {
 		return scroll_subpixel_y_to_vram_seg1(
-			y + (PLAYFIELD_TOP - (sprite_h_if_centered / 2))
-		);
+			y.v + to_sp(PLAYFIELD_TOP - (sprite_h_if_centered / 2))
+			);
 	}
 
 	vram_y_t to_vram_top_scrolled_seg3(pixel_t sprite_h_if_centered) const {
 		return scroll_subpixel_y_to_vram_seg3(
-			y + (PLAYFIELD_TOP - (sprite_h_if_centered / 2))
-		);
+			y.v + to_sp(PLAYFIELD_TOP - (sprite_h_if_centered / 2))
+			);
 	}
 };
 

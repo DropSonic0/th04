@@ -7,6 +7,7 @@
 #define X86REAL_H
 
 #include "src/shared/platform/types.hpp"
+#include "src/ps3_compat.hpp"
 
 // Turbo C++ 4.0J's <conio.h> tries to redefine them otherwise.
 #define _PORT_DEFS
@@ -30,7 +31,7 @@ void __int__(int16_t __interruptnum);
 
 uint8_t  __inportb__(uint16_t __portid);
 uint16_t __inportw__(uint16_t __portid);
-uint8_t  __outportb__(uint16_t __portid,  uint8_t __value);
+uint8_t  __outportb__(uint16_t __portid, uint8_t __value);
 uint16_t __outportw__(uint16_t __portid, uint16_t __value);
 
 #define inport(__portid)            __inportw__(__portid)
@@ -43,37 +44,37 @@ uint16_t __outportw__(uint16_t __portid, uint16_t __value);
 /// ---------
 
 struct WORDREGS {
-    uint16_t ax;
-    uint16_t bx;
-    uint16_t cx;
-    uint16_t dx;
-    uint16_t si;
-    uint16_t di;
-    uint16_t cflag;
-    uint16_t flags;
+	uint16_t ax;
+	uint16_t bx;
+	uint16_t cx;
+	uint16_t dx;
+	uint16_t si;
+	uint16_t di;
+	uint16_t cflag;
+	uint16_t flags;
 };
 
 struct BYTEREGS {
-    uint8_t al;
-    uint8_t ah;
-    uint8_t bl;
-    uint8_t bh;
-    uint8_t cl;
-    uint8_t ch;
-    uint8_t dl;
-    uint8_t dh;
+	uint8_t al;
+	uint8_t ah;
+	uint8_t bl;
+	uint8_t bh;
+	uint8_t cl;
+	uint8_t ch;
+	uint8_t dl;
+	uint8_t dh;
 };
 
 union REGS {
-    struct WORDREGS  w;
-    struct BYTEREGS  h;
+	struct WORDREGS  w;
+	struct BYTEREGS  h;
 };
 
 struct SREGS {
-    uint16_t es;
-    uint16_t cs;
-    uint16_t ss;
-    uint16_t ds;
+	uint16_t es;
+	uint16_t cs;
+	uint16_t ss;
+	uint16_t ds;
 };
 
 void segread(struct SREGS *__segp);
@@ -84,12 +85,12 @@ void segread(struct SREGS *__segp);
 
 #ifdef __cplusplus
 extern "C" {
-	void interrupt (__far * __cdecl getvect(int __interruptno))(...);
-	void __cdecl setvect(int __interruptno, void interrupt (__far *__isr)(...));
+	void interrupt(__far * __cdecl getvect(int __interruptno))(...);
+	void __cdecl setvect(int __interruptno, void interrupt(__far *__isr)(...));
 	int __cdecl int86(int __intno, union REGS *__inregs, union REGS *__outregs);
 }
 #else
-void interrupt (__far * __cdecl getvect(int __interruptno))();
+void interrupt(__far * __cdecl getvect(int __interruptno))();
 void __cdecl setvect(int __interruptno, void interrupt(__far *__isr)());
 int __cdecl int86(int __intno, union REGS *__inregs, union REGS *__outregs);
 #endif
@@ -99,22 +100,34 @@ int __cdecl int86(int __intno, union REGS *__inregs, union REGS *__outregs);
 /// Segmented memory
 /// ----------------
 
+#ifndef __TURBOC__
+#undef MK_FP
+#undef FP_SEG
+#undef FP_OFF
+
+#include <stdint.h>
+
+#define MK_FP(seg, off) ((void*)(uintptr_t)(((uint32_t)(seg) << 4) + (uint32_t)(off)))
+#define FP_SEG(fp)      ((uint16_t)(((uintptr_t)(fp) >> 4) & 0xFFFF))
+#define FP_OFF(fp)      ((uint16_t)((uintptr_t)(fp) & 0xFFFF))
+#else
 #define MK_FP(seg,off) ((void __seg *)(seg) + (void __near *)(off))
 #define FP_SEG(fp)     ((uint16_t)(void __seg *)(void __far *)(fp))
 #define FP_OFF(fp)     ((uint16_t)(fp))
+#endif
 
 #ifdef __cplusplus
-int16_t inline peek(uint16_t __segment, uint16_t __offset) {
-	return (*((int16_t __far *)MK_FP(__segment, __offset)));
+inline int16_t peek(uint16_t __segment, uint16_t __offset) {
+	return (*((int16_t *)MK_FP(__segment, __offset)));
 }
-int8_t inline peekb(uint16_t __segment, uint16_t __offset) {
-	return (*((int8_t __far *)MK_FP(__segment, __offset)));
+inline int8_t peekb(uint16_t __segment, uint16_t __offset) {
+	return (*((int8_t *)MK_FP(__segment, __offset)));
 }
-void inline poke(uint16_t __segment, uint16_t __offset, int16_t __value) {
-	(*((int16_t __far *)MK_FP(__segment, __offset)) = __value);
+inline void poke(uint16_t __segment, uint16_t __offset, int16_t __value) {
+	(*((int16_t *)MK_FP(__segment, __offset)) = __value);
 }
-void inline pokeb(uint16_t __segment, uint16_t __offset, int8_t __value) {
-	(*((int8_t __far *)MK_FP(__segment, __offset)) = __value);
+inline void pokeb(uint16_t __segment, uint16_t __offset, int8_t __value) {
+	(*((int8_t *)MK_FP(__segment, __offset)) = __value);
 }
 #endif
 /// ----------------
@@ -127,10 +140,10 @@ void inline pokeb(uint16_t __segment, uint16_t __offset, int8_t __value) {
 // by Turbo C++ 4.0J's intrinsics, but using only a single underscore to avoid
 // collisions.
 
-#define _peek_(a,b)    (*((int16_t __far * )MK_FP((a),(b))))
-#define _peekb_(a,b)   (*(( int8_t __far * )MK_FP((a),(b))))
-#define _poke_(a,b,c)  (*((int16_t __far * )MK_FP((a),(b))) = (int16_t)(c))
-#define _pokeb_(a,b,c) (*(( int8_t __far * )MK_FP((a),(b))) = ( int8_t)(c))
+#define _peek_(a,b)    (*((int16_t * )MK_FP((a),(b))))
+#define _peekb_(a,b)   (*(( int8_t * )MK_FP((a),(b))))
+#define _poke_(a,b,c)  (*((int16_t * )MK_FP((a),(b))) = (int16_t)(c))
+#define _pokeb_(a,b,c) (*(( int8_t * )MK_FP((a),(b))) = ( int8_t)(c))
 
 // Alternate versions for 8-bit port numbers that don't spill the port number
 // to DX.
@@ -149,7 +162,7 @@ inline uint8_t _inportb_(uint8_t port) {
 inline void __seg* intvector_segment(uint8_t i) {
 	return reinterpret_cast<void __seg *>(
 		peek(0, ((i * sizeof(void far *)) + sizeof(uint16_t)))
-	);
+		);
 }
 #endif
 // --------------------------

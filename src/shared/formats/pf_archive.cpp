@@ -2,16 +2,46 @@
 // is in pf_int21.asm; this unit owns only the archive and virtual handle state.
 #pragma option -zCSHARED -3
 
-#include <dos.h>
-#include <io.h>
-#include <string.h>
+#if defined(__TURBOC__) || defined(__MSDOS__)
+# include <dos.h>
+#endif
+#if defined(_WIN32) || defined(__MSDOS__) || defined(__TURBOC__)
+# include <io.h>
+#else
+# include <unistd.h>
+# include <fcntl.h>
+#include <stdint.h>
+#include <stdio.h>
+
+#ifndef PF_FN_LEN
+# define PF_FN_LEN 13
+#endif
+
+#if !defined(__TURBOC__) && !defined(__MSDOS__)
+#ifndef O_RDONLY
+# define O_RDONLY 0
+#endif
+#ifndef O_WRONLY
+# define O_WRONLY 1
+#endif
+#ifndef O_RDWR
+# define O_RDWR   2
+#endif
+
+#endif
+#endif
 
 #include "src/shared/runtime/api.hpp"
 
+#pragma pack(push, 1)
 struct PfFrame {
-	unsigned es, ds, bp, di, si, dx, cx, bx, ax, ip, cs, flags;
+	uint16_t es, ds, bp, di, si, dx, cx, bx, ax, ip, cs, flags;
 };
+#pragma pack(pop)
+
+#if defined(__TURBOC__)
 typedef char PfFrameSize[(sizeof(PfFrame) == 24) ? 1 : -1];
+#endif
 
 extern "C" int TH04_PASCAL pf_hook_install(void);
 extern "C" void TH04_PASCAL pf_hook_remove(void);

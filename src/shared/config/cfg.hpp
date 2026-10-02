@@ -29,10 +29,12 @@ struct cfg_t {
     signed char opts_sum;
 };
 
+#ifdef __TURBOC__
 typedef char th04_cfg_options_size_check[(sizeof(cfg_options_t) == 6) ? 1 : -1];
 typedef char th04_cfg_size_check[(sizeof(cfg_t) == 10) ? 1 : -1];
 typedef char th04_cfg_resident_check[(offsetof(cfg_t, resident) == 6) ? 1 : -1];
 typedef char th04_cfg_debug_check[(offsetof(cfg_t, debug) == 8) ? 1 : -1];
 typedef char th04_cfg_sum_check[(offsetof(cfg_t, opts_sum) == 9) ? 1 : -1];
+#endif
 
 #endif

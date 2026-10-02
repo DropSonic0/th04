@@ -14,9 +14,15 @@
     for(i = (sizeof(hi) - 1); i >= offsetof(op_scoredat_section_t, score); i--) {
         ((unsigned char *)&hi)[i] -= (hi.key1 + feedback);
         feedback = ((unsigned char *)&hi)[i];
+
+#ifdef __TURBOC__
         _AL = hi.key2;
         // TC4J has no 8-bit rotate intrinsic; TH03 OP/MAINL independently corroborate this primitive.
         asm { ror feedback, 3; }
         feedback ^= _AL;
+#else
+        feedback = static_cast<unsigned char>((feedback >> 3) | (feedback << 5));
+        feedback ^= static_cast<unsigned char>(hi.key2);
+#endif
     }
 }

@@ -17,6 +17,7 @@ inline uint16_t snd_se_current_index() {
 }
 
 // ZUN bloat: Just use [new_se] directly.
+#ifdef __TURBOC__
 inline int16_t snd_get_param(int16_t &param) {
 #if (GAME >= 4)
 	_BX = _SP;
@@ -25,6 +26,11 @@ inline int16_t snd_get_param(int16_t &param) {
 	return param;
 #endif
 }
+#else
+inline int16_t snd_get_param(int16_t param) {
+	return param;
+}
+#endif
 
 inline uint16_t snd_load_size() {
 	// ZUN landmine: Should rather retrieve the maximum data size for song or

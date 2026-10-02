@@ -1,6 +1,10 @@
 #pragma option -zCSHARED
 
-#include <mem.h>
+#if defined(__TURBOC__)
+# include <mem.h>
+#else
+# include <string.h>
+#endif
 #include "src/shared/formats/pi.hpp"
 
 void PI_CALL pi_palette_apply(int slot)

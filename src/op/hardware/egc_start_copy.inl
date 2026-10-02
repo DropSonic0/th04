@@ -8,8 +8,7 @@
 // No emitted opcode arrays, codestrings, or post-build patches.
 static void near egc_start_copy(void)
 {
-	// GRCG TDW mode + BIOS 0000:0495 shadow update, preserving FLAGS and ES,
-	// followed by the immediate-port EGC enable sequence.
+#ifdef __TURBOC__
 	asm {
 		push es
 		push 0
@@ -34,13 +33,12 @@ static void near egc_start_copy(void)
 	outport(EGC_READPLANEREG, 0x00FF);
 	outport(EGC_MASKREG, 0xFFFF);
 
-	// TC4J's register-expression lowering emits the target MOV DX,04ACh /
-	// SUB AX,AX / OUT DX,AX sequence. Ordinary literal/local-zero forms select
-	// different encodings; all three target artifacts above corroborate this
-	// exact low-level primitive.
 	_DX = EGC_ADDRRESSREG;
 	_AX -= _AX;
 	outport(_DX, _AX);
 
 	outport(EGC_BITLENGTHREG, 0xF);
+#else
+	egc_on();
+#endif
 }

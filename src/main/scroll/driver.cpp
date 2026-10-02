@@ -1,5 +1,7 @@
 #pragma option -zCMAI_TEXT -zPmain_01
 
+#include "src/shared/platform/types.hpp"
+
 #define FLAGS_SIGN (_FLAGS & 0x80)
 
 // MAI_TEXT scroll driver at MAIN.EXE load 0xCCD6. The two unresolved BSS
@@ -26,6 +28,7 @@ void near scroll_driver()
 
     scroll_last_delta = 0;
     if((scroll_subpixel_line = (scroll_subpixel_line + scroll_speed)) >= 16) {
+#ifdef __TURBOC__
         // Keep the quotient in AX. The signed cast tells TC4J that AX is the
         // complete 16-bit RHS, avoiding both a byte-local spill and an
         // unnecessary second zero-extension of AL.
@@ -39,6 +42,16 @@ void near scroll_driver()
         scroll_subpixel_line &= 15;
         _AX <<= 4;
         scroll_last_delta = _AX;
+#else
+        unsigned short lines_delta = (scroll_subpixel_line >> 4);
+        scroll_line -= static_cast<int>(lines_delta);
+        if(scroll_line < 0) {
+            scroll_line += 400;
+        }
+        byte_25104 = static_cast<unsigned char>(lines_delta);
+        scroll_subpixel_line &= 15;
+        scroll_last_delta = (lines_delta << 4);
+#endif
     }
     scroll_tile_ring_update();
 }

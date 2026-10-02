@@ -23,7 +23,9 @@ struct pyro_t {
     unsigned char angle;
     unsigned char patnum_base;
 };
+#ifdef __TURBOC__
 typedef char pyro_layout_check[(sizeof(pyro_t) == 14) ? 1 : -1];
+#endif
 
 Palette8 zunsoft_palette;
 pyro_t pyros[256];

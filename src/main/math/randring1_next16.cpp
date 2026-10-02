@@ -6,10 +6,16 @@ extern uint16_t randring_p;
 
 uint16_t near randring1_next16(void)
 {
-    _BX = randring_p;
-    _AX = reinterpret_cast<uint16_t near &>(randring[_BX]);
-    reinterpret_cast<uint8_t near &>(randring_p)++;
-    return _AX;
+#ifdef __TURBOC__
+	_BX = randring_p;
+	_AX = reinterpret_cast<uint16_t near &>(randring[_BX]);
+	reinterpret_cast<uint8_t near &>(randring_p)++;
+	return _AX;
+#else
+	uint16_t val = reinterpret_cast<const uint16_t &>(randring[randring_p]);
+	randring_p = static_cast<uint8_t>(randring_p + 1);
+	return val;
+#endif
 }
 
 #pragma option -k.

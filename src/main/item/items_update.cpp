@@ -350,13 +350,21 @@ void far items_update(void)
             _BX += TO_SP(24);
             // The same collision block in the attested TH05 target uses the
             // operand direction selected by TC4J's inline assembler here.
+#ifdef __TURBOC__
             asm { sub bx, ax; }
+#else
+            _BX -= _AX;
+#endif
             if(_BX > TO_SP(48)) {
                 goto no_collect;
             }
             _BX = player_pos.cur.y.v;
             _BX += TO_SP(24);
+#ifdef __TURBOC__
             asm { sub bx, dx; }
+#else
+            _BX -= _DX;
+#endif
             if(_BX > TO_SP(38)) {
                 goto no_collect;
             }

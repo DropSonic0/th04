@@ -106,7 +106,7 @@ bool near kurumi_spawnrays_update(void)
                 ) {
                     bullets_add_regular_fixedspeed();
                 }
-                spawnray->flag++;
+				spawnray->flag = static_cast<kurumi_spawnray_flag_t>(spawnray->flag + 1);
                 snd_se_play(6);
                 circles_color = 9;
                 circles_add_growing(

@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|PS3">
+      <Configuration>Debug</Configuration>
+      <Platform>PS3</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|PS3">
+      <Configuration>Release</Configuration>
+      <Platform>PS3</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCTargetsPath Condition="'$(VCTargetsPath12)' != '' and '$(VSVersion)' == '' and '$(VisualStudioVersion)' == ''">$(VCTargetsPath12)</VCTargetsPath>
+    <ProjectGuid>{6C81AA2C-2380-42CC-A134-1CE701510B47}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|PS3'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>SNC</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|PS3'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>SNC</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <PropertyGroup Condition="'$(DebuggerFlavor)'=='PS3Debugger'" Label="OverrideDebuggerDefaults">
+    <!--LocalDebuggerCommand>$(TargetPath)</LocalDebuggerCommand-->
+    <!--LocalDebuggerCommandArguments></LocalDebuggerCommandArguments-->
+    <!--LocalDebuggerCommandLine>-r -e -m</LocalDebuggerCommandLine-->
+    <!--LocalRunCommandLine>-r</LocalRunCommandLine-->
+    <!--LocalTunerCommandLine></LocalTunerCommandLine-->
+    <!--LocalDebuggerFileServingDirectory>$(ProjectDir)</LocalDebuggerFileServingDirectory-->
+    <!--LocalDebuggerHomeDirectory>$(ProjectDir)</LocalDebuggerHomeDirectory-->
+    <!--LocalDebuggerProjectFile></LocalDebuggerProjectFile-->
+    <!--LocalDebuggerResetType>Soft</LocalDebuggerResetType-->
+    <!--LocalDebuggerClearTty>False</LocalDebuggerClearTty-->
+  </PropertyGroup>
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|PS3'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|PS3'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|PS3'">
+    <ClCompile>
+      <PreprocessorDefinitions>_DEBUG;__CELL_ASSERT__;far=;near=;pascal=;__seg=;TH04_FAR;GAME=4;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <AdditionalIncludeDirectories>C:\th04;C:\th04\src\main\include;C:\th04\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-include src/ps3_compat.hpp %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|PS3'">
+    <ClCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions);</PreprocessorDefinitions>
+      <OptimizationLevel>Level2</OptimizationLevel>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\ps3_compat.hpp" />
+    <ClInclude Include="..\..\src\shared\config\cfg.hpp" />
+    <ClInclude Include="..\..\src\shared\config\resident.hpp" />
+    <ClInclude Include="..\..\src\shared\config\score.hpp" />
+    <ClInclude Include="..\..\src\shared\core\game_init.hpp" />
+    <ClInclude Include="..\..\src\shared\formats\cdg.hpp" />
+    <ClInclude Include="..\..\src\shared\formats\pi.hpp" />
+    <ClInclude Include="..\..\src\shared\formats\tile.hpp" />
+    <ClInclude Include="..\..\src\shared\hardware\bgimage.hpp" />
+    <ClInclude Include="..\..\src\shared\hardware\frame_delay.hpp" />
+    <ClInclude Include="..\..\src\shared\hardware\gaiji.hpp" />
+    <ClInclude Include="..\..\src\shared\hardware\graphics.hpp" />
+    <ClInclude Include="..\..\src\shared\hardware\input.hpp" />
+    <ClInclude Include="..\..\src\shared\hardware\putsa.hpp" />
+    <ClInclude Include="..\..\src\shared\hardware\vram_planes.hpp" />
+    <ClInclude Include="..\..\src\shared\hardware\v_colors.hpp" />
+    <ClInclude Include="..\..\src\shared\math\polar.hpp" />
+    <ClInclude Include="..\..\src\shared\math\vector.hpp" />
+    <ClInclude Include="..\..\src\shared\memory\hmem.hpp" />
+    <ClInclude Include="..\..\src\shared\platform\abi.hpp" />
+    <ClInclude Include="..\..\src\shared\platform\pc98.hpp" />
+    <ClInclude Include="..\..\src\shared\platform\types.hpp" />
+    <ClInclude Include="..\..\src\shared\platform\x86.hpp" />
+    <ClInclude Include="..\..\src\shared\runtime\api.hpp" />
+    <ClInclude Include="..\..\src\shared\sound\api.hpp" />
+    <ClInclude Include="..\..\src\shared\sound\impl.hpp" />
+    <ClInclude Include="..\..\src\shared\sound\measure.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\src\shared\dos\dos_axdx.asm" />
+    <None Include="..\..\src\shared\dos\dos_free.asm" />
+    <None Include="..\..\src\shared\dos\dos_maxfree.asm" />
+    <None Include="..\..\src\shared\dos\dos_puts2.asm" />
+    <None Include="..\..\src\shared\dos\dos_ropen.asm" />
+    <None Include="..\..\src\shared\dos\file_append.asm" />
+    <None Include="..\..\src\shared\dos\file_close.asm" />
+    <None Include="..\..\src\shared\dos\file_create.asm" />
+    <None Include="..\..\src\shared\dos\file_read.asm" />
+    <None Include="..\..\src\shared\dos\file_ropen.asm" />
+    <None Include="..\..\src\shared\dos\file_seek.asm" />
+    <None Include="..\..\src\shared\dos\file_size.asm" />
+    <None Include="..\..\src\shared\dos\file_state.asm" />
+    <None Include="..\..\src\shared\dos\file_write.asm" />
+    <None Include="..\..\src\shared\dos\resdata.asm" />
+    <None Include="..\..\src\shared\formats\cdg_load.asm" />
+    <None Include="..\..\src\shared\formats\cdg_put.asm" />
+    <None Include="..\..\src\shared\formats\cdg_put_noalpha_8.asm" />
+    <None Include="..\..\src\shared\formats\cdg_state.asm" />
+    <None Include="..\..\src\shared\formats\pf_int21.asm" />
+    <None Include="..\..\src\shared\formats\pf_state.asm" />
+    <None Include="..\..\src\shared\hardware\bgimager.asm" />
+    <None Include="..\..\src\shared\hardware\bgimage_state.asm" />
+    <None Include="..\..\src\shared\hardware\clip_state.asm" />
+    <None Include="..\..\src\shared\hardware\display_control.asm" />
+    <None Include="..\..\src\shared\hardware\graph_400line.asm" />
+    <None Include="..\..\src\shared\hardware\graph_putsa_fx.asm" />
+    <None Include="..\..\src\shared\hardware\graph_scrollup.asm" />
+    <None Include="..\..\src\shared\hardware\graph_state.asm" />
+    <None Include="..\..\src\shared\hardware\grcg_byteboxfill_x.asm" />
+    <None Include="..\..\src\shared\hardware\hflip_lut.asm" />
+    <None Include="..\..\src\shared\hardware\hflip_state.asm" />
+    <None Include="..\..\src\shared\hardware\input_s.asm" />
+    <None Include="..\..\src\shared\hardware\input_state.asm" />
+    <None Include="..\..\src\shared\hardware\joystick.asm" />
+    <None Include="..\..\src\shared\hardware\palette_state.asm" />
+    <None Include="..\..\src\shared\hardware\super_state.asm" />
+    <None Include="..\..\src\shared\hardware\text_control.asm" />
+    <None Include="..\..\src\shared\hardware\vram_state.asm" />
+    <None Include="..\..\src\shared\hardware\vsync_irq.asm" />
+    <None Include="..\..\src\shared\math\trig_tables.asm" />
+    <None Include="..\..\src\shared\pc98\graph_clear.asm" />
+    <None Include="..\..\src\shared\runtime\ems_large.asm" />
+    <None Include="..\..\src\shared\runtime\file_exist.asm" />
+    <None Include="..\..\src\shared\runtime\grc_setclip_large.asm" />
+    <None Include="..\..\src\shared\runtime\master_version.asm" />
+    <None Include="..\..\src\shared\runtime\super_convert_tiny_large.asm" />
+    <None Include="..\..\src\shared\runtime\text_fillca_large.asm" />
+    <None Include="..\..\src\shared\runtime\text_putca_large.asm" />
+    <None Include="..\..\src\shared\sound\bgm_timer.asm" />
+    <None Include="..\..\src\shared\sound\load_dispatch_read.inl" />
+    <None Include="..\..\src\shared\sound\load_func.inl" />
+    <None Include="..\..\src\shared\sound\load_handle_mov.inl" />
+    <None Include="..\..\src\shared\sound\load_open.inl" />
+    <None Include="..\..\src\shared\sound\load_pop_ds.inl" />
+    <None Include="..\..\src\shared\sound\load_prefix.inl" />
+    <None Include="..\..\src\shared\sound\load_push_ds.inl" />
+    <None Include="..\..\src\shared\sound\load_tail.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\shared\core\game_exit.cpp" />
+    <ClCompile Include="..\..\src\shared\core\game_init_main.cpp" />
+    <ClCompile Include="..\..\src\shared\core\game_init_op.cpp" />
+    <ClCompile Include="..\..\src\shared\core\state.cpp" />
+    <ClCompile Include="..\..\src\shared\formats\pf_archive.cpp" />
+    <ClCompile Include="..\..\src\shared\formats\pi_decode.cpp" />
+    <ClCompile Include="..\..\src\shared\formats\pi_load.cpp" />
+    <ClCompile Include="..\..\src\shared\formats\pi_put.cpp" />
+    <ClCompile Include="..\..\src\shared\formats\pi_put_quarter.cpp" />
+    <ClCompile Include="..\..\src\shared\formats\pi_state.cpp" />
+    <ClCompile Include="..\..\src\shared\hardware\bgimage.cpp" />
+    <ClCompile Include="..\..\src\shared\hardware\egc_control.cpp" />
+    <ClCompile Include="..\..\src\shared\hardware\frame_delay.cpp" />
+    <ClCompile Include="..\..\src\shared\hardware\gaiji_storage.cpp" />
+    <ClCompile Include="..\..\src\shared\hardware\gaiji_text.cpp" />
+    <ClCompile Include="..\..\src\shared\hardware\graph_copy_page.cpp" />
+    <ClCompile Include="..\..\src\shared\hardware\graph_gaiji.cpp" />
+    <ClCompile Include="..\..\src\shared\hardware\graph_pack_put_8.cpp" />
+    <ClCompile Include="..\..\src\shared\hardware\graph_pack_put_8_noclip.cpp" />
+    <ClCompile Include="..\..\src\shared\hardware\graph_pi_free.cpp" />
+    <ClCompile Include="..\..\src\shared\hardware\graph_start.cpp" />
+    <ClCompile Include="..\..\src\shared\hardware\input_wait.cpp" />
+    <ClCompile Include="..\..\src\shared\hardware\palette_fade.cpp" />
+    <ClCompile Include="..\..\src\shared\hardware\palette_show.cpp" />
+    <ClCompile Include="..\..\src\shared\hardware\super_sprite.cpp" />
+    <ClCompile Include="..\..\src\shared\hardware\vram_planes.cpp" />
+    <ClCompile Include="..\..\src\shared\hardware\vsync_wait.cpp" />
+    <ClCompile Include="..\..\src\shared\math\vector.cpp" />
+    <ClCompile Include="..\..\src\shared\memory\heap.cpp" />
+    <ClCompile Include="..\..\src\shared\runtime\palette_entry_rgb_large.cpp" />
+    <ClCompile Include="..\..\src\shared\runtime\random.cpp" />
+    <ClCompile Include="..\..\src\shared\sound\bgm_beep.cpp" />
+    <ClCompile Include="..\..\src\shared\sound\delay_until_measure.cpp" />
+    <ClCompile Include="..\..\src\shared\sound\determine_modes.cpp" />
+    <ClCompile Include="..\..\src\shared\sound\kaja_interrupt.cpp" />
+    <ClCompile Include="..\..\src\shared\sound\load.cpp" />
+    <ClCompile Include="..\..\src\shared\sound\mmd_resident.c" />
+    <ClCompile Include="..\..\src\shared\sound\pmd_resident.c" />
+    <ClCompile Include="..\..\src\shared\sound\se_play.cpp" />
+    <ClCompile Include="..\..\src\shared\sound\se_reset.cpp" />
+    <ClCompile Include="..\..\src\shared\sound\se_update.cpp" />
+    <ClCompile Include="..\..\src\shared\sound\state.cpp" />
+  </ItemGroup>
+  <Import Condition="'$(ConfigurationType)' == 'Makefile' and Exists('$(VCTargetsPath)\Platforms\$(Platform)\SCE.Makefile.$(Platform).targets')" Project="$(VCTargetsPath)\Platforms\$(Platform)\SCE.Makefile.$(Platform).targets" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

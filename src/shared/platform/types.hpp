@@ -20,20 +20,27 @@ typedef unsigned char uint8_t;
 typedef unsigned int uint16_t;
 typedef unsigned long uint32_t;
 
-// Generic callback function types. Note the difference between function
-// distance (nearfunc / farfunc) and pointer variable distance
-// (t_near / t_far).
 typedef void (near pascal *near nearfunc_t_near)(void);
 typedef void ( far pascal *near  farfunc_t_near)(void);
 typedef void (near pascal * far  nearfunc_t_far)(void);
 typedef void ( far pascal * far   farfunc_t_far)(void);
 
-// These use the memory model's default function/pointer distance.
 typedef void (     pascal *near     func_t_near)(void);
 typedef void (     pascal * far      func_t_far)(void);
 typedef void (     pascal *              func_t)(void);
 #else
-#error This code can currently only be compiled on Borland's 16-bit DOS compilers. Ideally, you'd only have to declare <stdint.h> types for your compiler here though?
+// Para compiladores modernos (PS3 / GCC / MSVC / Clang)
+#include <stdint.h>
+typedef int bool16;
+
+typedef void(*nearfunc_t_near)(void);
+typedef void(*farfunc_t_near)(void);
+typedef void(*nearfunc_t_far)(void);
+typedef void(*farfunc_t_far)(void);
+
+typedef void (*func_t_near)(void);
+typedef void (*func_t_far)(void);
+typedef void(*func_t)(void);
 #endif
 /// ----------
 

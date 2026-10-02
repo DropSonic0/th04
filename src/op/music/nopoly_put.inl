@@ -8,6 +8,7 @@
 // No emitted opcode bytes, target byte arrays, or post-build patches.
 void near nopoly_B_put(void)
 {
+#ifdef __TURBOC__
 	asm { push ds; }
 
 	_AX = SEG_PLANE_B;
@@ -30,4 +31,5 @@ void near nopoly_B_put(void)
 		rep movsw
 		pop ds
 	}
+#endif
 }

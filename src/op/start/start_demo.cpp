@@ -1,4 +1,8 @@
-#include <process.h>
+#if defined(_WIN32) || defined(__MSDOS__) || defined(__TURBOC__)
+# include <process.h>
+#else
+inline int execl(const char *path, const char *arg0, ...) { return 0; }
+#endif
 
 #include "src/shared/platform/types.hpp"
 #include "src/shared/config/resident.hpp"

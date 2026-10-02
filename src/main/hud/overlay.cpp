@@ -239,7 +239,7 @@ inline void bgm_title_dissolve_put(const int& len) {
 
 #define bgm_string_put(str, len) \
 	gaiji_putca(bgm_note_tram_left(len), BGM_TRAM_Y, 3, TX_YELLOW); \
-	text_putsa(bgm_title_tram_left(len), BGM_TRAM_Y, str, TX_WHITE);
+	text_putsa(bgm_title_tram_left(len), BGM_TRAM_Y, reinterpret_cast<const char *>(str), TX_WHITE);
 
 inline void titles_dissolve_put(const int& bgm_len) {
 	grcg_setmode_rmw();
@@ -288,10 +288,10 @@ inline void titles_dissolve_put(const int& bgm_len) {
 	text_putsa( \
 		(PLAYFIELD_TRAM_CENTER_X - (stage_title_len / 2)), \
 		STAGE_TITLE_TRAM_CENTER_Y, \
-		stage_title, \
+		reinterpret_cast<const char *>(stage_title), \
 		TX_WHITE \
 	); \
-	bgm_string_put(bgm_str, bgm_len);
+	bgm_string_put(reinterpret_cast<const char *>(bgm_str), bgm_len);
 
 inline void boss_bgm_dissolve_put(const int& bgm_len) {
 	grcg_setmode_rmw();
@@ -351,8 +351,8 @@ void pascal near overlay_titles_update_and_render(void)
 				bgm_title_id = 0;
 			}
 #endif
-			stage_title_len = strlen(stage_title);
-			stage_bgm_title_len = strlen(stage_bgm_title);
+			stage_title_len = strlen(reinterpret_cast<const char *>(stage_title));
+			stage_bgm_title_len = strlen(reinterpret_cast<const char *>(stage_bgm_title));
 		}
 		if(dissolve_sprite >= BB_TXT_IN_SPRITE) {
 			if(dissolve_sprite == (BB_TXT_IN_SPRITE + 6)) {
@@ -385,11 +385,11 @@ void pascal near overlay_boss_bgm_update_and_render(void)
 	} else {
 		if(frame == 0) {
 			dissolve_sprite = BB_TXT_IN_SPRITE;
-			boss_bgm_title_len = strlen(boss_bgm_title);
+			boss_bgm_title_len = strlen(reinterpret_cast<const char *>(boss_bgm_title));
 		}
 		if(dissolve_sprite >= BB_TXT_IN_SPRITE) {
-			if(dissolve_sprite == (BB_TXT_IN_SPRITE + 6)) {
-				bgm_string_put(boss_bgm_title, boss_bgm_title_len);
+			if (dissolve_sprite == (BB_TXT_IN_SPRITE + 6)) {
+				bgm_string_put(reinterpret_cast<const char *>(boss_bgm_title), boss_bgm_title_len);
 			}
 			boss_bgm_dissolve_put(boss_bgm_title_len);
 			dissolve_in_update(frame);

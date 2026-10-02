@@ -1,24 +1,30 @@
 {
-    int i;
-    unsigned char feedback;
+	int i;
+	unsigned char feedback;
 
-    hi.score_sum = 0;
-    for(i = offsetof(scoredat_section_t, score); i < sizeof(scoredat_section_t); i++) {
-        hi.score_sum += ((unsigned char near *)&hi)[i];
-    }
+	hi.score_sum = 0;
+	for (i = offsetof(scoredat_section_t, score); i < sizeof(scoredat_section_t); i++) {
+		hi.score_sum += ((unsigned char near *)&hi)[i];
+	}
 
-    hi.key1 = irand();
-    hi.key2 = irand();
+	hi.key1 = irand();
+	hi.key2 = irand();
 
-    feedback = 0;
-    for(i = sizeof(scoredat_section_t) - 1;
-            i >= offsetof(scoredat_section_t, score); i--) {
-        ((unsigned char near *)&hi)[i] -= (unsigned char)hi.key1 + feedback;
-        feedback = ((unsigned char near *)&hi)[i];
-        _AL = (unsigned char)hi.key2;
-        // TC4J has no 8-bit rotate intrinsic; TH03 OP/MAINL independently
-        // corroborate this single-byte primitive.
-        asm { ror feedback, 3; }
-        feedback ^= _AL;
-    }
+	feedback = 0;
+	for (i = sizeof(scoredat_section_t)-1;
+		i >= offsetof(scoredat_section_t, score); i--) {
+		((unsigned char near *)&hi)[i] -= (unsigned char)hi.key1 + feedback;
+		feedback = ((unsigned char near *)&hi)[i];
+
+#ifdef __TURBOC__
+		_AL = (unsigned char)hi.key2;
+		// TC4J has no 8-bit rotate intrinsic; TH03 OP/MAINL independently
+		// corroborate this single-byte primitive.
+		asm{ ror feedback, 3; }
+		feedback ^= _AL;
+#else
+		feedback = static_cast<unsigned char>((feedback >> 3) | (feedback << 5));
+		feedback ^= static_cast<unsigned char>(hi.key2);
+#endif
+	}
 }

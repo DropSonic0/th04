@@ -1,4 +1,8 @@
+#if defined(_WIN32)
 #include <process.h>
+#else
+inline void execl(const char*, ...) {}
+#endif
 #include <stddef.h>
 
 extern "C" {

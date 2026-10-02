@@ -31,11 +31,13 @@ struct cdg_slot_t {
     }
 };
 
+#ifdef __TURBOC__
 typedef char cdg_slot_layout_check[
-    (sizeof(cdg_slot_t) == 16) &&
-    (offsetof(cdg_slot_t, pixel_w) == 2) &&
-    (offsetof(cdg_slot_t, seg) == 12) ? 1 : -1
+	(sizeof(cdg_slot_t) == 16) &&
+		(offsetof(cdg_slot_t, pixel_w) == 2) &&
+		(offsetof(cdg_slot_t, seg) == 12) ? 1 : -1
 ];
+#endif
 #endif
 
 extern "C" {

@@ -4,6 +4,7 @@
 
 Shot near * near shots_add(void)
 {
+#ifdef __TURBOC__
 	#define shot reinterpret_cast<Shot near *>(_BX)
 	#define ret reinterpret_cast<Shot near *>(_AX)
 
@@ -27,6 +28,25 @@ Shot near * near shots_add(void)
 
 	#undef ret
 	#undef shot
+#else
+	Shot *ret = nullptr;
+	for(;;) {
+		if(static_cast<uint8_t>(shot_last_id) >= SHOT_COUNT) {
+			return ret;
+		}
+		Shot *shot = shot_ptr;
+		shot_ptr++;
+		if(shot->flag != SF_FREE) {
+			shot_last_id++;
+			continue;
+		}
+		shot->flag = SF_ALIVE;
+		shot->pos.cur = player_pos.cur;
+		shot->pos.velocity.set_long(0, TO_SP(-12));
+		ret = shot;
+		return ret;
+	}
+#endif
 }
 
 #pragma option -k.
