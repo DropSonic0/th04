@@ -4,8 +4,10 @@
 
 void vram_planes_set(void)
 {
+#if defined(__TURBOC__) || defined(__MSDOS__)
 	VRAM_PLANE_B = reinterpret_cast<uint8_t __seg *>(SEG_PLANE_B);
 	VRAM_PLANE_R = reinterpret_cast<uint8_t __seg *>(SEG_PLANE_R);
 	VRAM_PLANE_G = reinterpret_cast<uint8_t __seg *>(SEG_PLANE_G);
 	VRAM_PLANE_E = reinterpret_cast<uint8_t __seg *>(SEG_PLANE_E);
+#endif
 }

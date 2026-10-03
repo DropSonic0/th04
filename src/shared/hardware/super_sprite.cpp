@@ -2,6 +2,7 @@
 #pragma option -zCSHARED -3
 
 #include <dos.h>
+#include <stdio.h>
 
 #include "src/shared/hardware/graphics.hpp"
 #include "src/shared/hardware/vram_planes.hpp"
@@ -36,7 +37,11 @@ static void super_rollback(unsigned first)
 	while (super_patnum > first) {
 		unsigned slot = --super_patnum;
 		if (super_patdata[slot]) {
+#if !defined(__TURBOC__) && !defined(__MSDOS__)
+			hmem_free((void __seg *)(uintptr_t)MK_FP(super_patdata[slot], 0));
+#else
 			hmem_free((void __seg *)super_patdata[slot]);
+#endif
 		}
 		super_patdata[slot] = 0;
 		super_patsize[slot] = 0;
@@ -50,7 +55,11 @@ extern "C" int TH04_PASCAL super_cancel_pat(int num)
 	    !super_patdata[num]) {
 		return -31;
 	}
+#if !defined(__TURBOC__) && !defined(__MSDOS__)
+	hmem_free((void __seg *)(uintptr_t)MK_FP(super_patdata[num], 0));
+#else
 	hmem_free((void __seg *)super_patdata[num]);
+#endif
 	super_patdata[num] = 0;
 	super_patsize[num] = 0;
 	while (super_patnum && !super_patdata[super_patnum - 1u]) {
@@ -82,9 +91,12 @@ extern "C" int TH04_PASCAL super_entry_bfnt(const char far *filename)
 	unsigned char far *data;
 	int error = -13;
 	if (!filename) {
+		printf("[TH04 PS3 Sprite] super_entry_bfnt error: NULL filename\n");
 		return error;
 	}
+	printf("[TH04 PS3 Sprite] super_entry_bfnt opening: %s (patnum_first=%u)...\n", filename, first);
 	if (_dos_open(filename, 0, &handle)) {
+		printf("[TH04 PS3 Sprite] super_entry_bfnt failed: _dos_open error on %s\n", filename);
 		return -2;
 	}
 	if (!bfnt_read(handle, header, sizeof(header)) ||
@@ -128,7 +140,11 @@ extern "C" int TH04_PASCAL super_entry_bfnt(const char far *filename)
 			error = -8;
 			goto failed;
 		}
+#if !defined(__TURBOC__) && !defined(__MSDOS__)
+		data = (unsigned char far *)allocation;
+#else
 		data = (unsigned char far *)MK_FP((unsigned)allocation, 0);
+#endif
 		for (y = 0; y < height; y++) {
 			if (!bfnt_read(handle, row, width >> 1)) {
 				hmem_free(allocation);
@@ -158,7 +174,11 @@ extern "C" int TH04_PASCAL super_entry_bfnt(const char far *filename)
 			}
 		}
 		slot = super_patnum++;
+#if !defined(__TURBOC__) && !defined(__MSDOS__)
+		super_patdata[slot] = (unsigned)(((uintptr_t)allocation) >> 4);
+#else
 		super_patdata[slot] = (unsigned)allocation;
+#endif
 		super_patsize[slot] = (bytes_per_row << 8) | height;
 	}
 	if (has_palette) {
@@ -169,10 +189,12 @@ extern "C" int TH04_PASCAL super_entry_bfnt(const char far *filename)
 			Palettes[color].v[2] = palette[color * 3u];
 		}
 	}
+	printf("[TH04 PS3 Sprite] super_entry_bfnt SUCCESS: %s loaded %u patterns (total super_patnum=%u)\n", filename, count, super_patnum);
 	_dos_close(handle);
 	return count;
 
 failed:
+	printf("[TH04 PS3 Sprite] super_entry_bfnt FAILED on %s (error=%d)\n", filename, error);
 	super_rollback(first);
 	if (!first && super_buffer) {
 		hmem_free(super_buffer);

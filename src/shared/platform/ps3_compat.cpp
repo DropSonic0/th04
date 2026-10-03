@@ -14,6 +14,7 @@
 #include <PSGL/psglu.h>
 #include <sys/sys_time.h>
 #include <cell/audio.h>
+#include <cell/sysmodule.h>
 #include <sys/ppu_thread.h>
 #include <sys/timer.h>
 #endif
@@ -23,6 +24,7 @@
 #include "src/shared/hardware/vram_planes.hpp"
 #include "src/shared/config/score.hpp"
 #include "src/shared/config/resident.hpp"
+#include "src/shared/config/cfg.hpp"
 #include "src/shared/formats/cdg.hpp"
 #include "th04/sprites/main_pat.h"
 #include "src/main/hardware/planar.hpp"
@@ -128,40 +130,153 @@ extern "C" {
 
     // PSGL State
     static int g_psgl_initialized = 0;
+#if defined(__PS3__) || defined(CELL_SDK) || defined(__CELLOS_LV2__) || defined(SN_TARGET_PS3)
+    static GLuint g_psgl_texture = 0;
+    static uint32_t g_psgl_rgba_buffer[640 * 400];
+    static PSGLdevice* g_psgl_device = NULL;
+    static PSGLcontext* g_psgl_context = NULL;
+#endif
 
     void ps3_psgl_init(void) {
         if (g_psgl_initialized) return;
         printf("[TH04 PS3 PSGL] Initializing PSGL...\n");
 #if defined(__PS3__) || defined(CELL_SDK) || defined(__CELLOS_LV2__) || defined(SN_TARGET_PS3)
+        cellSysmoduleLoadModule(CELL_SYSMODULE_GCM_SYS);
+
         PSGLinitOptions options;
         memset(&options, 0, sizeof(options));
         options.enable = PSGL_INIT_MAX_SPUS | PSGL_INIT_INITIALIZE_SPUS | PSGL_INIT_HOST_MEMORY_SIZE;
         options.maxSPUs = 1;
-        options.initializeSPUs = false;
-        options.hostMemorySize = 8 * 1024 * 1024;
+        options.initializeSPUs = 1;
+        options.hostMemorySize = 32 * 1024 * 1024;
         psglInit(&options);
 
         PSGLdeviceParameters params;
         memset(&params, 0, sizeof(params));
-        params.enable = PSGL_DEVICE_PARAMETERS_COLOR_FORMAT | PSGL_DEVICE_PARAMETERS_DEPTH_FORMAT | PSGL_DEVICE_PARAMETERS_MULTISAMPLING_MODE | PSGL_DEVICE_PARAMETERS_BUFFERING_MODE | PSGL_DEVICE_PARAMETERS_RESC_ADJUST_ASPECT_RATIO | PSGL_DEVICE_PARAMETERS_RESC_RATIO_MODE;
+        params.enable = PSGL_DEVICE_PARAMETERS_COLOR_FORMAT |
+            PSGL_DEVICE_PARAMETERS_DEPTH_FORMAT |
+            PSGL_DEVICE_PARAMETERS_MULTISAMPLING_MODE |
+            PSGL_DEVICE_PARAMETERS_BUFFERING_MODE |
+            PSGL_DEVICE_PARAMETERS_RESC_ADJUST_ASPECT_RATIO |
+            PSGL_DEVICE_PARAMETERS_RESC_RATIO_MODE;
         params.bufferingMode = PSGL_BUFFERING_MODE_TRIPLE;
         params.colorFormat = GL_ARGB_SCE;
-        params.depthFormat = GL_NONE;
+        params.depthFormat = GL_DEPTH_COMPONENT24;
         params.multisamplingMode = GL_MULTISAMPLING_NONE_SCE;
         params.rescRatioMode = RESC_RATIO_MODE_FULLSCREEN;
 
-        PSGLdevice* dev = psglCreateDeviceExtended(&params);
-        PSGLcontext* ctx = psglCreateContext();
-        psglMakeCurrent(ctx, dev);
-        psglResetCurrentContext();
+        g_psgl_device = psglCreateDeviceExtended(&params);
+        if (!g_psgl_device) {
+            params.depthFormat = GL_NONE;
+            g_psgl_device = psglCreateDeviceExtended(&params);
+        }
+        g_psgl_context = psglCreateContext();
+        if (g_psgl_context && g_psgl_device) {
+            psglMakeCurrent(g_psgl_context, g_psgl_device);
+            psglResetCurrentContext();
+        }
+
+        if (psglGetCurrentContext()) {
+            glGenTextures(1, &g_psgl_texture);
+            glBindTexture(GL_TEXTURE_2D, g_psgl_texture);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 640, 400, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+        }
 #endif
         g_psgl_initialized = 1;
         printf("[TH04 PS3 PSGL] PSGL Initialized Successfully\n");
     }
 
+    static inline uint8_t ps3_component_at_tone(uint8_t component, int tone) {
+        int base = (component >> 4);
+        if (tone <= 100) {
+            return (uint8_t)((base * tone * 255) / (100 * 15));
+        }
+        return (uint8_t)((15 - (((15 - base) * (200 - tone)) / 100)) * 255 / 15);
+    }
+
     void ps3_psgl_swap(void) {
 #if defined(__PS3__) || defined(CELL_SDK) || defined(__CELLOS_LV2__) || defined(SN_TARGET_PS3)
-        if (g_psgl_initialized) {
+        if (!g_psgl_initialized) return;
+
+        if (psglGetCurrentContext() != g_psgl_context) {
+            if (g_psgl_context && g_psgl_device) {
+                psglMakeCurrent(g_psgl_context, g_psgl_device);
+            }
+        }
+        if (!psglGetCurrentContext()) return;
+
+        if (1) {
+            uint32_t lut[16];
+            int tone = (int)PaletteTone;
+            if (tone < 0) tone = 0;
+            else if (tone > 200) tone = 200;
+
+            for (int c = 0; c < 16; c++) {
+                uint8_t r = ps3_component_at_tone(Palettes[c].v[0], tone);
+                uint8_t g = ps3_component_at_tone(Palettes[c].v[1], tone);
+                uint8_t b = ps3_component_at_tone(Palettes[c].v[2], tone);
+                lut[c] = (0xFFu << 24) | ((uint32_t)b << 16) | ((uint32_t)g << 8) | (uint32_t)r;
+            }
+
+            uint32_t* dst = g_psgl_rgba_buffer;
+            for (int y = 0; y < 400; y++) {
+                int row_off = y * 80;
+                for (int byte_x = 0; byte_x < 80; byte_x++) {
+                    int offset = row_off + byte_x;
+                    uint8_t b_byte = VRAM_PLANE_B ? VRAM_PLANE_B[offset] : 0;
+                    uint8_t r_byte = VRAM_PLANE_R ? VRAM_PLANE_R[offset] : 0;
+                    uint8_t g_byte = VRAM_PLANE_G ? VRAM_PLANE_G[offset] : 0;
+                    uint8_t e_byte = VRAM_PLANE_E ? VRAM_PLANE_E[offset] : 0;
+
+                    for (int bit = 7; bit >= 0; bit--) {
+                        uint8_t col = ((b_byte >> bit) & 1) |
+                                      (((r_byte >> bit) & 1) << 1) |
+                                      (((g_byte >> bit) & 1) << 2) |
+                                      (((e_byte >> bit) & 1) << 3);
+                        *dst++ = lut[col];
+                    }
+                }
+            }
+
+            glBindTexture(GL_TEXTURE_2D, g_psgl_texture);
+            glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 640, 400, GL_RGBA, GL_UNSIGNED_BYTE, g_psgl_rgba_buffer);
+
+            glDisable(GL_DEPTH_TEST);
+            glEnable(GL_TEXTURE_2D);
+
+            glMatrixMode(GL_PROJECTION);
+            glLoadIdentity();
+            glOrthof(0.0f, 640.0f, 400.0f, 0.0f, -1.0f, 1.0f);
+
+            glMatrixMode(GL_MODELVIEW);
+            glLoadIdentity();
+
+            static const GLfloat vtx[] = {
+                0.0f,   0.0f,
+                640.0f, 0.0f,
+                0.0f,   400.0f,
+                640.0f, 400.0f
+            };
+            static const GLfloat tex[] = {
+                0.0f, 0.0f,
+                1.0f, 0.0f,
+                0.0f, 1.0f,
+                1.0f, 1.0f
+            };
+
+            glEnableClientState(GL_VERTEX_ARRAY);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+            glVertexPointer(2, GL_FLOAT, 0, vtx);
+            glTexCoordPointer(2, GL_FLOAT, 0, tex);
+
+            glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+            glDisableClientState(GL_VERTEX_ARRAY);
+
             psglSwap();
         }
 #endif
@@ -176,6 +291,23 @@ extern "C" {
     FILE* g_dos_handles[MAX_DOS_HANDLES] = {0};
     static FILE* g_current_file = NULL;
     int g_pf_active_handle = 0;
+    int g_in_pf_read = 0;
+
+    static resident_t s_resident = {
+        "HUMAConfig", // id
+        3,            // rem_lives
+        3,            // credit_lives
+        3,            // rem_bombs
+        3,            // credit_bombs
+        1,            // rank
+        0,            // bgm_mode
+        0,            // stage
+        '0',          // playchar_ascii
+        '0',          // stage_ascii
+        12345,        // rand
+        0,            // se_mode
+        0,            // shottype
+    };
 
     int TH04_PASCAL file_ropen(const char TH04_PTR *filename) {
         if (g_current_file) {
@@ -198,8 +330,50 @@ extern "C" {
             printf("[TH04 PS3 I/O] Relative open failed, trying fallback: %s\n", path);
             g_current_file = fopen(path, "rb");
         }
-        if (!g_current_file && (strstr(filename, "MIKO.CFG") || strstr(filename, "GENSOU.SCR"))) {
-            printf("[TH04 PS3 I/O] Config/Save file missing (%s), creating default zeroed file...\n", filename);
+        if (strstr(filename, "MIKO.CFG")) {
+            long sz = 0;
+            if (g_current_file) {
+                fseek(g_current_file, 0, SEEK_END);
+                sz = ftell(g_current_file);
+                if (sz > 0) {
+                    fseek(g_current_file, 0, SEEK_SET);
+                } else {
+                    fclose(g_current_file);
+                    g_current_file = NULL;
+                }
+            }
+            if (!g_current_file) {
+                printf("[TH04 PS3 I/O] MIKO.CFG missing or empty, writing default configuration...\n");
+                FILE *fcreate = fopen(filename, "wb");
+                if (!fcreate) {
+                    char path[512];
+                    snprintf(path, sizeof(path), "/app_home/%s", filename);
+                    fcreate = fopen(path, "wb");
+                }
+                if (fcreate) {
+                    cfg_t default_cfg = {};
+                    default_cfg.opts.rank = 1;
+                    default_cfg.opts.lives = 3;
+                    default_cfg.opts.bombs = 2;
+                    default_cfg.opts.bgm_mode = 0;
+                    default_cfg.opts.se_mode = 0;
+                    default_cfg.opts.turbo_mode = 0;
+                    default_cfg.resident = (resident_t __seg*)&s_resident;
+                    default_cfg.debug = 0;
+                    default_cfg.opts_sum = (signed char)(1 + 3 + 2 + 0 + 0 + 0);
+                    fwrite(&default_cfg, 1, sizeof(default_cfg), fcreate);
+                    fclose(fcreate);
+
+                    g_current_file = fopen(filename, "rb");
+                    if (!g_current_file) {
+                        char path[512];
+                        snprintf(path, sizeof(path), "/app_home/%s", filename);
+                        g_current_file = fopen(path, "rb");
+                    }
+                }
+            }
+        } else if (!g_current_file && strstr(filename, "GENSOU.SCR")) {
+            printf("[TH04 PS3 I/O] Save file missing (%s), creating default zeroed file...\n", filename);
             FILE *fcreate = fopen(filename, "wb");
             if (!fcreate) {
                 char path[512];
@@ -373,6 +547,8 @@ extern "C" {
 
     void TH04_PASCAL vsync_start(void) {
         printf("[TH04 PS3 Hardware] vsync_start()\n");
+        ps3_psgl_init();
+        ps3_audio_init();
         vsync_Count1++;
         vsync_Count2++;
     }
@@ -683,7 +859,7 @@ char mikod_bft[] = "mikod.bft";
 char miko32_bft[] = "miko32.bft";
 char miko16_bft[] = "miko16.bft";
 static char stage_bgm_name_buf[16] = "ST00";
-char *stage_bgm_name = stage_bgm_name_buf;
+extern "C" char *stage_bgm_name = stage_bgm_name_buf;
 int stage_faceset_count = 0;
 
 nearfunc_t_near stage_render = (nearfunc_t_near)ps3_compat_null_void;
@@ -790,21 +966,6 @@ int egc_shift_up_val = 0;
 int egc_shift_down_val = 0;
 int playfield_shake_redraw_time = 0;
 
-static resident_t s_resident = {
-    "HUMAConfig", // id
-    3,            // rem_lives
-    3,            // credit_lives
-    3,            // rem_bombs
-    3,            // credit_bombs
-    1,            // rank
-    0,            // bgm_mode
-    0,            // stage
-    '0',          // playchar_ascii
-    '0',          // stage_ascii
-    12345,        // rand
-    0,            // se_mode
-    0,            // shottype
-};
 resident_t far *resident = &s_resident;
 unsigned char rank = 0;
 int score_delta_frame = 0;
@@ -935,11 +1096,11 @@ int DEMOPLAY_BINARY_OP = 0;
 bool gDEMO_PLAY = false;
 
 static char eyename_buf[16] = "eye0.cdg";
-char *eyename = eyename_buf;
+extern "C" char *eyename = eyename_buf;
 void* Ems = 0;
 char EMS_NAME[] = "TH04EMS";
 static char bbname_buf[16] = "bb0.cdg";
-char *bbname = bbname_buf;
+extern "C" char *bbname = bbname_buf;
 char FACESET_REIMU_FN_0[] = "";
 char FACESET_MARISA_FN_0[] = "";
 cdg_slot_t cdg_slots[64] = {};
@@ -966,10 +1127,10 @@ char gYES[] = "";
 char gNO[] = "";
 char gCREDIT[] = "";
 void* dialog_p = 0;
-static char dialog_fn_buf[32] = "st00.bft";
-char *dialog_fn = dialog_fn_buf;
-static char dialog_fn_yuuka5_defeat_bad_buf[32] = "st05bad.bft";
-char *dialog_fn_yuuka5_defeat_bad = dialog_fn_yuuka5_defeat_bad_buf;
+static char dialog_fn_buf[32] = "_DM00.TXT";
+extern "C" char *dialog_fn = dialog_fn_buf;
+static char dialog_fn_yuuka5_defeat_bad_buf[32] = "_DM04B.TXT";
+extern "C" char *dialog_fn_yuuka5_defeat_bad = dialog_fn_yuuka5_defeat_bad_buf;
 int script_param_number_default = 0;
 int dialog_side = 0;
 unsigned char dialog_kanji_buf[64] = {0};
@@ -987,8 +1148,8 @@ unsigned int std_seg = 0;
 unsigned int bb_txt_seg = 0;
 char bb_txt_fn[] = "";
 char bb_txt2_fn[] = "";
-static char map_fn_buf[32] = "st00.mpn";
-char *map_fn = map_fn_buf;
+static char map_fn_buf[32] = "ST00.MAP";
+extern "C" char *map_fn = map_fn_buf;
 unsigned int map_seg = 0;
 int mpn_slots = 0;
 bool mpn_show_palette_on_load = false;
@@ -1009,8 +1170,8 @@ int carpet_lighting_cel = 0;
 int carpet_light_level = 0;
 int CARPET_TILE_IMAGE_VOS = 0;
 uint8_t CARPET_LIGHTING_ANIM[8][24] = {0};
-static char std_fn_buf[32] = "st00.bmt";
-char *std_fn = std_fn_buf;
+static char std_fn_buf[32] = "ST00.STD";
+extern "C" char *std_fn = std_fn_buf;
 int std_ip = 0;
 int tile_render_all_time = 0;
 char CFG_FN[] = "MIKO.CFG";
@@ -1043,9 +1204,9 @@ void* item_splashes = 0;
 char item_splash_last_id = 0;
 SubpixelLength8 scroll_subpixel_line;
 static char bb_playchar_bb_fn_buf[16] = "bb0.bb";
-char *bb_playchar_bb_fn = bb_playchar_bb_fn_buf;
+extern "C" char *bb_playchar_bb_fn = bb_playchar_bb_fn_buf;
 static char bb_playchar_cdg_fn_buf[16] = "bb0.cdg";
-char *bb_playchar_cdg_fn = bb_playchar_cdg_fn_buf;
+extern "C" char *bb_playchar_cdg_fn = bb_playchar_cdg_fn_buf;
 unsigned int bb_playchar_seg = 0;
 int bomb_frame = 0;
 bool scroll_active = false;

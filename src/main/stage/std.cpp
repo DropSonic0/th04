@@ -29,7 +29,11 @@ void near std_load(void)
 	std_seg = reinterpret_cast<uint8_t __seg *>(hmem_allocbyte(std_size));
 
 	_ES = FP_SEG(std_seg);
+#if !defined(__TURBOC__) && !defined(__MSDOS__)
+	uint8_t __es* std_off = reinterpret_cast<uint8_t *>(std_seg);
+#else
 	uint8_t __es* std_off = 0;
+#endif
 	file_read(std_off, std_size);
 	file_close();
 

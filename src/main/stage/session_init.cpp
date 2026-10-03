@@ -168,8 +168,12 @@ void near stage_session_init(void)
     midboss_reset();
 
     if(load_playchar_resources != 0) {
+        printf("[TH04 PS3 Session] Loading playchar resources...\n");
+        printf("[TH04 PS3 Session] Calling bomb_bg_load__ems_preload_playchar_cdgs()...\n");
         bomb_bg_load__ems_preload_playchar_cdgs();
+        printf("[TH04 PS3 Session] Calling bb_playchar_load()...\n");
         bb_playchar_load();
+        printf("[TH04 PS3 Session] Loading playchar BFT fonts...\n");
         if(playchar == PLAYCHAR_REIMU) {
             super_entry_bfnt(miko_bft);
         } else {
@@ -178,9 +182,11 @@ void near stage_session_init(void)
         super_entry_bfnt(mikod_bft);
         super_entry_bfnt(miko32_bft);
         super_entry_bfnt(miko16_bft);
+        printf("[TH04 PS3 Session] Converting tiny sprites...\n");
         for(int i = 20; i < 120; i++) {
             super_convert_tiny(i);
         }
+        printf("[TH04 PS3 Session] Playchar resources loaded successfully\n");
     }
 
     stage_bgm_name[2] = '0';

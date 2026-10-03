@@ -8,20 +8,35 @@
 #include "th04/main/player/bomb.hpp"
 #include "th04/main/bg.hpp"
 
+extern "C" {
 extern char far *bb_playchar_bb_fn;
 extern char far *bb_playchar_cdg_fn;
+}
 extern bb_tiles8_t __seg *bb_playchar_seg;
 extern "C" void pascal near nullfunc_near(void);
 
+static char s_bb_playchar_bb_fn_fallback[16] = "bb0.bb";
+static char s_bb_playchar_cdg_fn_fallback[16] = "bb0.cdg";
+
 extern "C" void pascal near bb_playchar_load(void)
 {
+    if (!bb_playchar_bb_fn) {
+        bb_playchar_bb_fn = s_bb_playchar_bb_fn_fallback;
+    }
+    if (!bb_playchar_cdg_fn) {
+        bb_playchar_cdg_fn = s_bb_playchar_cdg_fn_fallback;
+    }
+    printf("[TH04 PS3 Player] bb_playchar_load called (bb_fn=%p, cdg_fn=%p)\n", bb_playchar_bb_fn, bb_playchar_cdg_fn);
     bb_playchar_bb_fn[2] = resident->playchar_ascii;
     bb_playchar_cdg_fn[2] = resident->playchar_ascii;
+    printf("[TH04 PS3 Player] Loading BB file: %s...\n", bb_playchar_bb_fn);
     file_ropen(bb_playchar_bb_fn);
     bb_playchar_seg = reinterpret_cast<bb_tiles8_t __seg *>(hmem_allocbyte(BB_SIZE));
     file_read(bb_playchar_seg, BB_SIZE);
     file_close();
+    printf("[TH04 PS3 Player] Loading CDG file: %s...\n", bb_playchar_cdg_fn);
     cdg_load_single_noalpha(CDG_BG_PLAYCHAR_BOMB, bb_playchar_cdg_fn, 0);
+    printf("[TH04 PS3 Player] bb_playchar_load completed\n");
 }
 
 extern "C" void pascal near bb_playchar_free(void)

@@ -229,7 +229,7 @@ def validate_source_tree(root: Path) -> None:
         relative = path.relative_to(source_root)
         if not relative.parts or (
             relative.parts[0] not in SOURCE_ROOTS
-            and relative.as_posix() not in {"ps3_compat.hpp", "dos.h"}
+            and relative.as_posix() not in {"ps3_compat.hpp", "ps3_compat.cpp", "dos.h"}
         ):
             raise ValueError(
                 f"{path.relative_to(root)}: source must belong to a TH04 artifact "

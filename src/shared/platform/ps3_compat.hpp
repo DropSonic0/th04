@@ -47,6 +47,7 @@ int pf_open_member(const char* path);
 unsigned pf_read_member(void* out, unsigned count);
 void pf_close_member(void);
 extern int g_pf_active_handle;
+extern int g_in_pf_read;
 
 #define MAX_DOS_HANDLES 64
 extern FILE* g_dos_handles[MAX_DOS_HANDLES];
@@ -141,6 +142,13 @@ inline unsigned _dos_read(int handle, void* buf, unsigned count, unsigned* bytes
 		printf("[TH04 PS3 DOS] _dos_read failed: invalid handle\n");
 		*bytes_read = 0;
 		return 1;
+	}
+	if (g_pf_active_handle && handle == g_pf_active_handle && !g_in_pf_read) {
+		g_in_pf_read = 1;
+		*bytes_read = pf_read_member(buf, count);
+		g_in_pf_read = 0;
+		printf("[TH04 PS3 DOS] _dos_read via pf_read_member requested %u bytes, read %u bytes\n", count, *bytes_read);
+		return 0;
 	}
 	FILE* f = dos_handle_get(handle);
 	if (!f) {
