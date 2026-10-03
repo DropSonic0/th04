@@ -52,6 +52,7 @@
 #include "th04/main/rank.hpp"
 #include "th04/main/pointnum/pointnum.hpp"
 #include "src/main/math/randring.hpp"
+#include "src/main/formats/map.hpp"
 
 struct yuuka6_bg_shape_t {
     SPPoint pos;
@@ -899,9 +900,19 @@ char aBONUS_POINT_2[] = "";
 char aBONUS_TOTAL_2[] = "";
 int stage_bgm_title_len = 0;
 int stage_title_id = 0;
-char STAGE_TITLES[8][32] = {0};
+static const char s_dummy_stage_title[] = "STAGE TITLE";
+const char *STAGE_TITLES[8] = {
+    s_dummy_stage_title, s_dummy_stage_title, s_dummy_stage_title, s_dummy_stage_title,
+    s_dummy_stage_title, s_dummy_stage_title, s_dummy_stage_title, s_dummy_stage_title
+};
 int stage_title_len = 0;
-char BGM_TITLES[16][32] = {0};
+static const char s_dummy_bgm_title[] = "BGM TITLE";
+const char *BGM_TITLES[16] = {
+    s_dummy_bgm_title, s_dummy_bgm_title, s_dummy_bgm_title, s_dummy_bgm_title,
+    s_dummy_bgm_title, s_dummy_bgm_title, s_dummy_bgm_title, s_dummy_bgm_title,
+    s_dummy_bgm_title, s_dummy_bgm_title, s_dummy_bgm_title, s_dummy_bgm_title,
+    s_dummy_bgm_title, s_dummy_bgm_title, s_dummy_bgm_title, s_dummy_bgm_title
+};
 char gStage_1[] = "";
 char gFINAL_STAGE[] = "";
 char gEXTRA_STAGE[] = "";
@@ -998,7 +1009,11 @@ int dissolve_sprite = 0;
 int popup_id_cur = 0;
 int popup_frame = 0;
 int popup_shiftbuf = 0;
-char POPUP_STRINGS[8][32] = {0};
+static const char s_dummy_popup[] = "POPUP";
+const char *POPUP_STRINGS[8] = {
+    s_dummy_popup, s_dummy_popup, s_dummy_popup, s_dummy_popup,
+    s_dummy_popup, s_dummy_popup, s_dummy_popup, s_dummy_popup
+};
 int popup_gaiji_len = 0;
 int popup_cur_tram_left = 0;
 int popup_dest_tram_left = 0;
