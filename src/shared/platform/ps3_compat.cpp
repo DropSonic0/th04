@@ -21,6 +21,7 @@
 
 #include "src/shared/runtime/api.hpp"
 #include "src/shared/hardware/graphics.hpp"
+#include "src/main/hardware/palette.hpp"
 #include "src/shared/hardware/vram_planes.hpp"
 #include "src/shared/config/score.hpp"
 #include "src/shared/config/resident.hpp"
@@ -284,6 +285,7 @@ extern "C" {
 
     // C-linkage API functions
     int TH04_PASCAL pf_open_member(const char far *path);
+    long TH04_PASCAL pf_size_member(void);
     unsigned TH04_PASCAL pf_read_member(void far *out, unsigned count);
     void TH04_PASCAL pf_seek_member(long offset, int origin);
     void TH04_PASCAL pf_close_member(void);
@@ -425,6 +427,11 @@ extern "C" {
     }
 
     long TH04_PASCAL file_size(void) {
+        if (g_pf_active_handle) {
+            long sz = pf_size_member();
+            printf("[TH04 PS3 I/O] pf file_size: %ld bytes\n", sz);
+            return sz;
+        }
         if (!g_current_file) return 0;
         long cur = ftell(g_current_file);
         fseek(g_current_file, 0, SEEK_END);
@@ -1142,27 +1149,27 @@ char FACESET_MUGETSU_DEFEAT_FN[] = "";
 char FACESET_GENGETSU_DEFEAT_FN[] = "";
 char BOMB_BG_REIMU_FN[] = "";
 char BOMB_BG_MARISA_FN[] = "";
-void* std_enemy_scripts = 0;
+void near *std_enemy_scripts[32] = {0};
 enemy_t* enemy_cur = 0;
-unsigned int std_seg = 0;
+uint8_t __seg *std_seg = 0;
 unsigned int bb_txt_seg = 0;
 char bb_txt_fn[] = "";
 char bb_txt2_fn[] = "";
 static char map_fn_buf[32] = "ST00.MAP";
 extern "C" char *map_fn = map_fn_buf;
-unsigned int map_seg = 0;
+map_section_tiles_t __seg *map_seg = 0;
 int mpn_slots = 0;
-bool mpn_show_palette_on_load = false;
+bool mpn_show_palette_on_load = true;
 int drawpoint_y = 0;
 int drawpoint_x = 0;
 vram_y_t scroll_line_on_page[2] = {0};
 unsigned char byte_250FE = 0;
 unsigned char byte_25104 = 0;
 unsigned int word_25100 = 0;
-int tile_row_in_section = 0;
-int std_map_section_id = 0;
-int std_scroll_speed = 0;
-int tile_ring = 0;
+signed char tile_row_in_section = 0;
+unsigned int std_map_section_id = 0;
+SubpixelLength8 near *std_scroll_speed = 0;
+vram_offset_t tile_ring[25][32] = {0};
 uint16_t spark_ring_offset = 0;
 int checkerboard = 0;
 int halftiles_dirty = 0;
@@ -1172,7 +1179,7 @@ int CARPET_TILE_IMAGE_VOS = 0;
 uint8_t CARPET_LIGHTING_ANIM[8][24] = {0};
 static char std_fn_buf[32] = "ST00.STD";
 extern "C" char *std_fn = std_fn_buf;
-int std_ip = 0;
+void far *std_ip = 0;
 int tile_render_all_time = 0;
 char CFG_FN[] = "MIKO.CFG";
 char main_pf_fn[] = "GENSOU.DAT";

@@ -5,5 +5,9 @@
 void pascal frame_delay_2(int frames)
 {
 	vsync_Count1 = 0;
-	while(vsync_Count1 < frames) {}
+	while(vsync_Count1 < (unsigned int)frames) {
+#if !defined(__TURBOC__) && !defined(__MSDOS__)
+		vsync_end();
+#endif
+	}
 }

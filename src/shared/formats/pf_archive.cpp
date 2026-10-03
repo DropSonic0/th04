@@ -344,6 +344,14 @@ extern "C" int TH04_PASCAL pf_open_member(const char far *path)
 	return 0;
 }
 
+extern "C" long TH04_PASCAL pf_size_member(void)
+{
+	if (!vf.active) {
+		return 0;
+	}
+	return (long)vf.declared_size;
+}
+
 extern "C" unsigned TH04_PASCAL pf_read_member(void far *out, unsigned count)
 {
 	if (!vf.active) {

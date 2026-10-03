@@ -1,5 +1,10 @@
 #pragma option -zCEND_TEXT -zPmain_01
 
+#include "th04/formats/std.hpp"
+#include "src/main/formats/map.hpp"
+#include "th04/main/scroll.hpp"
+#include "th04/main/tile/tile.hpp"
+
 #ifdef __TURBOC__
 #include <dos.h>
 #include <mem.h>
@@ -12,17 +17,6 @@
 extern "C" unsigned char byte_250FE;
 extern "C" unsigned char byte_25104;
 extern "C" unsigned int word_25100;
-
-extern unsigned char scroll_speed;
-extern unsigned int scroll_line;
-extern unsigned char scroll_active;
-extern signed char tile_row_in_section;
-extern unsigned int std_map_section_id;
-extern unsigned int std_scroll_speed;
-extern unsigned char __seg *std_seg;
-extern unsigned char __seg *map_seg;
-extern const unsigned int TILE_SECTION_OFFSETS[32];
-extern unsigned int tile_ring[][32];
 
 extern void near egc_start_copy_noframe();
 extern "C" void near sub_BAEE();
@@ -104,8 +98,8 @@ void near scroll_tile_ring_update()
             std_map_section_id++;
             std_scroll_speed++;
 
-            unsigned char speed = std_seg[std_scroll_speed];
-            scroll_speed = speed;
+            unsigned char speed = *reinterpret_cast<const unsigned char *>(std_scroll_speed);
+            scroll_speed.v = speed;
             if(speed == 0) {
                 scroll_line = 0;
                 byte_250FE = 0;
@@ -117,7 +111,8 @@ void near scroll_tile_ring_update()
         unsigned short ring_dst_offset = (ax << 6);
         unsigned short map_src_offset = (static_cast<unsigned short>(tile_row_in_section) << 6);
 
-        unsigned char section_idx = std_seg[std_map_section_id];
+        const unsigned char *std_ptr = reinterpret_cast<const unsigned char *>(std_seg);
+        unsigned char section_idx = std_ptr ? std_ptr[std_map_section_id] : 0;
         unsigned short section_offset = TILE_SECTION_OFFSETS[section_idx];
 
         map_src_offset += section_offset;
