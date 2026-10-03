@@ -168,12 +168,23 @@ extern "C" {
     }
 
     // C-linkage API functions
+    int TH04_PASCAL pf_open_member(const char far *path);
+    unsigned TH04_PASCAL pf_read_member(void far *out, unsigned count);
+    void TH04_PASCAL pf_seek_member(long offset, int origin);
+    void TH04_PASCAL pf_close_member(void);
+
+    FILE* g_dos_handles[MAX_DOS_HANDLES] = {0};
     static FILE* g_current_file = NULL;
+    int g_pf_active_handle = 0;
 
     int TH04_PASCAL file_ropen(const char TH04_PTR *filename) {
         if (g_current_file) {
             fclose(g_current_file);
             g_current_file = NULL;
+        }
+        if (g_pf_active_handle) {
+            pf_close_member();
+            g_pf_active_handle = 0;
         }
         if (!filename || !*filename) {
             printf("[TH04 PS3 I/O] file_ropen failed: empty filename\n");
@@ -208,15 +219,28 @@ extern "C" {
             }
         }
         if (g_current_file) {
-            printf("[TH04 PS3 I/O] Successfully opened file: %s\n", filename);
+            printf("[TH04 PS3 I/O] Successfully opened file on disk: %s\n", filename);
             return 1;
-        } else {
-            printf("[TH04 PS3 I/O] ERROR: Could not open file: %s\n", filename);
-            return 0;
         }
+
+        // Disk open failed, check pf_open_member (archive GENSOU.DAT member)
+        int pf_handle = pf_open_member(filename);
+        if (pf_handle) {
+            g_pf_active_handle = pf_handle;
+            printf("[TH04 PS3 I/O] Successfully loaded archive member from GENSOU.DAT: %s (pf handle=%d)\n", filename, g_pf_active_handle);
+            return 1;
+        }
+
+        printf("[TH04 PS3 I/O] ERROR: Could not open file or archive member: %s\n", filename);
+        return 0;
     }
 
     int TH04_PASCAL file_read(void far *buf, unsigned wsize) {
+        if (g_pf_active_handle) {
+            unsigned read_bytes = pf_read_member(buf, wsize);
+            printf("[TH04 PS3 I/O] pf file_read requested %u bytes, read %u bytes\n", wsize, read_bytes);
+            return (int)read_bytes;
+        }
         if (!g_current_file || !buf) {
             printf("[TH04 PS3 I/O] file_read failed: no active file or NULL buffer\n");
             return 0;
@@ -277,6 +301,10 @@ extern "C" {
     }
 
     void TH04_PASCAL file_seek(long pos, int dir) {
+        if (g_pf_active_handle) {
+            pf_seek_member(pos, dir);
+            return;
+        }
         if (!g_current_file) return;
         int origin = SEEK_SET;
         if (dir == 1) origin = SEEK_CUR;
@@ -285,6 +313,11 @@ extern "C" {
     }
 
     void TH04_PASCAL file_close(void) {
+        if (g_pf_active_handle) {
+            printf("[TH04 PS3 I/O] Closing pf archive member (handle=%d)\n", g_pf_active_handle);
+            pf_close_member();
+            g_pf_active_handle = 0;
+        }
         if (g_current_file) {
             printf("[TH04 PS3 I/O] Closing file\n");
             fclose(g_current_file);
@@ -302,10 +335,18 @@ extern "C" {
             f = fopen(path, "rb");
         }
         if (f) {
-            printf("[TH04 PS3 I/O] file_exist: TRUE (%s)\n", filename);
+            printf("[TH04 PS3 I/O] file_exist: TRUE on disk (%s)\n", filename);
             fclose(f);
             return 1;
         }
+
+        int pf_handle = pf_open_member(filename);
+        if (pf_handle) {
+            printf("[TH04 PS3 I/O] file_exist: TRUE in GENSOU.DAT (%s)\n", filename);
+            pf_close_member();
+            return 1;
+        }
+
         printf("[TH04 PS3 I/O] file_exist: FALSE (%s)\n", filename);
         return 0;
     }
@@ -412,7 +453,7 @@ extern "C" {
 
     unsigned pferrno = 0;
     unsigned char pfkey = 0;
-    int TH04_PASCAL pf_hook_install(void) { return 0; }
+    int TH04_PASCAL pf_hook_install(void) { return 1; }
     void TH04_PASCAL pf_hook_remove(void) {}
 
     void pascal near tiles_invalidate_around(const SPPoint) {}
@@ -505,8 +546,11 @@ void near egc_start_copy_noframe(void) {}
 
 void near sub_12024(void) {}
 
+static bool ps3_compat_null_bool(void) { return false; }
+static void ps3_compat_null_void(void) {}
+
 point_t tile_invalidate_box;
-nearfunc_t_near bullet_template_tune = 0;
+nearfunc_t_near bullet_template_tune = (nearfunc_t_near)ps3_compat_null_void;
 void gather_point_render(int, int) {}
 void score_update_and_render(void) {}
 void shot_level_update(void) {}
@@ -525,12 +569,12 @@ bool boss_phase_timed_out = false;
 SPPoint boss_hitbox_radius;
 SPPoint shot_hitbox_center;
 SPPoint shot_hitbox_radius;
-func_t_near boss_update = 0;
-nearfunc_t_near boss_fg_render = 0;
-func_t_near boss_update_func = 0;
-nearfunc_t_near boss_bg_render_func = 0;
-nearfunc_t_near boss_fg_render_func = 0;
-nearfunc_t_near boss_backdrop_colorfill = 0;
+func_t_near boss_update = (func_t_near)ps3_compat_null_void;
+nearfunc_t_near boss_fg_render = (nearfunc_t_near)ps3_compat_null_void;
+func_t_near boss_update_func = (func_t_near)ps3_compat_null_void;
+nearfunc_t_near boss_bg_render_func = (nearfunc_t_near)ps3_compat_null_void;
+nearfunc_t_near boss_fg_render_func = (nearfunc_t_near)ps3_compat_null_void;
+nearfunc_t_near boss_backdrop_colorfill = (nearfunc_t_near)ps3_compat_null_void;
 unsigned char boss_statebyte[16] = {0};
 
 Palette8 Palettes;
@@ -570,10 +614,10 @@ unsigned int bb_boss_seg = 0;
 unsigned int tiles_bb_seg = 0;
 unsigned char tiles_bb_col = 0;
 
-func_t_near midboss_update = 0;
-nearfunc_t_near midboss_render = 0;
-nearfunc_t_near midboss_update_func = 0;
-nearfunc_t_near midboss_render_func = 0;
+func_t_near midboss_update = (func_t_near)ps3_compat_null_void;
+nearfunc_t_near midboss_render = (nearfunc_t_near)ps3_compat_null_void;
+func_t_near midboss_update_func = (func_t_near)ps3_compat_null_void;
+nearfunc_t_near midboss_render_func = (nearfunc_t_near)ps3_compat_null_void;
 int midboss_frames_until = 0;
 unsigned char midboss_defeat_angle = 0;
 unsigned char midboss1_angle = 0;
@@ -589,7 +633,7 @@ unsigned char midboss4_pattern = 0;
 unsigned char midboss4_aim_toggle = 0;
 unsigned char midboss4_unknown_state = 0;
 unsigned char midboss4_patterns_done = 0;
-void (near pascal *midboss_invalidate)(void) = 0;
+void (near pascal *midboss_invalidate)(void) = (void (near pascal *)(void))ps3_compat_null_void;
 bool midboss_active = false;
 
 char aSt00_bmt[] = "st00.bmt";
@@ -638,18 +682,19 @@ char mari_bft[] = "mari.bft";
 char mikod_bft[] = "mikod.bft";
 char miko32_bft[] = "miko32.bft";
 char miko16_bft[] = "miko16.bft";
-char stage_bgm_name[16] = {0};
+static char stage_bgm_name_buf[16] = "ST00";
+char *stage_bgm_name = stage_bgm_name_buf;
 int stage_faceset_count = 0;
 
-nearfunc_t_near stage_render = 0;
-nearfunc_t_near stage_invalidate = 0;
+nearfunc_t_near stage_render = (nearfunc_t_near)ps3_compat_null_void;
+nearfunc_t_near stage_invalidate = (nearfunc_t_near)ps3_compat_null_void;
 unsigned char stage_frame_mod2 = 0;
 unsigned char stage_frame_mod4 = 0;
 unsigned char stage_frame_mod8 = 0;
 unsigned char stage_frame_mod16 = 0;
 unsigned int stage_frame = 0;
 int stage_id = 0;
-func_t_near stage_vm = 0;
+func_t_near stage_vm = (func_t_near)ps3_compat_null_void;
 int stage5_star_center_y = 0;
 char STAGE_CLEAR_BONUS_DESC[] = "";
 char gpCLEAR_BONUS[] = "";
@@ -700,13 +745,13 @@ unsigned int shots_alive_count = 0;
 shot_alive_t shots_alive[SHOT_COUNT];
 unsigned char byte_25980 = 0;
 int player_input_prev = 0;
-nearfunc_t_near playchar_shot_func = 0;
+nearfunc_t_near playchar_shot_func = (nearfunc_t_near)ps3_compat_null_void;
 int player_option_patnum = 0;
 nearfunc_t_near SHOT_FUNCS_REIMU_A[10] = {0};
 nearfunc_t_near playchar_shot_funcs[10] = {0};
 nearfunc_t_near SHOT_FUNCS_REIMU_B[10] = {0};
-nearfunc_t_near player_bomb_func = 0;
-nearfunc_t_near playchar_bomb_func = 0;
+nearfunc_t_near player_bomb_func = (nearfunc_t_near)ps3_compat_null_void;
+nearfunc_t_near playchar_bomb_func = (nearfunc_t_near)ps3_compat_null_void;
 nearfunc_t_near SHOT_FUNCS_MARISA_A[10] = {0};
 nearfunc_t_near SHOT_FUNCS_MARISA_B[10] = {0};
 unsigned char player_state_unknown_0 = 0;
@@ -745,7 +790,21 @@ int egc_shift_up_val = 0;
 int egc_shift_down_val = 0;
 int playfield_shake_redraw_time = 0;
 
-static resident_t s_resident = {};
+static resident_t s_resident = {
+    "HUMAConfig", // id
+    3,            // rem_lives
+    3,            // credit_lives
+    3,            // rem_bombs
+    3,            // credit_bombs
+    1,            // rank
+    0,            // bgm_mode
+    0,            // stage
+    '0',          // playchar_ascii
+    '0',          // stage_ascii
+    12345,        // rand
+    0,            // se_mode
+    0,            // shottype
+};
 resident_t far *resident = &s_resident;
 unsigned char rank = 0;
 int score_delta_frame = 0;
@@ -761,8 +820,8 @@ char SCOREDAT_FN_1[] = "GENSOU.SCR";
 char SCOREDAT_FN_2[] = "GENSOU.SCR";
 char gCONTINUE_[] = "";
 
-nearfunc_t_near overlay1 = 0;
-nearfunc_t_near overlay2 = 0;
+nearfunc_t_near overlay1 = (nearfunc_t_near)ps3_compat_null_void;
+nearfunc_t_near overlay2 = (nearfunc_t_near)ps3_compat_null_void;
 unsigned long overlay_popup_bonus = 0;
 popup_id_t overlay_popup_id_new = POPUP_ID_HISCORE_ENTRY;
 int overlay_fade = 0;
@@ -835,7 +894,7 @@ int marisa_prev_bits_alive = 0;
 int mugetsu_damage_flash_cycle = 0;
 int mugetsu_gather_frame_offset = 0;
 SPPoint mugetsu_anchor;
-nearfunc_t_near mugetsu_transition_func = 0;
+nearfunc_t_near mugetsu_transition_func = (nearfunc_t_near)ps3_compat_null_void;
 int mugetsu_phase2_mode = 0;
 int yuuka5_move_state = 0;
 int yuuka5_sweep_x = 0;
@@ -875,10 +934,12 @@ int shiftkey = 0;
 int DEMOPLAY_BINARY_OP = 0;
 bool gDEMO_PLAY = false;
 
-char eyename[] = "eye0.cdg";
+static char eyename_buf[16] = "eye0.cdg";
+char *eyename = eyename_buf;
 void* Ems = 0;
 char EMS_NAME[] = "TH04EMS";
-char bbname[] = "bb0.cdg";
+static char bbname_buf[16] = "bb0.cdg";
+char *bbname = bbname_buf;
 char FACESET_REIMU_FN_0[] = "";
 char FACESET_MARISA_FN_0[] = "";
 cdg_slot_t cdg_slots[64] = {};
@@ -905,8 +966,10 @@ char gYES[] = "";
 char gNO[] = "";
 char gCREDIT[] = "";
 void* dialog_p = 0;
-char dialog_fn[] = "";
-char dialog_fn_yuuka5_defeat_bad[] = "";
+static char dialog_fn_buf[32] = "st00.bft";
+char *dialog_fn = dialog_fn_buf;
+static char dialog_fn_yuuka5_defeat_bad_buf[32] = "st05bad.bft";
+char *dialog_fn_yuuka5_defeat_bad = dialog_fn_yuuka5_defeat_bad_buf;
 int script_param_number_default = 0;
 int dialog_side = 0;
 unsigned char dialog_kanji_buf[64] = {0};
@@ -924,7 +987,8 @@ unsigned int std_seg = 0;
 unsigned int bb_txt_seg = 0;
 char bb_txt_fn[] = "";
 char bb_txt2_fn[] = "";
-char map_fn[] = "";
+static char map_fn_buf[32] = "st00.mpn";
+char *map_fn = map_fn_buf;
 unsigned int map_seg = 0;
 int mpn_slots = 0;
 bool mpn_show_palette_on_load = false;
@@ -943,21 +1007,22 @@ int checkerboard = 0;
 int halftiles_dirty = 0;
 int carpet_lighting_cel = 0;
 int carpet_light_level = 0;
-int CARPET_LIGHTING_ANIM = 0;
 int CARPET_TILE_IMAGE_VOS = 0;
-void* std_fn = 0;
+uint8_t CARPET_LIGHTING_ANIM[8][24] = {0};
+static char std_fn_buf[32] = "st00.bmt";
+char *std_fn = std_fn_buf;
 int std_ip = 0;
 int tile_render_all_time = 0;
 char CFG_FN[] = "MIKO.CFG";
 char main_pf_fn[] = "GENSOU.DAT";
-char gaiji_fn[] = "GAIJI.AFT";
+char gaiji_fn[] = "GAMEFT.bft";
 char se_fn[] = "PMD.BGM";
 char op_fn[] = "OP.EXE";
-int fp_23D90 = 0;
-nearfunc_t_near std_update = 0;
-nearfunc_t_near bg_render_bombing = 0;
-nearfunc_t_near bg_render_not_bombing = 0;
-nearfunc_t_near bg_render_bombing_func = 0;
+nearfunc_t_near fp_23D90 = (nearfunc_t_near)ps3_compat_null_void;
+nearfunc_t_near std_update = (nearfunc_t_near)ps3_compat_null_bool;
+nearfunc_t_near bg_render_bombing = (nearfunc_t_near)ps3_compat_null_void;
+nearfunc_t_near bg_render_not_bombing = (nearfunc_t_near)ps3_compat_null_void;
+nearfunc_t_near bg_render_bombing_func = (nearfunc_t_near)ps3_compat_null_void;
 unsigned char bgm_title_id = 0;
 int boss_bomb_invincibility_frames = 0;
 int bullet_special_turns_max = 0;
@@ -977,8 +1042,10 @@ int boss_bgm_title_len = 0;
 void* item_splashes = 0;
 char item_splash_last_id = 0;
 SubpixelLength8 scroll_subpixel_line;
-char bb_playchar_bb_fn[] = "";
-char bb_playchar_cdg_fn[] = "";
+static char bb_playchar_bb_fn_buf[16] = "bb0.bb";
+char *bb_playchar_bb_fn = bb_playchar_bb_fn_buf;
+static char bb_playchar_cdg_fn_buf[16] = "bb0.cdg";
+char *bb_playchar_cdg_fn = bb_playchar_cdg_fn_buf;
 unsigned int bb_playchar_seg = 0;
 int bomb_frame = 0;
 bool scroll_active = false;
@@ -1008,8 +1075,8 @@ bool shots_hittest_against_boss = false;
 SPPoint shot_velocity_set(SPPoint*, unsigned char) { SPPoint p; p.x.v = 0; p.y.v = 0; return p; }
 void pascal near pointnums_add_white(subpixel_t center_x, subpixel_t center_y, uint16_t points) {}
 void pascal near pointnums_add_yellow(subpixel_t center_x, subpixel_t center_y, uint16_t points) {}
-nearfunc_t_near bullets_add_regular = 0;
-nearfunc_t_near bullets_add_special = 0;
+nearfunc_t_near bullets_add_regular = (nearfunc_t_near)ps3_compat_null_void;
+nearfunc_t_near bullets_add_special = (nearfunc_t_near)ps3_compat_null_void;
 void thicklaser_add(void) {}
 
 #endif

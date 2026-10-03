@@ -13,6 +13,7 @@ int pascal snd_determine_modes(int req_bgm_mode, int req_se_mode)
 	}
 	// ZUN landmine: We should be returning if neither driver is resident!
 
+#if defined(__TURBOC__) || defined(__MSDOS__)
 	_AH = PMD_GET_DRIVER_TYPE_AND_VERSION;
 	geninterrupt(PMD);
 	if(_AL == 0xFF) {
@@ -22,6 +23,9 @@ int pascal snd_determine_modes(int req_bgm_mode, int req_se_mode)
 	} else {
 		snd_bgm_mode = SND_BGM_FM86;
 	}
+#else
+	snd_bgm_mode = SND_BGM_OFF;
+#endif
 
 	if(req_se_mode == SND_SE_FM) {
 		_AX = (snd_bgm_active() ? SND_SE_FM : SND_SE_OFF);

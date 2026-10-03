@@ -43,6 +43,39 @@ static const BorlandCType _ctype;
 extern "C" {
 #endif
 
+int pf_open_member(const char* path);
+unsigned pf_read_member(void* out, unsigned count);
+void pf_close_member(void);
+extern int g_pf_active_handle;
+
+#define MAX_DOS_HANDLES 64
+extern FILE* g_dos_handles[MAX_DOS_HANDLES];
+
+inline int dos_handle_alloc(FILE* f) {
+	if (!f) return 0;
+	for (int i = 1; i < MAX_DOS_HANDLES; i++) {
+		if (g_dos_handles[i] == NULL) {
+			g_dos_handles[i] = f;
+			return i;
+		}
+	}
+	printf("[TH04 PS3 DOS] ERROR: dos_handle_alloc out of handles!\n");
+	return 0;
+}
+
+inline FILE* dos_handle_get(int handle) {
+	if (handle > 0 && handle < MAX_DOS_HANDLES) {
+		return g_dos_handles[handle];
+	}
+	return NULL;
+}
+
+inline void dos_handle_free(int handle) {
+	if (handle > 0 && handle < MAX_DOS_HANDLES) {
+		g_dos_handles[handle] = NULL;
+	}
+}
+
 inline void outport(unsigned short port, unsigned short val) {}
 inline void outportb(unsigned short port, unsigned char val) {}
 inline unsigned char __outportb__(unsigned short port, unsigned char val) { return val; }
@@ -64,19 +97,41 @@ inline unsigned _dos_open(const char* filename, unsigned flags, int* handle) {
 		printf("[TH04 PS3 DOS] Relative _dos_open failed, trying fallback: %s\n", path);
 		f = fopen(path, "rb");
 	}
-	if (!f) {
-		printf("[TH04 PS3 DOS] ERROR: _dos_open failed for %s\n", filename ? filename : "NULL");
-		return 1;
+	if (f) {
+		*handle = dos_handle_alloc(f);
+		printf("[TH04 PS3 DOS] _dos_open SUCCESS on disk: %s (handle=%d)\n", filename ? filename : "NULL", *handle);
+		return 0;
 	}
-	*handle = (int)(intptr_t)f;
-	printf("[TH04 PS3 DOS] _dos_open SUCCESS: %s\n", filename ? filename : "NULL");
-	return 0;
+
+	if (filename) {
+		int pf_handle = pf_open_member(filename);
+		if (pf_handle) {
+			*handle = pf_handle;
+			g_pf_active_handle = pf_handle;
+			printf("[TH04 PS3 DOS] _dos_open SUCCESS in GENSOU.DAT: %s (handle=%d)\n", filename, pf_handle);
+			return 0;
+		}
+	}
+
+	printf("[TH04 PS3 DOS] ERROR: _dos_open failed for %s\n", filename ? filename : "NULL");
+	return 1;
 }
 
 inline unsigned _dos_close(int handle) {
 	if (handle) {
-		printf("[TH04 PS3 DOS] _dos_close\n");
-		fclose((FILE*)(intptr_t)handle);
+		if (g_pf_active_handle && handle == g_pf_active_handle) {
+			int pf_h = g_pf_active_handle;
+			g_pf_active_handle = 0; // Clear BEFORE calling pf_close_member() to prevent infinite recursion
+			printf("[TH04 PS3 DOS] _dos_close pf archive member handle %d\n", pf_h);
+			pf_close_member();
+			return 0;
+		}
+		FILE* f = dos_handle_get(handle);
+		if (f) {
+			printf("[TH04 PS3 DOS] _dos_close handle %d\n", handle);
+			fclose(f);
+			dos_handle_free(handle);
+		}
 	}
 	return 0;
 }
@@ -87,7 +142,13 @@ inline unsigned _dos_read(int handle, void* buf, unsigned count, unsigned* bytes
 		*bytes_read = 0;
 		return 1;
 	}
-	*bytes_read = (unsigned)fread(buf, 1, count, (FILE*)(intptr_t)handle);
+	FILE* f = dos_handle_get(handle);
+	if (!f) {
+		printf("[TH04 PS3 DOS] _dos_read failed: handle %d not found in handle table\n", handle);
+		*bytes_read = 0;
+		return 1;
+	}
+	*bytes_read = (unsigned)fread(buf, 1, count, f);
 	printf("[TH04 PS3 DOS] _dos_read requested %u bytes, read %u bytes\n", count, *bytes_read);
 	return 0;
 }

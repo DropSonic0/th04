@@ -1,5 +1,6 @@
 #pragma option -zCSHARED -Z-
 
+#include <stdio.h>
 #include "src/shared/platform/x86.hpp"
 #include "src/shared/runtime/api.hpp"
 #include "src/shared/sound/api.hpp"
@@ -23,10 +24,9 @@ extern const char *SND_LOAD_EXT[4];
 
 #else
 
-// Implementación Stub para PS3 / Compiladores modernos
 extern "C" void TH04_PASCAL snd_load(const char fn[PF_FN_LEN], snd_load_func_t func)
 {
-	// En PS3 la carga de archivos BGM/SE se gestionará por el motor de audio nativo
+	printf("[TH04 PS3 Sound] snd_load stub called (fn=%s, func=%d)\n", fn ? fn : "NULL", (int)func);
 }
 
 #endif

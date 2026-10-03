@@ -107,20 +107,30 @@ static int name_equal(const char far *path, const unsigned char far *name)
 static void close_virtual(void)
 {
 	if (vf.active) {
-		_dos_close(vf.handle);
 		vf.active = 0;
+		int handle = vf.handle;
+		vf.handle = 0;
+		_dos_close(handle);
 	}
 	if (vf.buffer) {
-		hmem_free(vf.buffer);
+		void __seg *buf = vf.buffer;
 		vf.buffer = 0;
+		hmem_free(buf);
 	}
 }
 
 static int seek_payload(void)
 {
+#if defined(__TURBOC__) || defined(__MSDOS__)
 	if (lseek(vf.handle, (long)vf.packed_offset, SEEK_SET) < 0) {
 		return 0;
 	}
+#else
+	FILE* f = dos_handle_get(vf.handle);
+	if (!f || fseek(f, (long)vf.packed_offset, SEEK_SET) != 0) {
+		return 0;
+	}
+#endif
 	vf.fill = vf.next = vf.packed_read = vf.repeat = 0;
 	vf.position = 0;
 	vf.previous = -1;
@@ -298,6 +308,86 @@ extern "C" int TH04_PASCAL pf_dispatch(PfFrame far *f)
 	return 0;
 }
 
+extern "C" int TH04_PASCAL pf_open_member(const char far *path)
+{
+	if (!archive_active || vf.active || !path) {
+		return 0;
+	}
+	for (unsigned i = 0; i < directory_count; i++) {
+		const unsigned char far *entry = (const unsigned char far *)directory + i * 32u;
+		if (!name_equal(path, entry + 3)) {
+			continue;
+		}
+		printf("[TH04 PS3 PF] Opening archive member via pf_open_member: %s\n", path);
+		int handle;
+		if (_dos_open(archive_path, 0, &handle)) {
+			printf("[TH04 PS3 PF] Failed _dos_open backing archive %s for member %s\n", archive_path, path);
+			return 0;
+		}
+		vf.handle = handle;
+		vf.active = 1;
+		vf.type = get16(entry);
+		vf.aux = entry[2];
+		vf.packed_size = get16(entry + 16);
+		vf.declared_size = get16(entry + 18);
+		vf.packed_offset = get32(entry + 20);
+		vf.capacity = bbufsiz ? bbufsiz : 512;
+		vf.buffer = (unsigned char __seg *)hmem_allocbyte(vf.capacity);
+		if (!vf.buffer || !seek_payload()) {
+			printf("[TH04 PS3 PF] Failed buffer alloc or seek_payload for member %s\n", path);
+			close_virtual();
+			return 0;
+		}
+		printf("[TH04 PS3 PF] Member %s ready (decl_size=%u, packed_size=%u, handle=%d)\n", path, vf.declared_size, vf.packed_size, handle);
+		return vf.handle;
+	}
+	return 0;
+}
+
+extern "C" unsigned TH04_PASCAL pf_read_member(void far *out, unsigned count)
+{
+	if (!vf.active) {
+		return 0;
+	}
+	return read_virtual((unsigned char far *)out, count);
+}
+
+extern "C" void TH04_PASCAL pf_seek_member(long offset, int origin)
+{
+	if (!vf.active) {
+		return;
+	}
+	long base;
+	switch (origin & 0xFF) {
+	case 0: base = 0; break;
+	case 1: base = (long)vf.position; break;
+	case 2: base = (long)vf.declared_size; break;
+	default: return;
+	}
+	long wanted = base + offset;
+	if ((wanted < 0) || ((unsigned long)wanted > 65536UL)) {
+		return;
+	}
+	if (((unsigned long)wanted < vf.position) && !seek_payload()) {
+		return;
+	}
+	unsigned char discard[64];
+	while (vf.position < (unsigned long)wanted) {
+		unsigned count = (unsigned)((unsigned long)wanted - vf.position);
+		if (count > sizeof(discard)) {
+			count = sizeof(discard);
+		}
+		if (read_virtual(discard, count) != count) {
+			return;
+		}
+	}
+}
+
+extern "C" void TH04_PASCAL pf_close_member(void)
+{
+	close_virtual();
+}
+
 extern "C" void TH04_PASCAL pfend(void)
 {
 	if (archive_active) {
@@ -384,4 +474,11 @@ extern "C" void TH04_PASCAL pfstart(const unsigned char far *path)
 	directory_count = count;
 	archive_active = (unsigned)pf_hook_install();
 	printf("[TH04 PS3 PF] pfstart SUCCESS: %u directory entries loaded from %s\n", directory_count, archive_path);
+	printf("[TH04 PS3 PF] --- Files inside %s (%u entries) ---\n", archive_path, directory_count);
+	for (i = 0; i < directory_count; i++) {
+		const unsigned char far *entry = (const unsigned char far *)directory + i * 32u;
+		printf("[TH04 PS3 PF] File %3u: %s (decl_size=%u, packed_size=%u, offset=%lu)\n",
+		       i, entry + 3, get16(entry + 18), get16(entry + 16), get32(entry + 20));
+	}
+	printf("[TH04 PS3 PF] --- End of %s directory ---\n", archive_path);
 }

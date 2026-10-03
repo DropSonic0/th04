@@ -11,6 +11,7 @@
 #include "src/main/playchar.hpp"
 #include "src/main/shiftjis/fns.hpp"
 #include "th04/main/ems.hpp"
+#include <stdio.h>
 
 extern char *eyename;	/* ZUN symbol [MAGNet2010] */
 extern char *bbname; 	/* ZUN symbol [MAGNet2010] */
@@ -53,6 +54,8 @@ void near ems_allocate_and_preload_eyecatch(void)
 	#undef EMS_NAME
 	extern const char EMS_NAME[];
 
+	printf("[TH04 PS3 EMS] ems_allocate_and_preload_eyecatch called (resident=%p)\n", resident);
+
 	// Luckily, these assignments are also done later, and the game doesn't
 	// rely on them inbetween.
 	stage_id = resident->stage;
@@ -65,9 +68,11 @@ void near ems_allocate_and_preload_eyecatch(void)
 #if (GAME == 4)
 	eyename[3] = ('0' + rank);
 #endif
+	printf("[TH04 PS3 EMS] eyename set to: %s\n", eyename ? eyename : "NULL");
 
 	Ems = nullptr;
 	if(!ems_exist() || (ems_space() < EMSSIZE)) {
+		printf("[TH04 PS3 EMS] EMS not available or insufficient space, skipping eyecatch preload\n");
 		return;
 	}
 	Ems = ems_allocate(EMSSIZE);

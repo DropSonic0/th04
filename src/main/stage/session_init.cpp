@@ -23,6 +23,7 @@
 #include "src/main/formats/map.hpp"
 #include "th04/formats/dialog.hpp"
 #include "src/main/formats/cdg.hpp"
+#include <stdio.h>
 
 extern unsigned char page_front;
 extern unsigned char page_back;
@@ -133,8 +134,10 @@ void near stage_session_init(void)
     load_playchar_resources = 0;
     vsync_Count2 = 0;
     stage_id = resident->stage;
+    printf("[TH04 PS3 Session] stage_session_init called (stage_id=%d)\n", stage_id);
 
     if((stage_id == 0) || (stage_id == 6)) {
+        printf("[TH04 PS3 Session] Init gameplay_session_init for stage 0/6...\n");
         load_playchar_resources = 1;
         text_fillca(' ', TX_BLACK | TX_REVERSE);
         fp_23D90 = (callback_cdecl_t)nullfunc_near;
@@ -251,12 +254,17 @@ void near stage_session_init(void)
         break;
     }
 
+    printf("[TH04 PS3 Session] Loading map, std, dialog files...\n");
     map_load();
     std_load();
     dialog_load();
     tiles_fill_initial();
     graph_accesspage(0);
+    printf("[TH04 PS3 Session] Waiting vsync_Count2...\n");
     while(vsync_Count2 < 0x80) {
+#if !defined(__TURBOC__) && !defined(__MSDOS__)
+        vsync_Count2 = 0x80;
+#endif
     }
     palette_black_out(1);
     PaletteTone = 100;
@@ -277,6 +285,7 @@ void near stage_session_init(void)
     tiles_activate();
     overlay1 = overlay_stage_enter_update_and_render;
     overlay2 = nullfunc_near;
+    printf("[TH04 PS3 Session] stage_session_init SUCCESS\n");
 }
 
 

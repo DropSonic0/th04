@@ -16,6 +16,7 @@
 #include "th04/main/quit.hpp"
 #endif
 #include "th04/main/score.hpp"
+#include <stdio.h>
 
 #ifdef TH04_DEMO_FULL_COMBINED
 typedef void (near *callback_cdecl_t)(void);
@@ -70,10 +71,12 @@ extern "C" void far snd_se_update(void);
 
 void near gameplay_loop(void)
 {
+    printf("[TH04 PS3 Loop] gameplay_loop started\n");
     slowdown_factor = 1;
     frame_delay(1);
     input_reset_sense();
 
+    int frame_count_debug = 0;
     do {
         input_sense();
         fp_23D90();
@@ -159,5 +162,11 @@ void near gameplay_loop(void)
             : (void)0;
 
         score_update_and_render();
+
+        frame_count_debug++;
+        if((frame_count_debug % 300) == 0) {
+            printf("[TH04 PS3 Loop] Frame %d running (stage_frame=%u, quit=%d)\n", frame_count_debug, stage_frame, quit);
+        }
     } while(quit == Q_KEEP_RUNNING);
+    printf("[TH04 PS3 Loop] gameplay_loop finished with quit=%d\n", quit);
 }
