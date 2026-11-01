@@ -38,11 +38,12 @@ extern "C" void pascal near nullfunc_near(void);
 void near overlay_wipe(void);
 void near overlay_black(void);
 void pascal near overlay_stage_enter_update_and_render(void);
-extern "C" void pascal near tiles_fill_initial(void);
+void pascal near tiles_fill_initial(void);
 void pascal near tiles_render_all(void);
 void far tiles_activate(void);
 #pragma samecodeseg tiles_activate
 void near tiles_invalidate_reset(void);
+extern "C" void ps3_clear_playfield(void);
 extern "C" int pascal near mpn_load(const char *fn);
 void near std_load(void);
 void near gameplay_session_init(void);
@@ -275,6 +276,7 @@ void near stage_session_init(void)
     palette_black_out(1);
     PaletteTone = 100;
     palette_show();
+    ps3_clear_playfield();
     overlay_black();
     tiles_render_all();
     page_back = 1;

@@ -1,7 +1,11 @@
+#ifdef __PS3__
+extern "C" int th04_op_main(void)
+#else
 void main(void)
+#endif
 {
 	int idle_frame = 0;
-	printf("[TH04 PS3 Main] main() entered\n");
+	printf("[TH04 PS3 OP] th04_op_main entered\n");
 
 	text_clear();
 	respal_create(); // ZUN bloat: These games don't use resident palettes.
@@ -82,10 +86,18 @@ void main(void)
 	quit = false;
 	menu_sel = 0;
 	while(!quit) {
+#if defined(__PS3__) || defined(CELL_SDK) || defined(__CELLOS_LV2__) || defined(SN_TARGET_PS3)
+		static int s_prof_frame = 0;
+		uint64_t t0 = sys_time_get_system_time();
+#endif
 		input_reset_sense_interface();
+#if defined(__PS3__) || defined(CELL_SDK) || defined(__CELLOS_LV2__) || defined(SN_TARGET_PS3)
+		uint64_t t1 = sys_time_get_system_time();
+#endif
 		switch(in_option) {
 		case false:
 			main_update_and_render();
+#if !defined(__PS3__)
 			if(idle_frame >= 640) {
 				start_demo();
 #if (GAME == 5)
@@ -93,12 +105,20 @@ void main(void)
 				idle_frame = 0;
 #endif
 			}
+#else
+			if(idle_frame >= 640) {
+				idle_frame = 0;
+			}
+#endif
 			break;
 
 		case true:
 			option_update_and_render();
 			break;
 		}
+#if defined(__PS3__) || defined(CELL_SDK) || defined(__CELLOS_LV2__) || defined(SN_TARGET_PS3)
+		uint64_t t2 = sys_time_get_system_time();
+#endif
 
 		// Holding Left+Right triggers the hidden Extra Stage replay in
 		// start_demo(). Don't reset [idle_frame] for that specific input, as
@@ -113,6 +133,19 @@ void main(void)
 
 		resident->rand++;
 		frame_delay(1);
+#if defined(__PS3__) || defined(CELL_SDK) || defined(__CELLOS_LV2__) || defined(SN_TARGET_PS3)
+		uint64_t t3 = sys_time_get_system_time();
+		s_prof_frame++;
+		if((s_prof_frame % 10) == 0 || (t3 - t0) > 25000) {
+			printf("[TH04 Perf Loop #%d] Total: %.2f ms (Input: %.2f ms, Update: %.2f ms, Delay: %.2f ms) key=0x%04X\n",
+				s_prof_frame,
+				(float)(t3 - t0) / 1000.0f,
+				(float)(t1 - t0) / 1000.0f,
+				(float)(t2 - t1) / 1000.0f,
+				(float)(t3 - t2) / 1000.0f,
+				key_det);
+		}
+#endif
 	}
 	main_cdg_free();
 	cfg_save_exit();
@@ -122,4 +155,5 @@ void main(void)
 	text_clear();
 	game_exit_to_dos();
 	respal_free(); // ZUN bloat: These games don't use resident palettes.
+	return 0;
 }

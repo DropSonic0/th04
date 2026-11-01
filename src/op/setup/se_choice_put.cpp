@@ -1,5 +1,6 @@
+#include "src/shared/platform/types.hpp"
 typedef unsigned char shiftjis_t;
-typedef unsigned int vc2;
+typedef uint16_t vc2;
 typedef int screen_y_t;
 
 static const int CHOICE_LEFT = 48;

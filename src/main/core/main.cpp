@@ -26,48 +26,64 @@ extern const char gaiji_fn[];
 extern const char se_fn[];
 extern const char op_fn[];
 
-void main(void)
+extern "C" int th04_op_main(void);
+
+int th04_gameplay_main(void)
 {
-    printf("[TH04 PS3 Main] main() entered\n");
+    printf("[TH04 PS3 Gameplay] Gameplay starting...\n");
     if(!cfg_load_resident_ptr()) {
-        printf("[TH04 PS3 Main] cfg_load_resident_ptr failed\n");
-        return;
+        printf("[TH04 PS3 Gameplay] cfg_load_resident_ptr failed\n");
+        return 1;
     }
-    printf("[TH04 PS3 Main] cfg_load_resident_ptr SUCCESS\n");
+    printf("[TH04 PS3 Gameplay] cfg_load_resident_ptr SUCCESS\n");
 
     mem_assign_paras = (320000 >> 4);
-    printf("[TH04 PS3 Main] Calling game_init_main...\n");
+    printf("[TH04 PS3 Gameplay] Calling game_init_main...\n");
     game_init_main(main_pf_fn);
-    printf("[TH04 PS3 Main] game_init_main returned SUCCESS\n");
+    printf("[TH04 PS3 Gameplay] game_init_main returned SUCCESS\n");
 
     random_seed = resident->rand;
-    printf("[TH04 PS3 Main] Calling ems_allocate_and_preload_eyecatch...\n");
+    printf("[TH04 PS3 Gameplay] Calling ems_allocate_and_preload_eyecatch...\n");
     ems_allocate_and_preload_eyecatch();
-    printf("[TH04 PS3 Main] ems_allocate_and_preload_eyecatch completed\n");
+    printf("[TH04 PS3 Gameplay] ems_allocate_and_preload_eyecatch completed\n");
 
     text_clear();
-    printf("[TH04 PS3 Main] Calling gaiji_backup & gaiji_entry_bfnt...\n");
+    printf("[TH04 PS3 Gameplay] Calling gaiji_backup & gaiji_entry_bfnt...\n");
     gaiji_backup();
     gaiji_entry_bfnt(gaiji_fn);
 
-    printf("[TH04 PS3 Main] Calling snd_determine_modes & snd_load...\n");
+    printf("[TH04 PS3 Gameplay] Calling snd_determine_modes & snd_load...\n");
     snd_determine_modes(resident->bgm_mode, resident->se_mode);
     snd_load(se_fn, SND_LOAD_SE);
 
-    printf("[TH04 PS3 Main] Entering main gameplay loop...\n");
+    printf("[TH04 PS3 Gameplay] Entering main gameplay loop...\n");
     for(;;) {
-        printf("[TH04 PS3 Main] stage_session_init()...\n");
+        printf("[TH04 PS3 Gameplay] stage_session_init()...\n");
         stage_session_init();
-        printf("[TH04 PS3 Main] gameplay_loop()...\n");
+        printf("[TH04 PS3 Gameplay] gameplay_loop()...\n");
         gameplay_loop();
         if(quit != Q_NEXT_STAGE) {
-            printf("[TH04 PS3 Main] Loop exit with quit code %d\n", quit);
+            printf("[TH04 PS3 Gameplay] Loop exit with quit code %d\n", quit);
             break;
         }
-        printf("[TH04 PS3 Main] Next stage reached, stage_session_free()...\n");
+        printf("[TH04 PS3 Gameplay] Next stage reached, stage_session_free()...\n");
         stage_session_free();
     }
 
-    printf("[TH04 PS3 Main] GameExecl(%s)\n", op_fn);
-    GameExecl(op_fn);
+    printf("[TH04 PS3 Gameplay] Gameplay ended, returning to title.\n");
+    return 0;
+}
+
+int main(void)
+{
+    printf("[TH04 PS3] =============================================\n");
+    printf("[TH04 PS3] Touhou 4: Lotus Land Story (PlayStation 3)\n");
+    printf("[TH04 PS3] =============================================\n");
+    for(;;) {
+        int res = th04_op_main();
+        if (res == 0) {
+            break;
+        }
+    }
+    return 0;
 }

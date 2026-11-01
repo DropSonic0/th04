@@ -13,7 +13,10 @@ int pascal snd_determine_modes(int req_bgm_mode, int req_se_mode)
 	}
 	// ZUN landmine: We should be returning if neither driver is resident!
 
-#if defined(__TURBOC__) || defined(__MSDOS__)
+#if defined(__PS3__) || defined(CELL_SDK) || defined(__CELLOS_LV2__) || defined(SN_TARGET_PS3)
+	snd_bgm_mode = SND_BGM_FM86;
+	snd_se_mode = (req_se_mode != SND_SE_OFF) ? SND_SE_FM : SND_SE_OFF;
+#elif defined(__TURBOC__) || defined(__MSDOS__)
 	_AH = PMD_GET_DRIVER_TYPE_AND_VERSION;
 	geninterrupt(PMD);
 	if(_AL == 0xFF) {
@@ -37,6 +40,10 @@ int pascal snd_determine_modes(int req_bgm_mode, int req_se_mode)
 	}
 
 	// We tentatively set [snd_bgm_mode] above, but do we even want any?
+#if defined(__PS3__) || defined(CELL_SDK) || defined(__CELLOS_LV2__) || defined(SN_TARGET_PS3)
+	snd_bgm_mode = SND_BGM_FM86;
+	snd_se_mode = SND_SE_FM;
+#else
 	if(req_bgm_mode == SND_BGM_OFF) {
 		snd_bgm_mode = SND_BGM_OFF;
 	} else if((req_bgm_mode == SND_BGM_MIDI) && snd_midi_possible) {
@@ -44,6 +51,7 @@ int pascal snd_determine_modes(int req_bgm_mode, int req_se_mode)
 	} else if((req_bgm_mode == SND_BGM_FM26) && snd_bgm_active()) {
 		snd_bgm_mode = SND_BGM_FM26;
 	}
+#endif
 
 	printf("[TH04 PS3 Sound] snd_determine_modes result: bgm_mode=%d, se_mode=%d\n", snd_bgm_mode, snd_se_mode);
 	return snd_bgm_mode;

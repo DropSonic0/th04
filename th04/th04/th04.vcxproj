@@ -50,15 +50,16 @@
     <ClCompile>
       <PreprocessorDefinitions>_DEBUG;__CELL_ASSERT__;far=;near=;pascal=;__seg=;TH04_FAR;GAME=4;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OptimizationLevel>Level2</OptimizationLevel>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <AdditionalIncludeDirectories>C:\th04;C:\th04\src\main\include;C:\th04\src;C:\th04\src\shared\platform;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\th04;C:\th04\src\main\include;C:\th04\src;C:\th04\src\shared\platform;C:\th04\src\shared\sound\pmdmini;C:\th04\src\shared\sound\pmdmini\pmdwin;C:\th04\src\shared\sound\pmdmini\fmgen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>
       </ForcedIncludeFiles>
       <AdditionalOptions>-include src/shared/platform/ps3_compat.hpp %(AdditionalOptions)</AdditionalOptions>
       <ObjectFileName>$(IntDir)%(RelativeDir)</ObjectFileName>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>shared.a;libPSGL.a;libPSGLU.a;libPSGLcgc.a;libcgc.a;libgcm_cmd.a;libgcm_sys_stub.a;libresc_stub.a;libsysutil_game_stub.a;libsysutil_stub.a;libsysmodule_stub.a;libio_stub.a;libaudio_stub.a;libfs_stub.a;libnet_stub.a;libpthread.a;libm.a;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>op.a;shared.a;libPSGL.a;libPSGLU.a;libPSGLcgc.a;libcgc.a;libgcm_cmd.a;libgcm_sys_stub.a;libresc_stub.a;libsysutil_game_stub.a;libsysutil_stub.a;libsysmodule_stub.a;libio_stub.a;libaudio_stub.a;libfs_stub.a;libnet_stub.a;libpthread.a;libm.a;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Link>
       <AdditionalLibraryDirectories>C:\usr\local\cell\target\ppu\lib\PSGL\RSX\ultra-opt;C:\th04\th04\PS3_Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -518,6 +519,7 @@
     <ClCompile Include="..\..\src\main\stage_state_init.cpp" />
     <ClCompile Include="..\..\src\main\tile\set.cpp" />
     <ClCompile Include="..\..\src\main\tile\tile.cpp" />
+    <ClCompile Include="..\..\src\shared\platform\ps3_compat.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\src\zun\launcher\usage.txt" />

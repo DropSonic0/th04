@@ -112,6 +112,19 @@ static int pi_color(unsigned context)
 	return input.failed ? -1 : value;
 }
 
+#if !defined(__TURBOC__) && !defined(__MSDOS__)
+static inline unsigned char pi_image_byte(unsigned char *base, unsigned long at)
+{
+	return base[at];
+}
+
+static inline void pi_image_put(unsigned char *base, unsigned long at, unsigned char value)
+{
+	base[at] = value;
+}
+
+static int pi_unpack(unsigned char *base, unsigned width, unsigned long total)
+#else
 static unsigned char pi_image_byte(unsigned base, unsigned long at)
 {
 	unsigned segment = base + (unsigned)(at >> 4);
@@ -125,6 +138,7 @@ static void pi_image_put(unsigned base, unsigned long at, unsigned char value)
 }
 
 static int pi_unpack(unsigned base, unsigned width, unsigned long total)
+#endif
 {
 	unsigned ctx, at;
 	for (ctx = 0; ctx < 16u; ctx++) {
@@ -340,6 +354,19 @@ extern "C" int TH04_PASCAL graph_pi_load_pack(
 		}
 	}
 	total = (unsigned long)width * ((unsigned long)height + 2UL) / 2UL;
+#if !defined(__TURBOC__) && !defined(__MSDOS__)
+	void *alloc_mem = hmem_alloc((unsigned)((total + 15UL) >> 4));
+	if (!alloc_mem) {
+		goto no_memory;
+	}
+	base = (unsigned)(uintptr_t)alloc_mem;
+	if (!pi_unpack((unsigned char *)alloc_mem, width, total)) {
+		goto invalid;
+	}
+	*bufptr = (unsigned char *)alloc_mem + width;
+	_dos_close(handle);
+	return 0;
+#else
 	base = (unsigned)hmem_alloc((unsigned)((total + 15UL) >> 4));
 	if (!base) {
 		goto no_memory;
@@ -350,6 +377,7 @@ extern "C" int TH04_PASCAL graph_pi_load_pack(
 	*bufptr = MK_FP(base, width);
 	_dos_close(handle);
 	return 0;
+#endif
 
 invalid:
 	if (base) {

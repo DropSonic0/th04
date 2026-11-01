@@ -59,11 +59,15 @@ typedef uint8_t far *pi_buffer_p_t;
 	/* Carefully avoiding overflows... */ \
 	p += ((y * (PI_W / 2u)) + (x / 2u));
 
+#if defined(__TURBOC__) || defined(__MSDOS__)
 #define pi_buffer_p_normalize(p) \
 	p = reinterpret_cast<pi_buffer_p_t>(MK_FP( \
 		(seg_t)(reinterpret_cast<uint32_t>(p) >> 16) + (FP_OFF(p) >> 4), \
 		(FP_OFF(p) & 0xF) \
-	));
+	))
+#else
+#define pi_buffer_p_normalize(p) ((void)0)
+#endif
 
 #define pi_buffer_p_next_row(p, slot) \
 	pi_buffer_p_offset(p, pi_headers[slot].xsize, 0);

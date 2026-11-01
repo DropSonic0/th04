@@ -24,6 +24,8 @@ void near std_load(void)
 	std_fn[3] = resident->stage_ascii;
 	file_ropen(std_fn);
 	file_read(&std_size, sizeof(std_size));
+	uint16_t real_std_size = (uint16_t)(((const uint8_t *)&std_size)[0] | (((const uint8_t *)&std_size)[1] << 8));
+	std_size = real_std_size;
 	file_read(&chunk_size, sizeof(chunk_size));
 	std_size--; // Exclude [chunk_size]
 	std_seg = reinterpret_cast<uint8_t __seg *>(hmem_allocbyte(std_size));

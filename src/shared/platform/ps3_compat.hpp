@@ -7,6 +7,9 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#if defined(__PS3__) || defined(CELL_SDK) || defined(__CELLOS_LV2__) || defined(SN_TARGET_PS3)
+#include <sys/timer.h>
+#endif
 
 #ifndef __cplusplus
 # ifndef inline
@@ -77,9 +80,17 @@ inline void dos_handle_free(int handle) {
 	}
 }
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+void ps3_outportb(unsigned short port, unsigned char val);
+#ifdef __cplusplus
+}
+#endif
+
 inline void outport(unsigned short port, unsigned short val) {}
-inline void outportb(unsigned short port, unsigned char val) {}
-inline unsigned char __outportb__(unsigned short port, unsigned char val) { return val; }
+inline void outportb(unsigned short port, unsigned char val) { ps3_outportb(port, val); }
+inline unsigned char __outportb__(unsigned short port, unsigned char val) { ps3_outportb(port, val); return val; }
 inline unsigned short __outportw__(unsigned short port, unsigned short val) { return val; }
 inline unsigned short inport(unsigned short port) { return 0; }
 inline unsigned char inportb(unsigned short port) { return 0; }
@@ -88,6 +99,8 @@ inline void disable(void) {}
 inline void enable(void) {}
 inline void __emit__(unsigned char b, ...) {}
 inline void __int__(short i) {}
+
+#define PF_VIRTUAL_HANDLE 0x8000
 
 inline unsigned _dos_open(const char* filename, unsigned flags, int* handle) {
 	printf("[TH04 PS3 DOS] _dos_open: %s\n", filename ? filename : "NULL");
@@ -107,9 +120,9 @@ inline unsigned _dos_open(const char* filename, unsigned flags, int* handle) {
 	if (filename) {
 		int pf_handle = pf_open_member(filename);
 		if (pf_handle) {
-			*handle = pf_handle;
-			g_pf_active_handle = pf_handle;
-			printf("[TH04 PS3 DOS] _dos_open SUCCESS in GENSOU.DAT: %s (handle=%d)\n", filename, pf_handle);
+			*handle = PF_VIRTUAL_HANDLE;
+			g_pf_active_handle = PF_VIRTUAL_HANDLE;
+			printf("[TH04 PS3 DOS] _dos_open SUCCESS in GENSOU.DAT: %s (handle=0x%X)\n", filename, PF_VIRTUAL_HANDLE);
 			return 0;
 		}
 	}
@@ -120,10 +133,10 @@ inline unsigned _dos_open(const char* filename, unsigned flags, int* handle) {
 
 inline unsigned _dos_close(int handle) {
 	if (handle) {
-		if (g_pf_active_handle && handle == g_pf_active_handle) {
+		if (handle == PF_VIRTUAL_HANDLE || (g_pf_active_handle && handle == g_pf_active_handle)) {
 			int pf_h = g_pf_active_handle;
-			g_pf_active_handle = 0; // Clear BEFORE calling pf_close_member() to prevent infinite recursion
-			printf("[TH04 PS3 DOS] _dos_close pf archive member handle %d\n", pf_h);
+			g_pf_active_handle = 0; // Clear BEFORE calling pf_close_member() to prevent recursion
+			printf("[TH04 PS3 DOS] _dos_close pf archive member handle 0x%X\n", pf_h);
 			pf_close_member();
 			return 0;
 		}
@@ -139,25 +152,19 @@ inline unsigned _dos_close(int handle) {
 
 inline unsigned _dos_read(int handle, void* buf, unsigned count, unsigned* bytes_read) {
 	if (!handle) {
-		printf("[TH04 PS3 DOS] _dos_read failed: invalid handle\n");
 		*bytes_read = 0;
 		return 1;
 	}
-	if (g_pf_active_handle && handle == g_pf_active_handle && !g_in_pf_read) {
-		g_in_pf_read = 1;
+	if (handle == PF_VIRTUAL_HANDLE || (g_pf_active_handle && handle == g_pf_active_handle)) {
 		*bytes_read = pf_read_member(buf, count);
-		g_in_pf_read = 0;
-		printf("[TH04 PS3 DOS] _dos_read via pf_read_member requested %u bytes, read %u bytes\n", count, *bytes_read);
 		return 0;
 	}
 	FILE* f = dos_handle_get(handle);
 	if (!f) {
-		printf("[TH04 PS3 DOS] _dos_read failed: handle %d not found in handle table\n", handle);
 		*bytes_read = 0;
 		return 1;
 	}
 	*bytes_read = (unsigned)fread(buf, 1, count, f);
-	printf("[TH04 PS3 DOS] _dos_read requested %u bytes, read %u bytes\n", count, *bytes_read);
 	return 0;
 }
 

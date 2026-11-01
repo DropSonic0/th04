@@ -3,6 +3,9 @@
 #endif
 
 #include <stddef.h>
+#if defined(__PS3__) || defined(CELL_SDK) || defined(__CELLOS_LV2__) || defined(SN_TARGET_PS3)
+#include <sys/sys_time.h>
+#endif
 
 #include "src/shared/platform/types.hpp"
 #include "src/shared/config/resident.hpp"
@@ -37,7 +40,11 @@ void near start_demo(void);
 void near option_update_and_render(void);
 void game_exit_to_dos(void);
 
+#if defined(__PS3__)
+static const unsigned char OP_AND_END_PF_FN[] = "ED.DAT";
+#else
 static const unsigned char OP_AND_END_PF_FN[] = "\x8c\xb6\x91z\x8b\xbd" "ed.dat";
+#endif
 static const char GAIJI_FN[] = "GAMEFT.bft";
 static const char SE_FN[] = "miko";
 static const char MEMORY_INSUFFICIENT[] = "\012\213\363\202\253\203\201\203\202\203\212\225s\221\253\202\305\202\267\201B\203\201\203\202\203\212\213\363\202\253\202\360\221\235\202\342\202\265\202\304\202\251\202\347\216\300\215s\202\265\202\304\202\313\012";

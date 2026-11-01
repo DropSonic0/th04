@@ -11,11 +11,13 @@
 typedef dot_rect_t(TILE_W, TILE_H) mpn_plane_t;
 typedef Planar<mpn_plane_t> mpn_image_t;
 
+#pragma pack(push, 1)
 struct mpn_header_t {
 	char magic[4];
 	uint8_t count;
 	int8_t unused;
 };
+#pragma pack(pop)
 
 // Internal .MPN slot structure.
 struct mpn_t {

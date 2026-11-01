@@ -137,4 +137,6 @@ void near op_animate(void)
 	#undef frame
 
 	pi_palette_apply(0);
+	graph_accesspage(0);
+	graph_showpage(0);
 }

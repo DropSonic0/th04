@@ -26,6 +26,10 @@ static void graph_plane_copy(
 
 extern "C" int TH04_PASCAL graph_copy_page(int to_page)
 {
+#if defined(__PS3__)
+	extern int ps3_graph_copy_page(int to_page);
+	return ps3_graph_copy_page(to_page);
+#else
 	const unsigned words = graph_VramWords;
 	void __seg *scratch_seg = hmem_allocbyte(words * 2u);
 	if(!scratch_seg) {
@@ -42,4 +46,5 @@ extern "C" int TH04_PASCAL graph_copy_page(int to_page)
 	graph_plane_copy(0xE000, words, source_page, destination_page, scratch);
 	hmem_free(scratch_seg);
 	return 1;
+#endif
 }

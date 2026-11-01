@@ -5,6 +5,9 @@
 // allocation and rectangle arithmetic, adding only their out-of-range guard.
 // Keep those ordinary arithmetic/control-flow parts in C++. Retain only
 // irreducible x86/PC-98 primitives symbolically; do not emit opcode bytes.
+#if defined(__PS3__)
+extern "C" void ps3_egc_copy_rect_1_to_0_16(int left, int top, int w, int h);
+#endif
 void DEFCONV egc_copy_rect_1_to_0_16(
 	screen_x_t left, vram_y_t top, pixel_t w, pixel_t h
 )
@@ -78,6 +81,9 @@ void DEFCONV egc_copy_rect_1_to_0_16(
 	#undef stride
 	#undef first_bit
 	#undef vo_tmp
+#elif defined(__PS3__)
+	ps3_egc_copy_rect_1_to_0_16(left, top, w, h);
+	egc_off();
 #else
 	egc_off();
 #endif

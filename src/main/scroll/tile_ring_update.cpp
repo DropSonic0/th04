@@ -120,7 +120,7 @@ void near scroll_tile_ring_update()
         if(tile_ring && map_seg) {
             memcpy(
                 reinterpret_cast<unsigned char *>(tile_ring) + ring_dst_offset,
-                map_seg + map_src_offset,
+                reinterpret_cast<const unsigned char *>(map_seg) + map_src_offset,
                 24 * sizeof(unsigned short)
             );
         }

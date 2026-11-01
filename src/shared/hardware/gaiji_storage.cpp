@@ -73,6 +73,9 @@ extern "C" int TH04_PASCAL gaiji_restore(void)
 	return 1;
 }
 
+uint8_t g_gaiji_patterns[256][32] = {{0}};
+bool g_gaiji_loaded = false;
+
 extern "C" int TH04_PASCAL gaiji_entry_bfnt(const char TH04_PTR *filename)
 {
 	printf("[TH04 PS3 Gaiji] gaiji_entry_bfnt called (filename=%s)\n", filename ? (const char*)filename : "NULL");
@@ -97,6 +100,10 @@ extern "C" int TH04_PASCAL gaiji_entry_bfnt(const char TH04_PTR *filename)
 			if(file_read(patterns, 8192u) == 8192u) {
 #if defined(__TURBOC__) || defined(__MSDOS__)
 				gaiji_transfer_all(patterns, 1);
+#else
+				memcpy(g_gaiji_patterns, patterns, 8192);
+				g_gaiji_loaded = true;
+				printf("[TH04 PS3 Gaiji] Successfully loaded 256 gaiji patterns for HUD/Text\n");
 #endif
 				success = 1;
 			}

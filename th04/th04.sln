@@ -4,12 +4,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "th04", "th04\th04.vcxproj", "{9763F789-8457-404D-BA47-E31831A8D967}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6C81AA2C-2380-42CC-A134-1CE701510B47} = {6C81AA2C-2380-42CC-A134-1CE701510B47}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "shared", "shared\shared.vcxproj", "{6C81AA2C-2380-42CC-A134-1CE701510B47}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "op", "op\op.vcxproj", "{BA0B703C-F517-4C86-A762-B356B53CD1C2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "op", "op\op.vcxproj", "{8A52387D-56FE-4F6D-9F08-1C20A8D9AFF7}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "maine", "maine\maine.vcxproj", "{1D0B8E15-71CD-4D72-9C70-E49660FF647A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "maine", "maine\maine.vcxproj", "{60F59A44-B9EC-4971-B56A-2C22307C5FEF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,14 +28,14 @@ Global
 		{6C81AA2C-2380-42CC-A134-1CE701510B47}.Debug|PS3.Build.0 = Debug|PS3
 		{6C81AA2C-2380-42CC-A134-1CE701510B47}.Release|PS3.ActiveCfg = Release|PS3
 		{6C81AA2C-2380-42CC-A134-1CE701510B47}.Release|PS3.Build.0 = Release|PS3
-		{BA0B703C-F517-4C86-A762-B356B53CD1C2}.Debug|PS3.ActiveCfg = Debug|PS3
-		{BA0B703C-F517-4C86-A762-B356B53CD1C2}.Debug|PS3.Build.0 = Debug|PS3
-		{BA0B703C-F517-4C86-A762-B356B53CD1C2}.Release|PS3.ActiveCfg = Release|PS3
-		{BA0B703C-F517-4C86-A762-B356B53CD1C2}.Release|PS3.Build.0 = Release|PS3
-		{1D0B8E15-71CD-4D72-9C70-E49660FF647A}.Debug|PS3.ActiveCfg = Debug|PS3
-		{1D0B8E15-71CD-4D72-9C70-E49660FF647A}.Debug|PS3.Build.0 = Debug|PS3
-		{1D0B8E15-71CD-4D72-9C70-E49660FF647A}.Release|PS3.ActiveCfg = Release|PS3
-		{1D0B8E15-71CD-4D72-9C70-E49660FF647A}.Release|PS3.Build.0 = Release|PS3
+		{8A52387D-56FE-4F6D-9F08-1C20A8D9AFF7}.Debug|PS3.ActiveCfg = Debug|PS3
+		{8A52387D-56FE-4F6D-9F08-1C20A8D9AFF7}.Debug|PS3.Build.0 = Debug|PS3
+		{8A52387D-56FE-4F6D-9F08-1C20A8D9AFF7}.Release|PS3.ActiveCfg = Release|PS3
+		{8A52387D-56FE-4F6D-9F08-1C20A8D9AFF7}.Release|PS3.Build.0 = Release|PS3
+		{60F59A44-B9EC-4971-B56A-2C22307C5FEF}.Debug|PS3.ActiveCfg = Debug|PS3
+		{60F59A44-B9EC-4971-B56A-2C22307C5FEF}.Debug|PS3.Build.0 = Debug|PS3
+		{60F59A44-B9EC-4971-B56A-2C22307C5FEF}.Release|PS3.ActiveCfg = Release|PS3
+		{60F59A44-B9EC-4971-B56A-2C22307C5FEF}.Release|PS3.Build.0 = Release|PS3
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

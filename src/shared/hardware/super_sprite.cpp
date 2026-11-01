@@ -38,7 +38,7 @@ static void super_rollback(unsigned first)
 		unsigned slot = --super_patnum;
 		if (super_patdata[slot]) {
 #if !defined(__TURBOC__) && !defined(__MSDOS__)
-			hmem_free((void __seg *)(uintptr_t)MK_FP(super_patdata[slot], 0));
+			hmem_free((void __seg *)(uintptr_t)super_patdata[slot]);
 #else
 			hmem_free((void __seg *)super_patdata[slot]);
 #endif
@@ -56,7 +56,7 @@ extern "C" int TH04_PASCAL super_cancel_pat(int num)
 		return -31;
 	}
 #if !defined(__TURBOC__) && !defined(__MSDOS__)
-	hmem_free((void __seg *)(uintptr_t)MK_FP(super_patdata[num], 0));
+	hmem_free((void __seg *)(uintptr_t)super_patdata[num]);
 #else
 	hmem_free((void __seg *)super_patdata[num]);
 #endif
@@ -175,7 +175,7 @@ extern "C" int TH04_PASCAL super_entry_bfnt(const char far *filename)
 		}
 		slot = super_patnum++;
 #if !defined(__TURBOC__) && !defined(__MSDOS__)
-		super_patdata[slot] = (unsigned)(((uintptr_t)allocation) >> 4);
+		super_patdata[slot] = (unsigned)(uintptr_t)allocation;
 #else
 		super_patdata[slot] = (unsigned)allocation;
 #endif
@@ -216,7 +216,7 @@ extern "C" void TH04_PASCAL super_put(int x, int y, int num)
 	unsigned height = packed & 255u;
 	unsigned plane_bytes = bytes_per_row * height;
 	const unsigned char far *data =
-		(const unsigned char far *)MK_FP(super_patdata[num], 0);
+		(const unsigned char far *)(uintptr_t)super_patdata[num];
 	unsigned char far *planes[4] = {
 		VRAM_PLANE_B, VRAM_PLANE_R, VRAM_PLANE_G, VRAM_PLANE_E
 	};

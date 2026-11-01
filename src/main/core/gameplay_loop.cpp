@@ -17,6 +17,9 @@
 #endif
 #include "th04/main/score.hpp"
 #include <stdio.h>
+#if defined(__PS3__) || defined(CELL_SDK) || defined(__CELLOS_LV2__) || defined(SN_TARGET_PS3)
+#include <sys/sys_time.h>
+#endif
 
 #ifdef TH04_DEMO_FULL_COMBINED
 typedef void (near *callback_cdecl_t)(void);
@@ -78,6 +81,9 @@ void near gameplay_loop(void)
 
     int frame_count_debug = 0;
     do {
+#if defined(__PS3__) || defined(CELL_SDK) || defined(__CELLOS_LV2__) || defined(SN_TARGET_PS3)
+        uint64_t t_gp_start = sys_time_get_system_time();
+#endif
         input_sense();
         fp_23D90();
 
@@ -143,6 +149,15 @@ void near gameplay_loop(void)
         page_back ^= 1;
         snd_se_update();
         frames_unused++;
+
+#if defined(__PS3__) || defined(CELL_SDK) || defined(__CELLOS_LV2__) || defined(SN_TARGET_PS3)
+        uint64_t t_gp_end = sys_time_get_system_time();
+        if ((stage_frame % 10) == 0 || (t_gp_end - t_gp_start) > 25000) {
+            printf("[TH04 Gameplay Frame #%d] Total: %.2f ms\n",
+                stage_frame,
+                (float)(t_gp_end - t_gp_start) / 1000.0f);
+        }
+#endif
 
         // Shared TH04/TH05 compiler-visible frame-counter dataflow.
         _AX = stage_frame;

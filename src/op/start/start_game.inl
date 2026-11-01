@@ -17,9 +17,14 @@ void near start_game(void)
 	snd_kaja_func(KAJA_SONG_FADE, 10);
 	game_exit();
 
+#if defined(__PS3__)
+	extern int th04_gameplay_main(void);
+	th04_gameplay_main();
+#else
 	if(!resident->debug) {
 		execl(BINARY_MAIN, BINARY_MAIN, nullptr);
 	} else {
 		execl(BINARY_DEB, BINARY_DEB, nullptr);
 	}
+#endif
 }

@@ -81,21 +81,17 @@ void bgimage_put(void)
 
 #else
 
-// Implementación C++ estándar para PS3 / compiladores modernos
+extern "C" void ps3_bgimage_snap(void);
+extern "C" void ps3_bgimage_put(void);
+
 void bgimage_snap(void)
 {
-	if (bgimage.B == 0) {
-		bgimage.B = reinterpret_cast<unsigned char __seg *>(hmem_allocbyte(BGIMAGE_PLANE_SIZE));
-		bgimage.R = reinterpret_cast<unsigned char __seg *>(hmem_allocbyte(BGIMAGE_PLANE_SIZE));
-		bgimage.G = reinterpret_cast<unsigned char __seg *>(hmem_allocbyte(BGIMAGE_PLANE_SIZE));
-		bgimage.E = reinterpret_cast<unsigned char __seg *>(hmem_allocbyte(BGIMAGE_PLANE_SIZE));
-	}
-	// En PS3 la copia de la VRAM a los buffers de imagen se gestionará por el renderizador nativo
+	ps3_bgimage_snap();
 }
 
 void bgimage_put(void)
 {
-	// En PS3 la transferencia de los buffers de imagen a pantalla se gestionará por el renderizador nativo
+	ps3_bgimage_put();
 }
 
 #endif

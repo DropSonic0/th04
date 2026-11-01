@@ -24,9 +24,14 @@ extern const char *SND_LOAD_EXT[4];
 
 #else
 
+extern "C" void ps3_sound_load_bgm(const char *fn);
+
 extern "C" void TH04_PASCAL snd_load(const char fn[PF_FN_LEN], snd_load_func_t func)
 {
-	printf("[TH04 PS3 Sound] snd_load stub called (fn=%s, func=%d)\n", fn ? fn : "NULL", (int)func);
+	printf("[TH04 PS3 Sound] snd_load called (fn=%s, func=%d)\n", fn ? fn : "NULL", (int)func);
+	if (func == SND_LOAD_SONG) {
+		ps3_sound_load_bgm(fn);
+	}
 }
 
 #endif

@@ -20,6 +20,11 @@ extern "C" void TH04_PASCAL graph_pi_free(
 		header->maex = 0;
 	}
 	if(image) {
+#if !defined(__TURBOC__) && !defined(__MSDOS__)
+		void *base = (void *)((uintptr_t)image - header->xsize);
+		hmem_free(reinterpret_cast<void __seg *>(base));
+#else
 		hmem_free(reinterpret_cast<void __seg *>((void far *)image));
+#endif
 	}
 }

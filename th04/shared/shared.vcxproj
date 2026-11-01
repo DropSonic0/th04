@@ -50,8 +50,9 @@
     <ClCompile>
       <PreprocessorDefinitions>_DEBUG;__CELL_ASSERT__;far=;near=;pascal=;__seg=;TH04_FAR;GAME=4;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OptimizationLevel>Level2</OptimizationLevel>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <AdditionalIncludeDirectories>C:\th04;C:\th04\src\main\include;C:\th04\src;C:\th04\src\shared\platform;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\th04;C:\th04\src\main\include;C:\th04\src;C:\th04\src\shared\platform;C:\th04\src\shared\sound\pmdmini;C:\th04\src\shared\sound\pmdmini\pmdwin;C:\th04\src\shared\sound\pmdmini\fmgen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-include src/shared/platform/ps3_compat.hpp %(AdditionalOptions)</AdditionalOptions>
       <ObjectFileName>$(IntDir)%(RelativeDir)</ObjectFileName>
     </ClCompile>
@@ -65,7 +66,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\shared\platform\dos.h" />
-    <ClInclude Include="..\..\src\shared\platform\ps3_compat.hpp" />
     <ClInclude Include="..\..\src\shared\config\cfg.hpp" />
     <ClInclude Include="..\..\src\shared\config\resident.hpp" />
     <ClInclude Include="..\..\src\shared\config\score.hpp" />
@@ -195,8 +195,21 @@
     <ClCompile Include="..\..\src\shared\sound\se_play.cpp" />
     <ClCompile Include="..\..\src\shared\sound\se_reset.cpp" />
     <ClCompile Include="..\..\src\shared\sound\se_update.cpp" />
-    <ClCompile Include="..\..\src\shared\platform\ps3_compat.cpp" />
     <ClCompile Include="..\..\src\shared\sound\state.cpp" />
+    <ClCompile Include="..\..\src\shared\sound\pmdmini\pmdmini.c" />
+    <ClCompile Include="..\..\src\shared\sound\pmdmini\fmgen\file.cpp" />
+    <ClCompile Include="..\..\src\shared\sound\pmdmini\fmgen\fmgen.cpp" />
+    <ClCompile Include="..\..\src\shared\sound\pmdmini\fmgen\fmtimer.cpp" />
+    <ClCompile Include="..\..\src\shared\sound\pmdmini\fmgen\opm.cpp" />
+    <ClCompile Include="..\..\src\shared\sound\pmdmini\fmgen\opna.cpp" />
+    <ClCompile Include="..\..\src\shared\sound\pmdmini\fmgen\psg.cpp" />
+    <ClCompile Include="..\..\src\shared\sound\pmdmini\pmdwin\opnaw.cpp" />
+    <ClCompile Include="..\..\src\shared\sound\pmdmini\pmdwin\p86drv.cpp" />
+    <ClCompile Include="..\..\src\shared\sound\pmdmini\pmdwin\pmdwin.cpp" />
+    <ClCompile Include="..\..\src\shared\sound\pmdmini\pmdwin\ppsdrv.cpp" />
+    <ClCompile Include="..\..\src\shared\sound\pmdmini\pmdwin\ppz8l.cpp" />
+    <ClCompile Include="..\..\src\shared\sound\pmdmini\pmdwin\table.cpp" />
+    <ClCompile Include="..\..\src\shared\sound\pmdmini\pmdwin\util.cpp" />
   </ItemGroup>
   <Import Condition="'$(ConfigurationType)' == 'Makefile' and Exists('$(VCTargetsPath)\Platforms\$(Platform)\SCE.Makefile.$(Platform).targets')" Project="$(VCTargetsPath)\Platforms\$(Platform)\SCE.Makefile.$(Platform).targets" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

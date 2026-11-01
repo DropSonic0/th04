@@ -108,6 +108,8 @@ inline void return_from_other_screen_to_main(bool& initialized, int sel) {
     graph_accesspage(1);
     pi_fullres_load_palette_apply_put_free(0, MENU_MAIN_BG_FN);
     graph_copy_page(0);
+    graph_accesspage(0);
+    graph_showpage(0);
     palette_100();
     initialized = false;
     in_option = false;

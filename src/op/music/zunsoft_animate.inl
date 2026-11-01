@@ -76,7 +76,7 @@ void near zunsoft_animate(void)
 		bgimage_put();
 		zunsoft_update_and_render();
 		input_reset_sense();
-		while(vsync_Count1 < 2) {}
+		// synced by graph_showpage
 		vsync_Count1 = 0;
 		graph_accesspage(page);
 		page = (1 - page);
